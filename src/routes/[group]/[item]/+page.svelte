@@ -102,6 +102,8 @@
   loggedIn={data.loggedIn}
 />
 
+<p>Hi from COMP1531</p>
+
 <main>
   <EditControls {editing} on:beginEdits={beginEditing} on:finishEdits={e => finishEditing(e.detail)}/>
   {#if itemData.info.banner}

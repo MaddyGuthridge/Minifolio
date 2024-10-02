@@ -1,5 +1,6 @@
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { serverIsSetUp } from '$lib/server/data/dataDir';
+import { getPublicKey } from '$lib/server/keys.js';
 import { json } from '@sveltejs/kit';
 
 export async function GET(req) {
@@ -8,5 +9,5 @@ export async function GET(req) {
     await validateTokenFromRequest(req);
   }
 
-  return json({ key: '' }, { status: 200 });
+  return json({ publicKey: await getPublicKey() }, { status: 200 });
 }

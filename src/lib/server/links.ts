@@ -4,7 +4,7 @@
 
 import { error } from '@sveltejs/kit';
 import type { PortfolioGlobals } from './data';
-import { setItemInfo } from './data/item';
+import { setItemInfo } from './data/itemOld';
 import { itemHasLink } from '../links';
 
 /** Add a link from groupId/itemId to otherGroupId/otherItemId */

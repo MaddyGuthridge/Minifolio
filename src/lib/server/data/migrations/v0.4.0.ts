@@ -2,7 +2,7 @@
 
 import { setConfig, type ConfigJson } from '../config';
 import { listGroups, setGroupInfo, type GroupInfo } from '../group';
-import { listItems, setItemInfo, type ItemInfoFull } from '../item';
+import { listItems, setItemInfo, type ItemInfoFull } from '../itemOld';
 import { unsafeLoadConfig, unsafeLoadGroupInfo, unsafeLoadItemInfo } from './unsafeLoad';
 import migrateV060 from './v0.6.0';
 

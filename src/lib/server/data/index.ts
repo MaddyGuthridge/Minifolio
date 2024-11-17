@@ -13,7 +13,7 @@ import { version } from '$app/environment';
 import semver from 'semver';
 import { getConfig, getConfigVersion, type ConfigJson } from './config';
 import { getGroupData, listGroups, type GroupData } from './group';
-import { getItemData, listItems, type ItemData } from './item';
+import { getItemData, listItems, type ItemData } from './itemOld';
 import { invalidateLocalConfigCache } from './localConfig';
 import migrate from './migrations';
 import { getReadme } from './readme';

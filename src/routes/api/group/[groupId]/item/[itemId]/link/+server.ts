@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { getPortfolioGlobals, invalidatePortfolioGlobals } from '$lib/server/data/index';
 import { object, string, validate } from 'superstruct';
-import { LinkStyleStruct } from '$lib/server/data/item';
+import { LinkStyleStruct } from '$lib/server/data/itemOld.js';
 import { changeLinkStyle, createLink, removeLinkFromItem } from '$lib/server/links';
 
 export async function POST({ params, request, cookies }: import('./$types.js').RequestEvent) {

@@ -1,7 +1,7 @@
 import api, { type ApiClient } from '$endpoints';
 import type { ConfigJson } from '$lib/server/data/config';
 import type { GroupInfo } from '$lib/server/data/group';
-import type { ItemInfoFull } from '$lib/server/data/item';
+import type { ItemInfoFull } from '$lib/server/data/itemOld';
 import { version } from '$app/environment';
 import simpleGit from 'simple-git';
 import { getDataDir } from '$lib/server/data/dataDir';

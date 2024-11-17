@@ -1,7 +1,7 @@
 /** Item management endpoints */
 
 import { apiFetch, json } from '$endpoints/fetch';
-import type { ItemInfoBrief, ItemInfoFull } from '$lib/server/data/item';
+import type { ItemInfoBrief, ItemInfoFull } from '$lib/server/data/itemOld';
 
 export default function makeItemFunctions(token: string | undefined, groupId: string) {
   /**

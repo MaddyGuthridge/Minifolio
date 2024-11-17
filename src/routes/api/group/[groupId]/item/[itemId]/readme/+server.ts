@@ -1,7 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { assert, string } from 'superstruct';
-import { getItemInfo, setItemReadme } from '$lib/server/data/item';
+import { getItemInfo, setItemReadme } from '$lib/server/data/itemOld.js';
 import { getPortfolioGlobals, invalidatePortfolioGlobals } from '$lib/server/data/index';
 
 export async function GET({ params }: import('./$types.js').RequestEvent) {

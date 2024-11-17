@@ -24,7 +24,7 @@ import { setConfig, type ConfigJson } from '../config';
 import { listGroups, setGroupInfo } from '../group';
 import type { RepoInfo } from '../itemRepo';
 import type { PackageInfo } from '../itemPackage';
-import { LinksArray, listItems, setItemInfo } from '../item';
+import { LinksArray, listItems, setItemInfo } from '../itemOld';
 import type { Infer } from 'superstruct';
 import { version } from '$app/environment';
 import { capitalize } from '$lib/util';

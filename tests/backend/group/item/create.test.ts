@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeGroup, setup } from '../../helpers';
 import type { ApiClient } from '$endpoints';
-import type { ItemInfoFull } from '$lib/server/data/item';
+import type { ItemInfoFull } from '$lib/server/data/itemOld';
 import genCreationTests from '../creationCases';
 import genTokenTests from '../../tokenCase';
 

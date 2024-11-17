@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { getGroupInfo, setGroupInfo } from '$lib/server/data/group';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { object, string, validate } from 'superstruct';
-import { createItem, setItemInfo, ItemInfoFullStruct, deleteItem } from '$lib/server/data/item';
+import { createItem, setItemInfo, ItemInfoFullStruct, deleteItem } from '$lib/server/data/itemOld.js';
 import { getPortfolioGlobals, invalidatePortfolioGlobals } from '$lib/server/data/index';
 import { validateId, validateName } from '$lib/validators';
 import { removeAllLinksToItem } from '$lib/server/links';

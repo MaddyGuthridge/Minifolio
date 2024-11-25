@@ -1,10 +1,6 @@
 import { version } from '$app/environment';
 import { getDataDir, getPrivateDataDir } from '../dataDir';
 import { updateConfigVersions } from './shared';
-import migrateToV020 from './v0.2.0';
-import migrateToV030 from './v0.3.0';
-import migrateToV040 from './v0.4.0';
-import migrateToV060 from './v0.6.0';
 import migrateToV061 from './v0.6.1';
 import semver from 'semver';
 
@@ -16,13 +12,6 @@ export type MigrationFunction = (
 
 /** Lookup table of migrations */
 const migrations: Record<string, MigrationFunction> = {
-  '~0.1.0': migrateToV020,
-  '~0.2.0': migrateToV030,
-  '~0.3.0': migrateToV040,
-  // No major changes to data format between 0.4 and 0.5, so just use the 0.5
-  // function
-  '~0.4.0': migrateToV060,
-  '~0.5.0': migrateToV060,
   '0.6.0': migrateToV061,
   // Pre-empt future releases
   '~0.6.1': updateConfigVersions,

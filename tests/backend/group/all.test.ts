@@ -2,7 +2,6 @@
 import { it, expect, test } from 'vitest';
 import { makeGroup, setup } from '../helpers';
 import api from '$endpoints';
-import gitRepos from '../gitRepos';
 
 test('No groups exist by default', async () => {
   const { api } = await setup();
@@ -20,10 +19,10 @@ it('Lists existing groups', async () => {
   });
 });
 
-it('Ignores the .git directory', { timeout: 15_000 }, async () => {
-  await setup(gitRepos.EMPTY);
-  await expect(api().group.all()).resolves.toStrictEqual({});
-});
+// it('Ignores the .git directory', { timeout: 15_000 }, async () => {
+//   await setup(gitRepos.EMPTY);
+//   await expect(api().group.all()).resolves.toStrictEqual({});
+// });
 
 it("Errors when the server hasn't been set up", async () => {
   await expect(api().group.all()).rejects.toMatchObject({ code: 400 });

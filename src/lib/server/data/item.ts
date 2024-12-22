@@ -4,7 +4,7 @@
  * This file contains type definitions and helper functions for accessing and modifying items.
  */
 
-import { array, nullable, string, type } from 'superstruct';
+import { array, nullable, string, type, type Infer } from 'superstruct';
 import { ItemIdStruct } from './itemId';
 
 /** Information about an item, stored in its `info.json` */
@@ -51,3 +51,6 @@ export const ItemInfoStruct = type({
     keywords: array(string()),
   }),
 });
+
+/** Information about an item, stored in its `info.json` */
+export type ItemInfo = Infer<typeof ItemInfoStruct>;

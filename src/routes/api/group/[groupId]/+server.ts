@@ -3,7 +3,7 @@ import { createGroup, deleteGroup, GroupInfoStruct, setGroupInfo } from '$lib/se
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { object, string, validate } from 'superstruct';
 import { getPortfolioGlobals, invalidatePortfolioGlobals } from '$lib/server/data/index';
-import { validateId, validateName } from '$lib/validators';
+import { validateId, validateName } from '$lib/validate.js';
 import { removeAllLinksToItem } from '$lib/server/links';
 import { setConfig } from '$lib/server/data/config';
 

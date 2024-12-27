@@ -3,9 +3,13 @@
  *
  * This file contains type definitions and helper functions for accessing and modifying items.
  */
-
+import fs from 'fs/promises';
 import { array, nullable, string, type, type Infer } from 'superstruct';
-import { ItemIdStruct } from './itemId';
+import { ItemIdStruct, type ItemId } from './itemId';
+import { applyStruct } from '../util';
+import path from 'path';
+import { getDataDir } from './dataDir';
+import validate from '$lib/validate';
 
 /** Information about an item, stored in its `info.json` */
 export const ItemInfoStruct = type({
@@ -54,3 +58,37 @@ export const ItemInfoStruct = type({
 
 /** Information about an item, stored in its `info.json` */
 export type ItemInfo = Infer<typeof ItemInfoStruct>;
+
+/** Returns the path to an item's `info.json` file */
+export function itemInfoPath(item: ItemId): string {
+  return path.join(getDataDir(), ...item, 'info.json');
+}
+
+/** Return the item's info.json */
+export async function getItemInfo(item: ItemId): Promise<ItemInfo> {
+  // Currently load from the disk every time -- should implement caching at some point
+  const result = JSON.parse(await fs.readFile(itemInfoPath(item), { encoding: 'utf-8' }));
+  return applyStruct(result, ItemInfoStruct);
+}
+
+export async function setItemInfo(item: ItemId, data: any): Promise<void> {
+  // Validate new info.json
+  const info = applyStruct(data, ItemInfoStruct);
+
+  // name
+  validate.name(info.name);
+  // shortName
+  if (info.shortName !== null) {
+    validate.name(info.shortName);
+  }
+  // Icon and banner images
+  if (info.icon) {
+    await validate.image(item, info.icon);
+  }
+  if (info.banner) {
+    await validate.image(item, info.banner);
+  }
+  validate.color(info.color);
+
+  await fs.writeFile(itemInfoPath(item), JSON.stringify(info), { encoding: 'utf-8' });
+}

@@ -3,7 +3,7 @@ import { authIsSetUp } from '$lib/server/data/dataDir';
 import { authSetup } from '$lib/server/auth/setup';
 import { object, string, type Infer } from 'superstruct';
 import { applyStruct } from '$lib/server/util';
-import { validateId } from '$lib/validators';
+import { validateId } from '$lib/validate.js';
 import validator from 'validator';
 
 const FirstRunAuthOptionsStruct = object({

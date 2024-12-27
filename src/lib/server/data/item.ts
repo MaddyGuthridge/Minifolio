@@ -12,9 +12,14 @@ import { formatItemId, ItemIdStruct, type ItemId } from './itemId';
 import { getDataDir } from './dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { applyStruct } from '../util';
+import { rimraf } from 'rimraf';
 
-/** Information about an item, stored in its `info.json` */
-export const ItemInfoStruct = type({
+/**
+ * Information about an item, stored in its `info.json`.
+ *
+ * IMPORTANT: Do not validate using this struct alone -- instead, call `validateItemInfo`
+ */
+const ItemInfoStruct = type({
   /**
    * The name of the item, displayed in the navigator when on this page, as well as on Card
    * elements.
@@ -63,14 +68,15 @@ export const ItemInfoStruct = type({
 /** Information about an item, stored in its `info.json` */
 export type ItemInfo = Infer<typeof ItemInfoStruct>;
 
-/** Returns the path to an item's `info.json` file */
-export function itemInfoPath(item: ItemId): string {
-  return path.join(getDataDir(), ...item, 'info.json');
+/** Returns the path to an item's directory */
+export function itemPath(item: ItemId, file?: string): string {
+  // Note, path.join() with an empty string has no effect
+  return path.join(getDataDir(), ...item, file ?? '');
 }
 
 /** Returns whether the given item exists */
 export async function itemExists(item: ItemId): Promise<boolean> {
-  return await fs.access(itemInfoPath(item), fs.constants.R_OK)
+  return await fs.access(itemPath(item, 'info.json'), fs.constants.R_OK)
     .then(() => true)
     .catch(() => false);
 }
@@ -127,12 +133,22 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
 /** Return the item's `info.json` */
 export async function getItemInfo(item: ItemId): Promise<ItemInfo> {
   // Currently load from the disk every time -- should implement caching at some point
-  const result = JSON.parse(await fs.readFile(itemInfoPath(item), { encoding: 'utf-8' }));
+  const result = JSON.parse(await fs.readFile(itemPath(item, 'info.json'), { encoding: 'utf-8' }));
   // Don't fully validate info when loading data, or we'll get infinite recursion
   return applyStruct(result, ItemInfoStruct);
 }
 
 /** Update the given item's `info.json` */
-export async function setItemInfo(item: ItemId, data: any): Promise<void> {
-  await fs.writeFile(itemInfoPath(item), JSON.stringify(validateItemInfo(item, data)), { encoding: 'utf-8' });
+export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
+  await fs.writeFile(
+    itemPath(item, 'info.json'),
+    JSON.stringify(data, undefined, 2),
+    { encoding: 'utf-8' }
+  );
+}
+
+/** Delete the given item, and all references to it */
+export async function deleteItem(item: ItemId): Promise<void> {
+  await rimraf(itemPath(item));
+  // TODO: Clean up references
 }

@@ -6,9 +6,9 @@
  */
 export default function formatTemplate(
   input: string,
-  replacements: [string, string][],
+  replacements: Record<string, string>,
 ): string {
-  for (const [matcher, replacement] of replacements) {
+  for (const [matcher, replacement] of Object.entries(replacements)) {
     input = input.replaceAll(`{{${matcher}}}`, replacement);
   }
   return input.trimStart();

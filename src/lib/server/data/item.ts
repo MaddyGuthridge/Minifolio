@@ -8,7 +8,7 @@ import path from 'path';
 import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
-import { formatItemId, ItemIdStruct, type ItemId } from './itemId';
+import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from './itemId';
 import { getDataDir } from './dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { applyStruct } from '../util';
@@ -147,8 +147,65 @@ export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
   );
 }
 
+/** Remove links to the target within the given item */
+function removeLinkToItem(target: ItemId, item: ItemInfo): ItemInfo {
+  for (const section of item.sections) {
+    if (section.type === 'links') {
+      section.items = section.items.filter(link => !itemIdsEqual(link, target));
+    }
+  }
+  item.filters = item.filters.filter(filter => !itemIdsEqual(target, filter));
+  return item;
+}
+
 /** Delete the given item, and all references to it */
-export async function deleteItem(item: ItemId): Promise<void> {
-  await rimraf(itemPath(item));
-  // TODO: Clean up references
+export async function deleteItem(itemToDelete: ItemId): Promise<void> {
+  await rimraf(itemPath(itemToDelete));
+  // Remove from parent
+  const parent = await getItemInfo(itemParent(itemToDelete));
+  parent.children = parent.children.filter(child => child !== itemIdTail(itemToDelete));
+  await setItemInfo(itemParent(itemToDelete), parent);
+  // Clean up references in other items
+  for await (const otherItemId of iterItems()) {
+    const otherItem = await getItemInfo(otherItemId);
+    await setItemInfo(otherItemId, removeLinkToItem(itemToDelete, otherItem));
+  }
+}
+
+/**
+ * Async generator function that yields ItemIds of direct child items to the given item.
+ */
+export async function* itemChildren(item: ItemId): AsyncIterableIterator<ItemId> {
+  for await (const dirent of await fs.opendir(itemPath(item))) {
+    if (dirent.isDirectory()) {
+      const child = [...item, dirent.name];
+      if (await itemExists(child)) {
+        yield child;
+      }
+    }
+  }
+}
+
+/**
+ * Async generator function that yields ItemIds of all descendants of the given item.
+ *
+ * Performs depth-first iteration over the directory tree.
+ *
+ * ```txt
+ * parent
+ * - child 1
+ *   - grandchild 1
+ *   - grandchild 2
+ * - child 2
+ *   - grandchild 3
+ * ...etc
+ * ```
+ */
+export async function* iterItems(item: ItemId = []): AsyncIterableIterator<ItemId> {
+  yield item;
+  for await (const child of itemChildren(item)) {
+    for await (const descendant of iterItems(child)) {
+      yield descendant;
+    }
+  }
 }

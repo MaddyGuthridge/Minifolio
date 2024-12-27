@@ -1,3 +1,8 @@
+/**
+ * validate.ts
+ *
+ * Contains common validator functions shared throughout the app.
+ */
 import { error } from '@sveltejs/kit';
 import fs from 'fs/promises';
 import mime from 'mime-types';

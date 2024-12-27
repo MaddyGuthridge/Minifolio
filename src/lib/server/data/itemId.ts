@@ -1,6 +1,7 @@
 /**
  * Item ID type definitions and helper functions
  */
+import { zip } from '$lib/util';
 import { array, string, type Infer } from 'superstruct';
 
 /** Return an item ID given its path in URL form */
@@ -17,6 +18,10 @@ export function formatItemId(itemId: ItemId): string {
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
   return itemId.slice(0, -1)
+}
+
+export function itemIdsEqual(first: ItemId, second: ItemId): boolean {
+  return zip(first, second).find(([a, b]) => a !== b) === undefined;
 }
 
 /**

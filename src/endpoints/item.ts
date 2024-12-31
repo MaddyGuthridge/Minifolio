@@ -53,7 +53,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
         'PUT',
         `/data/${itemIdToUrl(itemId, 'README.md')}`,
         { token, ...payload.markdown(readme) },
-      ).text();
+      ).json();
     },
   };
 

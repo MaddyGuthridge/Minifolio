@@ -9,10 +9,14 @@ import fs from 'fs/promises';
 import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
 import { itemExists, itemPath } from '$lib/server/data/item.js';
+import { dataIsSetUp } from '$lib/server/data/dataDir.js';
 type Request = import('./$types.js').RequestEvent;
 
 /** GET request handler, returns README text */
 export async function GET(req: Request) {
+  if (!await dataIsSetUp()) {
+    error(400, 'Data is not set up');
+  }
   const item: ItemId = itemIdFromUrl(req.params.item);
   const filePath = itemPath(item, 'README.md');
   if (!await itemExists(item)) {
@@ -29,6 +33,9 @@ export async function GET(req: Request) {
 
 /** PUT request handler, updates README text */
 export async function PUT(req: Request) {
+  if (!await dataIsSetUp()) {
+    error(400, 'Data is not set up');
+  }
   await validateTokenFromRequest(req);
   const item: ItemId = itemIdFromUrl(req.params.item);
   const filePath = itemPath(item, 'README.md');

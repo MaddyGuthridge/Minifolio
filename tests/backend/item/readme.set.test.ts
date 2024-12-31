@@ -1,10 +1,11 @@
 /**
- * Test cases for getting the README.md of an item.
+ * Test cases for setting the README.md of an item.
  */
 
 import apiClient, { type ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
+import genTokenTests from '../tokenCase';
 
 let api: ApiClient;
 
@@ -13,23 +14,33 @@ beforeEach(async () => {
 });
 
 describe('Success', () => {
-  it('Correctly returns the README for the root item', async () => {
+  it('Correctly updates the README for the root item', async () => {
+    await expect(api.item([]).readme.put('New readme'))
+      .resolves.toStrictEqual({});
+    // Now when we request the README, it should have the new content
     await expect(api.item([]).readme.get())
-      .resolves.toStrictEqual(expect.any(String));
-  })
+      .resolves.toStrictEqual('New readme');
+  });
 });
 
 describe('400', () => {
   it('Errors if the server has not been set up', async () => {
     await apiClient().debug.clear();
-    await expect(apiClient().item([]).readme.get())
+    await expect(apiClient().item([]).readme.put('New readme'))
       .rejects.toMatchObject({ code: 400 });
   });
 });
 
+describe('401', () => {
+  genTokenTests(
+    () => api,
+    api => api.item([]).readme.put('Hi'),
+  );
+});
+
 describe('404', () => {
   it('Errors if the item does not exist', async () => {
-    await expect(api.item(['unknown', 'item']).readme.get())
+    await expect(api.item(['unknown', 'item']).readme.put('New readme'))
       .rejects.toMatchObject({ code: 404 });
   });
 });

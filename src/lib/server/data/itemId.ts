@@ -2,6 +2,7 @@
  * Item ID type definitions and helper functions
  */
 import { zip } from '$lib/util';
+import validate from '$lib/validate';
 import { array, string, type Infer } from 'superstruct';
 
 /** Return an item ID given its path in URL form */
@@ -21,6 +22,12 @@ export function itemIdToUrl(itemId: ItemId, file?: string): string {
     return [...itemId, file].join('/');
   } else {
     return itemId.join('/');
+  }
+}
+
+export function validateItemId(itemId: ItemId) {
+  for (const component of itemId) {
+    validate.id('ItemId', component);
   }
 }
 

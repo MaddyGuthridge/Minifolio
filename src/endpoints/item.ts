@@ -8,7 +8,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
     get: async () => {
       return apiFetch(
         'GET',
-        `/data${itemIdToUrl(itemId, 'info.json')}`,
+        `/data/${itemIdToUrl(itemId, 'info.json')}`,
         { token },
       ).json() as Promise<ItemInfo>;
     },

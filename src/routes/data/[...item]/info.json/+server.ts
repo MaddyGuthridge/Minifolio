@@ -1,13 +1,14 @@
 import fs from 'fs/promises';
 import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
-import { formatItemId, itemIdFromUrl, itemIdTail, itemParent } from '$lib/server/data/itemId';
+import { formatItemId, itemIdFromUrl, validateItemId, itemIdTail, itemParent } from '$lib/server/data/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
 import { applyStruct } from '$lib/server/util.js';
 import { validateName } from '$lib/validate.js';
 import formatTemplate from '$lib/server/formatTemplate.js';
 import { ITEM_README } from '$lib/server/data/text.js';
+import { dataIsSetUp } from '$lib/server/data/dataDir.js';
 
 /**
  * API endpoints for accessing info.json
@@ -17,6 +18,12 @@ type Request = import('./$types.js').RequestEvent;
 /** Get item info.json */
 export async function GET(req: Request) {
   const item = itemIdFromUrl(req.params.item);
+  if (!await dataIsSetUp()) {
+    error(400, 'Data is not set up');
+  }
+  if (!await itemExists(item)) {
+    error(404, `Item '${req.params.item}' does not exist`);
+  }
   return json(await getItemInfo(item));
 }
 
@@ -30,6 +37,7 @@ const NewItemOptions = object({
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
   const item = itemIdFromUrl(req.params.item);
+  validateItemId(item);
 
   // Ensure parent exists
   const parent = await getItemInfo(itemParent(item))
@@ -74,7 +82,7 @@ export async function POST(req: Request) {
   parent.children.push(itemIdTail(item));
   await setItemInfo(itemParent(item), parent);
 
-  return json({});
+  return json(itemInfo);
 }
 
 /** Update item info.json */

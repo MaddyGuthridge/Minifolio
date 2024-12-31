@@ -19,7 +19,7 @@ import { rimraf } from 'rimraf';
  *
  * IMPORTANT: Do not validate using this struct alone -- instead, call `validateItemInfo`
  */
-const ItemInfoStruct = type({
+export const ItemInfoStruct = type({
   /**
    * The name of the item, displayed in the navigator when on this page, as well as on Card
    * elements.

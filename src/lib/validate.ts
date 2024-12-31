@@ -14,7 +14,12 @@ import path from 'path';
 /** Regex for matching ID strings */
 export const idValidatorRegex = /^[a-z0-9-.]+$/;
 
-/** Ensure that the given ID string is valid */
+/**
+ * Ensure that the given ID string is valid.
+ *
+ * @param type the type of ID being validated (used to produce helpful error messages).
+ * @param id the ID string to validate.
+ */
 export function validateId(type: string, id: string): string {
   if (!id.trim().length) {
     error(400, `${type} '${id}' is empty`);
@@ -60,7 +65,7 @@ export function validateName(name: string): string {
   return name;
 }
 
-const colorValidatorRegex = /^#([0-9])\1{6}$/;
+const colorValidatorRegex = /^#[0-9a-fA-F]{3,6}$/;
 
 /** Validate a color is in hex form */
 export function validateColor(color: string): string {

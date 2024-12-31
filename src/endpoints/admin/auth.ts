@@ -1,35 +1,32 @@
 /** Authentication endpoints */
-import { apiFetch, json } from '../fetch';
+import { apiFetch, payload } from '../fetch';
 
-export default function auth(token: string | undefined) {
+export default (token: string | undefined) => ({
   /**
    * Log in as an administrator for the site
    *
    * @param username The username of the admin account
    * @param password The password of the admin account
    */
-  const login = async (username: string, password: string) => {
-    return json(apiFetch(
+  login: async (username: string, password: string) => {
+    return apiFetch(
       'POST',
       '/api/admin/auth/login',
-      undefined,
-      { username, password }
-    )) as Promise<{ token: string }>;
-  };
-
+      payload.json({ username, password }),
+    ).json() as Promise<{ token: string }>;
+  },
   /**
    * Log out, invalidating the token
    *
    * @param token The token to invalidate
    */
-  const logout = async () => {
-    return json(apiFetch(
+  logout: async () => {
+    return apiFetch(
       'POST',
       '/api/admin/auth/logout',
-      token,
-    ));
-  };
-
+      { token },
+    ).json();
+  },
   /**
    * Change the authentication of the admin account
    *
@@ -37,28 +34,25 @@ export default function auth(token: string | undefined) {
    * @param oldPassword The currently-active password
    * @param newPassword The new replacement password
    */
-  const change = async (newUsername: string, oldPassword: string, newPassword: string) => {
-    return json(apiFetch(
+  change: async (newUsername: string, oldPassword: string, newPassword: string) => {
+    return apiFetch(
       'POST',
       '/api/admin/auth/change',
-      token,
-      { newUsername, oldPassword, newPassword }
-    )) as Promise<Record<string, never>>;
-  };
-
+      { token, ...payload.json({ newUsername, oldPassword, newPassword }) },
+    ).json() as Promise<Record<string, never>>;
+  },
   /**
    * Revoke all current API tokens
    *
    * @param token The auth token
    */
-  const revoke = async () => {
-    return json(apiFetch(
+  revoke: async () => {
+    return apiFetch(
       'POST',
       '/api/admin/auth/revoke',
-      token
-    )) as Promise<Record<string, never>>;
-  };
-
+      { token }
+    ).json() as Promise<Record<string, never>>;
+  },
   /**
    * Disable authentication, meaning that users can no-longer log into the
    * system.
@@ -66,20 +60,11 @@ export default function auth(token: string | undefined) {
    * @param token The auth token
    * @param password The password to the admin account
    */
-  const disable = async (username: string, password: string) => {
-    return json(apiFetch(
+  disable: async (username: string, password: string) => {
+    return apiFetch(
       'POST',
       '/api/admin/auth/disable',
-      token,
-      { username, password }
-    )) as Promise<Record<string, never>>;
-  };
-
-  return {
-    login,
-    logout,
-    change,
-    disable,
-    revoke,
-  };
-}
+      { token, ...payload.json({ username, password }) },
+    ).json() as Promise<Record<string, never>>;
+  },
+});

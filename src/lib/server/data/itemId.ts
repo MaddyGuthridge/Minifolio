@@ -11,8 +11,13 @@ export function itemIdFromUrl(path: string): ItemId {
 
 /** Format the given ItemId for displaying to users */
 export function formatItemId(itemId: ItemId): string {
-  const path = itemId.join('/');
+  const path = itemIdToUrl(itemId);
   return `'${path ? path : '/'}'`;
+}
+
+/** Update the ItemId to its URL path */
+export function itemIdToUrl(itemId: ItemId): string {
+  return itemId.join('/');
 }
 
 /** Returns the ItemId for the parent of the given item */
@@ -20,6 +25,7 @@ export function itemParent(itemId: ItemId): ItemId {
   return itemId.slice(0, -1)
 }
 
+/** Return whether the given ItemIds are equal */
 export function itemIdsEqual(first: ItemId, second: ItemId): boolean {
   return zip(first, second).find(([a, b]) => a !== b) === undefined;
 }

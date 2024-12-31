@@ -2,13 +2,15 @@
  * Custom error class for errors that happen when fetching data
  */
 class ApiError extends Error {
+  /** Error message */
   error: string;
+  /** Status code */
   code: number | null;
 
   /**
    * Custom error class for errors that happen when fetching data
    */
-  constructor (code: number | null, error: string | object) {
+  constructor(code: number | null, error: string | object) {
     if (typeof error === 'object') {
       error = JSON.stringify(error);
     }

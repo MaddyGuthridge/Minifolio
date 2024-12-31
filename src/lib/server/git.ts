@@ -69,6 +69,7 @@ export function urlRequiresSsh(url: string): boolean {
  *
  * Eg given URL "git@host.com:path/to/repo", we should extract:
  *                   ^^^^^^^^
+ *                  "host.com"
  */
 export async function runSshKeyscan(url: string) {
   // FIXME: This probably doesn't work in some cases

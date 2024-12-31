@@ -7,6 +7,7 @@ import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
 import { applyStruct } from '$lib/server/util.js';
 import { validateName } from '$lib/validate.js';
 import formatTemplate from '$lib/server/formatTemplate.js';
+import { ITEM_README } from '$lib/server/data/text.js';
 
 /**
  * API endpoints for accessing info.json
@@ -24,16 +25,6 @@ const NewItemOptions = object({
   name: string(),
   description: string(),
 });
-
-const DEFAULT_README = `
-# {{item}}
-
-{{description}}
-
-This is the \`README.md\` file for the item {{item}}. Go ahead and modify it to
-tell everyone more about it. Is it something you made, or something you use?
-How does it demonstrate your abilities?
-`;
 
 /** Create new item */
 export async function POST(req: Request) {
@@ -72,7 +63,7 @@ export async function POST(req: Request) {
   // Set info.json
   await setItemInfo(item, itemInfo);
   // Set README.md
-  const readme = formatTemplate(DEFAULT_README, { item: name, description })
+  const readme = formatTemplate(ITEM_README, { item: name, description })
     // If the description was empty, we'll end up with extra newlines -- get
     // rid of them.
     .replace('\n\n\n', '');

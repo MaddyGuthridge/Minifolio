@@ -6,7 +6,7 @@
 import { array, enums, literal, string, type, union, type Infer } from 'superstruct';
 import { error } from '@sveltejs/kit';
 import validate from '$lib/validate';
-import { ItemIdStruct } from './itemId';
+import { itemIdsEqual, ItemIdStruct, type ItemId } from './itemId';
 import { RepoInfoStruct } from './itemRepo';
 import { PackageInfoStruct } from './itemPackage';
 import { itemExists } from './item';
@@ -24,11 +24,14 @@ export const LinksSection = type({
 });
 
 /** Validate a links section of an item */
-async function validateLinksSection(data: Infer<typeof LinksSection>) {
+async function validateLinksSection(itemId: ItemId, data: Infer<typeof LinksSection>) {
   validate.name(data.title);
-  for (const item of data.items) {
-    if (!await itemExists(item)) {
-      error(400, `Linked item ${item} does not exist`);
+  for (const otherItem of data.items) {
+    if (!await itemExists(otherItem)) {
+      error(400, `Linked item ${otherItem} does not exist`);
+    }
+    if (itemIdsEqual(otherItem, itemId)) {
+      error(400, 'Links cannot be self-referencing');
     }
   }
 }
@@ -85,10 +88,10 @@ export const ItemSectionStruct = union([
 export type ItemSection = Infer<typeof ItemSectionStruct>;
 
 /** Validate the given section data */
-export async function validateSection(data: ItemSection) {
+export async function validateSection(itemId: ItemId, data: ItemSection) {
   validate.name(data.title);
   // `links` section needs additional validation
   if (data.type === 'links') {
-    await validateLinksSection(data);
+    await validateLinksSection(itemId, data);
   }
 }

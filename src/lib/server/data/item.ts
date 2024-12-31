@@ -104,7 +104,7 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
 
   // Validate each section
   for (const section of info.sections) {
-    await validateSection(section);
+    await validateSection(item, section);
   }
 
   // Ensure each child exists
@@ -117,6 +117,9 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
   for (const filterItem of info.filters) {
     if (!await itemExists(filterItem)) {
       error(400, `Filter item '${formatItemId(filterItem)}' does not exist`);
+    }
+    if (itemIdsEqual(item, filterItem)) {
+      error(400, 'Filter items cannot be self-referencing');
     }
   }
 

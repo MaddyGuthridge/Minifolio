@@ -38,7 +38,8 @@ export function itemParent(itemId: ItemId): ItemId {
 
 /** Return whether the given ItemIds are equal */
 export function itemIdsEqual(first: ItemId, second: ItemId): boolean {
-  return zip(first, second).find(([a, b]) => a !== b) === undefined;
+  return first.length == second.length
+    && zip(first, second).find(([a, b]) => a !== b) === undefined;
 }
 
 /**

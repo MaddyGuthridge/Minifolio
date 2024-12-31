@@ -65,7 +65,8 @@ export function validateName(name: string): string {
   return name;
 }
 
-const colorValidatorRegex = /^#[0-9a-fA-F]{3,6}$/;
+// Can't find a clean way to match either 3 or 6 chars, but not 4 or 5
+const colorValidatorRegex = /^#[0-9a-fA-F]{6}$/;
 
 /** Validate a color is in hex form */
 export function validateColor(color: string): string {

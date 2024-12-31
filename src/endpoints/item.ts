@@ -8,23 +8,23 @@ export default function item(token: string | undefined, itemId: ItemId) {
     get: async () => {
       return apiFetch(
         'GET',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
+        `/data${itemIdToUrl(itemId, 'info.json')}`,
         { token },
       ).json() as Promise<ItemInfo>;
     },
     /** Create a new item with the given properties. */
-    post: async (name: string, description: string) => {
+    post: async (name: string, description?: string) => {
       return apiFetch(
         'POST',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
-        { token, ...payload.json({ name, description }) },
+        `/data/${itemIdToUrl(itemId, 'info.json')}`,
+        { token, ...payload.json({ name, description: description ?? '' }) },
       ).json();
     },
     /** Update the `info.json` of the given item. */
     put: async (info: ItemInfo) => {
       return apiFetch(
         'PUT',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
+        `/data/${itemIdToUrl(itemId, 'info.json')}`,
         { token, ...payload.json(info) },
       ).json();
     },
@@ -32,7 +32,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
     delete: async () => {
       return apiFetch(
         'DELETE',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
+        `/data/${itemIdToUrl(itemId, 'info.json')}`,
         { token },
       ).json();
     },
@@ -43,7 +43,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
     get: async () => {
       return apiFetch(
         'GET',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
+        `/data/${itemIdToUrl(itemId, 'README.md')}`,
         { token },
       ).text();
     },
@@ -51,7 +51,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
     put: async (readme: string) => {
       return apiFetch(
         'PUT',
-        `/data/${itemIdToUrl(itemId)}/info.json`,
+        `/data/${itemIdToUrl(itemId, 'README.md')}`,
         { token, ...payload.markdown(readme) },
       ).text();
     },

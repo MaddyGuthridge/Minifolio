@@ -1,4 +1,4 @@
 import payload from './payload';
 
-export { apiFetch } from './fetch';
+export { apiFetch, getUrl } from './fetch';
 export { payload };

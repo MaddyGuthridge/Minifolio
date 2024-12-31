@@ -51,6 +51,13 @@ it("Doesn't clone repo when no URL provided", async () => {
     .resolves.toStrictEqual(false);
 });
 
+it.only('Generates root item by default', async () => {
+  const token = await accountSetup();
+  await firstrunData(token);
+  const client = api(token);
+  await expect(client.item([]).info.get()).toResolve();
+});
+
 describe('token cases', () => {
   let client: ApiClient;
 

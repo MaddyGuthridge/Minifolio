@@ -16,8 +16,12 @@ export function formatItemId(itemId: ItemId): string {
 }
 
 /** Update the ItemId to its URL path */
-export function itemIdToUrl(itemId: ItemId): string {
-  return itemId.join('/');
+export function itemIdToUrl(itemId: ItemId, file?: string): string {
+  if (file) {
+    return [...itemId, file].join('/');
+  } else {
+    return itemId.join('/');
+  }
 }
 
 /** Returns the ItemId for the parent of the given item */

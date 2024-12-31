@@ -2,14 +2,14 @@ import fs from 'fs/promises';
 import { error } from '@sveltejs/kit';
 import mime from 'mime-types';
 import { dataIsSetUp, getDataDir } from '$lib/server/data/dataDir';
-import { getPortfolioGlobals } from '$lib/server/index';
+import { getConfig } from '$lib/server/data/config';
 
 export async function GET(req: import('./$types.js').RequestEvent) {
   if (!await dataIsSetUp()) {
     error(404, 'Favicon not set up');
   }
-  const globals = await getPortfolioGlobals();
-  const siteIcon = globals.config.siteIcon;
+  const config = await getConfig();
+  const siteIcon = config.siteIcon;
   if (!siteIcon) {
     error(404, 'Favicon not set up');
   }

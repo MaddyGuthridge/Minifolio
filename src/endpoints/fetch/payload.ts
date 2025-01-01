@@ -1,16 +1,21 @@
-/** Information about a request payload */
-export type PayloadInfo = {
+type TextPayload = {
   /** `Content-Type` header to use */
   contentType: string,
   /** Payload converted to a string */
   payload: string,
-}
+};
+
+/** Information about a request payload */
+export type PayloadInfo = TextPayload | {
+  contentType: undefined,
+  payload: FormData,
+};
 
 /** Generate a function to handle payloads of the given type */
-function generatePayloadFn<T>(
+function generateTextPayloadFn<T>(
   contentType: string,
   converter: (body: T) => string,
-): (body: T) => PayloadInfo {
+): (body: T) => TextPayload {
   return (body) => ({
     contentType,
     payload: converter(body),
@@ -23,11 +28,17 @@ const noop = (body: string) => body;
 /** Send a request payload of the given type */
 export default {
   /** Request payload in JSON format */
-  json: generatePayloadFn('application/json', JSON.stringify),
+  json: generateTextPayloadFn('application/json', JSON.stringify),
   /** Request payload in Markdown format */
-  markdown: generatePayloadFn('text/markdown', noop),
+  markdown: generateTextPayloadFn('text/markdown', noop),
   /** Request payload in plain text format */
-  text: generatePayloadFn('text/plain', noop),
+  text: generateTextPayloadFn('text/plain', noop),
+  /** Send a file given its form data */
+  file: (filename: string, file: File) => {
+    const form = new FormData();
+    form.append(filename, file);
+    return { contentType: undefined, payload: form };
+  },
   /** Request using a custom mime-type */
   custom: (contentType: string, body: string) => ({ contentType, payload: body })
 };

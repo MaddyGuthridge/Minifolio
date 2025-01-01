@@ -3,6 +3,7 @@ import ApiError from './ApiError';
 // import fetch from 'cross-fetch';
 import { browser } from '$app/environment';
 import response from './response';
+import type { PayloadInfo } from './payload';
 
 export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -36,9 +37,7 @@ export function apiFetch(
   options?: {
     token?: string,
     query?: Record<string, string>,
-    contentType?: string,
-    payload?: string,
-  }
+  } & Partial<PayloadInfo>,
 ) {
   const baseUrl = getUrl();
 

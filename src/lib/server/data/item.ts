@@ -212,3 +212,30 @@ export async function* iterItems(item: ItemId = []): AsyncIterableIterator<ItemI
     }
   }
 }
+
+/** Full data for the item, including its `info.json`, `README.md`, and list of children */
+export type ItemData = {
+  /** `info.json` */
+  info: ItemInfo,
+  /** `README.md` */
+  readme: string,
+  /** List of children (including unlisted children) */
+  children: Record<string, ItemData>,
+}
+
+/** Returns the full text data for the given item */
+export async function getItemData(itemId: ItemId): Promise<ItemData> {
+  const info = await getItemInfo(itemId);
+  const readme = await fs.readFile(itemPath(itemId, 'README.md'), { encoding: 'utf-8' });
+
+  const children: Record<string, ItemData> = {};
+  for await (const child of itemChildren(itemId)) {
+    children[itemIdTail(child)] = await getItemData(child);
+  }
+
+  return {
+    info,
+    readme,
+    children,
+  };
+}

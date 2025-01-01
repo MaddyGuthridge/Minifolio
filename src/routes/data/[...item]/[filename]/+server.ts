@@ -8,17 +8,25 @@ import mime from 'mime-types';
 import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/server/data/itemId';
 import { fileExists } from '$lib/server/util';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { itemExists, itemPath } from '$lib/server/data/item';
+import { getItemData, itemExists, itemPath } from '$lib/server/data/item';
 type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns file contents */
 export async function GET(req: Request) {
   const item: ItemId = itemIdFromUrl(req.params.item);
+
   if (!await itemExists(item)) {
     error(404, `Item ${formatItemId(item)} does not exist`);
   }
   // Sanitize the filename to prevent unwanted access to the server's filesystem
   const filename = sanitize(req.params.filename);
+
+  // If this is a request to an item directory (not a file within it), then return the full info on
+  // the item.
+  if (!await itemExists([...item, filename])) {
+    return json(await getItemData([...item, filename]));
+  }
+
   // Get the path of the file to serve
   const filePath = itemPath(item, filename);
 

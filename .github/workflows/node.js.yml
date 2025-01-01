@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js 20.x
+    - name: Use Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
+        node-version: 22.x
         cache: 'npm'
     - run: npm ci
     # Set up SSH access, as the test suite needs to be able to access git
@@ -63,10 +63,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js 20.x
+    - name: Use Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
+        node-version: 22.x
         cache: 'npm'
     - run: npm ci
     - name: Run linting
@@ -76,10 +76,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js 20.x
+    - name: Use Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
+        node-version: 22.x
         cache: 'npm'
     - run: npm ci
     - name: Run type-checking

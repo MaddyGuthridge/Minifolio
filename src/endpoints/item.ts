@@ -57,10 +57,47 @@ export default function item(token: string | undefined, itemId: ItemId) {
     },
   };
 
+  const file = (filename: string) => ({
+    /** Get the contents of the given file */
+    get: async () => {
+      return apiFetch(
+        'GET',
+        `/data/${itemIdToUrl(itemId, filename)}`,
+        { token }
+      ).response;
+    },
+    /** Create a file at the given path */
+    post: async (file: File) => {
+      return apiFetch(
+        'POST',
+        `/data/${itemIdToUrl(itemId, filename)}`,
+        { token, ...payload.file(file) },
+      ).json();
+    },
+    /** Update the contents of a file at the given path */
+    put: async (file: File) => {
+      return apiFetch(
+        'PUT',
+        `/data/${itemIdToUrl(itemId, filename)}`,
+        { token, ...payload.file(file) },
+      ).json();
+    },
+    /** Remove the file at the given path */
+    delete: async () => {
+      return apiFetch(
+        'DELETE',
+        `/data/${itemIdToUrl(itemId, filename)}`,
+        { token },
+      ).json();
+    },
+  });
+
   return {
     /** `info.json` of the item */
     info,
     /** `README.md` of the item */
     readme,
+    /** A file belonging to the item */
+    file,
   };
 }

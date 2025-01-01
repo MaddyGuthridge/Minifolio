@@ -28,9 +28,12 @@ export async function json(response: Promise<Response>): Promise<object> {
     throw new ApiError(res.status, `Request got status code ${res.status}`);
   }
   // Decode the data
+  // const text = await res.text();
+  // console.log(text);
   let json: object;
   try {
     json = await res.json();
+    // json = JSON.parse(text);
   } catch (err) {
     // JSON parse error
     if (err instanceof Error) {

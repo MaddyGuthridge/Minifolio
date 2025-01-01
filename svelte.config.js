@@ -19,6 +19,12 @@ const config = {
 		version: {
 			name: process.env.npm_package_version,
 		},
+		// Disable origin checking, so that form submission works when using an API client.
+		// This may cause security issues, but since a valid token is required for all file uploads it
+		// should be ok.
+		csrf: {
+			checkOrigin: false,
+		},
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.

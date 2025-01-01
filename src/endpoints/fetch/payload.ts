@@ -33,10 +33,10 @@ export default {
   markdown: generateTextPayloadFn('text/markdown', noop),
   /** Request payload in plain text format */
   text: generateTextPayloadFn('text/plain', noop),
-  /** Send a file given its form data */
-  file: (filename: string, file: File) => {
+  /** Send a file */
+  file: (file: File) => {
     const form = new FormData();
-    form.append(filename, file);
+    form.append('content', file);
     return { contentType: undefined, payload: form };
   },
   /** Request using a custom mime-type */

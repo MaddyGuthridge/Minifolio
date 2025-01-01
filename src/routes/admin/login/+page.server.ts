@@ -1,5 +1,5 @@
-import { getPortfolioGlobals } from '$lib/server';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import { getItemData } from '$lib/server/data/item';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(req: import('./$types').RequestEvent) {
@@ -15,6 +15,6 @@ export async function load(req: import('./$types').RequestEvent) {
     // If they are logged in, redirect them to the `from` URL if it exists.
     redirect(303, req.url.searchParams.get('from') ?? '/');
   }
-  const globals = await getPortfolioGlobals();
-  return { globals };
+  const portfolio = await getItemData([]);
+  return { portfolio };
 }

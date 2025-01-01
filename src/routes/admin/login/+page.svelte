@@ -35,17 +35,17 @@
 </script>
 
 <svelte:head>
-  <title>login - {data.globals.config.siteName}</title>
+  <title>login - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
-  <meta name="theme-color" content={data.globals.config.color} />
+  <meta name="theme-color" content={data.portfolio.info.color} />
   <!-- Prevent web crawlers from indexing the admin page -->
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color={data.globals.config.color}></Background>
+<Background color={data.portfolio.info.color}></Background>
 
 <Navbar
-  config={data.globals.config}
+  data={data.portfolio}
   loggedIn={false}
   path={[
     { txt: 'Admin', url: 'admin' },

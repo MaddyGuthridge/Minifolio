@@ -6,17 +6,15 @@ import { version } from '$app/environment';
 import fs from 'fs/promises';
 import { dataIsSetUp, getDataDir } from '$lib/server/data/dataDir';
 
-export async function GET({ request, cookies }: import('./$types').RequestEvent) {
-  if (await dataIsSetUp()) {
+export async function GET() {
+  if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
-  await validateTokenFromRequest({ request, cookies });
-
-  return json(getConfig(), { status: 200 });
+  return json(await getConfig(), { status: 200 });
 }
 
 export async function PUT({ request, cookies }: import('./$types').RequestEvent) {
-  if (await dataIsSetUp()) {
+  if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest({ request, cookies });

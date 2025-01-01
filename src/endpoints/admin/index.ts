@@ -1,6 +1,5 @@
 /** Admin endpoints */
 import auth from './auth';
-import config from './config';
 import git from './git';
 import firstrun from './firstrun';
 import { apiFetch } from '$endpoints/fetch';
@@ -14,8 +13,6 @@ export default function admin(token: string | undefined) {
   return {
     /** Authentication options */
     auth: auth(token),
-    /** Site configuration */
-    config: config(token),
     /** Git actions */
     git: git(token),
     /** Key management (used for git operations) */

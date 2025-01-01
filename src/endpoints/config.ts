@@ -1,5 +1,5 @@
 /** Configuration endpoints */
-import { apiFetch, payload } from '../fetch';
+import { apiFetch, payload } from './fetch';
 import type { ConfigJson } from '$lib/server/data/config';
 
 export default (token: string | undefined) => ({
@@ -11,7 +11,7 @@ export default (token: string | undefined) => ({
   get: async () => {
     return apiFetch(
       'GET',
-      '/api/admin/config',
+      '/data/config.json',
       { token },
     ).json() as Promise<ConfigJson>;
   },
@@ -24,7 +24,7 @@ export default (token: string | undefined) => ({
   put: async (config: ConfigJson) => {
     return apiFetch(
       'PUT',
-      '/api/admin/config',
+      '/data/config.json',
       { token, ...payload.json(config) },
     ).json() as Promise<Record<string, never>>;
   },

@@ -7,6 +7,9 @@ import { array, string, type Infer } from 'superstruct';
 
 /** Return an item ID given its path in URL form */
 export function itemIdFromUrl(path: string): ItemId {
+  if (path === '') {
+    return [];
+  }
   return path.split('/');
 }
 

@@ -2,17 +2,57 @@
   import { dev } from '$app/environment';
   import { goto } from '$app/navigation';
   import api from '$endpoints';
-  import type { ConfigJson } from '$lib/server/data/config';
   import Separator from '$components/Separator.svelte';
+  import type { ItemId } from '$lib/itemId';
+  import type { ItemData } from '$lib/server/data/item';
+  import { getDescendant } from '$lib/itemData';
+
+  type NavbarPath = { url: string; txt: string }[];
 
   type Props = {
-    path: { url: string; txt: string }[];
-    config: ConfigJson;
+    path: ItemId | NavbarPath;
+    data: ItemData;
     /** Whether the user is logged in. Set to undefined if auth is disabled */
     loggedIn: boolean | undefined;
   };
 
-  let { path, config, loggedIn }: Props = $props();
+  let { path, data, loggedIn }: Props = $props();
+
+  function itemIdToPath(itemId: ItemId): NavbarPath {
+    const tailPath = itemId.map((p, i) => {
+      const descendant = getDescendant(data, itemId.slice(0, i)).info;
+      return {
+        url: p,
+        txt:
+          i === itemId.length - 1
+            ? descendant.name
+            : (descendant.shortName ?? descendant.name),
+      };
+    });
+    return [
+      {
+        url: '',
+        txt: itemId.length
+          ? (data.info.shortName ?? data.info.name)
+          : data.info.name,
+      },
+      ...tailPath,
+    ];
+  }
+
+  let overallPath: NavbarPath = $derived.by(() => {
+    if (path.length === 0 || typeof path[0] === 'string') {
+      // Path is ItemId
+      return itemIdToPath(path as ItemId);
+    } else {
+      return [
+        { url: '', txt: data.info.shortName ?? data.info.name },
+        ...(path as NavbarPath),
+      ];
+    }
+  });
+
+  $inspect(overallPath);
 
   /** Log out, then reload the page */
   async function logOut() {
@@ -34,8 +74,8 @@
   }
 
   // This function needs to accept `path` as an input, otherwise the links
-  // stop being reactive due to cacheing or something
-  function pathTo(path: { url: string; txt: string }[], i: number) {
+  // stop being reactive due to caching or something
+  function pathTo(path: NavbarPath, i: number) {
     return path
       .slice(0, i + 1)
       .map((p) => p.url)
@@ -45,18 +85,13 @@
 
 <nav>
   <span style:grid-area="navigator">
-    {#if path.length === 0}
-      <h1>{config.siteName}</h1>
-    {:else}
-      <h1>
-        <a href="/">{config.siteShortName}</a> /
-        {#each path.slice(0, -1) as p, i}
-          <a href="/{pathTo(path, i)}">{p.txt}</a>
-          {'/ '}
-        {/each}
-        {path[path.length - 1].txt}
-      </h1>
-    {/if}
+    <h1>
+      {#each overallPath.slice(0, -1) as p, i}
+        <a href="/{pathTo(overallPath, i)}">{p.txt}</a>
+        {'/ '}
+      {/each}
+      {overallPath[overallPath.length - 1].txt}
+    </h1>
   </span>
 
   <!-- Control buttons -->

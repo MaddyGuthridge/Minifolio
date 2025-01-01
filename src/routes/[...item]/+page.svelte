@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
   import EditableMarkdown from '$components/markdown';
   import consts from '$lib/consts';
@@ -30,7 +31,7 @@
   {/if}
 </svelte:head>
 
-<!-- <Navbar path={[]} config={data.globals.config} loggedIn={data.loggedIn} /> -->
+<Navbar path={data.itemId} data={data.portfolio} loggedIn={data.loggedIn} />
 
 <Background color={thisItem.info.color} />
 

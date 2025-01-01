@@ -8,6 +8,7 @@ import path from 'path';
 import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
+import serverValidate from '$lib/server/serverValidate';
 import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from '../../itemId';
 import { getDataDir } from './dataDir';
 import { ItemSectionStruct, validateSection } from './section';
@@ -94,10 +95,10 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
   }
   // Icon and banner images
   if (info.icon !== null) {
-    await validate.image(item, info.icon);
+    await serverValidate.image(item, info.icon);
   }
   if (info.banner !== null) {
-    await validate.image(item, info.banner);
+    await serverValidate.image(item, info.banner);
   }
   // Item color
   validate.color(info.color);

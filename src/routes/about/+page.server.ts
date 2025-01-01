@@ -8,7 +8,7 @@ import { version } from '$app/environment';
 // import { version as VITE_VERSION } from 'vite';
 import os from 'os';
 
-export async function load(req: import('./$types.js').RequestEvent) {
+export async function load(req: import('./$types').RequestEvent) {
   // If config fails to load (eg firstrun), just give a blank config
   let config: ConfigJson;
   let isInit = true;

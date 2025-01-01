@@ -1,8 +1,8 @@
 import { getTokenFromRequest, revokeSession } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir.js';
+import { authIsSetUp } from '$lib/server/data/dataDir';
 import { error, json } from '@sveltejs/kit';
 
-export async function POST(req: import('./$types.js').RequestEvent) {
+export async function POST(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) error(400, 'Auth is not set up yet');
 
   const token = getTokenFromRequest(req);

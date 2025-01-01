@@ -5,7 +5,7 @@ import { getLocalConfig } from '$lib/server/data/localConfig';
 import { generateKey } from '$lib/server/keys';
 
 /** Generate an SSH key */
-export async function POST(req: import('./$types.js').RequestEvent) {
+export async function POST(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
     error(400);
   }

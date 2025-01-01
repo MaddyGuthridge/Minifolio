@@ -7,10 +7,10 @@
 import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/server/data/itemId';
 import fs from 'fs/promises';
 import { error, json } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
-import { itemExists, itemPath } from '$lib/server/data/item.js';
-import { dataIsSetUp } from '$lib/server/data/dataDir.js';
-type Request = import('./$types.js').RequestEvent;
+import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import { itemExists, itemPath } from '$lib/server/data/item';
+import { dataIsSetUp } from '$lib/server/data/dataDir';
+type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns README text */
 export async function GET(req: Request) {

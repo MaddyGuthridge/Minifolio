@@ -4,7 +4,7 @@ import mime from 'mime-types';
 import { dataIsSetUp, getDataDir } from '$lib/server/data/dataDir';
 import { getConfig } from '$lib/server/data/config';
 
-export async function GET(req: import('./$types.js').RequestEvent) {
+export async function GET(req: import('./$types').RequestEvent) {
   if (!await dataIsSetUp()) {
     error(404, 'Favicon not set up');
   }

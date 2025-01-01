@@ -8,7 +8,7 @@ import mime from 'mime-types';
 import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/server/data/itemId';
 import { fileExists } from '$lib/server/util';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { itemExists, itemPath } from '$lib/server/data/item.js';
+import { itemExists, itemPath } from '$lib/server/data/item';
 type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns file contents */

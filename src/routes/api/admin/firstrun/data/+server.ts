@@ -2,8 +2,8 @@ import { error, json } from '@sveltejs/kit';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { nullable, object, optional, string, type Infer } from 'superstruct';
 import { applyStruct } from '$lib/server/util';
-import { setupData } from '$lib/server/data/setup.js';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
+import { setupData } from '$lib/server/data/setup';
+import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 
 const FirstRunDataOptionsStruct = object({
   repoUrl: optional(nullable(string())),
@@ -12,7 +12,7 @@ const FirstRunDataOptionsStruct = object({
 
 export type FirstRunDataOptions = Infer<typeof FirstRunDataOptionsStruct>;
 
-export async function POST({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   if (await dataIsSetUp()) {
     error(403, 'Data directory is already set up');
   }

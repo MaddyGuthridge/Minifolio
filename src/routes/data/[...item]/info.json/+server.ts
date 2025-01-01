@@ -3,17 +3,17 @@ import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
 import { formatItemId, itemIdFromUrl, validateItemId, itemIdTail, itemParent } from '$lib/server/data/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens.js';
-import { applyStruct } from '$lib/server/util.js';
-import { validateName } from '$lib/validate.js';
-import formatTemplate from '$lib/server/formatTemplate.js';
-import { ITEM_README } from '$lib/server/data/text.js';
-import { dataIsSetUp } from '$lib/server/data/dataDir.js';
+import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import { applyStruct } from '$lib/server/util';
+import { validateName } from '$lib/validate';
+import formatTemplate from '$lib/server/formatTemplate';
+import { ITEM_README } from '$lib/server/data/text';
+import { dataIsSetUp } from '$lib/server/data/dataDir';
 
 /**
  * API endpoints for accessing info.json
  */
-type Request = import('./$types.js').RequestEvent;
+type Request = import('./$types').RequestEvent;
 
 /** Get item info.json */
 export async function GET(req: Request) {

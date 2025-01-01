@@ -6,7 +6,7 @@ import { version } from '$app/environment';
 import fs from 'fs/promises';
 import { dataIsSetUp, getDataDir } from '$lib/server/data/dataDir';
 
-export async function GET({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function GET({ request, cookies }: import('./$types').RequestEvent) {
   if (await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
@@ -15,7 +15,7 @@ export async function GET({ request, cookies }: import('./$types.js').RequestEve
   return json(getConfig(), { status: 200 });
 }
 
-export async function PUT({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function PUT({ request, cookies }: import('./$types').RequestEvent) {
   if (await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }

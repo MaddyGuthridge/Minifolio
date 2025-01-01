@@ -3,7 +3,7 @@ import { authIsSetUp } from '$lib/server/data/dataDir';
 import { authSetup } from '$lib/server/auth/setup';
 import { object, string, type Infer } from 'superstruct';
 import { applyStruct } from '$lib/server/util';
-import { validateId } from '$lib/validate.js';
+import { validateId } from '$lib/validate';
 import validator from 'validator';
 
 const FirstRunAuthOptionsStruct = object({
@@ -13,7 +13,7 @@ const FirstRunAuthOptionsStruct = object({
 
 export type FirstRunAuthOptions = Infer<typeof FirstRunAuthOptionsStruct>;
 
-export async function POST({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   const options = applyStruct(await request.json(), FirstRunAuthOptionsStruct);
 
   if (await authIsSetUp()) {

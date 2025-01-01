@@ -1,7 +1,6 @@
 /**
  * Test cases for uploading files to an item.
  */
-
 import { it, describe, beforeEach, expect } from 'vitest';
 import type { ApiClient } from '$endpoints';
 import { setup } from '../helpers';
@@ -13,7 +12,6 @@ beforeEach(async () => {
   api = (await setup()).api;
   await api.item([]).file('example.md').post(await fromFileSystem('README.md'));
 });
-
 
 describe('Success', () => {
   it('Deletes the file', async () => {

@@ -6,7 +6,7 @@ import { fileExists } from '$lib/server/util';
 import { disableKey, getPublicKey, setKeyPath } from '$lib/server/keys';
 
 /** Return the current public key */
-export async function GET(req: import('./$types.js').RequestEvent) {
+export async function GET(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
     error(400);
   }
@@ -21,7 +21,7 @@ export async function GET(req: import('./$types.js').RequestEvent) {
 }
 
 /** Set the path to the key */
-export async function POST(req: import('./$types.js').RequestEvent) {
+export async function POST(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
     error(400);
   }
@@ -46,7 +46,7 @@ export async function POST(req: import('./$types.js').RequestEvent) {
 }
 
 /** Disable SSH key-based authentication */
-export async function DELETE(req: import('./$types.js').RequestEvent) {
+export async function DELETE(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
     error(400);
   }

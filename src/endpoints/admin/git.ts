@@ -2,10 +2,11 @@
 import type { RepoStatus } from '$lib/server/git';
 import { apiFetch, payload } from '../fetch';
 
-export default (token: string | undefined) => ({
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /** Retrieve information about the data repository */
   status: async () => {
     return apiFetch(
+      fetchFn,
       'GET',
       '/api/admin/git',
       { token },
@@ -15,6 +16,7 @@ export default (token: string | undefined) => ({
   /** Initialize a git repo */
   init: async (url: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/init',
       { token, ...payload.json({ url }) },
@@ -24,6 +26,7 @@ export default (token: string | undefined) => ({
   /** Perform a git commit */
   commit: async (message: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/commit',
       { token, ...payload.json({ message },) },
@@ -33,6 +36,7 @@ export default (token: string | undefined) => ({
   /** Perform a git push */
   push: async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/push',
       { token },
@@ -42,6 +46,7 @@ export default (token: string | undefined) => ({
   /** Perform a git pull */
   pull: async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/pull',
       { token },

@@ -1,9 +1,10 @@
 /** Debug endpoints */
 import { apiFetch, payload } from './fetch';
 
-export default function debug(token: string | undefined) {
+export default function debug(fetchFn: typeof fetch, token: string | undefined) {
   const clear = async () => {
     return apiFetch(
+      fetchFn,
       'DELETE',
       '/api/debug/clear',
       { token },
@@ -12,6 +13,7 @@ export default function debug(token: string | undefined) {
 
   const echo = async (text: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/debug/echo',
       { token, ...payload.json({ text }) },
@@ -20,6 +22,7 @@ export default function debug(token: string | undefined) {
 
   const dataRefresh = async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/debug/data/refresh',
       { token },

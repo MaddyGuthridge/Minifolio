@@ -1,12 +1,13 @@
 import { apiFetch, payload } from '$endpoints/fetch'
 
-export default (token: string | undefined) => ({
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**
    * Returns the server's SSH public key, and the path to the private key
    * file
    */
   get: async () => {
     return apiFetch(
+      fetchFn,
       'GET',
       '/api/admin/keys',
       { token },
@@ -15,6 +16,7 @@ export default (token: string | undefined) => ({
   /** Sets the path to the file the server should use as the private key */
   setKeyPath: async (keyPath: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/keys',
       { token, ...payload.json({ keyPath }) },
@@ -24,6 +26,7 @@ export default (token: string | undefined) => ({
   /** Disables SSH key-based authentication */
   disable: async () => {
     return apiFetch(
+      fetchFn,
       'DELETE',
       '/api/admin/keys',
       { token },
@@ -32,6 +35,7 @@ export default (token: string | undefined) => ({
   /** Generate an SSH key-pair */
   generate: async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/keys/generate',
       { token },

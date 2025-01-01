@@ -32,6 +32,7 @@ export function getUrl() {
  * @returns object giving access to the response in various formats
  */
 export function apiFetch(
+  fetchFn: typeof fetch,
   method: HttpVerb,
   route: string,
   options?: {
@@ -65,7 +66,7 @@ export function apiFetch(
 
   // Now send the request
   try {
-    return response(fetch(url, {
+    return response(fetchFn(url, {
       method,
       body,
       headers,

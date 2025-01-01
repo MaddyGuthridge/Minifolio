@@ -11,9 +11,10 @@ export async function setup(repoUrl?: string, branch?: string) {
   const username = 'admin';
   const password = 'abc123ABC!';
   const { token } = await api().admin.firstrun.account(username, password);
-  await api(token).admin.firstrun.data(repoUrl, branch);
+  const client = api(fetch, token);
+  await client.admin.firstrun.data(repoUrl, branch);
   return {
-    api: api(token),
+    api: client,
     token,
     username,
     password,

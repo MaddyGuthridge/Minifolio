@@ -1,7 +1,7 @@
 /** Authentication endpoints */
 import { apiFetch, payload } from '../fetch';
 
-export default (token: string | undefined) => ({
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**
    * Log in as an administrator for the site
    *
@@ -10,6 +10,7 @@ export default (token: string | undefined) => ({
    */
   login: async (username: string, password: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/auth/login',
       payload.json({ username, password }),
@@ -22,6 +23,7 @@ export default (token: string | undefined) => ({
    */
   logout: async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/auth/logout',
       { token },
@@ -36,6 +38,7 @@ export default (token: string | undefined) => ({
    */
   change: async (newUsername: string, oldPassword: string, newPassword: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/auth/change',
       { token, ...payload.json({ newUsername, oldPassword, newPassword }) },
@@ -48,6 +51,7 @@ export default (token: string | undefined) => ({
    */
   revoke: async () => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/auth/revoke',
       { token }
@@ -62,6 +66,7 @@ export default (token: string | undefined) => ({
    */
   disable: async (username: string, password: string) => {
     return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/auth/disable',
       { token, ...payload.json({ username, password }) },

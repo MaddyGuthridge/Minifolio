@@ -2,7 +2,7 @@
 import { apiFetch, payload } from './fetch';
 import type { ConfigJson } from '$lib/server/data/config';
 
-export default (token: string | undefined) => ({
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**
    * Retrieve the site configuration.
    *
@@ -10,6 +10,7 @@ export default (token: string | undefined) => ({
    */
   get: async () => {
     return apiFetch(
+      fetchFn,
       'GET',
       '/data/config.json',
       { token },
@@ -23,6 +24,7 @@ export default (token: string | undefined) => ({
    */
   put: async (config: ConfigJson) => {
     return apiFetch(
+      fetchFn,
       'PUT',
       '/data/config.json',
       { token, ...payload.json(config) },

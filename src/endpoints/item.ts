@@ -1,4 +1,4 @@
-import type { ItemInfo } from '$lib/server/data/item';
+import type { ItemData, ItemInfo } from '$lib/server/data/item';
 import { itemIdToUrl, type ItemId } from '$lib/server/data/itemId';
 import { apiFetch, payload } from './fetch';
 
@@ -109,5 +109,14 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
     readme,
     /** A file belonging to the item */
     file,
+    /** The full recursive item data */
+    data: async () => {
+      return apiFetch(
+        fetchFn,
+        'GET',
+        `/data/${itemIdToUrl(itemId)}`,
+        { token },
+      ).json() as Promise<ItemData>;
+    }
   };
 }

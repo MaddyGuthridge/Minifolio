@@ -23,7 +23,7 @@ export async function GET(req: Request) {
 
   // If this is a request to an item directory (not a file within it), then return the full info on
   // the item.
-  if (!await itemExists([...item, filename])) {
+  if (await itemExists([...item, filename])) {
     return json(await getItemData([...item, filename]));
   }
 

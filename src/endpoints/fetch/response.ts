@@ -59,6 +59,24 @@ export async function json(response: Promise<Response>): Promise<object> {
   return Object.assign({}, json);
 }
 
+export async function buffer(response: Promise<Response>): Promise<Buffer> {
+  const res = await response;
+  if ([404, 405].includes(res.status)) {
+    throw new ApiError(404, `Error ${res.status} at ${res.url}`);
+  }
+  // As per usual, this ESLint error is not correct.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const buf = await res.bytes();
+  if ([400, 401, 403].includes(res.status)) {
+    throw new ApiError(res.status, buf);
+  }
+  if (![200, 304].includes(res.status)) {
+    // Unknown error
+    throw new ApiError(res.status, `Request got status code ${res.status}`);
+  }
+  return Buffer.from(buf);
+}
+
 /**
  * Handler for responses, allowing users to `.<format>` to get the response data in the format they
  * desire
@@ -66,5 +84,6 @@ export async function json(response: Promise<Response>): Promise<object> {
 export default (response: Promise<Response>) => ({
   json: () => json(response),
   text: () => text(response),
+  buffer: () => buffer(response),
   response,
 })

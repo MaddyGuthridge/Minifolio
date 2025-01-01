@@ -64,7 +64,7 @@ export default function item(token: string | undefined, itemId: ItemId) {
         'GET',
         `/data/${itemIdToUrl(itemId, filename)}`,
         { token }
-      ).response;
+      ).buffer();
     },
     /** Create a file at the given path */
     post: async (file: File) => {

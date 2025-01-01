@@ -7,7 +7,7 @@ import { error } from '@sveltejs/kit';
 import fs from 'fs/promises';
 import mime from 'mime-types';
 import sanitize from 'sanitize-filename';
-import type { ItemId } from './server/data/itemId';
+import type { ItemId } from './itemId';
 import { getDataDir } from './server/data/dataDir';
 import path from 'path';
 

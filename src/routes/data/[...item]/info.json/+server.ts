@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
-import { formatItemId, itemIdFromUrl, validateItemId, itemIdTail, itemParent } from '$lib/server/data/itemId';
+import { formatItemId, itemIdFromUrl, validateItemId, itemIdTail, itemParent } from '$lib/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { applyStruct } from '$lib/server/util';

@@ -4,7 +4,7 @@ import { version } from '$app/environment';
 import simpleGit from 'simple-git';
 import { getDataDir } from '$lib/server/data/dataDir';
 import type { ItemInfo } from '$lib/server/data/item';
-import type { ItemId } from '$lib/server/data/itemId';
+import type { ItemId } from '$lib/itemId';
 
 /** Set up the server, returning (amongst other things) an API client */
 export async function setup(repoUrl?: string, branch?: string) {

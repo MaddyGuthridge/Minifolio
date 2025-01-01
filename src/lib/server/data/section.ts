@@ -6,7 +6,7 @@
 import { array, enums, literal, string, type, union, type Infer } from 'superstruct';
 import { error } from '@sveltejs/kit';
 import validate from '$lib/validate';
-import { itemIdsEqual, ItemIdStruct, type ItemId } from './itemId';
+import { itemIdsEqual, ItemIdStruct, type ItemId } from '../../itemId';
 import { RepoInfoStruct } from './itemRepo';
 import { PackageInfoStruct } from './itemPackage';
 import { itemExists } from './item';

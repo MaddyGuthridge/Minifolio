@@ -4,7 +4,7 @@
  * Note that POST and DELETE methods are unavailable, as the lifetime of the README.md file should
  * match that of the item itself.
  */
-import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/server/data/itemId';
+import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/itemId';
 import fs from 'fs/promises';
 import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';

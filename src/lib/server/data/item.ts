@@ -8,7 +8,7 @@ import path from 'path';
 import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
-import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from './itemId';
+import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from '../../itemId';
 import { getDataDir } from './dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { applyStruct } from '../util';

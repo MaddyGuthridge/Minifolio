@@ -1,5 +1,5 @@
 /** API endpoints */
-import type { ItemId } from '$lib/server/data/itemId';
+import type { ItemId } from '$lib/itemId';
 import admin from './admin';
 import config from './config';
 import debug from './debug';

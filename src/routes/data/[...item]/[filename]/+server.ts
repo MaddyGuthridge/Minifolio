@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import { error, json } from '@sveltejs/kit';
 import sanitize from 'sanitize-filename';
 import mime from 'mime-types';
-import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/server/data/itemId';
+import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/itemId';
 import { fileExists } from '$lib/server/util';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { getItemData, itemExists, itemPath } from '$lib/server/data/item';

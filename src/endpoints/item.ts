@@ -1,5 +1,5 @@
 import type { ItemData, ItemInfo } from '$lib/server/data/item';
-import { itemIdToUrl, type ItemId } from '$lib/server/data/itemId';
+import { itemIdToUrl, type ItemId } from '$lib/itemId';
 import { apiFetch, payload } from './fetch';
 
 export default function item(fetchFn: typeof fetch, token: string | undefined, itemId: ItemId) {

@@ -17,20 +17,20 @@
 </script>
 
 <svelte:head>
-  <title>Admin - {data.globals.config.siteName}</title>
+  <title>Admin - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
-  <meta name="theme-color" content={data.globals.config.color} />
+  <meta name="theme-color" content={data.portfolio.info.color} />
   <!-- Prevent web crawlers from indexing the admin page -->
   <meta name="robots" content="noindex" />
 </svelte:head>
 
 <Navbar
   path={[{ txt: 'Admin', url: 'admin' }]}
-  config={data.globals.config}
+  data={data.portfolio}
   loggedIn={true}
 />
 
-<Background color={data.globals.config.color} />
+<Background color={data.portfolio.info.color} />
 
 <main>
   <div id="paper-container">

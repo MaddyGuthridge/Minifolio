@@ -6,27 +6,13 @@ import { version } from '$app/environment';
 import os from 'os';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { getItemData, type ItemData } from '$lib/server/data/item';
+import { blankData } from '../../lib/blankData';
 
 export async function load(req: import('./$types').RequestEvent) {
   const isInit = await dataIsSetUp();
   const loggedIn = isInit ? await isRequestAuthorized(req) : undefined;
 
-  const portfolio: ItemData = isInit ? await getItemData([]) : {
-    info: {
-      name: 'Minifolio',
-      shortName: null,
-      description: '',
-      color: '#ff00ff',
-      icon: null,
-      banner: null,
-      children: [],
-      filters: [],
-      sections: [],
-      seo: { description: null, keywords: [] },
-    },
-    readme: '',
-    children: {},
-  }
+  const portfolio: ItemData = isInit ? await getItemData([]) : blankData;
 
   let versions = null;
   if (!isInit || loggedIn) {

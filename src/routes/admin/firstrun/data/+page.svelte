@@ -7,7 +7,7 @@
   import Error from '$components/modals/Error.svelte';
   import { goto } from '$app/navigation';
   import Navbar from '$components/navbar';
-  import blankConfig from '$lib/blankConfig';
+  import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
   import KeySettings from '../../KeySettings.svelte';
 
@@ -72,7 +72,7 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar config={blankConfig} loggedIn={undefined} path={[]} />
+<Navbar data={blankData} loggedIn={undefined} path={[]} />
 
 <div class="center">
   <Paper>

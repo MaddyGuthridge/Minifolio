@@ -52,8 +52,6 @@
     }
   });
 
-  $inspect(overallPath);
-
   /** Log out, then reload the page */
   async function logOut() {
     await api().admin.auth.logout();
@@ -77,7 +75,7 @@
   // stop being reactive due to caching or something
   function pathTo(path: NavbarPath, i: number) {
     return path
-      .slice(0, i + 1)
+      .slice(1, i + 1)
       .map((p) => p.url)
       .join('/');
   }

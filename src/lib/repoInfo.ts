@@ -1,4 +1,4 @@
-import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/itemRepo';
+import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/item/repo';
 
 /** Info required to register a repo provider */
 type RepoProviderInfo = {

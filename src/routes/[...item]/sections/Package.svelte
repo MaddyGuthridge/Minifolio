@@ -1,7 +1,7 @@
 <script lang="ts">
   import CopyButton from '$components/CopyButton.svelte';
   import { packageProviders } from '$lib/packageInfo';
-  import type { PackageInfo } from '$lib/server/data/itemPackage';
+  import type { PackageInfo } from '$lib/server/data/item/package';
 
   type Props = {
     title: string;

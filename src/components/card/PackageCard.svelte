@@ -1,7 +1,7 @@
 <script lang="ts">
   import { packageIsWithProvider, packageProviders } from '$lib/packageInfo';
   import { Card } from '.';
-  import type { PackageInfo } from '$lib/server/data/itemPackage';
+  import type { PackageInfo } from '$lib/server/data/item/package';
   import CopyButton from '$components/CopyButton.svelte';
 
   type Props = {

@@ -9,10 +9,10 @@ import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
-import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from '../../itemId';
-import { getDataDir } from './dataDir';
+import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from '../../../itemId';
+import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
-import { applyStruct } from '../util';
+import { applyStruct } from '../../util';
 import { rimraf } from 'rimraf';
 
 /**

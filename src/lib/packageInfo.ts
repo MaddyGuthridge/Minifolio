@@ -1,4 +1,4 @@
-import type { ProvidedPackageInfo, PackageProvider, PackageInfo } from '$lib/server/data/itemPackage';
+import type { ProvidedPackageInfo, PackageProvider, PackageInfo } from '$lib/server/data/item/package';
 
 /** Info required to register a package provider */
 type ProviderInfo = {

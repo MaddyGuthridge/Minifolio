@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ItemSection } from '$lib/server/data/section';
+  import type { ItemSection } from '$lib/server/data/item/section';
   import Docs from './Docs.svelte';
   import Package from './Package.svelte';
   import Repo from './Repo.svelte';

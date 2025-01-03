@@ -1,6 +1,6 @@
 <script lang="ts">
   import { repoIsWithProvider, repoProviders } from '$lib/repoInfo';
-  import type { RepoInfo } from '$lib/server/data/itemRepo';
+  import type { RepoInfo } from '$lib/server/data/item/repo';
   import { tooltip } from '$lib/tooltip';
 
   type Props = {

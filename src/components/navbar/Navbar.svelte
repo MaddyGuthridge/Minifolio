@@ -4,7 +4,7 @@
   import api from '$endpoints';
   import Separator from '$components/Separator.svelte';
   import type { ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
+  import type { ItemData } from '$lib/server/data/item/item';
   import { getDescendant } from '$lib/itemData';
 
   type NavbarPath = { url: string; txt: string }[];

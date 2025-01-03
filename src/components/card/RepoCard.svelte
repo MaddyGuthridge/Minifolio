@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RepoInfo } from '$lib/server/data/itemRepo';
+  import type { RepoInfo } from '$lib/server/data/item/repo';
   import { repoIsWithProvider, repoProviders } from '$lib/repoInfo';
   import { Card } from '.';
   import { onMount } from 'svelte';

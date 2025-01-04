@@ -1,15 +1,18 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
+  import { formatItemId, type ItemId } from '$lib/itemId';
   import api from '$endpoints';
   import { goto } from '$app/navigation';
+  import { itemUrl } from '$lib/urls';
+  import consts from '$lib/consts';
 
   type Props = {
     show: boolean;
-    groupId: string;
+    parent: ItemId;
     onclose: () => void;
   };
 
-  let { show, groupId, onclose }: Props = $props();
+  let { show, parent, onclose }: Props = $props();
 
   let itemName = $state('');
   let itemId = $state('');
@@ -31,10 +34,9 @@
 
   async function makeItem() {
     await api()
-      .group.withId(groupId)
-      .item.withId(itemId)
-      .create(itemName, itemDescription);
-    await goto(`/${groupId}/${itemId}`);
+      .item([...parent, itemId])
+      .info.post(itemName, itemDescription);
+    await goto(itemUrl([...parent, itemId]));
   }
 </script>
 
@@ -42,12 +44,12 @@
   {#snippet header()}
     <h2>New item</h2>
   {/snippet}
-  <p>Creating an item within the group '{groupId}'.</p>
+  <p>Creating a new item as a child of {formatItemId(parent)}.</p>
   <form onsubmit={makeItem}>
     <p>
       Item name
       <input
-        placeholder="Manyfolio"
+        placeholder={consts.APP_NAME}
         bind:value={itemName}
         required
         oninput={() => {

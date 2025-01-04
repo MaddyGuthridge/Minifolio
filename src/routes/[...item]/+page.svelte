@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
+  import { ItemCardGrid } from '$components/card';
   import EditableMarkdown from '$components/markdown';
   import consts from '$lib/consts';
   import { getDescendant } from '$lib/itemData';
@@ -14,6 +15,9 @@
   let { data = $bindable() }: Props = $props();
 
   const thisItem = $derived(getDescendant(data.portfolio, data.itemId));
+
+  // Eventually, add editing mode to this
+  const editing = false;
 </script>
 
 <svelte:head>
@@ -40,7 +44,7 @@
   <div id="readme">
     <div id="info-container">
       <EditableMarkdown
-        editing={false}
+        {editing}
         bind:source={thisItem.readme}
         onsubmit={() => {}}
       />
@@ -51,6 +55,15 @@
       <Section {section} />
     {/each}
   </div>
+
+  <div id="children">
+    <ItemCardGrid
+      portfolio={data.portfolio}
+      itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}
+      onclick={() => {}}
+      {editing}
+    />
+  </div>
 </main>
 
 <style>
@@ -59,18 +72,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-  }
-  form {
-    width: 90%;
-  }
-  input[type='text'] {
-    width: 50%;
-    height: 1.5rem;
-  }
-  textarea {
-    width: 50%;
-    height: 5rem;
-    resize: vertical;
   }
   #readme {
     width: 100%;
@@ -81,15 +82,5 @@
   #info-container {
     padding: 20px;
     width: 90%;
-  }
-  /* #filters {
-    width: 100%;
-  } */
-  .group-list {
-    width: 100%;
-  }
-  .group-list > h2 {
-    margin: 20px;
-    margin-top: 50px;
   }
 </style>

@@ -1,14 +1,9 @@
 <script lang="ts">
   import { repoIsWithProvider, repoProviders } from '$lib/repoInfo';
-  import type { RepoInfo } from '$lib/server/data/item/repo';
+  import type { RepoSection } from '$lib/server/data/item/section';
   import { tooltip } from '$lib/tooltip';
 
-  type Props = {
-    title: string;
-    info: RepoInfo;
-  };
-
-  const { title, info }: Props = $props();
+  const { label, info }: RepoSection = $props();
 
   const { url, icon, providerName, starCount } = $derived.by(() => {
     if (repoIsWithProvider(info)) {
@@ -30,11 +25,9 @@
   });
 </script>
 
-<h3>{title}</h3>
-
 <a href={url}>
   <i class={icon}></i>
-  <b>View the code on {providerName}</b>
+  <b>{label ?? `View the code on ${providerName}`}</b>
   {#await starCount}
     <div class="star-count" use:tooltip={{ content: 'Loading star count' }}>
       <i class="lar la-star"></i> <i class="las la-sync spinner"></i>

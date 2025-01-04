@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ItemSection } from '$lib/server/data/item/section';
   import Docs from './Docs.svelte';
+  import Heading from './Heading.svelte';
   import Package from './Package.svelte';
   import Repo from './Repo.svelte';
   import Site from './Site.svelte';
@@ -20,4 +21,6 @@
   <Site {...section} />
 {:else if section.type === 'repo'}
   <Repo {...section} />
+{:else if section.type === 'heading'}
+  <Heading {...section} />
 {/if}

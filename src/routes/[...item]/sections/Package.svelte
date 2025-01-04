@@ -1,19 +1,15 @@
 <script lang="ts">
   import CopyButton from '$components/CopyButton.svelte';
   import { packageProviders } from '$lib/packageInfo';
-  import type { PackageInfo } from '$lib/server/data/item/package';
+  import type { PackageSection } from '$lib/server/data/item/section';
 
-  type Props = {
-    title: string;
-    info: PackageInfo;
-  };
+  const { label, info }: PackageSection = $props();
 
-  const { title, info }: Props = $props();
-
-  const { url, icon, command } = $derived.by(() => {
+  const { providerName, url, icon, command } = $derived.by(() => {
     if (info.provider === 'custom') {
       return {
         url: info.url,
+        providerName: info.providerName,
         icon: info.icon,
         command: info.command,
       };
@@ -21,6 +17,7 @@
       const provider = packageProviders[info.provider];
       return {
         url: provider.makeUrl(info.id),
+        providerName: provider.name,
         icon: provider.icon,
         command: provider.makeInstallCmd(info.id),
       };
@@ -30,7 +27,7 @@
 
 <a href={url}>
   <i class={icon}></i>
-  <b>{title}</b>
+  <b>{label ?? `Install using ${providerName}`}</b>
   <CopyButton text={command} hint="Copy install command">
     <i class="las la-terminal"></i>
     <pre>{command}</pre>

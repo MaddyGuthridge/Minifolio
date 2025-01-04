@@ -1,13 +1,9 @@
 <script lang="ts">
-  type Props = {
-    title: string;
-    url: string;
-  };
+  import type { SiteSection } from '$lib/server/data/item/section';
 
-  const { title, url }: Props = $props();
+  const { title, url }: SiteSection = $props();
 </script>
 
 <a href={url}>
-  <i class="las la-globe"></i>
   <b>{title}</b>
 </a>

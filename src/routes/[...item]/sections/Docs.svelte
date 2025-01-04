@@ -1,13 +1,10 @@
 <script lang="ts">
-  type Props = {
-    title: string;
-    url: string;
-  };
+  import type { DocsSection } from '$lib/server/data/item/section';
 
-  const { title, url }: Props = $props();
+  const { label, url }: DocsSection = $props();
 </script>
 
 <a href={url}>
   <i class="las la-book-open"></i>
-  <b>{title}</b>
+  <b>{label ?? 'View the documentation'}</b>
 </a>

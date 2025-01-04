@@ -5,6 +5,7 @@
   import consts from '$lib/consts';
   import { getDescendant } from '$lib/itemData';
   import { generateKeywords } from '$lib/seo';
+  import Section from './sections';
 
   type Props = {
     data: import('./$types').PageData;
@@ -44,6 +45,11 @@
         onsubmit={() => {}}
       />
     </div>
+  </div>
+  <div id="sections">
+    {#each thisItem.info.sections as section}
+      <Section {section} />
+    {/each}
   </div>
 </main>
 

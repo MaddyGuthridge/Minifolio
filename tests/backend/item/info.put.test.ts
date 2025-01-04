@@ -63,7 +63,7 @@ describe('Success', () => {
         sections: [
           {
             type: 'site',
-            title: 'Visit the website',
+            label: 'Visit the website',
             url: 'https://example.com',
           }
         ]
@@ -76,7 +76,7 @@ describe('Success', () => {
         sections: [
           {
             type: 'repo',
-            title: 'Check out the code',
+            label: 'Check out the code',
             info: {
               provider: 'github',
               path: 'MaddyGuthridge/Minifolio',
@@ -110,7 +110,7 @@ describe('Success', () => {
           {
             type: 'links',
             style: 'chip',
-            title: 'See also',
+            label: 'See also',
             items: [
               // Root
               [],
@@ -183,7 +183,7 @@ describe('400', () => {
         sections: [
           {
             type: 'site',
-            title: name,
+            label: name,
             url: 'https://example.com',
           }
         ]
@@ -198,7 +198,7 @@ describe('400', () => {
           {
             type: 'links',
             style: 'chip',
-            title: 'See also',
+            label: 'See also',
             items: [
               ['invalid'],
             ]
@@ -216,7 +216,7 @@ describe('400', () => {
           {
             type: 'links',
             style: 'chip',
-            title: 'See also',
+            label: 'See also',
             items: [
               itemId,
             ]

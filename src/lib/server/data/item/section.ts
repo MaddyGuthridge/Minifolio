@@ -3,29 +3,56 @@
  *
  * This file contains definitions for various sections.
  */
-import { array, enums, literal, string, type, union, type Infer } from 'superstruct';
+import { array, enums, literal, nullable, string, type, union, type Infer } from 'superstruct';
 import { error } from '@sveltejs/kit';
 import validate from '$lib/validate';
-import { itemIdsEqual, ItemIdStruct, type ItemId } from '../../../itemId';
+import { itemIdsEqual, ItemIdStruct, type ItemId } from '$lib/itemId';
 import { RepoInfoStruct } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
 
+/** Documentation link */
+const DocsSectionStruct = type({
+  /** The type of section (in this case 'docs') */
+  type: literal('docs'),
+  /** The text to display for the section (defaults to "View the documentation") */
+  label: nullable(string()),
+  /** The URL of the documentation being linked */
+  url: string(),
+});
+
+/** Documentation link */
+export type DocsSection = Infer<typeof DocsSectionStruct>;
+
+/** Header within the sections */
+const HeadingSectionStruct = type({
+  /** The type of section (in this case 'heading') */
+  type: literal('heading'),
+  /** The text to display as the heading */
+  heading: string(),
+});
+
+/** Header within the sections */
+export type HeadingSection = Infer<typeof HeadingSectionStruct>;
+
 /** Links from this item to other items. */
-export const LinksSection = type({
+const LinksSectionStruct = type({
   /** The type of section (in this case 'links') */
   type: literal('links'),
   /** The text to display for the section (eg "See also") */
-  title: string(),
+  label: string(),
   /** The style in which to present the links ('chip' or 'card') */
   style: enums(['chip', 'card']),
   /** The array of item IDs to display as links */
   items: array(ItemIdStruct),
 });
 
+/** Links from this item to other items. */
+export type LinksSection = Infer<typeof LinksSectionStruct>;
+
 /** Validate a links section of an item */
-async function validateLinksSection(itemId: ItemId, data: Infer<typeof LinksSection>) {
-  validate.name(data.title);
+async function validateLinksSection(itemId: ItemId, data: LinksSection) {
+  validate.name(data.label);
   for (const otherItem of data.items) {
     if (!await itemExists(otherItem)) {
       error(400, `Linked item ${otherItem} does not exist`);
@@ -36,62 +63,73 @@ async function validateLinksSection(itemId: ItemId, data: Infer<typeof LinksSect
   }
 }
 
-/** Code repository link */
-export const RepoSection = type({
-  /** The type of section (in this case 'repo') */
-  type: literal('repo'),
-  /** The text to display for the section (eg "View the code") */
-  title: string(),
-  /** Information about the repository being linked */
-  info: RepoInfoStruct,
-});
-
-/** Website link */
-export const SiteSection = type({
-  /** The type of section (in this case 'site') */
-  type: literal('site'),
-  /** The text to display for the section (eg "Visit the website") */
-  title: string(),
-  /** The URL of the site being linked */
-  url: string(),
-});
-
-/** Documentation link */
-export const DocumentationSection = type({
-  /** The type of section (in this case 'docs') */
-  type: literal('docs'),
-  /** The text to display for the section (eg "View the documentation") */
-  title: string(),
-  /** The URL of the documentation being linked */
-  url: string(),
-});
-
 /** Package information section */
-export const PackageSection = type({
+const PackageSectionStruct = type({
   /** The type of section (in this case 'package') */
   type: literal('package'),
-  /** The text to display for the section (eg "Install the package") */
-  title: string(),
+  /** The text to display for the section (defaults to "Install using [provider]") */
+  label: nullable(string()),
   /** The URL of the site being linked */
   info: PackageInfoStruct,
 });
 
+/** Package information section */
+export type PackageSection = Infer<typeof PackageSectionStruct>;
+
+/** Code repository link */
+const RepoSectionStruct = type({
+  /** The type of section (in this case 'repo') */
+  type: literal('repo'),
+  /** The text to display for the section (defaults to "View the code on [provider]") */
+  label: nullable(string()),
+  /** Information about the repository being linked */
+  info: RepoInfoStruct,
+});
+
+/** Code repository link */
+export type RepoSection = Infer<typeof RepoSectionStruct>;
+
+/** Website link */
+const SiteSectionStruct = type({
+  /** The type of section (in this case 'site') */
+  type: literal('site'),
+  /** The text to display for the section (defaults to "Visit the website") */
+  label: nullable(string()),
+  /** The URL of the site being linked */
+  url: string(),
+});
+
+/** Website link */
+export type SiteSection = Infer<typeof SiteSectionStruct>;
+
 /** A section on the item page */
 export const ItemSectionStruct = union([
-  LinksSection,
-  RepoSection,
-  SiteSection,
-  DocumentationSection,
-  PackageSection,
+  DocsSectionStruct,
+  HeadingSectionStruct,
+  LinksSectionStruct,
+  PackageSectionStruct,
+  RepoSectionStruct,
+  SiteSectionStruct,
 ]);
 
+/** A section on the item page */
 export type ItemSection = Infer<typeof ItemSectionStruct>;
 
 /** Validate the given section data */
 export async function validateSection(itemId: ItemId, data: ItemSection) {
-  validate.name(data.title);
-  // `links` section needs additional validation
-  if (data.type === 'links') {
-    await validateLinksSection(itemId, data);
+  switch (data.type) {
+    case 'links':
+      await validateLinksSection(itemId, data);
+      validate.name(data.label);
+      break;
+    case 'heading':
+      validate.name(data.heading);
+      break;
+    case 'docs':
+    case 'site':
+      if (data.label) {
+        validate.name(data.label);
+      }
+      break;
   }
 }

@@ -2,7 +2,9 @@
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
   import { ItemCardGrid } from '$components/card';
+  import EditControls from '$components/EditControls.svelte';
   import EditableMarkdown from '$components/markdown';
+  import api from '$endpoints';
   import consts from '$lib/consts';
   import { getDescendant } from '$lib/itemData';
   import { generateKeywords } from '$lib/seo';
@@ -17,7 +19,7 @@
   const thisItem = $derived(getDescendant(data.portfolio, data.itemId));
 
   // Eventually, add editing mode to this
-  const editing = false;
+  let editing = $state(false);
 </script>
 
 <svelte:head>
@@ -41,12 +43,21 @@
 <Background color={thisItem.info.color} />
 
 <main>
+  <EditControls
+    loggedIn={data.loggedIn}
+    {editing}
+    onbegin={() => (editing = true)}
+    onfinish={() => (editing = false)}
+  />
   <div id="readme">
     <div id="info-container">
       <EditableMarkdown
         {editing}
         bind:source={thisItem.readme}
-        onsubmit={() => {}}
+        onsubmit={() => (editing = false)}
+        onchange={async (text) => {
+          await api().item(data.itemId).readme.put(text);
+        }}
       />
     </div>
   </div>

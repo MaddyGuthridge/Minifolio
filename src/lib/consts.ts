@@ -16,9 +16,13 @@ export const APP_AUTHOR: AuthorInfo = ['Maddy Guthridge', 'https://maddyguthridg
 /** Additional contributors to the project */
 export const APP_CONTRIBUTORS: AuthorInfo[] = [];
 
+/** Amount of time to wait after editing is finished before committing edits to the server */
+export const EDIT_COMMIT_HESITATION = 1_000;
+
 export default {
   APP_NAME,
   APP_GITHUB,
   APP_AUTHOR,
   APP_CONTRIBUTORS,
+  EDIT_COMMIT_HESITATION,
 };

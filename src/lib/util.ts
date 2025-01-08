@@ -17,3 +17,33 @@ export function capitalize(str: string): string {
 export function zip<F, S>(first: F[], second: S[]): [F, S][] {
   return first.slice(0, second.length).map((f, i) => [f, second[i]]);
 }
+
+/**
+ * A poor woman's imitation of Rust's Option enum, useful for avoiding cases where a value could be
+ * intentionally `undefined` or something awful like that.
+ */
+export class Option<T> {
+  static none<T>(): Option<T> {
+    return new Option(false);
+  }
+  static some<T>(value: T): Option<T> {
+    return new Option(true, value);
+  }
+
+  isSome: boolean;
+  value: T | undefined;
+
+  constructor (isSome: false);
+  constructor (isSome: true, value: T);
+  constructor (isSome: boolean, value?: T) {
+    this.isSome = isSome;
+    this.value = value;
+  }
+
+  unwrap(): T {
+    if (!this.isSome) {
+      throw Error('Option: Expected a some value, but got a none value');
+    }
+    return this.value!;
+  }
+}

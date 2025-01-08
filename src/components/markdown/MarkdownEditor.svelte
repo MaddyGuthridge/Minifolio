@@ -2,6 +2,7 @@
   import 'highlight.js/styles/stackoverflow-light.css';
   import Markdown from './Markdown.svelte';
   import consts from '$lib/consts';
+  import DelayedUpdater from '$lib/delayedUpdate';
 
   type Props = {
     source: string;
@@ -14,16 +15,11 @@
   function handleKeypress(e: KeyboardEvent) {
     if (e.ctrlKey && e.key === 'Enter') {
       onsubmit();
+      updater.commit();
     }
   }
 
-  let changeTimer: ReturnType<typeof setTimeout> | undefined;
-
-  /** Called when the change timer fires */
-  function changeTimerCallback() {
-    void onchange(source);
-    changeTimer = undefined;
-  }
+  let updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <div class="md-editor">
@@ -31,15 +27,7 @@
     class="md-input"
     bind:value={source}
     onkeypress={handleKeypress}
-    oninput={() => {
-      if (changeTimer) {
-        clearTimeout(changeTimer);
-      }
-      changeTimer = setTimeout(
-        changeTimerCallback,
-        consts.EDIT_COMMIT_HESITATION,
-      );
-    }}
+    oninput={() => updater.update(source)}
   ></textarea>
   <span class="md-preview">
     <Markdown {source} />

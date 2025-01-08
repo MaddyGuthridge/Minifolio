@@ -6,8 +6,8 @@
   import EditableMarkdown from '$components/markdown';
   import api from '$endpoints';
   import consts from '$lib/consts';
-  import { getDescendant } from '$lib/itemData';
   import { generateKeywords } from '$lib/seo';
+  import MainDataEdit from './MainDataEdit.svelte';
   import Section from './sections';
 
   type Props = {
@@ -16,7 +16,7 @@
 
   let { data = $bindable() }: Props = $props();
 
-  const thisItem = $derived(getDescendant(data.portfolio, data.itemId));
+  let thisItem = $state(data.item);
 
   // Eventually, add editing mode to this
   let editing = $state(false);
@@ -32,7 +32,7 @@
     name="keywords"
     content={generateKeywords(data.portfolio, data.itemId)}
   />
-  <meta name="theme-color" content={thisItem.info.color} />
+  <meta name="theme-color" content={data.item.info.color} />
   {#if data.config.siteIcon}
     <link rel="icon" href={data.config.siteIcon} />
   {/if}
@@ -49,6 +49,10 @@
     onbegin={() => (editing = true)}
     onfinish={() => (editing = false)}
   />
+  {#if editing}
+    <MainDataEdit itemId={data.itemId} bind:item={thisItem} />
+  {/if}
+
   <div id="readme">
     <div id="info-container">
       <EditableMarkdown
@@ -62,15 +66,15 @@
     </div>
   </div>
   <div id="sections">
-    {#each thisItem.info.sections as section}
-      <Section {section} />
+    {#each data.item.info.sections as section}
+      <Section portfolio={data.portfolio} {section} {editing} />
     {/each}
   </div>
 
   <div id="children">
     <ItemCardGrid
       portfolio={data.portfolio}
-      itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}
+      itemIds={data.item.info.children.map((id) => [...data.itemId, id])}
       onclick={() => {}}
       {editing}
     />

@@ -19,9 +19,11 @@ export async function load(req: import('./$types').RequestEvent) {
   }
   const portfolio = await getItemData([]);
   const config = await getConfig();
+  const item = await getItemData(itemId);
 
   return {
     itemId,
+    item,
     portfolio,
     config,
     loggedIn: await isRequestAuthorized(req)

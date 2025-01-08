@@ -1,4 +1,5 @@
 <script lang="ts">
+  import consts from '$lib/consts';
   import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
 
@@ -10,15 +11,13 @@
   let { item = $bindable(), itemId }: Props = $props();
 
   let isRootPage = $derived(itemId.length === 0);
-
-  $inspect(item.info.color);
 </script>
 
 <form onsubmit={(e) => e.preventDefault()}>
   <h2>Name</h2>
   <input
     type="text"
-    placeholder="The name of this item"
+    placeholder={consts.APP_NAME}
     bind:value={item.info.name}
     required
   />

@@ -38,7 +38,7 @@
   {/if}
 </svelte:head>
 
-<Navbar path={data.itemId} data={data.portfolio} loggedIn={data.loggedIn} />
+<Navbar path={data.itemId} lastItem={thisItem} data={data.portfolio} loggedIn={data.loggedIn} />
 
 <Background color={thisItem.info.color} />
 

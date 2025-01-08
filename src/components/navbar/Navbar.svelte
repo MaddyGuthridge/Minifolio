@@ -6,20 +6,42 @@
   import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item/item';
   import { getDescendant } from '$lib/itemData';
+  import consts from '$lib/consts';
 
   type NavbarPath = { url: string; txt: string }[];
 
+  type PropsItem = {
+    /** ItemId */
+    path: ItemId;
+    /** Info for the last item, passed separately to allow for reactivity when editing */
+    lastItem: ItemData;
+  };
+
+  type PropsOther = {
+    /** Path on the navbar */
+    path: NavbarPath;
+    lastItem: undefined;
+  };
+
   type Props = {
-    path: ItemId | NavbarPath;
+    /** Full portfolio data */
     data: ItemData;
     /** Whether the user is logged in. Set to undefined if auth is disabled */
     loggedIn: boolean | undefined;
-  };
+  } & (PropsItem | PropsOther);
 
-  let { path, data, loggedIn }: Props = $props();
+  let { path, data, loggedIn, lastItem }: Props = $props();
 
-  function itemIdToPath(itemId: ItemId): NavbarPath {
-    const tailPath = itemId.map((p, i) => {
+  function itemIdToPath(itemId: ItemId, lastItem: ItemData): NavbarPath {
+    if (itemId.length === 0) {
+      return [
+        {
+          url: '',
+          txt: lastItem.info.name || consts.APP_NAME,
+        },
+      ];
+    }
+    const tailPath = itemId.slice(0, -1).map((p, i) => {
       const descendant = getDescendant(data, itemId.slice(0, i)).info;
       return {
         url: p,
@@ -37,13 +59,17 @@
           : data.info.name,
       },
       ...tailPath,
+      {
+        url: itemId.at(-1)!,
+        txt: lastItem.info.name || 'No name',
+      },
     ];
   }
 
   let overallPath: NavbarPath = $derived.by(() => {
     if (path.length === 0 || typeof path[0] === 'string') {
       // Path is ItemId
-      return itemIdToPath(path as ItemId);
+      return itemIdToPath(path as ItemId, lastItem!);
     } else {
       return [
         { url: '', txt: data.info.shortName ?? data.info.name },

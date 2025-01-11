@@ -7,7 +7,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import { generateKeywords } from '$lib/seo';
-  import MainDataEdit from './MainDataEdit.svelte';
+  import MainDataEdit from './ItemInfoEdit.svelte';
   import Section from './sections';
 
   type Props = {
@@ -18,12 +18,18 @@
 
   let thisItem = $state(data.item);
 
+  const isRootItem = $derived(data.itemId.length === 0);
+
   // Eventually, add editing mode to this
   let editing = $state(false);
 </script>
 
 <svelte:head>
-  <title>{data.portfolio.info.name}</title>
+  {#if isRootItem}
+    <title>{data.portfolio.info.name}</title>
+  {:else}
+    <title>{thisItem.info.name} - {data.portfolio.info.name}</title>
+  {/if}
   {#if data.portfolio.info.seo.description}
     <meta name="description" content={data.portfolio.info.seo.description} />
   {/if}
@@ -38,55 +44,74 @@
   {/if}
 </svelte:head>
 
-<Navbar path={data.itemId} lastItem={thisItem} data={data.portfolio} loggedIn={data.loggedIn} />
+<Navbar
+  path={data.itemId}
+  lastItem={thisItem}
+  data={data.portfolio}
+  loggedIn={data.loggedIn}
+/>
 
 <Background color={thisItem.info.color} />
 
-<main>
-  <EditControls
-    loggedIn={data.loggedIn}
-    {editing}
-    onbegin={() => (editing = true)}
-    onfinish={() => (editing = false)}
-  />
-  {#if editing}
-    <MainDataEdit itemId={data.itemId} bind:item={thisItem} />
-  {/if}
-
-  <div id="readme">
-    <div id="info-container">
-      <EditableMarkdown
-        {editing}
-        bind:source={thisItem.readme}
-        onsubmit={() => (editing = false)}
-        onchange={async (text) => {
-          await api().item(data.itemId).readme.put(text);
+<div class="center">
+  <main>
+    <EditControls
+      loggedIn={data.loggedIn}
+      {editing}
+      onbegin={() => (editing = true)}
+      onfinish={() => (editing = false)}
+    />
+    {#if editing}
+      <MainDataEdit
+        itemId={data.itemId}
+        bind:itemInfo={thisItem.info}
+        onchange={async (info) => {
+          await api().item(data.itemId).info.put(info);
         }}
       />
-    </div>
-  </div>
-  <div id="sections">
-    {#each data.item.info.sections as section}
-      <Section portfolio={data.portfolio} {section} {editing} />
-    {/each}
-  </div>
+    {/if}
 
-  <div id="children">
-    <ItemCardGrid
-      portfolio={data.portfolio}
-      itemIds={data.item.info.children.map((id) => [...data.itemId, id])}
-      onclick={() => {}}
-      {editing}
-    />
-  </div>
-</main>
+    <div id="readme">
+      <div id="info-container">
+        <EditableMarkdown
+          {editing}
+          bind:source={thisItem.readme}
+          onsubmit={() => (editing = false)}
+          onchange={async (text) => {
+            await api().item(data.itemId).readme.put(text);
+          }}
+        />
+      </div>
+    </div>
+    <div id="sections">
+      {#each data.item.info.sections as section}
+        <Section portfolio={data.portfolio} {section} {editing} />
+      {/each}
+    </div>
+
+    <div id="children">
+      <ItemCardGrid
+        portfolio={data.portfolio}
+        itemIds={data.item.info.children.map((id) => [...data.itemId, id])}
+        onclick={() => {}}
+        {editing}
+      />
+    </div>
+  </main>
+</div>
 
 <style>
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 90%;
   }
   #readme {
     width: 100%;
@@ -96,6 +121,6 @@
   }
   #info-container {
     padding: 20px;
-    width: 90%;
+    width: 100%;
   }
 </style>

@@ -14,7 +14,9 @@
   let { data } = $props();
 
   // Default values are auto-filled in dev mode
-  let repoUrl = $state(dev ? 'git@github.com:MaddyGuthridge/portfolio-data.git' : '');
+  let repoUrl = $state(
+    dev ? 'git@github.com:MaddyGuthridge/portfolio-data.git' : '',
+  );
   let repoBranch = $state('');
 
   async function submitMain() {
@@ -72,7 +74,7 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar data={blankData} loggedIn={undefined} path={[]} />
+<Navbar data={blankData} loggedIn={undefined} path={[]} lastItem={blankData} />
 
 <div class="center">
   <Paper>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import api from '$endpoints';
   import type { ItemId } from '$lib/itemId';
+  import ItemFile from './ItemFile.svelte';
 
   type Props = {
     /** ItemId to which the files belong */
@@ -11,15 +12,17 @@
 
   let { itemId, files = $bindable() }: Props = $props();
 
-  /** Delete the given item */
-  async function deleteFile(filename: string) {
-    await api().item(itemId).file(filename).delete();
-    files = files.filter((f) => f !== filename);
-  }
+  // File upload
+  // ==================================================
 
+  /** Selected files to upload */
   let filesToUpload: FileList | undefined = $state();
+  /** Form where files are uploaded*/
   let uploadForm: HTMLFormElement;
-  async function uploadFile() {
+  /** Button used to choose files */
+  let fileSelectButton: HTMLInputElement;
+  /** Upload files from the form */
+  async function uploadFiles() {
     if (!filesToUpload) return;
     for (const file of filesToUpload) {
       await api()
@@ -31,6 +34,12 @@
     // Clear form
     uploadForm.reset();
   }
+
+  $effect(() => {
+    if (filesToUpload?.length) {
+      void uploadFiles();
+    }
+  })
 </script>
 
 <table>
@@ -41,30 +50,31 @@
     </tr>
   </thead>
   <tbody>
-    {#each files as file}
-      <tr>
-        <td>{file}</td>
-        <td>
-          <button onclick={() => deleteFile(file)}>Delete</button>
-        </td>
-      </tr>
+    {#each files as filename}
+      <ItemFile {itemId} {filename} bind:files />
     {/each}
   </tbody>
 </table>
 <form
-  onsubmit={(e) => {
-    e.preventDefault();
-    void uploadFile();
-  }}
   bind:this={uploadForm}
 >
-  <label for="upload">Upload files</label>
+  <label for="upload">
+    <button onclick={() => fileSelectButton.click()}>Upload Files</button>
+  </label>
   <input
     type="file"
     name="file"
     id="upload"
     bind:files={filesToUpload}
+    bind:this={fileSelectButton}
+    style="display: none"
+    multiple
     required
   />
-  <input type="submit" value="Upload" />
 </form>
+
+<style>
+  table {
+    width: 100%;
+  }
+</style>

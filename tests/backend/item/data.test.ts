@@ -5,6 +5,7 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
+import fromFileSystem from '../fileRequest';
 
 let api: ApiClient;
 beforeEach(async () => {
@@ -18,6 +19,7 @@ describe('Success', () => {
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
+      ls: [],
     });
   });
 
@@ -25,14 +27,26 @@ describe('Success', () => {
     await expect(api.item([]).data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),
+      ls: [],
       children: {
         // Child object's info
         child: {
           info: expect.any(Object),
           readme: expect.any(String),
+          ls: [],
           children: {},
         }
       },
+    });
+  });
+
+  it('Shows additional files in the directory', async () => {
+    await api.item(['child']).file('hello.txt').post(await fromFileSystem('README.md'));
+    await expect(api.item(['child']).data()).resolves.toStrictEqual({
+      info: expect.any(Object),
+      readme: expect.any(String),
+      children: {},
+      ls: ['hello.txt'],
     });
   });
 });

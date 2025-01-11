@@ -7,6 +7,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import { generateKeywords } from '$lib/seo';
+  import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Section from './sections';
 
@@ -69,6 +70,8 @@
           await api().item(data.itemId).info.put(info);
         }}
       />
+
+      <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
     {/if}
 
     <div id="readme">

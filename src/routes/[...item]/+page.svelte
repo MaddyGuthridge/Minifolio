@@ -65,10 +65,8 @@
     {#if editing}
       <MainDataEdit
         itemId={data.itemId}
-        bind:itemInfo={thisItem.info}
-        onchange={async (info) => {
-          await api().item(data.itemId).info.put(info);
-        }}
+        bind:item={thisItem}
+        onchange={api().item(data.itemId).info.put}
       />
 
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />

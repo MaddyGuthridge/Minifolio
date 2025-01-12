@@ -1,16 +1,17 @@
 <script lang="ts">
+  import FilePicker from '$components/pickers/FilePicker.svelte';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
   import type { ItemId } from '$lib/itemId';
-  import type { ItemInfo } from '$lib/server/data/item';
+  import type { ItemData, ItemInfo } from '$lib/server/data/item';
 
   type Props = {
     itemId: ItemId;
-    itemInfo: ItemInfo;
-    onchange: (info: ItemInfo) => Promise<void>;
+    item: ItemData;
+    onchange: (info: ItemInfo) => Promise<any>;
   };
 
-  let { itemInfo = $bindable(), itemId, onchange }: Props = $props();
+  let { item = $bindable(), itemId, onchange }: Props = $props();
 
   let isRootPage = $derived(itemId.length === 0);
 
@@ -27,8 +28,8 @@
   <input
     type="text"
     placeholder={consts.APP_NAME}
-    bind:value={itemInfo.name}
-    oninput={() => updater.update(itemInfo)}
+    bind:value={item.info.name}
+    oninput={() => updater.update(item.info)}
     required
   />
   <p>
@@ -41,9 +42,9 @@
   <h2>Short name</h2>
   <input
     type="text"
-    placeholder={itemInfo.name}
-    bind:value={itemInfo.shortName}
-    oninput={() => updater.update(itemInfo)}
+    placeholder={item.info.name}
+    bind:value={item.info.shortName}
+    oninput={() => updater.update(item.info)}
   />
   <p>
     {#if isRootPage}
@@ -56,19 +57,33 @@
   <input
     type="text"
     placeholder="A concise description."
-    bind:value={itemInfo.description}
-    oninput={() => updater.update(itemInfo)}
+    bind:value={item.info.description}
+    oninput={() => updater.update(item.info)}
     required
   />
   <p>A concise description of the item, shown on links to this page.</p>
   <h2>Color</h2>
   <input
     type="color"
-    bind:value={itemInfo.color}
-    oninput={() => updater.update(itemInfo)}
+    bind:value={item.info.color}
+    oninput={() => updater.update(item.info)}
     required
   />
   <p>The theme color of the item is shown in the background of the page.</p>
+
+  <h2>Banner image</h2>
+  <FilePicker
+    files={item.ls}
+    bind:selected={item.info.banner}
+    onchange={() => updater.update(item.info)}
+  />
+
+  <h2>Icon image</h2>
+  <FilePicker
+    files={item.ls}
+    bind:selected={item.info.icon}
+    onchange={() => updater.update(item.info)}
+  />
 </form>
 
 <style>

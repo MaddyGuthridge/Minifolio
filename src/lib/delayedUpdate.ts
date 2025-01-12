@@ -5,7 +5,7 @@ import { Option } from './util';
  */
 export default class DelayedUpdater<T> {
   /** Callback, called whenever value should be committed */
-  callback: (value: T) => Promise<void>;
+  callback: (value: T) => Promise<any>;
   /** Hesitation before committing an update, in ms */
   hesitation: number;
   /** Timer, used to commit updates after `hesitation` ms */

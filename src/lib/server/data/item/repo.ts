@@ -2,7 +2,7 @@
  * Type definitions for links to repos
  */
 
-import { enums, object, optional, string, union, type Infer } from 'superstruct';
+import { enums, literal, object, optional, string, union, type Infer } from 'superstruct';
 
 /** Names of repository hosts that are officially supported */
 export const supportedHosts = ['github', 'gitlab'] as const;
@@ -24,6 +24,8 @@ export type ProvidedRepoInfo = Infer<typeof ProviderRepoInfoStruct>;
 
 /** Repository info set manually */
 const ManualRepoInfoStruct = object({
+  /** Provider is literally 'custom' */
+  provider: literal('custom'),
   /** Title text to display for the repo */
   title: string(),
   /** URL to link to */

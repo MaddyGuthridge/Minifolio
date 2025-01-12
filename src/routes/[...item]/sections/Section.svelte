@@ -20,11 +20,11 @@
 {#if section.type === 'package'}
   <Package {...section} />
 {:else if section.type === 'docs'}
-  <Docs {...section} />
+  <Docs {...section} {editing} />
 {:else if section.type === 'site'}
-  <Site {...section} />
+  <Site {...section} {editing} />
 {:else if section.type === 'repo'}
-  <Repo {...section} />
+  <Repo {...section} {editing} />
 {:else if section.type === 'heading'}
   <Heading {...section} />
 {:else if section.type === 'links'}

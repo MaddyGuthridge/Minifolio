@@ -127,7 +127,7 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
       break;
     case 'docs':
     case 'site':
-      if (data.label) {
+      if (data.label !== null) {
         validate.name(data.label);
       }
       break;

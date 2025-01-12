@@ -63,9 +63,6 @@ async function updateFileFromRequest(filename: string, req: Request): Promise<vo
     error(400, '"content" field of form must have type `File`');
   }
 
-  // No idea why ESLint claims that `content.bytes` has an "error" type. It works fine, and
-  // TypeScript is perfectly happy with it.
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   await fs.writeFile(filename, await content.bytes());
 }
 

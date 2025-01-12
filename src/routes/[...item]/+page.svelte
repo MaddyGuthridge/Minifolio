@@ -7,6 +7,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import { generateKeywords } from '$lib/seo';
+  import { itemFileUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Section from './sections';
@@ -70,6 +71,15 @@
       />
 
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
+    {:else}
+      <!-- Banner image -->
+      {#if thisItem.info.banner}
+        <img
+          src={itemFileUrl(data.itemId, thisItem.info.banner)}
+          alt={`Banner of ${thisItem.info.name}`}
+          class="banner-image"
+        />
+      {/if}
     {/if}
 
     <div id="readme">
@@ -114,6 +124,13 @@
     align-items: center;
     width: 90%;
   }
+
+  .banner-image {
+    max-width: 80%;
+    height: 30vh;
+    border-radius: 10px;
+  }
+
   #readme {
     width: 100%;
     display: flex;

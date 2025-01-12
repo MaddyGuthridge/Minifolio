@@ -4,6 +4,7 @@
   import DelayedUpdater from '$lib/delayedUpdate';
   import type { ItemId } from '$lib/itemId';
   import type { ItemData, ItemInfo } from '$lib/server/data/item';
+  import { itemFileUrl } from '$lib/urls';
 
   type Props = {
     itemId: ItemId;
@@ -77,6 +78,16 @@
     bind:selected={item.info.banner}
     onchange={() => updater.update(item.info)}
   />
+  <!-- Banner image -->
+  {#if item.info.banner}
+    <p>
+      <img
+        src={itemFileUrl(itemId, item.info.banner)}
+        alt={`Banner of ${item.info.name}`}
+        class="banner-image"
+      />
+    </p>
+  {/if}
 
   <h2>Icon image</h2>
   <FilePicker
@@ -84,10 +95,31 @@
     bind:selected={item.info.icon}
     onchange={() => updater.update(item.info)}
   />
+  <!-- Banner image -->
+  {#if item.info.icon}
+    <p>
+      <img
+        src={itemFileUrl(itemId, item.info.icon)}
+        alt={`Icon of ${item.info.name}`}
+        class="icon-image"
+      />
+    </p>
+  {/if}
 </form>
 
 <style>
   form {
     width: 100%;
+  }
+
+  .banner-image {
+    max-width: 80%;
+    height: 30vh;
+    border-radius: 10px;
+  }
+  .icon-image {
+    max-width: 80%;
+    height: 30vh;
+    border-radius: 10px;
   }
 </style>

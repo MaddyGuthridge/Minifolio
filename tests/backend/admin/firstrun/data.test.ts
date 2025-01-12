@@ -32,7 +32,7 @@ async function firstrunData(token: string, options: Partial<FirstRunDataOptions>
   const combined = { ...defaults, ...options };
 
 
-  return api(token).admin.firstrun.data(
+  return api(fetch, token).admin.firstrun.data(
     combined.repoUrl,
     combined.branch,
   );
@@ -54,7 +54,7 @@ it("Doesn't clone repo when no URL provided", async () => {
 it('Generates root item by default', async () => {
   const token = await accountSetup();
   await firstrunData(token);
-  const client = api(token);
+  const client = api(fetch, token);
   await expect(client.item([]).info.get()).toResolve();
 });
 
@@ -63,7 +63,7 @@ describe('token cases', () => {
 
   beforeEach(async () => {
     const token = await accountSetup();
-    client = api(token);
+    client = api(fetch, token);
   });
 
   genTokenTests(

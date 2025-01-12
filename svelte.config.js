@@ -20,8 +20,7 @@ const config = {
 			name: process.env.npm_package_version,
 		},
 		// Disable origin checking, so that form submission works when using an API client.
-		// This may cause security issues, but since a valid token is required for all file uploads it
-		// should be ok.
+		// FIXME: This is definitely a security issue, and so I should find a workaround at some point.
 		csrf: {
 			checkOrigin: false,
 		},

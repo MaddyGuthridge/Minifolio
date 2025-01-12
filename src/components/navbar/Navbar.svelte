@@ -20,7 +20,7 @@
   type PropsOther = {
     /** Path on the navbar */
     path: NavbarPath;
-    lastItem: undefined;
+    lastItem?: undefined;
   };
 
   type Props = {

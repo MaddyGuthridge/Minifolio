@@ -46,7 +46,7 @@ test('Endpoint gives a 400 before account is set up', async () => {
 it('Key path can be set before data is set up', async () => {
   const { token } = await api().admin.firstrun.account('admin', 'abc123ABC$');
   const [privateKeyPath] = await generateDummyKeypair();
-  await expect(api(token).admin.keys.setKeyPath(privateKeyPath)).toResolve();
+  await expect(api(fetch, token).admin.keys.setKeyPath(privateKeyPath)).toResolve();
 });
 
 it("Doesn't require a token when the server hasn't been set up", { fails: true }, async () => {

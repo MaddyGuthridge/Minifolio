@@ -17,5 +17,6 @@ export const blankData: ItemData = {
     seo: { description: null, keywords: [] },
   },
   readme: '',
+  ls: [],
   children: {},
 };

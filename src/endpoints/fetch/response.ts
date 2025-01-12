@@ -64,8 +64,6 @@ export async function buffer(response: Promise<Response>): Promise<Buffer> {
   if ([404, 405].includes(res.status)) {
     throw new ApiError(404, `Error ${res.status} at ${res.url}`);
   }
-  // As per usual, this ESLint error is not correct.
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const buf = await res.bytes();
   if ([400, 401, 403].includes(res.status)) {
     throw new ApiError(res.status, buf);

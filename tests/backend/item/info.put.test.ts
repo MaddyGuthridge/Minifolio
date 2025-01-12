@@ -92,7 +92,7 @@ describe('Success', () => {
         sections: [
           {
             type: 'package',
-            title: 'Install the app',
+            label: 'Install the app',
             info: {
               provider: 'npm',
               id: 'everything',

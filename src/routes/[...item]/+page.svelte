@@ -104,8 +104,13 @@
       </div>
     </div>
     <div id="sections">
-      {#each thisItem.info.sections as section}
-        <Section portfolio={data.portfolio} {section} {editing} />
+      {#each thisItem.info.sections as _section, i}
+        <Section
+          portfolio={data.portfolio}
+          bind:section={thisItem.info.sections[i]}
+          {editing}
+          onchange={() => infoUpdater.update(thisItem.info)}
+        />
       {/each}
     </div>
 

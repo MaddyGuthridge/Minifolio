@@ -12,9 +12,11 @@
     section: ItemSection;
     editing: boolean;
     portfolio: ItemData;
+    /** Called when data changes*/
+    onchange: () => void;
   };
 
-  const { section, editing, portfolio }: Props = $props();
+  let { section = $bindable(), editing, portfolio, onchange }: Props = $props();
 </script>
 
 {#if section.type === 'package'}
@@ -24,7 +26,7 @@
 {:else if section.type === 'site'}
   <Site {...section} {editing} />
 {:else if section.type === 'repo'}
-  <Repo {...section} {editing} />
+  <Repo bind:repo={section} {editing} {onchange} />
 {:else if section.type === 'heading'}
   <Heading {...section} />
 {:else if section.type === 'links'}

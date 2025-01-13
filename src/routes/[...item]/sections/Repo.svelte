@@ -36,16 +36,30 @@
     }
   });
 
+  const displayLabel = $derived.by(() => {
+    if (label) {
+      return label;
+    } else if (!providerName) {
+      return 'View the code';
+    } else {
+      return `View the code on ${providerName}`;
+    }
+  });
+
   /** Called when changing repo provider */
   function changeRepoProvider(newProvider: RepoProvider | 'custom') {
     if (constArrayIncludes(supportedRepoProviders, newProvider)) {
+      // Changing from custom repo provider
       if (info.provider === 'custom') {
-        // Changing from custom repo provider
         info = {
           provider: newProvider,
           // Replace it with the content after the domain name
           path: info.url.replace(/^https:\/\//, '').split('/')[1] ?? '',
         };
+      }
+      // Otherwise, just change the provider
+      else {
+        info.provider = newProvider;
       }
     } else {
       info = {
@@ -61,7 +75,7 @@
 {#if !editing}
   <a href={url}>
     <i class={icon}></i>
-    <b>{label ?? `View the code on ${providerName}`}</b>
+    <b>{displayLabel}</b>
     {#await starCount}
       <div class="star-count" use:tooltip={{ content: 'Loading star count' }}>
         <i class="lar la-star"></i> <i class="las la-sync spinner"></i>
@@ -82,14 +96,14 @@
     {/await}
   </a>
 {:else}
-  <input type="text" bind:value={label} placeholder="Label text" />
+  <input type="text" bind:value={label} placeholder={displayLabel} />
   <select
     bind:value={() => info.provider,
     (newProvider) => changeRepoProvider(newProvider)}
   >
     <option value="custom">- Custom -</option>
-    {#each Object.keys(repoProviders) as provider}
-      <option value={provider}>{provider}</option>
+    {#each Object.entries(repoProviders) as [provider, info]}
+      <option value={provider}>{info.name}</option>
     {/each}
   </select>
 

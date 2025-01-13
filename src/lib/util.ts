@@ -47,3 +47,13 @@ export class Option<T> {
     return this.value!;
   }
 }
+
+/**
+ * Type-safe way to check that an element is contained within the given const array, used to work
+ * around TypeScript annoyances.
+ *
+ * Source: https://oida.dev/typescript-array-includes/#option-2%3A-a-helper-with-type-assertions
+ */
+export function constArrayIncludes<T extends E, E>(arr: readonly T[], ele: E): ele is T {
+  return arr.includes(ele as T);
+}

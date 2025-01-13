@@ -1,5 +1,8 @@
 import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/item/repo';
 
+/** Names of repository hosts that are officially supported */
+export const supportedRepoProviders = ['github', 'gitlab'] as const;
+
 /** Info required to register a repo provider */
 type RepoProviderInfo = {
   /** Name of provider (eg GitHub) */

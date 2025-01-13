@@ -2,12 +2,10 @@
  * Type definitions for links to repos
  */
 
+import { supportedRepoProviders } from '$lib/repoInfo';
 import { enums, literal, object, optional, string, union, type Infer } from 'superstruct';
 
-/** Names of repository hosts that are officially supported */
-export const supportedHosts = ['github', 'gitlab'] as const;
-
-export const RepoProviderStruct = enums(supportedHosts);
+export const RepoProviderStruct = enums(supportedRepoProviders);
 
 export type RepoProvider = Infer<typeof RepoProviderStruct>;
 

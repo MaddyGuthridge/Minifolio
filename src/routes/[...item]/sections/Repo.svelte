@@ -1,7 +1,13 @@
 <script lang="ts">
-  import { repoIsWithProvider, repoProviders } from '$lib/repoInfo';
+  import {
+    repoIsWithProvider,
+    repoProviders,
+    supportedRepoProviders,
+  } from '$lib/repoInfo';
+  import { type RepoProvider } from '$lib/server/data/item/repo';
   import type { RepoSection } from '$lib/server/data/item/section';
   import { tooltip } from '$lib/tooltip';
+  import { constArrayIncludes } from '$lib/util';
 
   type Props = RepoSection & {
     editing: boolean;
@@ -30,10 +36,26 @@
     }
   });
 
-  // When the info.provider changes
-  $effect(() => {
-    
-  });
+  /** Called when changing repo provider */
+  function changeRepoProvider(newProvider: RepoProvider | 'custom') {
+    if (constArrayIncludes(supportedRepoProviders, newProvider)) {
+      if (info.provider === 'custom') {
+        // Changing from custom repo provider
+        info = {
+          provider: newProvider,
+          // Replace it with the content after the domain name
+          path: info.url.replace(/^https:\/\//, '').split('/')[1] ?? '',
+        };
+      }
+    } else {
+      info = {
+        provider: newProvider,
+        title: '',
+        url: '',
+        icon: '',
+      };
+    }
+  }
 </script>
 
 {#if !editing}
@@ -61,12 +83,25 @@
   </a>
 {:else}
   <input type="text" bind:value={label} placeholder="Label text" />
-  <select bind:value={info.provider}>
+  <select
+    bind:value={() => info.provider,
+    (newProvider) => changeRepoProvider(newProvider)}
+  >
     <option value="custom">- Custom -</option>
     {#each Object.keys(repoProviders) as provider}
       <option value={provider}>{provider}</option>
     {/each}
   </select>
+
+  {#if info.provider === 'custom'}
+    <!-- Custom provider -->
+    <input type="text" bind:value={info.title} placeholder="Provider name" />
+    <input type="url" bind:value={info.url} placeholder="Repository URL" />
+    <input type="text" bind:value={info.icon} placeholder="LineAwesome Icon" />
+  {:else}
+    <!-- Standard provider -->
+    <input type="text" bind:value={info.path} placeholder="Repository Path" />
+  {/if}
 {/if}
 
 <style>

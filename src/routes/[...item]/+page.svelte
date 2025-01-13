@@ -7,10 +7,12 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import { generateKeywords } from '$lib/seo';
+  import type { ItemInfo } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Section from './sections';
+  import NewSection from './sections/NewSection.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -22,8 +24,12 @@
 
   const isRootItem = $derived(data.itemId.length === 0);
 
-  // Eventually, add editing mode to this
   let editing = $state(false);
+
+  async function commitInfoChanges(newInfo: ItemInfo) {
+    await api().item(data.itemId).info.put(newInfo);
+    thisItem.info = newInfo;
+  }
 </script>
 
 <svelte:head>
@@ -67,7 +73,7 @@
       <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}
-        onchange={api().item(data.itemId).info.put}
+        onchange={commitInfoChanges}
       />
 
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
@@ -95,15 +101,24 @@
       </div>
     </div>
     <div id="sections">
-      {#each data.item.info.sections as section}
+      {#each thisItem.info.sections as section}
         <Section portfolio={data.portfolio} {section} {editing} />
       {/each}
     </div>
 
+    {#if editing}
+      <NewSection
+        oncreate={(newSection) => {
+          thisItem.info.sections.push(newSection);
+          void commitInfoChanges(thisItem.info);
+        }}
+      />
+    {/if}
+
     <div id="children">
       <ItemCardGrid
         portfolio={data.portfolio}
-        itemIds={data.item.info.children.map((id) => [...data.itemId, id])}
+        itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}
         onclick={() => {}}
         {editing}
       />

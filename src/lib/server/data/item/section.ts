@@ -115,6 +115,9 @@ export const ItemSectionStruct = union([
 /** A section on the item page */
 export type ItemSection = Infer<typeof ItemSectionStruct>;
 
+/** Available types of section */
+export type SectionType = ItemSection['type'];
+
 /** Validate the given section data */
 export async function validateSection(itemId: ItemId, data: ItemSection) {
   switch (data.type) {

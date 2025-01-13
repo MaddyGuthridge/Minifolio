@@ -24,7 +24,7 @@ test('Endpoint gives a 400 before account is set up', async () => {
 
 test('Endpoint can be used before data is set up', async () => {
   const { token } = await api().admin.firstrun.account('admin', 'abc123ABC$');
-  await expect(api(token).admin.keys.disable()).toResolve();
+  await expect(api(fetch, token).admin.keys.disable()).toResolve();
 });
 
 describe('Token tests', () => {

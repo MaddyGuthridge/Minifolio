@@ -1,9 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import { authIsSetUp, dataIsSetUp } from '$lib/server/data/dataDir';
 import { redirectOnInvalidToken } from '$lib/server/auth/tokens';
-import { getPrivateKeyPath, getPublicKey } from '$lib/server/keys.js';
+import { getPrivateKeyPath, getPublicKey } from '$lib/server/keys';
 
-export async function load(req: import('./$types.js').RequestEvent) {
+export async function load(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
     redirect(303, '/admin/firstrun/account');
   }

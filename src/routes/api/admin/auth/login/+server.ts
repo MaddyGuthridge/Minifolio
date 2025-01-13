@@ -1,12 +1,12 @@
-import { isIpBanned, notifyFailedLogin } from '$lib/server/auth/fail2ban.js';
+import { isIpBanned, notifyFailedLogin } from '$lib/server/auth/fail2ban';
 import { validateCredentials } from '$lib/server/auth/passwords';
 import { generateToken } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir.js';
-import { getIpFromRequest } from '$lib/server/request.js';
+import { authIsSetUp } from '$lib/server/data/dataDir';
+import { getIpFromRequest } from '$lib/server/request';
 import { error, json } from '@sveltejs/kit';
 
 
-export async function POST(req: import('./$types.js').RequestEvent) {
+export async function POST(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) error(400, 'Auth is not set up yet');
 
   const ip = await getIpFromRequest(req);

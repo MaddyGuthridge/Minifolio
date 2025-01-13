@@ -66,6 +66,9 @@ export default ts.config(
       '@typescript-eslint/no-empty-function': 'off',
       // Use `type` instead of `interface`
       "@typescript-eslint/consistent-type-definitions": ["error", 'type'],
+      // This error is already picked up by TypeScript, and it's annoying to need to silence it
+      // twice when it is incorrect
+      "@typescript-eslint/no-unsafe-call": "off"
     },
   },
   {

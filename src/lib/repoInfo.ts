@@ -1,4 +1,8 @@
-import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/itemRepo';
+import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/item/repo';
+import { constArrayIncludes } from './util';
+
+/** Names of repository hosts that are officially supported */
+export const supportedRepoProviders = ['github', 'gitlab'] as const;
 
 /** Info required to register a repo provider */
 type RepoProviderInfo = {
@@ -50,5 +54,5 @@ export const repoProviders: Record<RepoProvider, RepoProviderInfo> = {
 
 /** Returns whether a repo uses a provider */
 export function repoIsWithProvider(repo: RepoInfo): repo is ProvidedRepoInfo {
-  return 'provider' in repo;
+  return constArrayIncludes(supportedRepoProviders, repo.provider);
 }

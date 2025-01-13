@@ -2,15 +2,16 @@
  * Helper functions used in SEO (search engine optimization).
  */
 
-import type { PortfolioGlobals } from './server';
+import type { ItemId } from './itemId';
+import type { ItemData } from './server/data/item';
 
-export function generateKeywords(globals: PortfolioGlobals, groupId?: string, itemId?: string): string {
-  const keywords = [...globals.config.siteKeywords];
-  if (groupId) {
-    keywords.push(...globals.groups[groupId].info.keywords);
-    if (itemId) {
-      keywords.push(...globals.items[groupId][itemId].info.keywords);
-    }
+export function generateKeywords(data: ItemData, itemId: ItemId): string {
+  const keywords: string[] = [];
+
+  for (const child of itemId) {
+    keywords.push(...data.info.seo.keywords);
+    data = data.children[child];
   }
+
   return keywords.join(', ');
 }

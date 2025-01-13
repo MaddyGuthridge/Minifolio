@@ -19,5 +19,5 @@ it('Removes the login credentials', async () => {
   // Logging in should fail
   await expect(api().admin.auth.login(credentials.username, credentials.password)).toReject();
   // And logging out with our token should as well
-  await expect(api(credentials.token).admin.auth.logout()).toReject();
+  await expect(api(fetch, credentials.token).admin.auth.logout()).toReject();
 });

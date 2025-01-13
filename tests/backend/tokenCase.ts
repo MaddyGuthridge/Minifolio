@@ -25,7 +25,7 @@ export default function genTokenTests(
     });
 
     test('Token has invalid structure', async () => {
-      await expect(fn(api('invalid token'))).rejects.toMatchObject({ code: 401 });
+      await expect(fn(getClient().withToken('invalid token'))).rejects.toMatchObject({ code: 401 });
     });
 
     test('Token has been invalidated', async () => {
@@ -38,7 +38,7 @@ export default function genTokenTests(
 
     test('Token has valid structure but incorrect signature', async () => {
       const token = sign({ sessionId: nanoid(), iat: unixTime() }, 'TEST INVALID SECRET');
-      await expect(fn(api(token))).rejects.toMatchObject({ code: 401 });
+      await expect(fn(getClient().withToken(token))).rejects.toMatchObject({ code: 401 });
     });
   });
 }

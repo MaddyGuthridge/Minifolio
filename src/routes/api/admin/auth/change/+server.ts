@@ -1,8 +1,8 @@
-import { hashAndSalt } from '$lib/server/auth/passwords.js';
+import { hashAndSalt } from '$lib/server/auth/passwords';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir.js';
+import { authIsSetUp } from '$lib/server/data/dataDir';
 import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
-import { applyStruct } from '$lib/server/util.js';
+import { applyStruct } from '$lib/server/util';
 import { error, json } from '@sveltejs/kit';
 import { nanoid } from 'nanoid';
 import { object, string } from 'superstruct';
@@ -14,7 +14,7 @@ const NewCredentials = object({
   newPassword: string(),
 });
 
-export async function POST({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) error(400, 'Auth is not set up yet');
   const uid = await validateTokenFromRequest({ request, cookies });
 

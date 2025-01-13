@@ -1,23 +1,33 @@
 <script lang="ts">
   import 'highlight.js/styles/stackoverflow-light.css';
   import Markdown from './Markdown.svelte';
+  import consts from '$lib/consts';
+  import DelayedUpdater from '$lib/delayedUpdate';
 
   type Props = {
     source: string;
     onsubmit: () => void;
+    onchange: (text: string) => Promise<void>;
   };
 
-  let { source = $bindable(), onsubmit }: Props = $props();
+  let { source = $bindable(), onsubmit, onchange }: Props = $props();
 
   function handleKeypress(e: KeyboardEvent) {
     if (e.ctrlKey && e.key === 'Enter') {
       onsubmit();
+      updater.commit();
     }
   }
+
+  let updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <div class="md-editor">
-  <textarea class="md-input" bind:value={source} onkeypress={handleKeypress}
+  <textarea
+    class="md-input"
+    bind:value={source}
+    onkeypress={handleKeypress}
+    oninput={() => updater.update(source)}
   ></textarea>
   <span class="md-preview">
     <Markdown {source} />

@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { create, type Struct } from 'superstruct';
+import fs from 'fs/promises';
 
 /**
  * A wrapper around superstruct's assert, making it async to make error
@@ -17,4 +18,11 @@ export function applyStruct<T, S>(
   } catch (e) {
     error(400, `${e}`);
   }
+}
+
+/** Returns whether a file exists at the given path */
+export async function fileExists(path: string): Promise<boolean> {
+  return fs.access(path, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
 }

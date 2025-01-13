@@ -15,7 +15,7 @@ test('Key is generated when requested', async () => {
 
 test('Key can be generated before data is set up', async () => {
   const { token } = await api().admin.firstrun.account('admin', 'abc123ABC$');
-  await expect(api(token).admin.keys.generate()).toResolve();
+  await expect(api(fetch, token).admin.keys.generate()).toResolve();
 });
 
 test('Endpoint gives a 400 before account is set up', async () => {

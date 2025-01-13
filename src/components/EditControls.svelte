@@ -7,7 +7,7 @@
     /** Called when editing begins */
     onbegin: () => void;
     /** Called when editing is finished. */
-    onfinish: (save: boolean) => void;
+    onfinish: () => void;
   };
 
   let { editing, loggedIn, onbegin, onfinish }: Props = $props();
@@ -16,8 +16,7 @@
 {#if loggedIn}
   <div class="edit-buttons">
     {#if editing}
-      <button onclick={() => onfinish(false)}>Cancel</button>
-      <button onclick={() => onfinish(true)}>Done</button>
+      <button onclick={onfinish}>Done</button>
     {:else}
       <button onclick={onbegin}>Edit</button>
     {/if}

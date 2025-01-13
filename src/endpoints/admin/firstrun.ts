@@ -1,39 +1,23 @@
 /** Git repository endpoints */
-import { apiFetch, json } from '../fetch';
+import { apiFetch, payload } from '../fetch';
 
-export default function firstrun(token: string | undefined) {
-  const account = async (username: string, password: string) => {
-    return json(apiFetch(
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
+  /** Set up the first account */
+  account: async (username: string, password: string) => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/firstrun/account',
-      token,
-      { username, password },
-    )) as Promise<{ token: string }>;
-  };
-
-  const data = async (repoUrl: string | null = null, branch: string | null = null) => {
-    return json(apiFetch(
+      { token, ...payload.json({ username, password }) },
+    ).json() as Promise<{ token: string }>;
+  },
+  /** Set up the site data */
+  data: async (repoUrl: string | null = null, branch: string | null = null) => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/firstrun/data',
-      token,
-      { repoUrl, branch },
-    )) as Promise<{ firstTime: boolean }>;
-  };
-
-  return {
-    /**
-     * Set up account information.
-     *
-     * @param username The username to use
-     * @param password A strong and secure password
-     */
-    account,
-    /**
-     * Set up the site's data repository.
-     *
-     * @param repoUrl The clone URL of the git repo
-     * @param branch The branch to check-out
-     */
-    data,
-  };
-}
+      { token, ...payload.json({ repoUrl, branch }) },
+    ).json() as Promise<{ firstTime: boolean }>;
+  },
+})

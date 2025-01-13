@@ -12,14 +12,16 @@ beforeEach(async () => {
   api = (await setup()).api;
 });
 
+// Since caching currently isn't implemented with the new system, this doesn't really
+// test anything, but it should be useful if I do re-implement caching
 it('Reloads data from the file system', async () => {
   // Manually modify the config data
   const config = await getConfig();
-  config.siteName = 'New name';
+  config.siteIcon = 'icon.png';
   await setConfig(config);
   // After we refresh the data, the new site name is shown
   await expect(api.admin.data.refresh()).resolves.toStrictEqual({});
-  await expect(api.admin.config.get()).resolves.toMatchObject({ siteName: 'New name' });
+  await expect(api.config.get()).resolves.toMatchObject({ siteIcon: 'icon.png' });
 });
 
 genTokenTests(

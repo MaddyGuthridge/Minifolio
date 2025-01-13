@@ -1,13 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { ItemChip } from '.';
-  import type { PortfolioGlobals } from '$lib';
   import { Separator } from '$components';
   import type { FilterOptions } from '$lib/itemFilter';
+  import type { ItemData } from '$lib/server/data/item';
+  import { getDescendant } from '$lib/itemData';
+  import type { ItemId } from '$lib/itemId';
 
   type Props = {
-    /** Global data */
-    globals: PortfolioGlobals;
+    /** Portfolio data data */
+    portfolio: ItemData;
     /**
      * Filter options to display
      */
@@ -17,10 +19,10 @@
     /** Called when the filter is updated */
     onfilter: (options: FilterOptions) => void;
     /** Called when an item is clicked */
-    onclick: (groupId: string, itemId: string) => void;
+    onclick: (itemId: ItemId) => void;
   };
 
-  let { globals, items, link = false, onfilter, onclick }: Props = $props();
+  let { portfolio, items, link = false, onfilter, onclick }: Props = $props();
 
   // Smoooooooooooth scrolling
   // ==================================================
@@ -112,14 +114,13 @@
     {#each items as itemGroup, outer}
       {#each itemGroup as filterItem, inner}
         <ItemChip
-          {globals}
-          groupId={filterItem.groupId}
+          item={getDescendant(portfolio, filterItem.itemId)}
           itemId={filterItem.itemId}
           selected={filterItem.selected}
           {link}
           onclick={() => {
             updateFilterStatus(outer, inner);
-            onclick(filterItem.groupId, filterItem.itemId);
+            onclick(filterItem.itemId);
           }}
         />
       {/each}

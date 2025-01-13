@@ -1,19 +1,20 @@
 import api, { type ApiClient } from '$endpoints';
 import type { ConfigJson } from '$lib/server/data/config';
-import type { GroupInfo } from '$lib/server/data/group';
-import type { ItemInfoFull } from '$lib/server/data/item';
 import { version } from '$app/environment';
 import simpleGit from 'simple-git';
 import { getDataDir } from '$lib/server/data/dataDir';
+import type { ItemInfo } from '$lib/server/data/item';
+import type { ItemId } from '$lib/itemId';
 
 /** Set up the server, returning (amongst other things) an API client */
 export async function setup(repoUrl?: string, branch?: string) {
   const username = 'admin';
   const password = 'abc123ABC!';
   const { token } = await api().admin.firstrun.account(username, password);
-  await api(token).admin.firstrun.data(repoUrl, branch);
+  const client = api(fetch, token);
+  await client.admin.firstrun.data(repoUrl, branch);
   return {
-    api: api(token),
+    api: client,
     token,
     username,
     password,
@@ -23,64 +24,33 @@ export async function setup(repoUrl?: string, branch?: string) {
 /** Create custom config.json object */
 export function makeConfig(options: Partial<ConfigJson> = {}): ConfigJson {
   const config: ConfigJson = {
-    siteName: 'My site',
-    siteShortName: 'Site',
-    siteDescription: 'This is the description for my site',
-    siteKeywords: ['Keyword', 'Another keyword'],
     siteIcon: null,
-    listedGroups: [],
-    color: '#ffaaff',
     version,
   };
-
   return { ...config, ...options };
 }
 
-/** Create a group with the given ID */
-export async function makeGroup(api: ApiClient, id: string) {
-  await api.group.withId(id).create(id, id);
-}
-
-/** Creates custom group properties object */
-export function makeGroupInfo(options: Partial<GroupInfo> = {}): GroupInfo {
-  const group: GroupInfo = {
-    name: 'My group',
-    description: 'Group description',
-    pageDescription: 'View this group page in the portfolio',
-    keywords: [],
-    color: '#aa00aa',
-    filterGroups: [],
-    listedItems: [],
-    filterItems: [],
-    banner: null,
-    icon: null,
-  };
-
-  return { ...group, ...options };
-}
-
 /** Create an item with the given ID */
-export async function makeItem(api: ApiClient, groupId: string, id: string) {
-  await api.group.withId(groupId).item.withId(id).create(id, id);
+export async function makeItem(api: ApiClient, id: ItemId, name = 'My item') {
+  await api.item(id).info.post(name);
 }
 
 /** Creates custom item properties object */
-export function makeItemInfo(options: Partial<ItemInfoFull> = {}): ItemInfoFull {
-  const item: ItemInfoFull = {
+export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
+  const item: ItemInfo = {
     name: 'My item',
+    shortName: null,
     description: 'Item description',
-    pageDescription: 'View this item page in the portfolio',
-    keywords: [],
-    color: '#aa00aa',
-    links: [],
-    urls: {
-      docs: null,
-      repo: null,
-      site: null,
-    },
-    package: null,
-    banner: null,
     icon: null,
+    banner: null,
+    color: '#aa00aa',
+    sections: [],
+    children: [],
+    filters: [],
+    seo: {
+      description: 'View this item page in the portfolio',
+      keywords: []
+    },
   };
 
   return { ...item, ...options };

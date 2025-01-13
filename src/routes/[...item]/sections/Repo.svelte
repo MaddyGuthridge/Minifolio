@@ -73,7 +73,7 @@
 </script>
 
 {#if !editing}
-  <a href={url}>
+  <a href={url} target="_blank">
     <i class={icon}></i>
     <b>{displayLabel}</b>
     {#await starCount}

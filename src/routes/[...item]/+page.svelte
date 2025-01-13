@@ -6,6 +6,7 @@
   import EditableMarkdown from '$components/markdown';
   import api from '$endpoints';
   import consts from '$lib/consts';
+  import DelayedUpdater from '$lib/delayedUpdate';
   import { generateKeywords } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
@@ -26,10 +27,9 @@
 
   let editing = $state(false);
 
-  async function commitInfoChanges(newInfo: ItemInfo) {
-    await api().item(data.itemId).info.put(newInfo);
-    thisItem.info = newInfo;
-  }
+  let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
+    await api().item(data.itemId).info.put(info);
+  }, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <svelte:head>
@@ -67,13 +67,16 @@
       loggedIn={data.loggedIn}
       {editing}
       onbegin={() => (editing = true)}
-      onfinish={() => (editing = false)}
+      onfinish={() => {
+        editing = false;
+        infoUpdater.commit();
+      }}
     />
     {#if editing}
       <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}
-        onchange={commitInfoChanges}
+        onchange={(newInfo) => infoUpdater.update(newInfo)}
       />
 
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
@@ -110,7 +113,7 @@
       <NewSection
         oncreate={(newSection) => {
           thisItem.info.sections.push(newSection);
-          void commitInfoChanges(thisItem.info);
+          infoUpdater.update(thisItem.info);
         }}
       />
     {/if}

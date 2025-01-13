@@ -25,7 +25,7 @@
   });
 </script>
 
-<a href={url}>
+<a href={url} target="_blank">
   <i class={icon}></i>
   <b>{label ?? `Install using ${providerName}`}</b>
   <CopyButton text={command} hint="Copy install command">

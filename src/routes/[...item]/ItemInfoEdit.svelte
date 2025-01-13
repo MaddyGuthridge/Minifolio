@@ -1,7 +1,6 @@
 <script lang="ts">
   import FilePicker from '$components/pickers/FilePicker.svelte';
   import consts from '$lib/consts';
-  import DelayedUpdater from '$lib/delayedUpdate';
   import type { ItemId } from '$lib/itemId';
   import type { ItemData, ItemInfo } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
@@ -9,19 +8,12 @@
   type Props = {
     itemId: ItemId;
     item: ItemData;
-    onchange: (info: ItemInfo) => Promise<any>;
+    onchange: (info: ItemInfo) => void;
   };
 
   let { item = $bindable(), itemId, onchange }: Props = $props();
 
   let isRootPage = $derived(itemId.length === 0);
-
-  let updater = new DelayedUpdater(async (info: ItemInfo) => {
-    if (info.shortName === '') {
-      info.shortName = null;
-    }
-    await onchange(info);
-  }, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <form onsubmit={(e) => e.preventDefault()}>
@@ -30,7 +22,7 @@
     type="text"
     placeholder={consts.APP_NAME}
     bind:value={item.info.name}
-    oninput={() => updater.update(item.info)}
+    oninput={() => onchange(item.info)}
     required
   />
   <p>
@@ -45,7 +37,7 @@
     type="text"
     placeholder={item.info.name}
     bind:value={item.info.shortName}
-    oninput={() => updater.update(item.info)}
+    oninput={() => onchange(item.info)}
   />
   <p>
     {#if isRootPage}
@@ -59,7 +51,7 @@
     type="text"
     placeholder="A concise description."
     bind:value={item.info.description}
-    oninput={() => updater.update(item.info)}
+    oninput={() => onchange(item.info)}
     required
   />
   <p>A concise description of the item, shown on links to this page.</p>
@@ -67,7 +59,7 @@
   <input
     type="color"
     bind:value={item.info.color}
-    oninput={() => updater.update(item.info)}
+    oninput={() => onchange(item.info)}
     required
   />
   <p>The theme color of the item is shown in the background of the page.</p>
@@ -76,7 +68,7 @@
   <FilePicker
     files={item.ls}
     bind:selected={item.info.banner}
-    onchange={() => updater.update(item.info)}
+    onchange={() => onchange(item.info)}
   />
   <!-- Banner image -->
   {#if item.info.banner}
@@ -93,7 +85,7 @@
   <FilePicker
     files={item.ls}
     bind:selected={item.info.icon}
-    onchange={() => updater.update(item.info)}
+    onchange={() => onchange(item.info)}
   />
   <!-- Banner image -->
   {#if item.info.icon}

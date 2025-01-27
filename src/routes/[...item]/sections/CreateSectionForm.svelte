@@ -13,27 +13,27 @@
   const defaultSections: Record<SectionType, ItemSection> = {
     heading: {
       type: 'heading',
-      heading: '',
+      heading: 'Heading',
     },
     site: {
       type: 'site',
       label: null,
-      url: '',
+      url: 'https://example.com',
     },
     docs: {
       type: 'docs',
       label: null,
-      url: '',
+      url: 'https://example.com',
     },
     links: {
       type: 'links',
-      label: '',
+      label: 'See also',
       style: 'chip',
       items: [],
     },
     package: {
       type: 'package',
-      label: '',
+      label: null,
       info: {
         provider: 'custom',
         command: '',
@@ -62,6 +62,7 @@
     oncreate(structuredClone(defaultSections[newSectionType]));
   }}
 >
+  <b>Add new section:</b>
   <select bind:value={newSectionType}>
     {#each Object.keys(defaultSections) as type}
       <option value={type}>{type}</option>

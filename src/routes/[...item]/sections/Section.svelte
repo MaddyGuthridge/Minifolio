@@ -14,21 +14,67 @@
     portfolio: ItemData;
     /** Called when data changes*/
     onchange: () => void;
+    /** Called when section is deleted */
+    ondelete: () => void;
   };
 
-  let { section = $bindable(), editing, portfolio, onchange }: Props = $props();
+  let {
+    section = $bindable(),
+    editing,
+    portfolio,
+    onchange,
+    ondelete,
+  }: Props = $props();
 </script>
 
-{#if section.type === 'package'}
-  <Package {...section} />
-{:else if section.type === 'docs'}
-  <Docs {...section} {editing} />
-{:else if section.type === 'site'}
-  <Site {...section} {editing} />
-{:else if section.type === 'repo'}
-  <Repo bind:repo={section} {editing} {onchange} />
-{:else if section.type === 'heading'}
-  <Heading {...section} />
-{:else if section.type === 'links'}
-  <Links {...section} {editing} {portfolio} />
-{/if}
+<div class={editing ? 'bordered' : ''}>
+  {#if section.type === 'package'}
+    <Package {...section} />
+  {:else if section.type === 'docs'}
+    <Docs {...section} {editing} />
+  {:else if section.type === 'site'}
+    <Site {...section} {editing} />
+  {:else if section.type === 'repo'}
+    <Repo bind:repo={section} {editing} {onchange} />
+  {:else if section.type === 'heading'}
+    <Heading {section} {editing} {onchange} />
+  {:else if section.type === 'links'}
+    <Links {...section} {editing} {portfolio} />
+  {/if}
+  {#if editing}
+    <span class="grow"></span>
+    <button
+      aria-label="Delete section"
+      class="delete-button"
+      onclick={ondelete}
+    >
+      <i class="las la-trash"></i>
+    </button>
+  {/if}
+</div>
+
+<style>
+  div {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+    margin: 30px;
+    padding: 10px;
+  }
+
+  .bordered {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+  }
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .delete-button {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+</style>

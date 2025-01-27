@@ -13,7 +13,7 @@
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Section from './sections';
-  import NewSection from './sections/NewSection.svelte';
+  import CreateSectionForm from './sections/CreateSectionForm.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -110,15 +110,21 @@
           bind:section={thisItem.info.sections[i]}
           {editing}
           onchange={() => infoUpdater.update(thisItem.info)}
+          ondelete={() => {
+            thisItem.info.sections.splice(i, 1);
+            // Deleting items should commit changes immediately
+            infoUpdater.immediateUpdate(thisItem.info);
+          }}
         />
       {/each}
     </div>
 
     {#if editing}
-      <NewSection
+      <CreateSectionForm
         oncreate={(newSection) => {
           thisItem.info.sections.push(newSection);
-          infoUpdater.update(thisItem.info);
+          // Creating items should commit changes immediately
+          infoUpdater.immediateUpdate(thisItem.info);
         }}
       />
     {/if}

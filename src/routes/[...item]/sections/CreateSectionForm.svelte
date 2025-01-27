@@ -17,11 +17,7 @@
     },
     site: {
       type: 'site',
-      label: null,
-      url: 'https://example.com',
-    },
-    docs: {
-      type: 'docs',
+      icon: null,
       label: null,
       url: 'https://example.com',
     },

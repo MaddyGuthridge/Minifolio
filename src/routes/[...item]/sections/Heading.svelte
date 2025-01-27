@@ -7,7 +7,7 @@
     onchange: () => void;
   };
 
-  const { section, editing, onchange }: Props = $props();
+  const { section = $bindable(), editing, onchange }: Props = $props();
 </script>
 
 {#if !editing}

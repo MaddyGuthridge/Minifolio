@@ -11,19 +11,6 @@ import { RepoInfoStruct } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
 
-/** Documentation link */
-const DocsSectionStruct = type({
-  /** The type of section (in this case 'docs') */
-  type: literal('docs'),
-  /** The text to display for the section (defaults to "View the documentation") */
-  label: nullable(string()),
-  /** The URL of the documentation being linked */
-  url: string(),
-});
-
-/** Documentation link */
-export type DocsSection = Infer<typeof DocsSectionStruct>;
-
 /** Header within the sections */
 const HeadingSectionStruct = type({
   /** The type of section (in this case 'heading') */
@@ -93,6 +80,8 @@ export type RepoSection = Infer<typeof RepoSectionStruct>;
 const SiteSectionStruct = type({
   /** The type of section (in this case 'site') */
   type: literal('site'),
+  /** The icon to display for the section (defaults to "la-globe") */
+  icon: nullable(string()),
   /** The text to display for the section (defaults to "Visit the website") */
   label: nullable(string()),
   /** The URL of the site being linked */
@@ -104,7 +93,6 @@ export type SiteSection = Infer<typeof SiteSectionStruct>;
 
 /** A section on the item page */
 export const ItemSectionStruct = union([
-  DocsSectionStruct,
   HeadingSectionStruct,
   LinksSectionStruct,
   PackageSectionStruct,
@@ -128,7 +116,6 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
     case 'heading':
       validate.name(data.heading);
       break;
-    case 'docs':
     case 'site':
       if (data.label !== null) {
         validate.name(data.label);

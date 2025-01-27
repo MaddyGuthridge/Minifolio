@@ -11,39 +11,39 @@
   import { constArrayIncludes } from '$lib/util';
 
   type Props = {
-    repo: RepoSection;
+    section: RepoSection;
     editing: boolean;
     onchange: () => void;
   };
 
-  let { repo = $bindable(), editing, onchange }: Props = $props();
+  let { section = $bindable(), editing, onchange }: Props = $props();
 
   const { url, icon, providerName, repoName, starCount } = $derived.by(() => {
-    if (repoIsWithProvider(repo.info)) {
-      const provider = repoProviders[repo.info.provider];
+    if (repoIsWithProvider(section.info)) {
+      const provider = repoProviders[section.info.provider];
       return {
-        url: provider.makeUrl(repo.info.path),
+        url: provider.makeUrl(section.info.path),
         icon: provider.icon,
         providerName: provider.name,
-        repoName: repo.info.path,
+        repoName: section.info.path,
         starCount: provider.getStarCount
-          ? provider.getStarCount(repo.info.path)
+          ? provider.getStarCount(section.info.path)
           : Promise.resolve(undefined),
       };
     } else {
       return {
-        url: repo.info.url,
-        icon: repo.info.icon,
-        providerName: repo.info.title,
-        repoName: repo.info.subtitle,
+        url: section.info.url,
+        icon: section.info.icon,
+        providerName: section.info.title,
+        repoName: section.info.subtitle,
         starCount: Promise.resolve(undefined),
       };
     }
   });
 
   const displayLabel = $derived.by(() => {
-    if (repo.label) {
-      return repo.label;
+    if (section.label) {
+      return section.label;
     } else if (!providerName) {
       return 'View the code';
     } else {
@@ -55,19 +55,19 @@
   function changeRepoProvider(newProvider: RepoProvider | 'custom') {
     if (constArrayIncludes(supportedRepoProviders, newProvider)) {
       // Changing from custom repo provider
-      if (repo.info.provider === 'custom') {
-        repo.info = {
+      if (section.info.provider === 'custom') {
+        section.info = {
           provider: newProvider,
           // Replace it with the content after the domain name
-          path: repo.info.url.replace(/^https:\/\//, '').split('/')[1] ?? '',
+          path: section.info.url.replace(/^https:\/\//, '').split('/')[1] ?? '',
         };
       }
       // Otherwise, just change the provider
       else {
-        repo.info.provider = newProvider;
+        section.info.provider = newProvider;
       }
     } else {
-      repo.info = {
+      section.info = {
         provider: newProvider,
         title: '',
         subtitle: '',
@@ -116,14 +116,14 @@
       <input
         type="text"
         id="repo-section-label"
-        bind:value={repo.label}
+        bind:value={section.label}
         oninput={onchange}
         placeholder={displayLabel}
       />
       <label for="repo-provider">Repo provider</label>
       <select
         id="repo-provider"
-        bind:value={() => repo.info.provider,
+        bind:value={() => section.info.provider,
         (newProvider) => changeRepoProvider(newProvider)}
       >
         <option value="custom">- Custom -</option>
@@ -131,13 +131,13 @@
           <option value={provider}>{info.name}</option>
         {/each}
       </select>
-      {#if repo.info.provider === 'custom'}
+      {#if section.info.provider === 'custom'}
         <!-- Custom provider -->
         <label for="repo-provider-name">Provider name</label>
         <input
           type="text"
           id="repo-provider-name"
-          bind:value={repo.info.title}
+          bind:value={section.info.title}
           oninput={onchange}
           placeholder="Provider name"
         />
@@ -145,7 +145,7 @@
         <input
           type="text"
           id="repo-custom-subtitle"
-          bind:value={repo.info.subtitle}
+          bind:value={section.info.subtitle}
           oninput={onchange}
           placeholder="Subtitle"
         />
@@ -153,7 +153,7 @@
         <input
           type="url"
           id="repo-url"
-          bind:value={repo.info.url}
+          bind:value={section.info.url}
           oninput={onchange}
           placeholder="Repository URL"
         />
@@ -161,7 +161,7 @@
         <input
           type="text"
           id="repo-icon"
-          bind:value={repo.info.icon}
+          bind:value={section.info.icon}
           oninput={onchange}
           placeholder="LineAwesome Icon"
         />
@@ -171,7 +171,7 @@
         <input
           type="text"
           id="repo-path"
-          bind:value={repo.info.path}
+          bind:value={section.info.path}
           oninput={onchange}
           placeholder="Repository Path"
         />

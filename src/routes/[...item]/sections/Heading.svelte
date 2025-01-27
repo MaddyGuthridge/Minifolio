@@ -24,6 +24,7 @@
 <style>
   h2 {
     font-size: 3rem;
+    margin: 10px;
   }
   input {
     font-size: 3rem;

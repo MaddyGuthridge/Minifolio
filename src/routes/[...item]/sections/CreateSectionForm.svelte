@@ -71,3 +71,9 @@
   </select>
   <input type="submit" value="Create" />
 </form>
+
+<style>
+  form {
+    margin-bottom: 20px;
+  }
+</style>

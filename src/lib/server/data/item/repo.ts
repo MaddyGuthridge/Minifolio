@@ -26,6 +26,8 @@ const ManualRepoInfoStruct = object({
   provider: literal('custom'),
   /** Title text to display for the repo */
   title: string(),
+  /** Subtitle text to display for the repo */
+  subtitle: string(),
   /** URL to link to */
   url: string(),
   /** Icon to use on the card (from LineAwesome) */

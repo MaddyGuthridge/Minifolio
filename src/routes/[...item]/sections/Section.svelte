@@ -27,20 +27,22 @@
   }: Props = $props();
 </script>
 
-<div class={editing ? 'bordered' : ''}>
-  {#if section.type === 'package'}
-    <Package {...section} />
-  {:else if section.type === 'docs'}
-    <Docs {...section} {editing} />
-  {:else if section.type === 'site'}
-    <Site {...section} {editing} />
-  {:else if section.type === 'repo'}
-    <Repo bind:repo={section} {editing} {onchange} />
-  {:else if section.type === 'heading'}
-    <Heading {section} {editing} {onchange} />
-  {:else if section.type === 'links'}
-    <Links {...section} {editing} {portfolio} />
-  {/if}
+<div class={editing ? 'bordered section-outer' : 'section-outer'}>
+  <div class="section-inner">
+    {#if section.type === 'package'}
+      <Package {...section} />
+    {:else if section.type === 'docs'}
+      <Docs {...section} {editing} />
+    {:else if section.type === 'site'}
+      <Site {...section} {editing} />
+    {:else if section.type === 'repo'}
+      <Repo bind:repo={section} {editing} {onchange} />
+    {:else if section.type === 'heading'}
+      <Heading {section} {editing} {onchange} />
+    {:else if section.type === 'links'}
+      <Links {...section} {editing} {portfolio} />
+    {/if}
+  </div>
   {#if editing}
     <span class="grow"></span>
     <button
@@ -54,13 +56,17 @@
 </div>
 
 <style>
-  div {
+  .section-outer {
     display: flex;
     align-items: center;
 
     gap: 10px;
     margin: 30px;
     padding: 10px;
+  }
+
+  .section-inner {
+    min-width: 50vw;
   }
 
   .bordered {

@@ -48,6 +48,7 @@
       info: {
         provider: 'custom',
         title: '',
+        subtitle: '',
         url: '',
         icon: '',
       },

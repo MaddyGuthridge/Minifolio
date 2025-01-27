@@ -63,6 +63,7 @@ describe('Success', () => {
         sections: [
           {
             type: 'site',
+            icon: null,
             label: 'Visit the website',
             url: 'https://example.com',
           }
@@ -183,6 +184,7 @@ describe('400', () => {
         sections: [
           {
             type: 'site',
+            icon: null,
             label: name,
             url: 'https://example.com',
           }

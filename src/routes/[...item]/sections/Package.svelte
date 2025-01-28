@@ -15,6 +15,18 @@
     onchange: () => void;
   };
 
+  function commitChange() {
+    if (section.label === '') {
+      section.label = null;
+    }
+    if (section.info.provider === 'custom') {
+      if (section.info.icon === '') {
+        section.info.icon = null;
+      }
+    }
+    onchange();
+  }
+
   const { section = $bindable(), editing, onchange }: Props = $props();
 
   const { providerName, url, icon, command } = $derived.by(() => {
@@ -60,12 +72,18 @@
     }
     onchange();
   }
+
+  const callToAction = $derived(
+    providerName.length
+      ? `Install using ${providerName}`
+      : 'Install the package',
+  );
 </script>
 
 {#snippet display_inner()}
   <i class={`icon ${icon ?? 'las la-laptop-code'}`}></i>
   <div>
-    <b>{section.label ?? `Install using ${providerName}`}</b>
+    <b>{section.label ?? callToAction}</b>
     <CopyButton text={command} hint="Copy install command">
       <i class="las la-terminal"></i>
       <pre>{command}</pre>
@@ -95,8 +113,8 @@
         type="text"
         id="repo-label-text"
         bind:value={section.label}
-        oninput={onchange}
-        placeholder="Label text"
+        oninput={commitChange}
+        placeholder={callToAction}
       />
       <label for="repo-provider">Repo provider</label>
       <select
@@ -115,7 +133,7 @@
           type="text"
           id="provider-name"
           bind:value={section.info.providerName}
-          oninput={onchange}
+          oninput={commitChange}
           placeholder="Provider name"
           required
         />
@@ -124,7 +142,7 @@
           type="text"
           id="install-command"
           bind:value={section.info.command}
-          oninput={onchange}
+          oninput={commitChange}
           placeholder="Installation command"
           required
         />
@@ -133,7 +151,7 @@
           type="url"
           id="package-url"
           bind:value={section.info.url}
-          oninput={onchange}
+          oninput={commitChange}
           placeholder="Package URL"
           required
         />
@@ -142,9 +160,8 @@
           type="text"
           id="package-icon"
           bind:value={section.info.command}
-          oninput={onchange}
+          oninput={commitChange}
           placeholder="Icon"
-          required
         />
       {:else}
         <label for="package-url">Package ID</label>
@@ -152,7 +169,7 @@
           type="url"
           id="package-url"
           bind:value={section.info.id}
-          oninput={onchange}
+          oninput={commitChange}
           placeholder="Package ID"
           required
         />

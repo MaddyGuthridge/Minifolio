@@ -43,7 +43,7 @@
   </div>
   {#if editing}
     <span class="grow"></span>
-    <Button hint="Delete section" onclick={ondelete}>
+    <Button hint="Delete section" onclick={ondelete} mode="warning">
       <div class="delete-button">
         <i class="las la-trash"></i>
       </div>

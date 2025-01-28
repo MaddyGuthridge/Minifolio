@@ -12,5 +12,5 @@
 <div>
   <h2>Log out of all sessions</h2>
   <p>This will sign you out on all of your devices (including this one).</p>
-  <Button onclick={logOut}>Log out of all sessions</Button>
+  <Button onclick={logOut} mode="warning">Log out of all sessions</Button>
 </div>

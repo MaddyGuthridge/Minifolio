@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Color from 'color';
+  import { colord } from 'colord';
 
   type Props = {
     color: string;
@@ -27,11 +27,8 @@
   /** Color hue offsets, picked based on the given color */
   let colors = $derived(
     [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25].map((hueDiff) => {
-      const base = Color(color);
-      const newColor = base
-        .hue(base.hue() + hueDiff)
-        .lightness(95)
-        .hex();
+      const base = colord(color);
+      const newColor = base.hue(base.hue() + hueDiff).toHex();
       const [posX, posY] =
         possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
       const spread =

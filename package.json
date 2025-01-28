@@ -18,7 +18,7 @@
   "type": "module",
   "dependencies": {
     "child-process-promise": "^2.2.1",
-    "color": "^4.2.3",
+    "colord": "^2.9.3",
     "dotenv": "^16.4.5",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",
@@ -41,7 +41,6 @@
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@testing-library/svelte": "^5.1.0",
     "@types/child-process-promise": "^2.2.6",
-    "@types/color": "^3.0.6",
     "@types/debug": "^4.1.12",
     "@types/eslint": "^9.6.1",
     "@types/eslint__js": "^8.42.3",

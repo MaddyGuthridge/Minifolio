@@ -1,6 +1,6 @@
 <script lang="ts">
   import { tooltip } from '$lib/tooltip';
-  import Color from 'color';
+  import { colord } from 'colord';
 
   type Props = {
     /** Name to show for chip */
@@ -27,16 +27,12 @@
   }: Props = $props();
 
   let fillColor = $derived(
-    selected
-      ? Color(color).lightness(80).hex()
-      : Color(color).lightness(95).hex(),
+    selected ? colord(color).lighten(0.02).toHex() : colord(color).toHex(),
   );
   let borderColor = $derived(
-    selected
-      ? Color(color).lightness(50).hex()
-      : Color(color).lightness(85).hex(),
+    selected ? colord(color).lighten(0.01).toHex() : colord(color).toHex(),
   );
-  let hoverColor = $derived(Color(color).lightness(70).hex());
+  let hoverColor = $derived(colord(color).lighten(70).toHex());
   let borderWidth = $derived(selected ? '2px' : '1px');
 </script>
 

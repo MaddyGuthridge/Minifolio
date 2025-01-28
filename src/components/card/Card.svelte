@@ -1,7 +1,7 @@
 <script lang="ts">
   import { type Snippet } from 'svelte';
   import { goto } from '$app/navigation';
-  import Color from 'color';
+  import { colord } from 'colord';
 
   type Props = {
     /** Link behavior options */
@@ -16,8 +16,8 @@
 
   let { link, color, children, onclick }: Props = $props();
 
-  let baseColor = $derived(Color(color).lightness(85).hex());
-  let hoverColor = $derived(Color(color).lightness(70).hex());
+  let baseColor = $derived(colord(color).lighten(0.02).toHex());
+  let hoverColor = $derived(colord(color).lighten(0.01).toHex());
 
   let linkHref = $derived(link ? link.url : undefined);
   let linkNewTab = $derived(link?.newTab ? '_blank' : undefined);

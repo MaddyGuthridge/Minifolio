@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from '$components/base';
   import api from '$endpoints';
 
   type Props = {
@@ -57,11 +58,7 @@
       <p>New passwords much match</p>
     {/if}
     <p>
-      <input
-        type="submit"
-        value="Change password"
-        disabled={newPassword != repeatNewPassword}
-      />
+      <Button type="submit" disabled={newPassword != repeatNewPassword}>Change password</Button>
     </p>
   </form>
 </div>

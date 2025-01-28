@@ -12,6 +12,7 @@
 
 {#if !editing}
   <h2>{section.heading}</h2>
+  <hr />
 {:else}
   <input
     type="text"

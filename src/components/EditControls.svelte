@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Button } from './base';
+
   type Props = {
     /** Whether edit mode is currently enabled */
     editing: boolean;
@@ -16,9 +18,9 @@
 {#if loggedIn}
   <div class="edit-buttons">
     {#if editing}
-      <button onclick={onfinish}>Done</button>
+      <Button onclick={onfinish}>Done</Button>
     {:else}
-      <button onclick={onbegin}>Edit</button>
+      <Button onclick={onbegin}>Edit</Button>
     {/if}
   </div>
 {/if}
@@ -29,18 +31,5 @@
     gap: 10px;
     width: 90%;
     justify-content: right;
-  }
-  button {
-    height: 2rem;
-    background-color: rgb(221, 221, 221);
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-  }
-  button:hover {
-    background-color: rgb(210, 210, 210);
-    cursor: pointer;
   }
 </style>

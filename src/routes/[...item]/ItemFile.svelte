@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from '$components/base';
   import api from '$endpoints';
   import type { ItemId } from '$lib/itemId';
 
@@ -50,10 +51,11 @@
   <td>{filename}</td>
   <td>
     <span class="horizontal">
+      <span class="grow"></span>
       <form bind:this={replaceForm}>
         <!-- Change text on <input type="file": https://stackoverflow.com/a/33822113/6335363 -->
         <label for="upload-{filename}">
-          <button onclick={() => fileSelectButton.click()}>Replace</button>
+          <Button onclick={() => fileSelectButton.click()}>Replace</Button>
         </label>
         <input
           type="file"
@@ -71,7 +73,7 @@
           required
         />
       </form>
-      <button onclick={deleteFile}>Delete</button>
+      <Button onclick={deleteFile}>Delete</Button>
     </span>
   </td>
 </tr>
@@ -79,5 +81,9 @@
 <style>
   .horizontal {
     display: flex;
+    gap: 10px;
+  }
+  .grow {
+    flex-grow: 1;
   }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Separator } from '$components';
+  import { Select } from '$components/base';
   import CopyButton from '$components/CopyButton.svelte';
   import {
     packageProviders,
@@ -80,27 +81,38 @@
   );
 </script>
 
-{#snippet display_inner()}
-  <i class={`icon ${icon ?? 'las la-laptop-code'}`}></i>
-  <div>
-    <b>{section.label ?? callToAction}</b>
-    <CopyButton text={command} hint="Copy install command">
-      <i class="las la-terminal"></i>
-      <pre>{command}</pre>
-    </CopyButton>
-  </div>
-{/snippet}
-
 {#snippet display(link: boolean)}
-  {#if link}
-    <a href={url} target="_blank" class="display-outer">
-      {@render display_inner()}
-    </a>
-  {:else}
-    <div class="display-outer">
-      {@render display_inner()}
+  <div class="display-outer">
+    {#if link}
+      <a
+        href={url}
+        target="_blank"
+        aria-labelledby="package-call-to-action"
+        tabindex={-1}
+      >
+        <i class={`icon ${icon ?? 'las la-laptop-code'}`}></i>
+      </a>
+    {:else}
+      <i class={`icon ${icon ?? 'las la-laptop-code'}`}></i>
+    {/if}
+    <div>
+      <div>
+        {#if link}
+          <a href={url} target="_blank">
+            <b id="package-call-to-action">{section.label ?? callToAction}</b>
+          </a>
+        {:else}
+          <b>{section.label ?? callToAction}</b>
+        {/if}
+      </div>
+      <CopyButton text={command} hint="Copy install command">
+        <div class="install-btn">
+          <i class="las la-terminal"></i>
+          <pre>{command}</pre>
+        </div>
+      </CopyButton>
     </div>
-  {/if}
+  </div>
 {/snippet}
 
 {#if !editing}
@@ -117,7 +129,7 @@
         placeholder={callToAction}
       />
       <label for="repo-provider">Repo provider</label>
-      <select
+      <Select
         id="repo-provider"
         bind:value={() => section.info.provider,
         (newProvider) => changePackageProvider(newProvider)}
@@ -126,7 +138,7 @@
         {#each Object.entries(packageProviders) as [provider, info]}
           <option value={provider}>{info.name}</option>
         {/each}
-      </select>
+      </Select>
       {#if section.info.provider === 'custom'}
         <label for="provider-name">Provider name</label>
         <input
@@ -182,14 +194,24 @@
 
 <style>
   .display-outer {
-    text-decoration: none;
-    color: black;
     display: flex;
     gap: 10px;
     align-items: center;
   }
+  .display-outer a {
+    text-decoration: none;
+    color: black;
+  }
   .icon {
     font-size: 5rem;
+  }
+
+  .install-btn {
+    display: flex;
+    gap: 5px;
+  }
+  .install-btn > pre {
+    margin: 0px;
   }
 
   .edit-outer {

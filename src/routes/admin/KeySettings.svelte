@@ -5,6 +5,7 @@
   import CopyButton from '$components/CopyButton.svelte';
   import api from '$endpoints';
   import { APP_NAME } from '$lib/consts';
+  import { Button } from '$components/base';
 
   type Props = {
     /** Public key currently being used by the server */
@@ -58,11 +59,11 @@
           placeholder="/path/to/private/key"
         />
       </p>
-      <p><input type="submit" value="Set SSH key path" /></p>
+      <p><Button type="submit">Set SSH key path</Button></p>
     </form>
     <form onsubmit={preventDefault(() => void generateNewKey)}>
       <p>Generate a new SSH key-pair</p>
-      <p><input type="submit" value="Generate SSH key" /></p>
+      <p><Button type="submit">Generate SSH key</Button></p>
     </form>
   {:else}
     <p>{APP_NAME} is using an SSH key at the path <em>{privateKeyPath}</em>.</p>
@@ -79,15 +80,15 @@
           placeholder="/path/to/private/key"
         />
       </p>
-      <p><input type="submit" value="Set SSH key path" /></p>
+      <p><Button type="submit">Set SSH key path</Button></p>
     </form>
     <form onsubmit={preventDefault(() => void generateNewKey)}>
       <p>Generate a new SSH key-pair</p>
-      <p><input type="submit" value="Generate SSH key" /></p>
+      <p><Button type="submit">Generate SSH key</Button></p>
     </form>
     <form onsubmit={preventDefault(() => void useSystemSsh)}>
       <p>Use the system's SSH configuration</p>
-      <p><input type="submit" value="Use system SSH" /></p>
+      <p><Button type="submit">Use system SSH</Button></p>
     </form>
   {/if}
 </div>

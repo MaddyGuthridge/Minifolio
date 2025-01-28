@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Separator } from '$components';
+  import { Select } from '$components/base';
   import {
     repoIsWithProvider,
     repoProviders,
@@ -121,7 +122,7 @@
         placeholder={displayLabel}
       />
       <label for="repo-provider">Repo provider</label>
-      <select
+      <Select
         id="repo-provider"
         bind:value={() => section.info.provider,
         (newProvider) => changeRepoProvider(newProvider)}
@@ -130,7 +131,7 @@
         {#each Object.entries(repoProviders) as [provider, info]}
           <option value={provider}>{info.name}</option>
         {/each}
-      </select>
+      </Select>
       {#if section.info.provider === 'custom'}
         <!-- Custom provider -->
         <label for="repo-provider-name">Provider name</label>

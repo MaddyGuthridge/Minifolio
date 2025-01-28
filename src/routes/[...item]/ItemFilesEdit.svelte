@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from '$components/base';
   import api from '$endpoints';
   import type { ItemId } from '$lib/itemId';
   import ItemFile from './ItemFile.svelte';
@@ -39,7 +40,7 @@
     if (filesToUpload?.length) {
       void uploadFiles();
     }
-  })
+  });
 </script>
 
 <table>
@@ -55,11 +56,9 @@
     {/each}
   </tbody>
 </table>
-<form
-  bind:this={uploadForm}
->
+<form bind:this={uploadForm}>
   <label for="upload">
-    <button onclick={() => fileSelectButton.click()}>Upload Files</button>
+    <Button onclick={() => fileSelectButton.click()}>Upload Files</Button>
   </label>
   <input
     type="file"

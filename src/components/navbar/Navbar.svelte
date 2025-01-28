@@ -7,6 +7,7 @@
   import type { ItemData } from '$lib/server/data/item/item';
   import { getDescendant } from '$lib/itemData';
   import consts from '$lib/consts';
+  import { Button } from '$components/base';
 
   type NavbarPath = { url: string; txt: string }[];
 
@@ -121,18 +122,18 @@
   <!-- Control buttons -->
   <span id="control-buttons">
     {#if loggedIn}
-      <button onclick={() => goto('/admin')}> Admin </button>
-      <button onclick={logOut}> Log out </button>
+      <Button onclick={() => goto('/admin')}>Admin</Button>
+      <Button onclick={logOut}>Log out</Button>
     {:else if loggedIn !== undefined}
       <!-- Only include a login button if logging in is enabled -->
-      <button onclick={gotoLogin}> Log in </button>
+      <Button onclick={gotoLogin}>Log in</Button>
     {/if}
     <!-- About button navigates to about page -->
-    <button onclick={() => goto('/about')}> About </button>
+    <Button onclick={() => goto('/about')}>About</Button>
     <!-- In dev mode, add a quick shortcut to delete everything -->
     {#if dev}
       <Separator />
-      <button onclick={clear}> Clear data </button>
+      <Button onclick={clear}>Clear data</Button>
     {/if}
   </span>
 </nav>
@@ -158,20 +159,10 @@
 
   #control-buttons {
     display: flex;
+    gap: 5px;
     align-items: center;
     justify-content: center;
     grid-area: control-buttons;
     margin-right: 20px;
-  }
-  #control-buttons button {
-    /* margin: 10px; */
-    padding: 10px;
-    background-color: transparent;
-    border-radius: 5px;
-    border: none;
-  }
-  #control-buttons button:hover {
-    cursor: pointer;
-    background-color: rgba(124, 124, 124, 0.253);
   }
 </style>

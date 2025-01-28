@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from '$components/base';
   import type { ItemData } from '$lib/server/data/item';
   import type { ItemSection } from '$lib/server/data/item/section';
   import Heading from './Heading.svelte';
@@ -42,13 +43,11 @@
   </div>
   {#if editing}
     <span class="grow"></span>
-    <button
-      aria-label="Delete section"
-      class="delete-button"
-      onclick={ondelete}
-    >
-      <i class="las la-trash"></i>
-    </button>
+    <Button hint="Delete section" onclick={ondelete}>
+      <div class="delete-button">
+        <i class="las la-trash"></i>
+      </div>
+    </Button>
   {/if}
 </div>
 
@@ -79,5 +78,8 @@
     width: 50px;
     height: 50px;
     font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

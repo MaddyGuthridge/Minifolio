@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from '$components/base';
   import api from '$endpoints';
 
   type Props = {
@@ -38,9 +39,9 @@
 
     <!-- Push/pull -->
     {#if data.repo.behind}
-      <button onclick={() => api().admin.git.pull()}>Pull</button>
+      <Button onclick={() => api().admin.git.pull()}>Pull</Button>
     {:else if data.repo.ahead}
-      <button onclick={() => api().admin.git.push()}>Push</button>
+      <Button onclick={() => api().admin.git.push()}>Push</Button>
     {/if}
 
     <!-- Commit -->
@@ -78,7 +79,7 @@
           placeholder="Commit message"
           bind:value={commitMessage}
         />
-        <input type="submit" value="Commit changes" />
+        <Button type="submit">Commit changes</Button>
       </form>
     {/if}
   {:else}
@@ -101,7 +102,7 @@
         placeholder="git@github.com:MaddyGuthridge/Minifolio.git"
         bind:value={gitUrl}
       />
-      <input type="submit" value="Switch to a Git repository" />
+      <Button type="submit">Switch to a Git repository</Button>
     </form>
   {/if}
 </div>

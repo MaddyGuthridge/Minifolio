@@ -1,5 +1,6 @@
-<script lang='ts'>
+<script lang="ts">
   import { goto } from '$app/navigation';
+  import { Button } from '$components/base';
   import api from '$endpoints';
 
   async function logOut() {
@@ -11,5 +12,5 @@
 <div>
   <h2>Log out of all sessions</h2>
   <p>This will sign you out on all of your devices (including this one).</p>
-  <button onclick={logOut}>Log out of all sessions</button>
+  <Button onclick={logOut}>Log out of all sessions</Button>
 </div>

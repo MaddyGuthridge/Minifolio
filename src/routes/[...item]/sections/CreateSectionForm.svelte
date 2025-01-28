@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { Button, Select } from '$components/base';
   import type { ItemSection, SectionType } from '$lib/server/data/item/section';
+  import { capitalize } from '$lib/util';
 
   type Props = {
     oncreate: (info: ItemSection) => void;
@@ -60,12 +62,12 @@
   }}
 >
   <b>Add new section:</b>
-  <select bind:value={newSectionType}>
+  <Select bind:value={newSectionType}>
     {#each Object.keys(defaultSections) as type}
-      <option value={type}>{type}</option>
+      <option value={type}>{capitalize(type)}</option>
     {/each}
-  </select>
-  <input type="submit" value="Create" />
+  </Select>
+  <Button type="submit">Create</Button>
 </form>
 
 <style>

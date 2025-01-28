@@ -129,6 +129,14 @@
     document.documentElement.dataset.scroll =
       window.scrollY < 20 ? 'top' : 'page';
   }
+
+  function editButtonClick() {
+    if (editing) {
+      onEditFinish?.();
+    } else {
+      onEditBegin?.();
+    }
+  }
 </script>
 
 <svelte:window {onscroll} />
@@ -148,11 +156,13 @@
   <span id="control-buttons">
     {#if loggedIn}
       {#if editable}
-        {#if editing}
-          <Button onclick={onEditFinish} mode="confirm">Finish editing</Button>
-        {:else}
-          <Button onclick={onEditBegin}>Edit</Button>
-        {/if}
+        <!-- Use the one button so that animations persist between states -->
+        <Button
+          onclick={editButtonClick}
+          mode={editing ? 'confirm' : 'default'}
+        >
+          {editing ? 'Finish editing' : 'Edit'}
+        </Button>
       {/if}
       <Button onclick={() => goto('/admin')}>Admin</Button>
       <Button onclick={logOut}>Log out</Button>

@@ -7,6 +7,8 @@
     mode?: 'default' | 'warning' | 'confirm';
     /** Hint for button (controls tooltip and aria-label) */
     hint?: string;
+    /** Whether the hint tool-tip should be interactive */
+    hintInteractive?: boolean;
 
     // Standard button props
     children: Snippet;
@@ -20,6 +22,7 @@
   const {
     children,
     hint,
+    hintInteractive = false,
     type,
     disabled,
     onclick,
@@ -51,18 +54,21 @@
 </script>
 
 {#if hint}
-  <button
-    {onclick}
-    {type}
-    {disabled}
-    use:tooltip={{ content: hint }}
-    aria-label={hint}
-    style:--color={color}
-    style:--hoverColor={hoverColor}
-    style:--clickColor={clickColor}
-  >
-    {@render children()}
-  </button>
+  <!-- https://atomiks.github.io/tippyjs/v6/accessibility/#interactivity -->
+  <div>
+    <button
+      {onclick}
+      {type}
+      {disabled}
+      use:tooltip={{ content: hint, interactive: hintInteractive }}
+      aria-label={hint}
+      style:--color={color}
+      style:--hoverColor={hoverColor}
+      style:--clickColor={clickColor}
+    >
+      {@render children()}
+    </button>
+  </div>
 {:else}
   <button
     {onclick}

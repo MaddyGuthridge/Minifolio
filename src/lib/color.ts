@@ -25,7 +25,7 @@ export function scaleLightness(color: Colord, factor: number): Colord {
 
 /** Return the name of the given color */
 export function colorName(color: Colord): string {
-  const rawName = colord(color).toName({ closest: true })!;
+  const rawName = color.toName({ closest: true })!;
 
   const suffixes: (string | [string, string])[] = [
     ['seagreen', 'sea-green'],

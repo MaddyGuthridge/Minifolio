@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from '$components/base';
   import { colorName } from '$lib/color';
+  import { colord } from 'colord';
 
   type Props = {
     value: string;
@@ -10,13 +11,13 @@
 
   let { value = $bindable(), oninput, required }: Props = $props();
 
-  const name = $derived(colorName(value));
+  const name = $derived(colorName(colord(value)));
 
   let picker: HTMLInputElement;
 </script>
 
 <div>
-  <Button onclick={() => picker.click()}>
+  <Button onclick={() => picker.click()} hint={value} hintInteractive>
     <div class="button-wrap">
       <span>{name}</span>
       <div class="color-preview" style:--color={value}></div>

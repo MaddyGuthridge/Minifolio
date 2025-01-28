@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FilePicker from '$components/pickers/FilePicker.svelte';
+  import { ColorPicker, FilePicker } from '$components/pickers';
   import consts from '$lib/consts';
   import type { ItemId } from '$lib/itemId';
   import type { ItemData, ItemInfo } from '$lib/server/data/item';
@@ -56,8 +56,7 @@
   />
   <p>A concise description of the item, shown on links to this page.</p>
   <h2>Color</h2>
-  <input
-    type="color"
+  <ColorPicker
     bind:value={item.info.color}
     oninput={() => onchange(item.info)}
     required

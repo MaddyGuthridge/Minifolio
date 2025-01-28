@@ -29,7 +29,7 @@
 <div class={editing ? 'bordered section-outer' : 'section-outer'}>
   <div class="section-inner">
     {#if section.type === 'package'}
-      <Package {...section} />
+      <Package bind:section {editing} {onchange} />
     {:else if section.type === 'site'}
       <Site bind:section {editing} {onchange} />
     {:else if section.type === 'repo'}

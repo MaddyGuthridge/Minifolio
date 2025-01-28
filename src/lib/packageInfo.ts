@@ -33,3 +33,6 @@ export const packageProviders: Record<PackageProvider, ProviderInfo> = {
 export function packageIsWithProvider(repo: PackageInfo): repo is ProvidedPackageInfo {
   return 'provider' in repo;
 }
+
+/** Names of package repos that are supported by the system */
+export const supportedPackageProviders = ['pypi', 'npm'] as const;

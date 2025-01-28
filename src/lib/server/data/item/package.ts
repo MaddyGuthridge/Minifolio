@@ -2,12 +2,10 @@
  * Type definitions for published packages
  */
 
-import { enums, literal, object, string, union, type Infer } from 'superstruct';
+import { supportedPackageProviders } from '$lib/packageInfo';
+import { enums, literal, nullable, object, string, union, type Infer } from 'superstruct';
 
-/** Names of package repos that are supported by the system */
-export const supportedPackageRepos = ['pypi', 'npm'] as const;
-
-export const PackageProviderStruct = enums(supportedPackageRepos);
+export const PackageProviderStruct = enums(supportedPackageProviders);
 
 export type PackageProvider = Infer<typeof PackageProviderStruct>;
 
@@ -32,7 +30,7 @@ const ManualPackageInfoStruct = object({
   /** Package installation command */
   command: string(),
   /** Icon to use on the card (from LineAwesome) */
-  icon: string(),
+  icon: nullable(string()),
 });
 
 /** Package info set manually */

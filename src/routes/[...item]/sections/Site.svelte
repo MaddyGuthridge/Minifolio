@@ -59,7 +59,7 @@
       />
     </div>
     <Separator />
-    {@render display(true)}
+    {@render display(false)}
   </div>
 {/if}
 

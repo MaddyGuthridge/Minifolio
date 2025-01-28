@@ -18,7 +18,7 @@
 {#if loggedIn}
   <div class="edit-buttons">
     {#if editing}
-      <Button onclick={onfinish}>Done</Button>
+      <Button onclick={onfinish} mode="confirm">Done</Button>
     {:else}
       <Button onclick={onbegin}>Edit</Button>
     {/if}

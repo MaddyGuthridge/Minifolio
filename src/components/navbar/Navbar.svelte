@@ -133,7 +133,7 @@
     <!-- In dev mode, add a quick shortcut to delete everything -->
     {#if dev}
       <Separator />
-      <Button onclick={clear}>Clear data</Button>
+      <Button onclick={clear} mode="warning">Clear data</Button>
     {/if}
   </span>
 </nav>

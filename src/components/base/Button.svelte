@@ -3,8 +3,13 @@
   import type { Snippet } from 'svelte';
 
   type Props = {
-    children: Snippet;
+    /** Display mode for button (controls background color) */
+    mode?: 'default' | 'warning' | 'confirm';
+    /** Hint for button (controls tooltip and aria-label) */
     hint?: string;
+
+    // Standard button props
+    children: Snippet;
     type?: 'submit';
     /** Whether button is disabled */
     disabled?: boolean;
@@ -12,7 +17,37 @@
     onclick?: () => any;
   };
 
-  const { children, hint, type, disabled, onclick }: Props = $props();
+  const {
+    children,
+    hint,
+    type,
+    disabled,
+    onclick,
+    mode = 'default',
+  }: Props = $props();
+
+  let { color, hoverColor, clickColor } = $derived.by(() => {
+    if (mode === 'warning') {
+      return {
+        color: '#FF808040',
+        hoverColor: '#FF8080FF',
+        clickColor: '#FF2222FF',
+      };
+    }
+    if (mode === 'confirm') {
+      return {
+        color: '#8080FF40',
+        hoverColor: '#8080FFFF',
+        clickColor: '#2222FFFF',
+      };
+    }
+    // mode === 'default'
+    return {
+      color: '#00000000',
+      hoverColor: '#80808040',
+      clickColor: '#FFFFFFFF',
+    };
+  });
 </script>
 
 {#if hint}
@@ -22,11 +57,20 @@
     {disabled}
     use:tooltip={{ content: hint }}
     aria-label={hint}
+    style:--color={color}
+    style:--hoverColor={hoverColor}
+    style:--clickColor={clickColor}
   >
     {@render children()}
   </button>
 {:else}
-  <button {onclick} {type}>
+  <button
+    {onclick}
+    {type}
+    style:--color={color}
+    style:--hoverColor={hoverColor}
+    style:--clickColor={clickColor}
+  >
     {@render children()}
   </button>
 {/if}
@@ -40,21 +84,21 @@
     all: unset;
     /* margin: 10px; */
     padding: 5px 10px;
-    background-color: transparent;
+    background-color: var(--color);
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     transition: background-color 0.5s;
   }
   button:focus {
     border: 1px solid black;
-    background-color: rgba(124, 124, 124, 0.25);
+    background-color: var(--hoverColor);
   }
   button:hover {
     cursor: pointer;
-    background-color: rgba(124, 124, 124, 0.25);
+    background-color: var(--hoverColor);
   }
   button:active {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--clickColor);
     transition: background-color 0s;
   }
 </style>

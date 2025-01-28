@@ -1,5 +1,5 @@
 /** Code for generating colors */
-import { colord, extend } from 'colord';
+import { Colord, colord, extend } from 'colord';
 import namesPlugin from 'colord/plugins/names';
 import { capitalize } from './util';
 
@@ -14,17 +14,31 @@ export function randomColor(): string {
   }).toHex();
 }
 
+/**
+ * Scale lightness of color.
+ */
+export function scaleLightness(color: Colord, factor: number): Colord {
+  const { h, s, a, l } = color.toHsl();
+  const newLightness = factor + (l / factor) * (100 - factor);
+  return colord({ h, s, l: newLightness, a });
+}
+
 /** Return the name of the given color */
-export function colorName(color: string): string {
+export function colorName(color: Colord): string {
   const rawName = colord(color).toName({ closest: true })!;
 
   const suffixes: (string | [string, string])[] = [
+    ['seagreen', 'sea-green'],
     'red',
     'blue',
-    ['seagreen', 'sea-green'],
     'green',
     'orchid',
     'turquoise',
+    'aquamarine',
+    'magenta',
+    'purple',
+    'smoke',
+    'gray',
   ];
 
   for (const suffix of suffixes) {
@@ -38,7 +52,7 @@ export function colorName(color: string): string {
     if (rawName.endsWith(suffixSearch)) {
       // Eww, Python would make this so much less painful
       const suffixRegex = new RegExp(`${suffixSearch}$`);
-      return capitalize(`${rawName.replace(suffixRegex, '')} ${suffixReplace}`);
+      return capitalize(`${rawName.replace(suffixRegex, '')} ${suffixReplace}`.trim());
     }
   }
   // No matches found, just retyurn the name as-is

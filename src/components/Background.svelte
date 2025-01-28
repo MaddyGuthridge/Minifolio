@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { scaleLightness } from '$lib/color';
   import { colord } from 'colord';
 
   type Props = {
@@ -28,7 +29,10 @@
   let colors = $derived(
     [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25].map((hueDiff) => {
       const base = colord(color);
-      const newColor = base.hue(base.hue() + hueDiff).toHex();
+      const newColor = scaleLightness(
+        base.hue(base.hue() + hueDiff),
+        85,
+      ).toHex();
       const [posX, posY] =
         possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
       const spread =

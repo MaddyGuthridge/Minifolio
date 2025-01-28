@@ -2,7 +2,6 @@
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
   import { ItemCardGrid } from '$components/card';
-  import EditControls from '$components/EditControls.svelte';
   import EditableMarkdown from '$components/markdown';
   import api from '$endpoints';
   import consts from '$lib/consts';
@@ -57,21 +56,19 @@
   lastItem={thisItem}
   data={data.portfolio}
   loggedIn={data.loggedIn}
+  editable={data.loggedIn}
+  {editing}
+  onEditBegin={() => (editing = true)}
+  onEditFinish={() => {
+    editing = false;
+    infoUpdater.commit();
+  }}
 />
 
 <Background color={thisItem.info.color} />
 
 <div class="center">
   <main>
-    <EditControls
-      loggedIn={data.loggedIn}
-      {editing}
-      onbegin={() => (editing = true)}
-      onfinish={() => {
-        editing = false;
-        infoUpdater.commit();
-      }}
-    />
     {#if editing}
       <MainDataEdit
         itemId={data.itemId}

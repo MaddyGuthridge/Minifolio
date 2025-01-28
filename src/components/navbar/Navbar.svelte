@@ -29,9 +29,25 @@
     data: ItemData;
     /** Whether the user is logged in. Set to undefined if auth is disabled */
     loggedIn: boolean | undefined;
+    editable?: boolean;
+    /** Whether edit mode is active */
+    editing?: boolean;
+    /** Called when beginning edits */
+    onEditBegin?: () => void;
+    /** Called when finishing edits */
+    onEditFinish?: () => void;
   } & (PropsItem | PropsOther);
 
-  let { path, data, loggedIn, lastItem }: Props = $props();
+  let {
+    path,
+    data,
+    loggedIn,
+    editable = false,
+    editing = false,
+    onEditBegin,
+    onEditFinish,
+    lastItem,
+  }: Props = $props();
 
   function itemIdToPath(itemId: ItemId, lastItem: ItemData): NavbarPath {
     if (itemId.length === 0) {
@@ -106,7 +122,16 @@
       .map((p) => p.url)
       .join('/');
   }
+
+  /** Set document data when scroll isn't at top of page */
+  function onscroll() {
+    // https://css-tricks.com/styling-based-on-scroll-position/
+    document.documentElement.dataset.scroll =
+      window.scrollY < 20 ? 'top' : 'page';
+  }
 </script>
+
+<svelte:window {onscroll} />
 
 <nav>
   <span style:grid-area="navigator">
@@ -122,6 +147,13 @@
   <!-- Control buttons -->
   <span id="control-buttons">
     {#if loggedIn}
+      {#if editable}
+        {#if editing}
+          <Button onclick={onEditFinish} mode="confirm">Finish editing</Button>
+        {:else}
+          <Button onclick={onEditBegin}>Edit</Button>
+        {/if}
+      {/if}
       <Button onclick={() => goto('/admin')}>Admin</Button>
       <Button onclick={logOut}>Log out</Button>
     {:else if loggedIn !== undefined}
@@ -140,9 +172,23 @@
 
 <style>
   nav {
+    position: sticky;
+    margin: 0px;
+    margin-bottom: 20px;
+    top: 0;
+    padding: 5px 10px;
     display: grid;
     grid-template-columns: 1fr auto auto;
     grid-template-areas: 'navigator empty control-buttons';
+    backdrop-filter: blur(0px) brightness(100%);
+    transition: backdrop-filter 0.5s;
+  }
+
+  :global html:not([data-scroll='top']) nav {
+    box-shadow:
+      -5px 0px 10px rgba(0, 0, 0, 0.5),
+      5px 0px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px) brightness(110%);
   }
 
   a {
@@ -154,6 +200,7 @@
   }
 
   h1 {
+    margin: 0px;
     font-size: 3em;
   }
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { TextInput } from '$components/base';
   import type { HeadingSection } from '$lib/server/data/item/section';
 
   type Props = {
@@ -14,11 +15,11 @@
   <h2>{section.heading}</h2>
   <hr />
 {:else}
-  <input
-    type="text"
+  <TextInput
     bind:value={section.heading}
     oninput={onchange}
     placeholder="Heading contents"
+    size={3}
   />
 {/if}
 
@@ -26,8 +27,5 @@
   h2 {
     font-size: 3rem;
     margin: 10px;
-  }
-  input {
-    font-size: 3rem;
   }
 </style>

@@ -6,6 +6,7 @@
   import { goto } from '$app/navigation';
   import consts from '$lib/consts';
   import { onMount } from 'svelte';
+  import { Button, TextInput } from '$components/base';
 
   type Props = {
     data: import('./$types').PageData;
@@ -62,27 +63,24 @@
 
       <form>
         <h3>Username</h3>
-        <input
-          type="text"
+        <TextInput
           id="username"
           bind:value={username}
           placeholder="Username"
         />
 
         <h3>Password</h3>
-        <input
-          type="password"
+        <TextInput
+          password
           id="password"
           bind:value={password}
           placeholder="Your complex and secure password"
         />
-        <p></p>
-        <input
-          type="submit"
-          id="submit-main"
-          value="Log in"
-          onclick={doLogin}
-        />
+        <p>
+          <Button type="submit" id="submit-main" onclick={doLogin}>
+            Log in
+          </Button>
+        </p>
       </form>
     </main>
   </Paper>
@@ -101,17 +99,5 @@
 
   form {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

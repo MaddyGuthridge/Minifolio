@@ -3,6 +3,7 @@
   import Markdown from './Markdown.svelte';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
+  import { TextArea } from '$components/base';
 
   type Props = {
     source: string;
@@ -23,12 +24,13 @@
 </script>
 
 <div class="md-editor">
-  <textarea
-    class="md-input"
-    bind:value={source}
-    onkeypress={handleKeypress}
-    oninput={() => updater.update(source)}
-  ></textarea>
+  <div class="md-input">
+    <TextArea
+      bind:value={source}
+      onkeypress={handleKeypress}
+      oninput={() => updater.update(source)}
+    ></TextArea>
+  </div>
   <span class="md-preview">
     <Markdown {source} />
   </span>
@@ -37,16 +39,11 @@
 <style>
   .md-editor {
     display: flex;
-    gap: 10px;
+    gap: 20px;
   }
 
   .md-input {
     flex: 1;
-    font-family: monospace;
-    padding: 10px;
-    border: solid grey 1px;
-    border-radius: 5px;
-    width: 100%;
   }
 
   .md-preview {

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { TextInput } from '$components/base';
   import { ColorPicker, FilePicker } from '$components/pickers';
   import consts from '$lib/consts';
   import type { ItemId } from '$lib/itemId';
@@ -18,8 +19,7 @@
 
 <form onsubmit={(e) => e.preventDefault()}>
   <h2>Name</h2>
-  <input
-    type="text"
+  <TextInput
     placeholder={consts.APP_NAME}
     bind:value={item.info.name}
     oninput={() => onchange(item.info)}
@@ -33,8 +33,7 @@
     {/if}
   </p>
   <h2>Short name</h2>
-  <input
-    type="text"
+  <TextInput
     placeholder={item.info.name}
     bind:value={item.info.shortName}
     oninput={() => onchange(item.info)}
@@ -47,8 +46,7 @@
     {/if} This is displayed in the navigator when viewing child pages.
   </p>
   <h2>Description</h2>
-  <input
-    type="text"
+  <TextInput
     placeholder="A concise description."
     bind:value={item.info.description}
     oninput={() => onchange(item.info)}

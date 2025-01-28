@@ -9,7 +9,7 @@
   import Navbar from '$components/navbar';
   import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
-  import { idValidatorRegex } from '$lib/validate';
+  import { Button, TextInput } from '$components/base';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? 'admin' : '');
@@ -77,30 +77,23 @@
           Create a username. It may only use lowercase alphanumeric characters,
           dots, dashes and underscores.
         </p>
-        <input
-          type="text"
-          id="username"
-          pattern={idValidatorRegex.source}
-          title="Username contains illegal characters"
-          bind:value={username}
-          placeholder="username"
-        />
+        <TextInput id="username" bind:value={username} placeholder="username" />
 
         <p>Create a strong and unique password.</p>
-        <input
-          type="password"
+        <TextInput
+          password
           id="password"
           bind:value={password}
           placeholder="A strong and unique password"
         />
         <p>Repeat your password.</p>
-        <input
-          type="password"
+        <TextInput
+          password
           id="repeatPassword"
           bind:value={repeatPassword}
           placeholder="Repeat your password"
         />
-        <input type="submit" id="submit-main" value="Create account" />
+        <Button type="submit" id="submit-main">Create account</Button>
       </form>
     </main>
   </Paper>
@@ -110,7 +103,7 @@
 <Spinner
   show={showLoading}
   header="Just a moment..."
-  text="We're setting up your data"
+  text="We're setting up your account"
 />
 
 <!-- Error shows if error occurs with setup -->
@@ -136,17 +129,5 @@
 
   form {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

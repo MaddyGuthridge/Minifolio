@@ -12,6 +12,7 @@
 
     // Standard button props
     children: Snippet;
+    id?: string;
     type?: 'submit';
     /** Whether button is disabled */
     disabled?: boolean;
@@ -24,6 +25,7 @@
     hint,
     hintInteractive = false,
     type,
+    id,
     disabled,
     onclick,
     mode = 'default',
@@ -60,6 +62,7 @@
       {onclick}
       {type}
       {disabled}
+      {id}
       use:tooltip={{ content: hint, interactive: hintInteractive }}
       aria-label={hint}
       style:--color={color}
@@ -73,6 +76,7 @@
   <button
     {onclick}
     {type}
+    {id}
     style:--color={color}
     style:--hoverColor={hoverColor}
     style:--clickColor={clickColor}

@@ -5,7 +5,7 @@
   import CopyButton from '$components/CopyButton.svelte';
   import api from '$endpoints';
   import { APP_NAME } from '$lib/consts';
-  import { Button } from '$components/base';
+  import { Button, TextInput } from '$components/base';
 
   type Props = {
     /** Public key currently being used by the server */
@@ -47,17 +47,16 @@
   <h2>SSH key settings</h2>
   {#if privateKeyPath === null}
     <p>
-      {APP_NAME} is using your system's default SSH configuration. Note that in Docker,
-      this may be unset, unless you are forwarding your host's SSH agent.
+      <b>{APP_NAME} is using your system's default SSH configuration.</b>
+    </p>
+    <p>
+      Note that in Docker, this may be unset, unless you are forwarding your
+      host's SSH agent.
     </p>
     <form onsubmit={preventDefault(() => void useKeyAtPath)}>
       <p>Use the given SSH key-pair</p>
       <p>
-        <input
-          type="text"
-          bind:value={newKeyPath}
-          placeholder="/path/to/private/key"
-        />
+        <TextInput bind:value={newKeyPath} placeholder="/path/to/private/key" />
       </p>
       <p><Button type="submit">Set SSH key path</Button></p>
     </form>
@@ -74,11 +73,7 @@
     <form onsubmit={preventDefault(() => void useKeyAtPath)}>
       <p>Use the given SSH key-pair</p>
       <p>
-        <input
-          type="text"
-          bind:value={newKeyPath}
-          placeholder="/path/to/private/key"
-        />
+        <TextInput bind:value={newKeyPath} placeholder="/path/to/private/key" />
       </p>
       <p><Button type="submit">Set SSH key path</Button></p>
     </form>

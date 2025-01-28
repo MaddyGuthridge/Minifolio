@@ -61,6 +61,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
   }
   #contents {
     padding: 20px;

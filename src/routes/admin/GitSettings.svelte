@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from '$components/base';
+  import { Button, TextInput } from '$components/base';
   import api from '$endpoints';
 
   type Props = {
@@ -94,9 +94,8 @@
         void submitSwitchToGit();
       }}
     >
-      <input
+      <TextInput
         required
-        type="text"
         name="git-url"
         id="git-url"
         placeholder="git@github.com:MaddyGuthridge/Minifolio.git"

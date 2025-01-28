@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from '$components/base';
+  import { Button, TextInput } from '$components/base';
   import api from '$endpoints';
 
   type Props = {
@@ -25,13 +25,13 @@
     <p>
       Username
       <br />
-      <input placeholder="Your account username" bind:value={username} />
+      <TextInput placeholder="Your account username" bind:value={username} />
     </p>
     <p>
       Original password
       <br />
-      <input
-        type="password"
+      <TextInput
+        password
         placeholder="Your original password"
         bind:value={originalPassword}
       />
@@ -39,8 +39,8 @@
     <p>
       New password
       <br />
-      <input
-        type="password"
+      <TextInput
+        password
         placeholder="A unique and secure password"
         bind:value={newPassword}
       />
@@ -48,8 +48,8 @@
     <p>
       Repeat new password
       <br />
-      <input
-        type="password"
+      <TextInput
+        password
         placeholder="Your new password again"
         bind:value={repeatNewPassword}
       />
@@ -58,7 +58,9 @@
       <p>New passwords much match</p>
     {/if}
     <p>
-      <Button type="submit" disabled={newPassword != repeatNewPassword}>Change password</Button>
+      <Button type="submit" disabled={newPassword != repeatNewPassword}
+        >Change password</Button
+      >
     </p>
   </form>
 </div>

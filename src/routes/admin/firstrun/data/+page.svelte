@@ -10,6 +10,7 @@
   import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
   import KeySettings from '../../KeySettings.svelte';
+  import { Button, TextInput } from '$components/base';
 
   let { data } = $props();
 
@@ -104,8 +105,7 @@
             and enter the clone URL here. If you want to import existing data, enter
             your existing repository URL here.
           </p>
-          <input
-            type="text"
+          <TextInput
             id="repo-url"
             bind:value={repoUrl}
             placeholder="git@github.com:MaddyGuthridge/portfolio-data.git"
@@ -113,15 +113,16 @@
 
           <h3>Repository branch</h3>
           <p>If you want to use a specific branch, you can enter it here.</p>
-          <input
-            type="text"
+          <TextInput
             id="repo-branch"
             bind:value={repoBranch}
             placeholder="main"
           />
 
           <h3>Ready to get started?</h3>
-          <input type="submit" id="submit-main" value="Let's go!" />
+          <Button type="submit" id="submit-main" mode="confirm">
+            Let's go!
+          </Button>
 
           <h3>Don't want to use a git repo?</h3>
           <p>
@@ -129,11 +130,9 @@
             backed up. But if you're just testing {consts.APP_NAME}, it's much
             quicker to get started without a git repo.
           </p>
-          <input
-            type="submit"
-            id="submit-no-git"
-            value="I don't want to use git"
-          />
+          <Button type="submit" id="submit-no-git">
+            I don't want to use git
+          </Button>
         </form>
       </div>
     </main>
@@ -170,17 +169,5 @@
 
   .main-content {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

@@ -194,7 +194,7 @@
     transition: backdrop-filter 0.5s;
   }
 
-  :global html:not([data-scroll='top']) nav {
+  :global html[data-scroll='page'] nav {
     box-shadow:
       -5px 0px 10px rgba(0, 0, 0, 0.5),
       5px 0px 10px rgba(0, 0, 0, 0.5);

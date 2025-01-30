@@ -45,6 +45,7 @@
     width: 100%;
     padding: 6px 10px;
     background-color: transparent;
+    box-sizing: border-box;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     transition: background-color 0.5s;

@@ -1,8 +1,10 @@
 <script lang="ts">
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
+  import { Button } from '$components/base';
   import { ItemCardGrid } from '$components/card';
   import EditableMarkdown from '$components/markdown';
+  import { NewItemModal } from '$components/modals';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
@@ -29,6 +31,8 @@
   let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
     await api().item(data.itemId).info.put(info);
   }, consts.EDIT_COMMIT_HESITATION);
+
+  let newItemModalShown = $state(false);
 </script>
 
 <svelte:head>
@@ -134,7 +138,18 @@
         {editing}
       />
     </div>
+    {#if editing}
+      <Button onclick={() => (newItemModalShown = true)}>
+        Create child item
+      </Button>
+    {/if}
   </main>
+
+  <NewItemModal
+    show={newItemModalShown}
+    parent={data.itemId}
+    onclose={() => (newItemModalShown = false)}
+  />
 </div>
 
 <style>

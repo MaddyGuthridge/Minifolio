@@ -64,7 +64,7 @@
     <p>
       Item ID
       <input
-        placeholder="manyfolio"
+        placeholder={consts.APP_NAME}
         required
         bind:value={itemId}
         oninput={() => {

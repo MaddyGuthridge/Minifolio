@@ -23,9 +23,13 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
-<div class="outer" style="display: {display};" onclick={close}>
+<div class="outer" style="display: {display};" onclick={onclose}>
   <div class="inner">
-    <div class="box" style="background-color: {color};" onclick={onclose}>
+    <div
+      class="box"
+      style="background-color: {color};"
+      onclick={(e) => e.stopPropagation()}
+    >
       <div class="header">
         {@render header?.()}
         {#if showCloseButton}

@@ -56,26 +56,33 @@
 </script>
 
 {#if hint}
-  <!-- https://atomiks.github.io/tippyjs/v6/accessibility/#interactivity -->
+  <!--
+    Need to use:tooltip on inner div, as Tippy can struggle with interactive elements
+    sometimes:
+    * https://atomiks.github.io/tippyjs/v6/accessibility/#interactivity
+    * https://github.com/atomiks/tippyjs/issues/104
+  -->
   <div>
-    <button
-      {onclick}
-      {type}
-      {disabled}
-      {id}
-      use:tooltip={{ content: hint, interactive: hintInteractive }}
-      aria-label={hint}
-      style:--color={color}
-      style:--hoverColor={hoverColor}
-      style:--clickColor={clickColor}
-    >
-      {@render children()}
-    </button>
+    <div use:tooltip={{ content: hint, interactive: hintInteractive }}>
+      <button
+        {onclick}
+        {type}
+        {disabled}
+        {id}
+        aria-label={hint}
+        style:--color={color}
+        style:--hoverColor={hoverColor}
+        style:--clickColor={clickColor}
+      >
+        {@render children()}
+      </button>
+    </div>
   </div>
 {:else}
   <button
     {onclick}
     {type}
+    {disabled}
     {id}
     style:--color={color}
     style:--hoverColor={hoverColor}
@@ -110,5 +117,12 @@
   button:active {
     background-color: var(--clickColor);
     transition: background-color 0s;
+  }
+  button:disabled {
+    color: gray;
+  }
+  button:disabled:hover {
+    cursor: default;
+    background-color: var(--color);
   }
 </style>

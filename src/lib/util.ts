@@ -57,3 +57,8 @@ export class Option<T> {
 export function constArrayIncludes<T extends E, E>(arr: readonly T[], ele: E): ele is T {
   return arr.includes(ele as T);
 }
+
+/** Return whether all values in a boolean Record are true */
+export function objectAll(obj: Record<string, boolean>): obj is Record<string, true> {
+  return Object.values(obj).find(v => v !== true) === undefined;
+}

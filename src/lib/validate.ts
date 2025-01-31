@@ -16,7 +16,7 @@ export const idValidatorRegex = /^[a-z0-9-.]+$/;
  */
 export function validateId(type: string, id: string): string {
   if (!id.trim().length) {
-    error(400, `${type} '${id}' is empty`);
+    error(400, `${type} cannot be empty`);
   }
   if (!idValidatorRegex.test(id)) {
     error(400, `${type} '${id}' is contains illegal characters`);
@@ -70,8 +70,17 @@ export function validateColor(color: string): string {
   return color;
 }
 
+/** Validate that a text field is non-empty */
+export function validateNonEmpty(text: string): string {
+  if (!text) {
+    error(400, 'Field must not be empty');
+  }
+  return text;
+}
+
 export default {
   id: validateId,
   name: validateName,
   color: validateColor,
+  nonEmpty: validateNonEmpty,
 };

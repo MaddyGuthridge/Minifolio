@@ -48,11 +48,9 @@
       void useKeyAtPath();
     }}
   >
-    <p>Use the given SSH key-pair</p>
-    <p>
-      <TextInput bind:value={newKeyPath} placeholder="/path/to/private/key" />
-    </p>
-    <p><Button type="submit">Set SSH key path</Button></p>
+    <div>Use the given SSH key-pair</div>
+    <TextInput bind:value={newKeyPath} placeholder="/path/to/private/key" />
+    <Button type="submit">Set SSH key path</Button>
   </form>
 {/snippet}
 
@@ -63,8 +61,8 @@
       void generateNewKey();
     }}
   >
-    <p>Generate a new SSH key-pair</p>
-    <p><Button type="submit">Generate SSH key</Button></p>
+    <div>Generate a new SSH key-pair</div>
+    <Button type="submit">Generate SSH key</Button>
   </form>
 {/snippet}
 
@@ -75,8 +73,8 @@
       void useSystemSsh();
     }}
   >
-    <p>Use the system's SSH configuration</p>
-    <p><Button type="submit">Use system SSH</Button></p>
+    <div>Use the system's SSH configuration</div>
+    <Button type="submit">Use system SSH</Button>
   </form>
 {/snippet}
 

@@ -4,6 +4,7 @@
  * Contains common validator functions shared throughout the app.
  */
 import { error } from '@sveltejs/kit';
+import validator from 'validator';
 
 /** Regex for matching ID strings */
 export const idValidatorRegex = /^[a-z0-9-.]+$/;
@@ -78,9 +79,18 @@ export function validateNonEmpty(text: string): string {
   return text;
 }
 
+/** Validate that a password is sufficiently strong */
+export function validatePassword(password: string): string {
+  if (!validator.isStrongPassword(password)) {
+    error(400, 'Password is not strong enough');
+  }
+  return password;
+}
+
 export default {
   id: validateId,
   name: validateName,
   color: validateColor,
   nonEmpty: validateNonEmpty,
+  password: validatePassword,
 };

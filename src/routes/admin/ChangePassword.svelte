@@ -3,7 +3,6 @@
   import api from '$endpoints';
   import { objectAll } from '$lib/util';
   import validate from '$lib/validate';
-  import validator from 'validator';
 
   type Props = {
     username: string;
@@ -40,7 +39,7 @@
       id="username"
       placeholder="Your account username"
       bind:value={username}
-      validator={(username) => validate.id('Username', username)}
+      validator={(u) => validate.id('Username', u)}
       bind:valueOk={valuesOk.username}
     />
     <!-- Original password field -->
@@ -50,7 +49,7 @@
       password
       placeholder="Your original password"
       bind:value={originalPassword}
-      validator={(p) => validate.nonEmpty(p)}
+      validator={validate.nonEmpty}
       bind:valueOk={valuesOk.ogPassword}
     />
     <!-- New password field -->
@@ -60,11 +59,7 @@
       password
       placeholder="A unique and secure password"
       bind:value={newPassword}
-      validator={(p) => {
-        if (!validator.isStrongPassword(p)) {
-          throw Error('Password is not strong enough');
-        }
-      }}
+      validator={validate.password}
       bind:valueOk={valuesOk.newPassword}
     />
     <!-- Repeat new password field -->

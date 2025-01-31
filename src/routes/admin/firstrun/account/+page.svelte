@@ -10,6 +10,8 @@
   import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
   import { Button, TextInput } from '$components/base';
+  import validate from '$lib/validate';
+  import { objectAll } from '$lib/util';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? 'admin' : '');
@@ -39,6 +41,15 @@
   let showLoading = $state(false);
 
   let errorText = $state('');
+
+  // Values are true only in dev mode
+  const valuesOk = $state({
+    username: dev,
+    password: dev,
+    repeatPassword: dev,
+  });
+
+  const canSubmit = $derived(objectAll(valuesOk));
 </script>
 
 <svelte:head>
@@ -77,23 +88,37 @@
           Create a username. It may only use lowercase alphanumeric characters,
           dots, dashes and underscores.
         </p>
-        <TextInput id="username" bind:value={username} placeholder="username" />
+        <TextInput
+          id="username"
+          placeholder="username"
+          bind:value={username}
+          validator={(u) => validate.id('Username', u)}
+          bind:valueOk={valuesOk.username}
+        />
 
         <p>Create a strong and unique password.</p>
         <TextInput
           password
           id="password"
-          bind:value={password}
           placeholder="A strong and unique password"
+          bind:value={password}
+          validator={validate.password}
+          bind:valueOk={valuesOk.password}
         />
         <p>Repeat your password.</p>
         <TextInput
           password
           id="repeatPassword"
-          bind:value={repeatPassword}
           placeholder="Repeat your password"
+          bind:value={repeatPassword}
+          errorText={password !== repeatPassword
+            ? 'Password fields must match'
+            : undefined}
+          bind:valueOk={valuesOk.repeatPassword}
         />
-        <Button type="submit" id="submit-main">Create account</Button>
+        <Button type="submit" id="submit-main" disabled={!canSubmit}>
+          Create account
+        </Button>
       </form>
     </main>
   </Paper>

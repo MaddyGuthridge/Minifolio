@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Separator } from '$components';
+  import { TextInput } from '$components/base';
   import type { SiteSection } from '$lib/server/data/item/section';
 
   type Props = {
@@ -31,8 +32,7 @@
   <div class="edit-outer">
     <div class="edit-grid">
       <label for="site-label-text">Label text</label>
-      <input
-        type="text"
+      <TextInput
         id="site-label-text"
         bind:value={section.label}
         oninput={onchange}
@@ -41,16 +41,14 @@
       <label for="site-icon">
         <a href="https://icons8.com/line-awesome" target="_blank">Icon</a>
       </label>
-      <input
-        type="text"
+      <TextInput
         id="site-icon"
         bind:value={section.icon}
         oninput={onchange}
         placeholder="la-globe"
       />
       <label for="site-url">Website URL</label>
-      <input
-        type="url"
+      <TextInput
         id="site-url"
         bind:value={section.url}
         oninput={onchange}
@@ -85,5 +83,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
   }
 </style>

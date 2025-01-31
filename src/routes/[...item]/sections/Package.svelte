@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Separator } from '$components';
-  import { Select } from '$components/base';
+  import { Select, TextInput } from '$components/base';
   import CopyButton from '$components/CopyButton.svelte';
   import {
     packageProviders,
@@ -121,8 +121,7 @@
   <div class="edit-outer">
     <div class="edit-grid">
       <label for="repo-label-text">Label text</label>
-      <input
-        type="text"
+      <TextInput
         id="repo-label-text"
         bind:value={section.label}
         oninput={commitChange}
@@ -141,8 +140,7 @@
       </Select>
       {#if section.info.provider === 'custom'}
         <label for="provider-name">Provider name</label>
-        <input
-          type="text"
+        <TextInput
           id="provider-name"
           bind:value={section.info.providerName}
           oninput={commitChange}
@@ -150,8 +148,7 @@
           required
         />
         <label for="install-command">Installation command</label>
-        <input
-          type="text"
+        <TextInput
           id="install-command"
           bind:value={section.info.command}
           oninput={commitChange}
@@ -159,8 +156,7 @@
           required
         />
         <label for="package-url">Package URL</label>
-        <input
-          type="url"
+        <TextInput
           id="package-url"
           bind:value={section.info.url}
           oninput={commitChange}
@@ -168,18 +164,16 @@
           required
         />
         <label for="package-icon">Icon</label>
-        <input
-          type="text"
+        <TextInput
           id="package-icon"
           bind:value={section.info.command}
           oninput={commitChange}
           placeholder="Icon"
         />
       {:else}
-        <label for="package-url">Package ID</label>
-        <input
-          type="url"
-          id="package-url"
+        <label for="package-id">Package ID</label>
+        <TextInput
+          id="package-id"
           bind:value={section.info.id}
           oninput={commitChange}
           placeholder="Package ID"
@@ -224,5 +218,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
   }
 </style>

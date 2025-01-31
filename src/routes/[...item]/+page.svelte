@@ -148,6 +148,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 1000px;
     width: 90%;
   }
 
@@ -165,6 +166,9 @@
   }
   #info-container {
     padding: 20px;
+    width: 100%;
+  }
+  #sections {
     width: 100%;
   }
 </style>

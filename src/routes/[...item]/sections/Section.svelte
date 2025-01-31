@@ -57,12 +57,13 @@
     align-items: center;
 
     gap: 10px;
-    margin: 30px;
+    margin: 10px 0;
     padding: 10px;
+    width: 100%;
   }
 
   .section-inner {
-    min-width: 50vw;
+    width: 100%;
   }
 
   .bordered {

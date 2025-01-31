@@ -5,6 +5,7 @@
   import { goto } from '$app/navigation';
   import { itemUrl } from '$lib/urls';
   import consts from '$lib/consts';
+  import { Button, TextInput } from '$components/base';
 
   type Props = {
     show: boolean;
@@ -46,9 +47,10 @@
   {/snippet}
   <p>Creating a new item as a child of {formatItemId(parent)}.</p>
   <form onsubmit={makeItem}>
-    <p>
-      Item name
-      <input
+    <div class="form-grid">
+      <label for="item-name">Item name</label>
+      <TextInput
+        id="item-name"
         placeholder={consts.APP_NAME}
         bind:value={itemName}
         required
@@ -60,55 +62,38 @@
           }
         }}
       />
-    </p>
-    <p>
-      Item ID
-      <input
+      <label for="item-id">Item ID</label>
+      <TextInput
         placeholder={consts.APP_NAME}
+        id="item-id"
         required
         bind:value={itemId}
         oninput={() => {
           userModifiedId = true;
         }}
       />
-    </p>
-    <p>
-      Item description
-      <input
+      <label for="item-description">Item description</label>
+      <TextInput
+        id="item-description"
         placeholder="A data-driven portfolio website"
         bind:value={itemDescription}
       />
-    </p>
-    <p>
-      <input type="submit" value="Create" />
-    </p>
+    </div>
+    <Button type="submit">Create</Button>
   </form>
 </Modal>
 
 <style>
-  form {
+  .form-grid {
     margin: 10px;
-  }
-
-  form p {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: 10px;
     width: 100%;
   }
-  form p input {
-    flex: 1;
-    height: 1.2rem;
-  }
 
-  input[type='submit'] {
-    height: 2rem;
-    background-color: transparent;
-    border: none;
-    border-radius: 5px;
-  }
-
-  input[type='submit']:hover {
-    background-color: rgba(124, 124, 124, 0.253);
-    cursor: pointer;
+  label {
+    display: flex;
+    align-items: center;
   }
 </style>

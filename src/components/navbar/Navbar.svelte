@@ -8,6 +8,7 @@
   import { getDescendant } from '$lib/itemData';
   import consts from '$lib/consts';
   import { Button } from '$components/base';
+  import { onMount } from 'svelte';
 
   type NavbarPath = { url: string; txt: string }[];
 
@@ -137,6 +138,10 @@
       onEditBegin?.();
     }
   }
+
+  // Update scroll position on mount so that we don't get weird visual artifacts
+  // if the page loads half-way down for some reason
+  onMount(onscroll);
 </script>
 
 <svelte:window {onscroll} />

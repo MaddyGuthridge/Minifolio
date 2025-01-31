@@ -6,6 +6,8 @@
   import { itemUrl } from '$lib/urls';
   import consts from '$lib/consts';
   import { Button, TextInput } from '$components/base';
+  import validate from '$lib/validate';
+  import { objectAll } from '$lib/util';
 
   type Props = {
     show: boolean;
@@ -39,6 +41,13 @@
       .info.post(itemName, itemDescription);
     await goto(itemUrl([...parent, itemId]));
   }
+
+  let valuesOk = $state({
+    name: false,
+    id: false,
+  });
+
+  const canSubmit = $derived(objectAll(valuesOk));
 </script>
 
 <Modal {show} onclose={resetAndClose}>
@@ -61,6 +70,8 @@
             itemId = nameToId(itemName);
           }
         }}
+        validator={validate.name}
+        bind:valueOk={valuesOk.name}
       />
       <label for="item-id">Item ID</label>
       <TextInput
@@ -71,6 +82,8 @@
         oninput={() => {
           userModifiedId = true;
         }}
+        validator={(id) => validate.id('Item ID', id)}
+        bind:valueOk={valuesOk.id}
       />
       <label for="item-description">Item description</label>
       <TextInput
@@ -79,7 +92,7 @@
         bind:value={itemDescription}
       />
     </div>
-    <Button type="submit">Create</Button>
+    <Button type="submit" disabled={!canSubmit}>Create</Button>
   </form>
 </Modal>
 

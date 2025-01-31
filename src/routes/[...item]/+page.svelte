@@ -153,8 +153,8 @@
   }
 
   .banner-image {
-    max-width: 80%;
-    height: 30vh;
+    width: 100%;
+    max-height: 30vh;
     border-radius: 10px;
   }
 

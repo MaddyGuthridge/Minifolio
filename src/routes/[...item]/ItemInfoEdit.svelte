@@ -102,13 +102,12 @@
   }
 
   .banner-image {
-    max-width: 80%;
-    height: 30vh;
+    width: 100%;
+    max-height: 30vh;
     border-radius: 10px;
   }
   .icon-image {
-    max-width: 80%;
-    height: 30vh;
+    max-width: 30%;
     border-radius: 10px;
   }
 </style>

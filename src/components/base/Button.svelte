@@ -62,8 +62,8 @@
     * https://atomiks.github.io/tippyjs/v6/accessibility/#interactivity
     * https://github.com/atomiks/tippyjs/issues/104
   -->
-  <div>
-    <div use:tooltip={{ content: hint, interactive: hintInteractive }}>
+  <span>
+    <span use:tooltip={{ content: hint, interactive: hintInteractive }}>
       <button
         {onclick}
         {type}
@@ -76,8 +76,8 @@
       >
         {@render children()}
       </button>
-    </div>
-  </div>
+    </span>
+  </span>
 {:else}
   <button
     {onclick}

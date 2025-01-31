@@ -94,6 +94,9 @@
 
     <div id="readme">
       <div id="info-container">
+        {#if editing}
+          <h2>README.md</h2>
+        {/if}
         <EditableMarkdown
           {editing}
           bind:source={thisItem.readme}
@@ -105,6 +108,9 @@
       </div>
     </div>
     <div id="sections">
+      {#if editing}
+        <h2>Sections</h2>
+      {/if}
       {#each thisItem.info.sections as _section, i}
         <Section
           portfolio={data.portfolio}
@@ -131,6 +137,9 @@
     {/if}
 
     <div id="children">
+      {#if editing}
+        <h2>Children</h2>
+      {/if}
       <ItemCardGrid
         portfolio={data.portfolio}
         itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}

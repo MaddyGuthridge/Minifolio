@@ -19,7 +19,16 @@
   }: Props = $props();
 
   let display = $derived(show ? 'block' : 'none');
+
+  function onkeydown(e: KeyboardEvent) {
+    if (show && e.key === 'Escape') {
+      e.preventDefault();
+      onclose();
+    }
+  }
 </script>
+
+<svelte:window {onkeydown} />
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->

@@ -42,6 +42,13 @@
     gap: 20px;
   }
 
+  /* Display editor in columns on small screens */
+  @media screen and (max-width: 600px) {
+    .md-editor {
+      flex-direction: column;
+    }
+  }
+
   .md-input {
     flex: 1;
   }

@@ -8,7 +8,7 @@
      * Validator function -- any exception thrown will be displayed as error text.
      */
     validator?: (text: string) => any;
-    /** Additional error text, if built-in validation is inadequate */
+    /** Additional error text, if validator callback is inadequate */
     errorText?: string;
     /** Whether the value is considered to be ok (in that no error message is shown) */
     valueOk?: boolean;
@@ -82,6 +82,7 @@
     {name}
     {id}
     oninput={handleInput}
+    onfocus={performValidation}
     {placeholder}
     {required}
     style:--size={`${size}rem`}

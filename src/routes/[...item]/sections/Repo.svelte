@@ -8,7 +8,7 @@
   } from '$lib/repoInfo';
   import { type RepoProvider } from '$lib/server/data/item/repo';
   import type { RepoSection } from '$lib/server/data/item/section';
-  import { tooltip } from '$lib/tooltip';
+  import { tooltip } from '$lib/ui';
   import { constArrayIncludes } from '$lib/util';
 
   type Props = {

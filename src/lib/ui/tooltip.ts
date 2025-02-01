@@ -12,7 +12,7 @@ const defaultOptions = {
 };
 
 /** Add a tooltip to an element */
-export function tooltip(node: Element, options: Partial<Props> | undefined) {
+export default function tooltip(node: Element, options: Partial<Props> | undefined) {
   const tooltip = tippy(node, { ...defaultOptions, ...options });
 
   return {

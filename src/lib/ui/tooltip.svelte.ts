@@ -15,12 +15,9 @@ const defaultOptions = {
 export default function tooltip(node: Element, options: Partial<Props> | undefined) {
   const tooltip = tippy(node, { ...defaultOptions, ...options });
 
-  return {
-    update(options: Partial<Props>) {
-      tooltip.setProps(options);
-    },
-    destroy() {
-      tooltip.destroy();
-    }
-  };
+  $effect(() => {
+    tooltip.setProps(options ?? {});
+
+    return () => tooltip.destroy();
+  });
 }

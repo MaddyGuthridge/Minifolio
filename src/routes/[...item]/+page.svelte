@@ -5,6 +5,7 @@
   import { ItemCardGrid } from '$components/card';
   import EditableMarkdown from '$components/markdown';
   import { NewItemModal } from '$components/modals';
+  import { ItemPicker } from '$components/pickers';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
@@ -114,6 +115,7 @@
         />
       </div>
     </div>
+
     <div id="sections">
       {#if editing}
         <h2>Sections</h2>

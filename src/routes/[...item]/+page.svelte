@@ -22,6 +22,7 @@
 
   let { data }: Props = $props();
 
+  // FIXME: This doesn't update when changing pages
   let thisItem = $state(data.item);
 
   const isRootItem = $derived(data.itemId.length === 0);
@@ -35,7 +36,9 @@
   let newItemModalShown = $state(false);
 
   $effect(() => {
-    thisItem = data.item;
+    // BUG: This doesn't actually update `thisItem`, and so changing pages causes invalid data to be
+    // displayed
+    thisItem = structuredClone(data.item);
     console.log('Item data changed:', data.item);
   });
 </script>
@@ -79,6 +82,10 @@
 <div class="center">
   <main>
     {#if editing}
+      <!--
+        Need to bind `thisItem` to get reactive changes in the UI, but this means that things break
+        when the page is changed.
+      -->
       <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}

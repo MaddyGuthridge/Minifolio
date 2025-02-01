@@ -38,7 +38,7 @@
     {:else if section.type === 'heading'}
       <Heading bind:section {editing} {onchange} />
     {:else if section.type === 'links'}
-      <Links {...section} {editing} {portfolio} />
+      <Links bind:section {editing} {portfolio} {onchange} />
     {/if}
   </div>
   {#if editing}

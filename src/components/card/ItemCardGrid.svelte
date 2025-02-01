@@ -11,7 +11,7 @@
     /** Item IDs to show */
     itemIds: ItemId[];
     /** Called when an item is clicked */
-    onclick: (itemId: ItemId) => void;
+    onclick?: (itemId: ItemId) => void;
     /** Whether edit mode is active*/
     editing: boolean;
   };
@@ -30,7 +30,7 @@
         item={getDescendant(portfolio, itemId).info}
         link={!editing}
         {itemId}
-        onclick={() => onclick(itemId)}
+        onclick={() => onclick?.(itemId)}
       />
     </div>
   {/each}

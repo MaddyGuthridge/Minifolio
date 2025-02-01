@@ -17,9 +17,9 @@
     /** Whether to link each chip to its respective page */
     link?: boolean;
     /** Called when the filter is updated */
-    onfilter: (options: FilterOptions) => void;
+    onfilter?: (options: FilterOptions) => void;
     /** Called when an item is clicked */
-    onclick: (itemId: ItemId) => void;
+    onclick?: (itemId: ItemId) => void;
   };
 
   let { portfolio, items, link = false, onfilter, onclick }: Props = $props();
@@ -105,7 +105,7 @@
   function updateFilterStatus(outerIdx: number, innerIdx: number) {
     const newItems = items;
     newItems[outerIdx][innerIdx].selected = !items[outerIdx][innerIdx].selected;
-    onfilter(newItems);
+    onfilter?.(newItems);
   }
 </script>
 
@@ -120,7 +120,7 @@
           {link}
           onclick={() => {
             updateFilterStatus(outer, inner);
-            onclick(filterItem.itemId);
+            onclick?.(filterItem.itemId);
           }}
         />
       {/each}
@@ -135,7 +135,6 @@
 <style>
   .chip-list {
     margin: 0 5px;
-    padding-bottom: 5px;
     display: flex;
     gap: 5px;
     align-items: center;

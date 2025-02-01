@@ -5,7 +5,6 @@
   import { ItemCardGrid } from '$components/card';
   import EditableMarkdown from '$components/markdown';
   import { NewItemModal } from '$components/modals';
-  import { ItemPicker } from '$components/pickers';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';

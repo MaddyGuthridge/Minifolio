@@ -4,7 +4,6 @@
   import type { ItemId } from '$lib/itemId';
   import { itemFileUrl, itemUrl } from '$lib/urls';
   import { dragAndDrop } from '$lib/ui';
-  import type { DndInfo } from './dndTypes';
 
   type Props = {
     /** Item info to display */
@@ -17,11 +16,9 @@
     onclick?: (e: MouseEvent | undefined | null) => void;
     /** Unique ID to use for drag-and-drop operations */
     dndId?: string;
-    /** Called when this item is dragged and dropped somewhere */
-    onDragAndDrop?: (info: DndInfo) => void;
   };
 
-  let { item, itemId, link, onclick, dndId, onDragAndDrop }: Props = $props();
+  let { item, itemId, link, onclick, dndId }: Props = $props();
 </script>
 
 <div
@@ -29,13 +26,6 @@
     drag: {
       canDrag: () => dndId !== undefined,
       getInitialData: () => ({ dndId, itemId }),
-      onDrop: (e) => {
-        // If there is a valid drop target
-        if (e.location.current.dropTargets.length) {
-          // Send drop target info
-          onDragAndDrop?.(e.location.current.dropTargets[0].data as DndInfo);
-        }
-      },
     },
     drop: {
       canDrop: (e) => dndId === e.source.data.dndId,

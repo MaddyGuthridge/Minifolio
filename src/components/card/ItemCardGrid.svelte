@@ -20,10 +20,19 @@
     dndId?: string;
     /** Called when items are re-ordered */
     onReorder?: (itemIds: ItemId[]) => void;
+    /** Called when an item was dropped into this grid. Can be used to remove it from elsewhere. */
+    onDropItem?: (itemId: ItemId) => void;
   };
 
-  let { portfolio, itemIds, onclick, editing, dndId, onReorder }: Props =
-    $props();
+  let {
+    portfolio,
+    itemIds,
+    onclick,
+    editing,
+    dndId,
+    onReorder,
+    onDropItem,
+  }: Props = $props();
 
   function handleDrop(itemId: ItemId, info: DndInfo) {
     if (info.dndId !== dndId) {
@@ -51,35 +60,56 @@
     }
     // Now update itemIds
     onReorder?.(newItemIds);
+    onDropItem?.(itemId);
   }
 </script>
 
 <div
-  class="card-grid"
   use:drop={{
     canDrop: (e) => e.source.data.dndId === dndId,
     getData: () => ({ dndId, itemId: undefined }),
+    onDrop: (e) => {
+      // Send handleDrop the inner-most drop info
+      handleDrop(
+        e.source.data.itemId as ItemId,
+        e.location.current.dropTargets[0].data as DndInfo,
+      );
+    },
   }}
 >
-  {#each itemIds as itemId (itemId)}
-    <div
-      animate:flip={{ duration: 300 }}
-      in:receive={{ key: itemIdToUrl(itemId) }}
-      out:send={{ key: itemIdToUrl(itemId) }}
-    >
-      <ItemCard
-        item={getDescendant(portfolio, itemId).info}
-        link={!editing}
-        {itemId}
-        onclick={() => onclick?.(itemId)}
-        {dndId}
-        onDragAndDrop={(dndInfo) => handleDrop(itemId, dndInfo)}
-      />
-    </div>
-  {/each}
+  <div class="card-grid">
+    {#each itemIds as itemId (itemId)}
+      <div
+        animate:flip={{ duration: 300 }}
+        in:receive={{ key: itemIdToUrl(itemId) }}
+        out:send={{ key: itemIdToUrl(itemId) }}
+      >
+        <ItemCard
+          item={getDescendant(portfolio, itemId).info}
+          link={!editing}
+          {itemId}
+          onclick={() => onclick?.(itemId)}
+          {dndId}
+        />
+      </div>
+    {/each}
+  </div>
+  <!-- No child items -->
+  {#if itemIds.length === 0 && editing}
+    <div class="no-items-message"><p>No items to show</p></div>
+  {/if}
 </div>
 
 <style>
+  .no-items-message {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
   .card-grid {
     /* https://css-tricks.com/an-auto-filling-css-grid-with-max-columns/ */
     /**

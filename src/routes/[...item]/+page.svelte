@@ -160,6 +160,27 @@
           infoUpdater.update(thisItem.info);
         }}
       />
+      {#if editing}
+        <h3>Hidden children</h3>
+        {@const hiddenChildren = Object.keys(thisItem.children).filter(
+          (child) => !thisItem.info.children.includes(child),
+        )}
+        <ItemCardGrid
+          portfolio={data.portfolio}
+          itemIds={hiddenChildren.map((id) => [...data.itemId, id])}
+          onclick={() => {}}
+          {editing}
+          dndId={`${itemIdToUrl(data.itemId)}|children`}
+          onDropItem={(itemId) => {
+            // When an item is dropped here, remove it from the list of shown children
+            const tail = itemId.at(-1) as string;
+            thisItem.info.children = thisItem.info.children.filter(
+              (id) => id !== tail,
+            );
+            infoUpdater.update(thisItem.info);
+          }}
+        />
+      {/if}
     </div>
     {#if editing}
       <Button onclick={() => (newItemModalShown = true)}>

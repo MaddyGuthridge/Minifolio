@@ -157,6 +157,7 @@
         dndId={`${itemIdToUrl(data.itemId)}|children`}
         onReorder={(items) => {
           thisItem.info.children = items.map((id) => id.at(-1) as string);
+          infoUpdater.update(thisItem.info);
         }}
       />
     </div>

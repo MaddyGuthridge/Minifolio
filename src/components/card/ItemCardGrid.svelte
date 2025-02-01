@@ -44,7 +44,7 @@
     */
     --grid-layout-gap: 20px;
     --grid-column-count: 3;
-    --grid-item--min-width: 30em;
+    --grid-item--min-width: 20em;
 
     /**
     * Calculated values.

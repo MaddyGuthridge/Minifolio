@@ -43,6 +43,7 @@
       />
     </div>
   {:else}
+    <h2>{section.label}</h2>
     <ItemCardGrid {portfolio} itemIds={section.items} {editing} />
   {/if}
 {/snippet}

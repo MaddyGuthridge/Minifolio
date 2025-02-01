@@ -19,7 +19,18 @@ export function formatItemId(itemId: ItemId): string {
   return `'${path ? path : '/'}'`;
 }
 
-/** Update the ItemId to its URL path */
+/**
+ * Update the ItemId to its URL path.
+ *
+ * For example:
+ *
+ * ```ts
+ * >>> itemIdToUrl([])
+ * '/'
+ * >>> itemIdToUrl(['test'])
+ * 'test'
+ * ```
+ */
 export function itemIdToUrl(itemId: ItemId, file?: string): string {
   if (file) {
     return [...itemId, file].join('/');

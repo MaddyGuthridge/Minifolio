@@ -2,9 +2,11 @@
   import { flip } from 'svelte/animate';
   import { ItemCard } from '.';
   import { send, receive } from '$lib/transition';
-  import type { ItemId } from '$lib/itemId';
+  import { itemIdsEqual, itemIdToUrl, type ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import { getDescendant } from '$lib/itemData';
+  import { drop } from '$lib/ui';
+  import type { DndInfo } from './dndTypes';
 
   type Props = {
     portfolio: ItemData;
@@ -14,23 +16,64 @@
     onclick?: (itemId: ItemId) => void;
     /** Whether edit mode is active*/
     editing: boolean;
+    /** Unique drag-and-drop ID, used to prevent items from being dropped between incompatible areas */
+    dndId?: string;
+    /** Called when items are re-ordered */
+    onReorder?: (itemIds: ItemId[]) => void;
   };
 
-  let { portfolio, itemIds, onclick, editing }: Props = $props();
+  let { portfolio, itemIds, onclick, editing, dndId, onReorder }: Props =
+    $props();
+
+  function handleDrop(itemId: ItemId, info: DndInfo) {
+    if (info.dndId !== dndId) {
+      // Doesn't match, do nothing
+      return;
+    }
+    const prevIndex = itemIds.findIndex((id) => itemIdsEqual(id, itemId));
+    let newItemIds = itemIds.filter((id) => !itemIdsEqual(id, itemId));
+    if (info.itemId !== undefined) {
+      const targetId = info.itemId;
+      // Find location to splice it in
+      const targetIndex = itemIds.findIndex((id) => itemIdsEqual(id, targetId));
+      if (prevIndex > targetIndex) {
+        if (targetIndex > 0) {
+          newItemIds.splice(targetIndex, 0, itemId);
+        } else {
+          newItemIds = [itemId, ...newItemIds];
+        }
+      } else {
+        newItemIds.splice(targetIndex, 0, itemId);
+      }
+    } else {
+      // Not dropped onto an item => place at end of list
+      newItemIds.push(itemId);
+    }
+    // Now update itemIds
+    onReorder?.(newItemIds);
+  }
 </script>
 
-<div class="card-grid">
+<div
+  class="card-grid"
+  use:drop={{
+    canDrop: (e) => e.source.data.dndId === dndId,
+    getData: () => ({ dndId, itemId: undefined }),
+  }}
+>
   {#each itemIds as itemId (itemId)}
     <div
       animate:flip={{ duration: 300 }}
-      in:receive={{ key: itemId }}
-      out:send={{ key: itemId }}
+      in:receive={{ key: itemIdToUrl(itemId) }}
+      out:send={{ key: itemIdToUrl(itemId) }}
     >
       <ItemCard
         item={getDescendant(portfolio, itemId).info}
         link={!editing}
         {itemId}
         onclick={() => onclick?.(itemId)}
+        {dndId}
+        onDragAndDrop={(dndInfo) => handleDrop(itemId, dndInfo)}
       />
     </div>
   {/each}

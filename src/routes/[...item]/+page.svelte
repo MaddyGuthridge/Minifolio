@@ -8,6 +8,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
+  import { itemIdToUrl } from '$lib/itemId';
   import { generateKeywords } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
@@ -153,6 +154,10 @@
         itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}
         onclick={() => {}}
         {editing}
+        dndId={`${itemIdToUrl(data.itemId)}|children`}
+        onReorder={(items) => {
+          thisItem.info.children = items.map((id) => id.at(-1) as string);
+        }}
       />
     </div>
     {#if editing}

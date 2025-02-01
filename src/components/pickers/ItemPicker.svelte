@@ -7,9 +7,10 @@
   type Props = {
     portfolio: ItemData;
     value: ItemId;
+    id?: string;
   };
 
-  let { portfolio, value: value = $bindable() }: Props = $props();
+  let { portfolio, value: value = $bindable(), id }: Props = $props();
 
   /** Select the item with the given ID fragment at the given depth */
   function setSelection(index: number, id: string | undefined) {
@@ -34,7 +35,7 @@
   </Select>
 {/snippet}
 
-<div class="item-selector">
+<div class="item-selector" {id}>
   <!-- Root item selection -->
   {@render descendantOptions(0)}
   <!-- Descendant item selection -->

@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { TextInput } from '$components/base';
+  import { Button, TextInput } from '$components/base';
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
+  import { ItemPicker } from '$components/pickers';
+  import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import type { LinksSection } from '$lib/server/data/item/section';
 
@@ -12,29 +14,39 @@
     onchange: () => void;
   };
 
-  const { portfolio, editing, section = $bindable(), onchange }: Props = $props();
+  const {
+    portfolio,
+    editing,
+    section = $bindable(),
+    onchange,
+  }: Props = $props();
+
+  let newLinkId: ItemId = $state([]);
+
+  function addNewLink() {
+    section.items.push(newLinkId);
+    newLinkId = [];
+    onchange();
+  }
 </script>
 
 {#snippet display()}
-  <div>
-    <b>{section.label}</b>
-    {#if section.style === 'chip'}
+  {#if section.style === 'chip'}
+    <div class="link-chips">
+      <h3>{section.label}</h3>
       <ItemChipList
         {portfolio}
         items={[section.items.map((i) => ({ itemId: i, selected: false }))]}
-        link
-        onclick={() => {}}
-        onfilter={() => {}}
+        link={!editing}
       />
-    {:else}
-      <ItemCardGrid
-        {portfolio}
-        itemIds={section.items}
-        {editing}
-        onclick={() => {}}
-      />
-    {/if}
-  </div>
+    </div>
+  {:else}
+    <ItemCardGrid
+      {portfolio}
+      itemIds={section.items}
+      {editing}
+    />
+  {/if}
 {/snippet}
 
 {#if editing}
@@ -47,6 +59,11 @@
         oninput={onchange}
         placeholder={'See also'}
       />
+      <label for="links-item-picker">Add item</label>
+      <div class="item-picker-control">
+        <ItemPicker id="links-item-picker" {portfolio} bind:value={newLinkId} />
+        <Button onclick={addNewLink}>Add</Button>
+      </div>
     </div>
     {@render display()}
   </div>
@@ -55,8 +72,17 @@
 {/if}
 
 <style>
+  .link-chips {
+    display: flex;
+    align-items: center;
+  }
+  .link-chips h3 {
+    margin: 0;
+  }
+
   .edit-outer {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     align-items: center;
   }
@@ -70,5 +96,10 @@
   label {
     display: flex;
     align-items: center;
+  }
+
+  .item-picker-control {
+    display: flex;
+    gap: 5px;
   }
 </style>

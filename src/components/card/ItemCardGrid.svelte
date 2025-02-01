@@ -55,6 +55,7 @@
       (100% - var(--total-gap-width)) / var(--grid-column-count)
     );
 
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(
       auto-fill,

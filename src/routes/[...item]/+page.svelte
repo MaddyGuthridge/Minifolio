@@ -203,4 +203,8 @@
   #sections {
     width: 100%;
   }
+  #children {
+    width: 100%;
+    margin-bottom: 30px;
+  }
 </style>

@@ -10,6 +10,7 @@ import { itemIdsEqual, ItemIdStruct, type ItemId } from '$lib/itemId';
 import { RepoInfoStruct } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
+import { linkDisplayStyles } from '$lib/links';
 
 /** Header within the sections */
 const HeadingSectionStruct = type({
@@ -29,7 +30,7 @@ const LinksSectionStruct = type({
   /** The text to display for the section (eg "See also") */
   label: string(),
   /** The style in which to present the links ('chip' or 'card') */
-  style: enums(['chip', 'card']),
+  style: enums(linkDisplayStyles),
   /** The array of item IDs to display as links */
   items: array(ItemIdStruct),
 });

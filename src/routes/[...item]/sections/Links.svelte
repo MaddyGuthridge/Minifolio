@@ -1,11 +1,13 @@
 <script lang="ts">
-  import { Button, TextInput } from '$components/base';
+  import { Button, Select, TextInput } from '$components/base';
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
   import { ItemPicker } from '$components/pickers';
   import type { ItemId } from '$lib/itemId';
+  import { linkDisplayStyles } from '$lib/links';
   import type { ItemData } from '$lib/server/data/item';
   import type { LinksSection } from '$lib/server/data/item/section';
+  import { capitalize } from '$lib/util';
 
   type Props = {
     portfolio: ItemData;
@@ -41,11 +43,7 @@
       />
     </div>
   {:else}
-    <ItemCardGrid
-      {portfolio}
-      itemIds={section.items}
-      {editing}
-    />
+    <ItemCardGrid {portfolio} itemIds={section.items} {editing} />
   {/if}
 {/snippet}
 
@@ -59,6 +57,12 @@
         oninput={onchange}
         placeholder={'See also'}
       />
+      <label for="links-style">Display style</label>
+      <Select id="links-style" bind:value={section.style}>
+        {#each linkDisplayStyles as style}
+          <option value={style}>{capitalize(style)}</option>
+        {/each}
+      </Select>
       <label for="links-item-picker">Add item</label>
       <div class="item-picker-control">
         <ItemPicker id="links-item-picker" {portfolio} bind:value={newLinkId} />

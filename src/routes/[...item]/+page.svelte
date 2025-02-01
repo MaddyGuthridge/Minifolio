@@ -22,25 +22,24 @@
 
   let { data }: Props = $props();
 
-  // FIXME: This doesn't update when changing pages
-  let thisItem = $state(data.item);
-
   const isRootItem = $derived(data.itemId.length === 0);
 
   let editing = $state(false);
 
+  let newItemModalShown = $state(false);
+
+  let thisItem = $state(data.item);
+  // Janky workaround for allowing PageData to be bindable.
+  // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
+  $effect.pre(() => {
+    thisItem = data.item;
+    // When item data changes, also disable editing
+    editing = false;
+  });
+
   let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
     await api().item(data.itemId).info.put(info);
   }, consts.EDIT_COMMIT_HESITATION);
-
-  let newItemModalShown = $state(false);
-
-  $effect(() => {
-    // BUG: This doesn't actually update `thisItem`, and so changing pages causes invalid data to be
-    // displayed
-    thisItem = structuredClone(data.item);
-    console.log('Item data changed:', data.item);
-  });
 </script>
 
 <svelte:head>
@@ -82,10 +81,6 @@
 <div class="center">
   <main>
     {#if editing}
-      <!--
-        Need to bind `thisItem` to get reactive changes in the UI, but this means that things break
-        when the page is changed.
-      -->
       <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}

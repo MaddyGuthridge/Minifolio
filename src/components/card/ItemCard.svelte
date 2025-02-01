@@ -30,8 +30,11 @@
       canDrag: () => dndId !== undefined,
       getInitialData: () => ({ dndId, itemId }),
       onDrop: (e) => {
-        // Send drop target info
-        onDragAndDrop?.(e.location.current.dropTargets[0].data as DndInfo);
+        // If there is a valid drop target
+        if (e.location.current.dropTargets.length) {
+          // Send drop target info
+          onDragAndDrop?.(e.location.current.dropTargets[0].data as DndInfo);
+        }
       },
     },
     drop: {

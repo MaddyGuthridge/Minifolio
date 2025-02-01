@@ -90,7 +90,7 @@
       <label for="item-description">Item description</label>
       <TextInput
         id="item-description"
-        placeholder="A data-driven portfolio website"
+        placeholder="A portfolio website and content management system"
         bind:value={itemDescription}
       />
     </div>

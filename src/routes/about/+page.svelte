@@ -16,7 +16,8 @@
 
 This portfolio website is driven by ${consts.APP_NAME}, a
 [free and open-source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
-data-driven portfolio system made with <3 by [Maddy Guthridge](https://maddyguthridge.com).
+portfolio-oriented content management system made with <3 by
+[Maddy Guthridge](https://maddyguthridge.com).
 
 * [View the source code on GitHub](${consts.APP_GITHUB}).
 * [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_GITHUB}/blob/main/docs/Deploy.md).

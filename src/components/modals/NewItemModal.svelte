@@ -39,6 +39,8 @@
     await api()
       .item([...parent, itemId])
       .info.post(itemName, itemDescription);
+    // Close modal
+    onclose();
     await goto(itemUrl([...parent, itemId]));
   }
 

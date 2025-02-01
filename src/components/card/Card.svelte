@@ -2,6 +2,7 @@
   import { type Snippet } from 'svelte';
   import { goto } from '$app/navigation';
   import { colord } from 'colord';
+  import { withLightness } from '$lib/color';
 
   type Props = {
     /** Link behavior options */
@@ -16,8 +17,8 @@
 
   let { link, color, children, onclick }: Props = $props();
 
-  let baseColor = $derived(colord(color).lighten(0.02).toHex());
-  let hoverColor = $derived(colord(color).lighten(0.01).toHex());
+  let baseColor = $derived(withLightness(colord(color), 80).toHex());
+  let hoverColor = $derived(withLightness(colord(color), 65).toHex());
 
   let linkHref = $derived(link ? link.url : undefined);
   let linkNewTab = $derived(link?.newTab ? '_blank' : undefined);

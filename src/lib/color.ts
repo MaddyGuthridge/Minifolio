@@ -17,9 +17,8 @@ export function randomColor(): string {
 /**
  * Scale lightness of color.
  */
-export function scaleLightness(color: Colord, factor: number): Colord {
-  const { h, s, a, l } = color.toHsl();
-  const newLightness = factor + (l / factor) * (100 - factor);
+export function withLightness(color: Colord, newLightness: number): Colord {
+  const { h, s, a } = color.toHsl();
   return colord({ h, s, l: newLightness, a });
 }
 

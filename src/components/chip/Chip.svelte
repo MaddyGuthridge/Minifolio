@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { withLightness } from '$lib/color';
   import { tooltip } from '$lib/tooltip';
   import { colord } from 'colord';
 
@@ -27,25 +28,41 @@
   }: Props = $props();
 
   let fillColor = $derived(
-    selected ? colord(color).lighten(0.02).toHex() : colord(color).toHex(),
+    selected
+      ? withLightness(colord(color), 75).toHex()
+      : withLightness(colord(color), 85).toHex(),
   );
   let borderColor = $derived(
-    selected ? colord(color).lighten(0.01).toHex() : colord(color).toHex(),
+    selected
+      ? withLightness(colord(color), 40).toHex()
+      : withLightness(colord(color), 50).toHex(),
   );
-  let hoverColor = $derived(colord(color).lighten(70).toHex());
+  let hoverColor = $derived(withLightness(colord(color), 60).toHex());
   let borderWidth = $derived(selected ? '2px' : '1px');
 </script>
 
 <a {onclick} href={link?.url}>
-  <div
-    use:tooltip={{ content: description }}
-    style:--fill-color={fillColor}
-    style:--border-color={borderColor}
-    style:--hover-color={hoverColor}
-    style:--border-width={borderWidth}
-  >
-    {name}
-  </div>
+  <!-- Annoying code duplication. Need to find a way to make a `use` directive optional -->
+  {#if description.length}
+    <div
+      use:tooltip={{ content: description }}
+      style:--fill-color={fillColor}
+      style:--border-color={borderColor}
+      style:--hover-color={hoverColor}
+      style:--border-width={borderWidth}
+    >
+      {name}
+    </div>
+  {:else}
+    <div
+      style:--fill-color={fillColor}
+      style:--border-color={borderColor}
+      style:--hover-color={hoverColor}
+      style:--border-width={borderWidth}
+    >
+      {name}
+    </div>
+  {/if}
 </a>
 
 <style>

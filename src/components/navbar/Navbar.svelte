@@ -55,7 +55,7 @@
         },
       ];
     }
-    const tailPath = itemId.slice(0, -1).map((p, i) => {
+    const tailPath = itemId.map((p, i) => {
       const descendant = getDescendant(data, itemId.slice(0, i)).info;
       return {
         url: p,
@@ -118,7 +118,7 @@
 <nav>
   <span style:grid-area="navigator">
     <h1>
-      {#each overallPath.slice(0, -1) as p, i}
+      {#each overallPath.slice(1, -1) as p, i}
         <a href="/{pathTo(overallPath, i)}">{p.txt}</a>
         {'/ '}
       {/each}

@@ -71,6 +71,7 @@ Children are rendered on a colored card with rounded corners.
   }
 
   .card {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     padding: 10px;

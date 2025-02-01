@@ -2,8 +2,6 @@
   import { flip } from 'svelte/animate';
   import { ItemCard } from '.';
   import { send, receive } from '$lib/transition';
-  import IconCard from './IconCard.svelte';
-  import { NewItemModal } from '$components/modals';
   import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import { getDescendant } from '$lib/itemData';
@@ -16,19 +14,9 @@
     onclick: (itemId: ItemId) => void;
     /** Whether edit mode is active*/
     editing: boolean;
-    /**
-     * Parent item to create new items within (if not provided, "New item" button will not be
-     * shown)
-     */
-    createParent?: ItemId;
   };
 
-  let { portfolio, itemIds, onclick, editing, createParent }: Props = $props();
-
-  let newItemModalShown = $state(false);
-  function closeNewItemModal() {
-    newItemModalShown = false;
-  }
+  let { portfolio, itemIds, onclick, editing }: Props = $props();
 </script>
 
 <div class="card-grid">
@@ -40,30 +28,12 @@
     >
       <ItemCard
         item={getDescendant(portfolio, itemId).info}
-        link={editing}
+        link={!editing}
         {itemId}
         onclick={() => onclick(itemId)}
       />
     </div>
   {/each}
-  {#if editing && createParent}
-    <IconCard
-      title="New item"
-      color="#888888"
-      onclick={() => {
-        newItemModalShown = true;
-      }}
-    >
-      {#snippet icon()}
-        <i class="las la-plus"></i>
-      {/snippet}
-    </IconCard>
-    <NewItemModal
-      parent={createParent}
-      show={newItemModalShown}
-      onclose={closeNewItemModal}
-    />
-  {/if}
 </div>
 
 <style>

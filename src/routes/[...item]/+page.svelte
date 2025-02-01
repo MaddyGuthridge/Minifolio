@@ -20,7 +20,7 @@
     data: import('./$types').PageData;
   };
 
-  let { data = $bindable() }: Props = $props();
+  let { data }: Props = $props();
 
   let thisItem = $state(data.item);
 
@@ -33,6 +33,11 @@
   }, consts.EDIT_COMMIT_HESITATION);
 
   let newItemModalShown = $state(false);
+
+  $effect(() => {
+    thisItem = data.item;
+    console.log('Item data changed:', data.item);
+  });
 </script>
 
 <svelte:head>

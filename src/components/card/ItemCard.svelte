@@ -77,6 +77,7 @@
     grid-template-columns: 1fr 3fr;
     gap: 10px;
     margin-bottom: 10px;
+    align-items: center;
   }
 
   .label-icon {

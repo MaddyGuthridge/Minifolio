@@ -74,7 +74,7 @@ export function itemIdSlice(itemId: ItemId, start?: number, end?: number): ItemI
 }
 
 export function itemidAt(itemId: ItemId, index: number): string {
-  return itemComponents(itemId)[index];
+  return itemComponents(itemId).at(index)!;
 }
 
 export default {

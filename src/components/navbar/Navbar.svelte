@@ -55,20 +55,27 @@
         },
       ];
     }
-    const tailPath = itemId.components(id).map((p, i) => {
-      const descendant = getDescendant(data, itemId.slice(id, 0, i)).info;
-      return {
-        url: p,
-        txt:
-          i === id.length - 1
-            ? descendant.name
-            : (descendant.shortName ?? descendant.name),
-      };
-    });
+    const tailPath = itemId
+      .components(id)
+      .slice(0, -1)
+      .map((p, i) => {
+        const descendant = getDescendant(data, itemId.slice(id, 0, i + 1)).info;
+        return {
+          url: p,
+          txt:
+            i === id.length - 1
+              ? descendant.name
+              : (descendant.shortName ?? descendant.name),
+        };
+      });
     return [
+      {
+        url: '',
+        txt: data.info.shortName ?? data.info.name,
+      },
       ...tailPath,
       {
-        url: id.at(-1)!,
+        url: itemId.at(id, -1),
         txt: lastItem.info.name,
       },
     ];

@@ -9,10 +9,13 @@ import type { ItemSection, LinksSection, PackageSection, RepoSection, SiteSectio
 import { setLocalConfig, type ConfigLocalJson } from '../localConfig';
 import { unsafeLoadConfig, unsafeLoadItemInfo, unsafeLoadLocalConfig } from './unsafeLoad';
 
-export default async function migrateFromV0_6(dataDir: string, privateDataDir: string) {
+export async function migratePrivateV0_6(privateDataDir: string) {
   // Update `config.local.json`
   console.log('config.local.json');
   await updateLocalConfig(privateDataDir);
+}
+
+export async function migrateDataV0_6(dataDir: string) {
   // Update `config.json`
   console.log('config.json');
   await updatePublicConfig(dataDir);

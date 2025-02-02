@@ -12,7 +12,7 @@ import { randomColor } from '$lib/color';
 import { LANDING_README } from './text';
 import consts from '$lib/consts';
 import itemId from '$lib/itemId';
-import migrate from './migrations';
+import { migrateData } from './migrations';
 
 /**
  * Set up the data directory.
@@ -28,7 +28,7 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
     }
     await setupGitRepo(repoUrl, branch);
     // Migrate data if needed
-    await migrate();
+    await migrateData();
   } else {
     // Otherwise, just create the data dir empty
     // Discard errors for this, as the dir may already exist

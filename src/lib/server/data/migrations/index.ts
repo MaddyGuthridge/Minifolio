@@ -1,6 +1,6 @@
 import { version } from '$app/environment';
 import fs from 'fs/promises';
-import { getDataDir, getPrivateDataDir } from '../dataDir';
+import { authIsSetUp, dataIsSetUp, getDataDir, getPrivateDataDir } from '../dataDir';
 import semver from 'semver';
 import consts from '$lib/consts';
 import path from 'path';
@@ -36,6 +36,9 @@ export async function migrateAll() {
 }
 
 export async function migrateData() {
+  if (!await dataIsSetUp()) {
+    return;
+  }
   const oldVersion = await getDataVersion(getDataDir());
   if (oldVersion === version) {
     return;
@@ -54,6 +57,9 @@ export async function migrateData() {
 }
 
 export async function migratePrivate() {
+  if (!await authIsSetUp()) {
+    return;
+  }
   const oldVersion = await getPrivateDataVersion(getPrivateDataDir());
   if (oldVersion === version) {
     return;

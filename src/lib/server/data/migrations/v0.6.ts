@@ -31,8 +31,6 @@ export async function migrateDataV0_6(dataDir: string) {
     .filter(d => d.name !== '.git')
     .map(d => d.name);
 
-  console.log('Discovered groups:', groups);
-
   for (const groupId of groups) {
     console.log(`Group: /${groupId}`);
     // For each item
@@ -40,8 +38,6 @@ export async function migrateDataV0_6(dataDir: string) {
       // Only keep directories
       .filter(d => d.isDirectory())
       .map(d => d.name);
-
-    console.log('Discovered items:', items);
 
     for (const oldItemId of items) {
       const newItemId = itemId.fromComponents([groupId, oldItemId]);
@@ -117,8 +113,6 @@ async function groupToItem(dataDir: string, group: string) {
 
 async function updateItemInfo(dataDir: string, item: ItemId) {
   const itemInfo: any = await unsafeLoadItemInfo(dataDir, item);
-
-  console.log(itemInfo);
 
   // Add relevant sections
   const sections: ItemSection[] = [];

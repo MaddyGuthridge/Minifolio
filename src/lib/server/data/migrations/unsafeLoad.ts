@@ -1,4 +1,5 @@
 /** Unsafely load data, so that types are not checked */
+import type { ItemId } from '$lib/itemId';
 import fs from 'fs/promises';
 
 /** Load old config.json */
@@ -12,11 +13,6 @@ export async function unsafeLoadLocalConfig(privateDataDir: string): Promise<obj
 }
 
 /** Load item info in old format */
-export async function unsafeLoadItemInfo(dataDir: string, groupId: string, itemId: string): Promise<object> {
-  return JSON.parse(await fs.readFile(`${dataDir}/${groupId}/${itemId}/info.json`, { encoding: 'utf-8' })) as object;
-}
-
-/** Load group info in old format */
-export async function unsafeLoadGroupInfo(dataDir: string, groupId: string): Promise<object> {
-  return JSON.parse(await fs.readFile(`${dataDir}/${groupId}/info.json`, { encoding: 'utf-8' })) as object;
+export async function unsafeLoadItemInfo(dataDir: string, itemId: ItemId): Promise<object> {
+  return JSON.parse(await fs.readFile(`${dataDir}${itemId}/info.json`, { encoding: 'utf-8' })) as object;
 }

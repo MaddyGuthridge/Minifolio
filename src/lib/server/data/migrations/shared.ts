@@ -1,11 +1,23 @@
 /**
  * Shared helper functions for common data migration actions.
  */
-import { dev, version } from '$app/environment';
-import fs from 'fs/promises';
-import { getConfig, setConfig } from '../config';
+import { version } from '$app/environment';
+import { getConfig, setConfig, type ConfigJson } from '../config';
 import { getLocalConfig, setLocalConfig } from '../localConfig';
 import { authIsSetUp } from '../dataDir';
+import { unsafeLoadConfig, unsafeLoadLocalConfig } from './unsafeLoad';
+
+/** Returns the version of the data */
+export async function getDataVersion(dataDir: string): Promise<string> {
+  const configJson = await unsafeLoadConfig(dataDir) as ConfigJson;
+  return configJson.version;
+}
+
+/** Returns the version of the data */
+export async function getPrivateDataVersion(privateDataDir: string): Promise<string> {
+  const configLocalJson = await unsafeLoadLocalConfig(privateDataDir) as ConfigJson;
+  return configLocalJson.version;
+}
 
 /** Update config versions (only for minor, non-breaking changes to config.json) */
 export async function updateConfigVersions() {
@@ -18,25 +30,4 @@ export async function updateConfigVersions() {
     configLocal.version = version;
     await setLocalConfig(configLocal);
   }
-}
-
-/** Move config.local.json to the private data directory */
-export async function moveLocalConfig(dataDir: string, privateDataDir: string) {
-  const originalPath = `${dataDir}/config.local.json`;
-  const newPath = `${privateDataDir}/config.local.json`;
-  // Discard error (file not found), which occurs when cloning a new repo,
-  // since the auth info isn't set up yet
-  await fs.rename(originalPath, newPath).catch(() => { });
-}
-
-/** Write auth secret from environment variable */
-export async function writeAuthSecret(privateDataDir: string) {
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) {
-    throw new Error('AUTH_SECRET environment variable must be set to a value');
-  }
-  if (!dev && secret === 'CHANGE ME') {
-    throw new Error('AUTH_SECRET must be changed when running in production');
-  }
-  await fs.writeFile(`${privateDataDir}/auth.secret`, secret, { encoding: 'utf-8' });
 }

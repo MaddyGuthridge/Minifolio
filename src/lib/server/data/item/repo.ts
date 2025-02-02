@@ -3,7 +3,7 @@
  */
 
 import { supportedRepoProviders } from '$lib/repoInfo';
-import { enums, literal, object, optional, string, union, type Infer } from 'superstruct';
+import { enums, literal, nullable, object, string, union, type Infer } from 'superstruct';
 
 export const RepoProviderStruct = enums(supportedRepoProviders);
 
@@ -31,7 +31,7 @@ const ManualRepoInfoStruct = object({
   /** URL to link to */
   url: string(),
   /** Icon to use on the card (from LineAwesome) */
-  icon: optional(string()),
+  icon: nullable(string()),
 });
 
 /** Repository info set manually */

@@ -28,7 +28,7 @@ describe('404', () => {
     await expect(api.item(itemId.fromStr('/invalid')).file('example.md').get())
       .rejects.toMatchObject({ code: 404 });
   });
-  it.only('Errors if the file does not exist', async () => {
+  it('Errors if the file does not exist', async () => {
     await expect(api.item(itemId.ROOT).file('invalid').get())
       .rejects.toMatchObject({ code: 404 });
   });

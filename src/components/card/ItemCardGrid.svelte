@@ -115,7 +115,7 @@
     /**
     * User input values.
     */
-    --grid-layout-gap: 20px;
+    --grid-layout-gap: 0px;
     --grid-column-count: 3;
     --grid-item--min-width: 20em;
 

@@ -208,7 +208,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 1000px;
+    max-width: 1300px;
     width: 90%;
   }
 

@@ -22,6 +22,7 @@
 </script>
 
 <div
+  class="wrapper"
   use:dragAndDrop={{
     drag: {
       canDrag: () => dndId !== undefined,
@@ -57,6 +58,10 @@
 </div>
 
 <style>
+  .wrapper {
+    width: 100%;
+    height: 100%;
+  }
   h3 {
     margin-bottom: 0;
   }

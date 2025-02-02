@@ -80,6 +80,7 @@
   .link-chips {
     display: flex;
     align-items: center;
+    gap: 10px;
   }
   .link-chips h3 {
     margin: 0;

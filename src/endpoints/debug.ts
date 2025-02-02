@@ -1,44 +1,40 @@
 /** Debug endpoints */
-import { apiFetch, json } from './fetch';
+import { apiFetch, payload } from './fetch';
 
-export default function debug(token: string | undefined) {
+export default function debug(fetchFn: typeof fetch, token: string | undefined) {
   const clear = async () => {
-    return json(apiFetch(
+    return apiFetch(
+      fetchFn,
       'DELETE',
       '/api/debug/clear',
-      token,
-    )) as Promise<Record<string, never>>;
+      { token },
+    ).json() as Promise<Record<string, never>>;
   };
 
   const echo = async (text: string) => {
-    return json(apiFetch(
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/debug/echo',
-      token,
-      { text }
-    )) as Promise<Record<string, never>>;
+      { token, ...payload.json({ text }) },
+    ).json() as Promise<Record<string, never>>;
   };
 
   const dataRefresh = async () => {
-    return json(apiFetch(
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/debug/data/refresh',
-      token,
-    )) as Promise<Record<string, never>>;
+      { token },
+    ).json() as Promise<Record<string, never>>;
   };
 
   return {
-    /**
-     * Reset the app to its default state.
-     */
+    /** Reset the app to its default state, deleting all data */
     clear,
-    /**
-     * Echo text to the server's console
-     */
+    /** Echo text to the server's console */
     echo,
-    /**
-     * Invalidate cached data
-     */
+    /** Invalidate cached data */
     dataRefresh,
   };
 }

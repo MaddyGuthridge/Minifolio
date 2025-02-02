@@ -1,5 +1,7 @@
+import { getDescendant } from './itemData';
+import itemId, { type ItemId } from './itemId';
 import { itemHasLink } from './links';
-import type { PortfolioGlobals } from './server';
+import type { ItemData } from './server/data/item';
 
 /**
  * 2D Array of filter items to display, including whether they are selected.
@@ -7,20 +9,18 @@ import type { PortfolioGlobals } from './server';
  * Each array of items is displayed split by a separator.
  */
 export type FilterOptions = {
-  /** Group ID of the item */
-  groupId: string;
   /** Item ID of the item */
-  itemId: string;
+  itemId: ItemId;
   /** Whether the item is selected */
   selected: boolean;
 }[][];
 
 /** Create an item filter for the given items */
-export function createItemFilter(globals: PortfolioGlobals, groupId: string): FilterOptions {
-  return globals.groups[groupId].info.filterGroups
-    .map(groupId => (
-      globals.groups[groupId].info.filterItems
-        .map(itemId => ({ groupId, itemId, selected: false }))
+export function createItemFilter(portfolio: ItemData, parentId: ItemId): FilterOptions {
+  return getDescendant(portfolio, parentId).info.filters
+    .map(filterItem => (
+      getDescendant(portfolio, filterItem).info.children
+        .map(child => ({ itemId: itemId.child(filterItem, child), selected: false }))
     ))
     .filter(group => group.length);
 }
@@ -32,13 +32,13 @@ export function createItemFilter(globals: PortfolioGlobals, groupId: string): Fi
  * @param groupId group ID to find items within
  * @param filter filter options
  */
-export function applyFiltersToGroupItems(
-  globals: PortfolioGlobals,
-  groupId: string,
+export function applyFiltersToItemChildren(
+  portfolio: ItemData,
+  id: ItemId,
   filter: FilterOptions,
-): string[] {
+): ItemId[] {
   // Figure out what items to show to start with
-  const items = globals.groups[groupId].info.listedItems;
+  const items: ItemId[] = getDescendant(portfolio, id).info.children.map(child => itemId.child(id, child));
 
   // Reduce items based on the filter
   return filter.reduce(
@@ -48,12 +48,12 @@ export function applyFiltersToGroupItems(
       if (!selectedFilters.length) {
         return prevItems;
       }
-      // For each item, check if it links to all selected filters
+      // For each item, check if it links to any selected filters
       return prevItems.filter(itemId => {
-        const itemToCheck = globals.items[groupId][itemId].info;
+        const itemToCheck = getDescendant(portfolio, itemId);
         // Item must meet all selected filters
         // If we can find one that doesn't match, exclude it
-        return undefined !== selectedFilters.find(f => itemHasLink(itemToCheck, f.groupId, f.itemId));
+        return undefined !== selectedFilters.find(f => itemHasLink(itemToCheck.info, f.itemId));
       });
     },
     items,

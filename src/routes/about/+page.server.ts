@@ -1,26 +1,24 @@
-import { getPortfolioGlobals } from '$lib/server';
 import { isRequestAuthorized } from '$lib/server/auth/tokens';
-import blankConfig from '$lib/blankConfig';
-import type { ConfigJson } from '$lib/server/data/config';
 import { version } from '$app/environment';
 // import { VERSION as SVELTE_VERSION } from 'svelte/compiler';
 // import { VERSION as SVELTEKIT_VERSION } from '@sveltejs/kit';
 // import { version as VITE_VERSION } from 'vite';
 import os from 'os';
+import { dataIsSetUp } from '$lib/server/data/dataDir';
+import { getItemData, type ItemData } from '$lib/server/data/item';
+import { blankData } from '../../lib/blankData';
+import itemId from '$lib/itemId';
+import { getConfig } from '$lib/server/data/config';
 
-export async function load(req: import('./$types.js').RequestEvent) {
-  // If config fails to load (eg firstrun), just give a blank config
-  let config: ConfigJson;
-  let isInit = true;
-  try {
-    const globals = await getPortfolioGlobals();
-    config = globals.config;
-  } catch {
-    isInit = false;
-    config = blankConfig;
-  }
-
+export async function load(req: import('./$types').RequestEvent) {
+  const isInit = await dataIsSetUp();
   const loggedIn = isInit ? await isRequestAuthorized(req) : undefined;
+
+  const portfolio: ItemData = isInit ? await getItemData(itemId.ROOT) : blankData;
+  let siteIcon: string | undefined = undefined;
+  if (isInit) {
+    siteIcon = (await getConfig()).siteIcon ?? undefined;
+  }
 
   let versions = null;
   if (!isInit || loggedIn) {
@@ -32,7 +30,8 @@ export async function load(req: import('./$types.js').RequestEvent) {
   }
 
   return {
-    config,
+    portfolio,
+    siteIcon,
     loggedIn,
     versions,
   };

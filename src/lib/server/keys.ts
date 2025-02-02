@@ -13,30 +13,22 @@ const defaultPrivateKeyPath = () => path.join(defaultKeysDirectory(), `id_${DEFA
 
 const publicKeyPath = (privateKeyPath: string) => `${privateKeyPath}.pub`;
 
-let publicKey: string | null | undefined;
-
 export async function getPrivateKeyPath(): Promise<string | null> {
   return await getLocalConfig().then(c => c.keyPath)
 }
 
 /** Returns the server's SSH public key */
 export async function getPublicKey(): Promise<string | null> {
-  if (publicKey !== undefined) {
-    return publicKey;
-  }
-
   // Determine public key location;
   const keyPath = await getPrivateKeyPath();
 
   if (!keyPath) {
-    publicKey = null;
     return null;
   }
 
   // Read the key from the disk
   const key = await fs.readFile(publicKeyPath(keyPath), { encoding: 'utf-8' })
     .then(k => k.trim());
-  publicKey = key;
   return key;
 }
 
@@ -44,7 +36,6 @@ export async function getPublicKey(): Promise<string | null> {
  * Set the path to the program's SSH key file.
  */
 export async function setKeyPath(keyPath: string) {
-  publicKey = undefined;
   const cfg = await getLocalConfig();
   cfg.keyPath = keyPath;
   await setLocalConfig(cfg);
@@ -52,7 +43,6 @@ export async function setKeyPath(keyPath: string) {
 
 /** Disable the server's SSH authentication */
 export async function disableKey() {
-  publicKey = null;
   const cfg = await getLocalConfig();
   cfg.keyPath = null;
   await setLocalConfig(cfg);
@@ -60,7 +50,6 @@ export async function disableKey() {
 
 /** Generate an SSH key pair for the server */
 export async function generateKey(): Promise<string> {
-  publicKey = undefined;
   // Unlink default keys if they already exist, then recreate their directory
   await fs.unlink(defaultPrivateKeyPath()).catch(() => { });
   await fs.unlink(publicKeyPath(defaultPrivateKeyPath())).catch(() => { });
@@ -90,8 +79,4 @@ export async function generateKey(): Promise<string> {
   );
   // Public key is definitely not null now
   return getPublicKey() as Promise<string>;
-}
-
-export function invalidatePublicKey() {
-  publicKey = undefined;
 }

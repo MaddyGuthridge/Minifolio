@@ -4,8 +4,8 @@ import simpleGit, { type FileStatusResult } from 'simple-git';
 import fs from 'fs/promises';
 import { rimraf } from 'rimraf';
 import { spawn } from 'child-process-promise';
-import { fileExists } from '.';
 import path from 'path';
+import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 
 /** Path to the SSH known hosts file */
@@ -69,6 +69,7 @@ export function urlRequiresSsh(url: string): boolean {
  *
  * Eg given URL "git@host.com:path/to/repo", we should extract:
  *                   ^^^^^^^^
+ *                  "host.com"
  */
 export async function runSshKeyscan(url: string) {
   // FIXME: This probably doesn't work in some cases

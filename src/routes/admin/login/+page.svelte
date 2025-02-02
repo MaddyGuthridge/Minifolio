@@ -6,6 +6,8 @@
   import { goto } from '$app/navigation';
   import consts from '$lib/consts';
   import { onMount } from 'svelte';
+  import { Button, TextInput } from '$components/base';
+  import Favicon from '$components/Favicon.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -35,17 +37,18 @@
 </script>
 
 <svelte:head>
-  <title>login - {data.globals.config.siteName}</title>
+  <title>login - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
-  <meta name="theme-color" content={data.globals.config.color} />
+  <meta name="theme-color" content={data.portfolio.info.color} />
+  <Favicon path={data.config.siteIcon ?? undefined} />
   <!-- Prevent web crawlers from indexing the admin page -->
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color={data.globals.config.color}></Background>
+<Background color={data.portfolio.info.color}></Background>
 
 <Navbar
-  config={data.globals.config}
+  data={data.portfolio}
   loggedIn={false}
   path={[
     { txt: 'Admin', url: 'admin' },
@@ -62,27 +65,20 @@
 
       <form>
         <h3>Username</h3>
-        <input
-          type="text"
-          id="username"
-          bind:value={username}
-          placeholder="Username"
-        />
+        <TextInput id="username" bind:value={username} placeholder="Username" />
 
         <h3>Password</h3>
-        <input
-          type="password"
+        <TextInput
+          password
           id="password"
           bind:value={password}
           placeholder="Your complex and secure password"
         />
-        <p></p>
-        <input
-          type="submit"
-          id="submit-main"
-          value="Log in"
-          onclick={doLogin}
-        />
+        <p>
+          <Button type="submit" id="submit-main" onclick={doLogin}>
+            Log in
+          </Button>
+        </p>
       </form>
     </main>
   </Paper>
@@ -101,17 +97,5 @@
 
   form {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

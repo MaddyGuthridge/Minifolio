@@ -1,7 +1,8 @@
 <script lang="ts">
   import { type Snippet } from 'svelte';
   import { goto } from '$app/navigation';
-  import Color from 'color';
+  import { colord } from 'colord';
+  import { withLightness } from '$lib/color';
 
   type Props = {
     /** Link behavior options */
@@ -16,8 +17,8 @@
 
   let { link, color, children, onclick }: Props = $props();
 
-  let baseColor = $derived(Color(color).lightness(85).hex());
-  let hoverColor = $derived(Color(color).lightness(70).hex());
+  let baseColor = $derived(withLightness(colord(color), 80).toHex());
+  let hoverColor = $derived(withLightness(colord(color), 65).toHex());
 
   let linkHref = $derived(link ? link.url : undefined);
   let linkNewTab = $derived(link?.newTab ? '_blank' : undefined);
@@ -71,6 +72,7 @@ Children are rendered on a colored card with rounded corners.
   }
 
   .card {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     padding: 10px;

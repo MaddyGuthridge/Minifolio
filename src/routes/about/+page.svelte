@@ -1,9 +1,10 @@
 <script lang="ts">
   import Background from '$components/Background.svelte';
   import Markdown from '$components/markdown/Markdown.svelte';
-  import Navbar from '$components/navbar';
   import consts from '$lib/consts';
   import { dev } from '$app/environment';
+  import Navbar from '$components/navbar/Navbar.svelte';
+  import Favicon from '$components/Favicon.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -12,11 +13,12 @@
   let { data }: Props = $props();
 
   const mainInfo = `
-# ${consts.APP_NAME}
+# About ${consts.APP_NAME}
 
 This portfolio website is driven by ${consts.APP_NAME}, a
 [free and open-source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
-data-driven portfolio system made with <3 by [Maddy Guthridge](https://maddyguthridge.com).
+portfolio-oriented content management system made with <3 by
+[Maddy Guthridge](https://maddyguthridge.com).
 
 * [View the source code on GitHub](${consts.APP_GITHUB}).
 * [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_GITHUB}/blob/main/docs/Deploy.md).
@@ -41,20 +43,18 @@ For security reasons, these details are only shown if you are logged in.
 </script>
 
 <svelte:head>
-  <title>About - {data.config.siteName}</title>
-  <meta name="description" content={data.config.siteDescription} />
+  <title>About {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
-  <meta name="keywords" content={data.config.siteKeywords.join(', ')} />
-  <meta name="theme-color" content={data.config.color} />
+  <meta name="theme-color" content={data.portfolio.info.color} />
+  <Favicon path={data.siteIcon} />
 </svelte:head>
 
 <Navbar
-  config={data.config}
+  path={[{ url: 'about', txt: 'About' }]}
+  data={data.portfolio}
   loggedIn={data.loggedIn}
-  path={[{ txt: 'About', url: 'about' }]}
 />
-
-<Background color={data.config.color} />
+<Background color={'#ff00ff'} />
 
 <main>
   <div>

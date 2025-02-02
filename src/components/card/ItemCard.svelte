@@ -1,72 +1,67 @@
 <script lang="ts">
-  import { type PortfolioGlobals } from '$lib';
   import Card from './Card.svelte';
-  import { ItemChipList } from '$components/chip';
+  import type { ItemInfo } from '$lib/server/data/item';
+  import type { ItemId } from '$lib/itemId';
+  import { itemFileUrl } from '$lib/urls';
+  import { dragAndDrop } from '$lib/ui';
 
   type Props = {
-    globals: PortfolioGlobals;
-    /** Group ID of group to show */
-    groupId: string;
-    /** Item ID of item to show */
-    itemId: string;
-    /** Whether edit mode is active */
-    editing: boolean;
+    /** Item info to display */
+    item: ItemInfo;
+    /** ID of item to link to */
+    itemId: ItemId;
+    /** Whether to link to the given item */
+    link: boolean;
     /** Callback for when the element is clicked */
     onclick?: (e: MouseEvent | undefined | null) => void;
+    /** Unique ID to use for drag-and-drop operations */
+    dndId?: string;
   };
 
-  let { globals, groupId, itemId, editing, onclick }: Props = $props();
-
-  let item = $derived(globals.items[groupId][itemId]);
-  let associatedChips = $derived(
-    item.info.links
-      .filter(([{ style }]) => style === 'chip')
-      .map(([{ groupId }, items]) =>
-        items.map((itemId) => ({ groupId, itemId, selected: false })),
-      ),
-  );
+  let { item, itemId, link, onclick, dndId }: Props = $props();
 </script>
 
-<Card color={item.info.color} {onclick}>
-  <div class="card-outer">
-    <a
-      href={editing ? undefined : `/${groupId}/${itemId}`}
-      class:flex-grow={true}
-    >
-      <div class:card-icon={item.info.icon}>
-        {#if item.info.icon}
+<div
+  class="wrapper"
+  use:dragAndDrop={{
+    drag: {
+      canDrag: () => dndId !== undefined,
+      getInitialData: () => ({ dndId, itemId }),
+    },
+    drop: {
+      canDrop: (e) => dndId === e.source.data.dndId,
+      getData: () => ({ dndId, itemId }),
+    },
+  }}
+>
+  <Card
+    color={item.color}
+    {onclick}
+    link={link ? { url: itemId, newTab: false } : undefined}
+  >
+    <div class="card-outer">
+      <div class:card-icon={item.icon}>
+        {#if item.icon}
           <img
-            src="/{groupId}/{itemId}/{item.info.icon}"
-            alt="Icon for {item.info.name}"
+            src={itemFileUrl(itemId, item.icon)}
+            alt="Icon for {item.name}"
             class="label-icon"
           />
         {/if}
         <div>
-          <h3>{item.info.name}</h3>
-          <p>{item.info.description}</p>
+          <h3>{item.name}</h3>
+          <p>{item.description}</p>
         </div>
       </div>
-    </a>
-    {#if !editing}
-      <div>
-        <ItemChipList
-          items={associatedChips}
-          {globals}
-          link
-          onclick={() => {}}
-          onfilter={() => {}}
-        />
-      </div>
-    {/if}
-  </div>
-</Card>
+    </div>
+  </Card>
+</div>
 
 <style>
-  a {
-    color: black;
-    text-decoration: none;
+  .wrapper {
+    width: 100%;
+    height: 100%;
   }
-
   h3 {
     margin-bottom: 0;
   }
@@ -77,15 +72,12 @@
     height: 100%;
   }
 
-  .flex-grow {
-    flex: 1;
-  }
-
   .card-icon {
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 10px;
     margin-bottom: 10px;
+    align-items: center;
   }
 
   .label-icon {

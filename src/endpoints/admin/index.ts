@@ -1,25 +1,33 @@
 /** Admin endpoints */
 import auth from './auth';
-import config from './config';
 import git from './git';
 import firstrun from './firstrun';
-import { apiFetch, json } from '$endpoints/fetch';
+import { apiFetch } from '$endpoints/fetch';
 import keys from './keys';
 
-export async function refresh(token: string | undefined) {
-  return await json(apiFetch('POST', '/api/admin/data/refresh', token)) as Record<string, never>;
+export async function refresh(fetchFn: typeof fetch, token: string | undefined) {
+  return await apiFetch(
+    fetchFn,
+    'POST',
+    '/api/admin/data/refresh',
+    { token }
+  ).json() as Record<string, never>;
 }
 
-export default function admin(token: string | undefined) {
+export default function admin(fetchFn: typeof fetch, token: string | undefined) {
   return {
-    auth: auth(token),
-    config: config(token),
-    git: git(token),
-    keys: keys(token),
-    firstrun: firstrun(token),
+    /** Authentication options */
+    auth: auth(fetchFn, token),
+    /** Git actions */
+    git: git(fetchFn, token),
+    /** Key management (used for git operations) */
+    keys: keys(fetchFn, token),
+    /** Firstrun endpoints */
+    firstrun: firstrun(fetchFn, token),
+    /** Manage server data */
     data: {
       /** Refresh the data store */
-      refresh: () => refresh(token),
+      refresh: () => refresh(fetchFn, token),
     }
   };
 }

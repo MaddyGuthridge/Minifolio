@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs/promises';
-import { array, nullable, object, string, validate, type Infer } from 'superstruct';
+import { nullable, object, string, validate, type Infer } from 'superstruct';
 import { getDataDir } from './dataDir';
 import { version } from '$app/environment';
 import { unsafeLoadConfig } from './migrations/unsafeLoad';
@@ -9,29 +9,8 @@ const CONFIG_JSON = () => `${getDataDir()}/config.json`;
 
 /** Validator for config.json file */
 export const ConfigJsonStruct = object({
-  /** Long-form name of the site, displayed in the navigator on the main page */
-  siteName: string(),
-  /** Short-form name of the site, displayed in the navigator on other pages */
-  siteShortName: string(),
-  /**
-   * Description of the site, used for SEO on the main page. This will appear
-   * as the description in web search results.
-   */
-  siteDescription: string(),
-  /** Keywords of the site, used for SEO */
-  siteKeywords: array(string()),
   /** Filename of icon to use for the site */
   siteIcon: nullable(string()),
-  /**
-   * The groups to list on the main page, in the order in which they should
-   * appear.
-   *
-   * Any groups not within this array will still be accessible through their
-   * pages, but won't be shown on the main page.
-   */
-  listedGroups: array(string()),
-  /** The default color to use for the site */
-  color: string(),
   /** Version of server that last accessed the config.json */
   version: string(),
 });
@@ -75,13 +54,7 @@ export async function setConfig(newConfig: ConfigJson) {
 /** Set up the default server configuration */
 export async function initConfig() {
   await setConfig({
-    siteName: 'My portfolio',
-    siteShortName: 'Portfolio',
-    siteDescription: 'View my portfolio',
-    siteKeywords: ['portfolio'],
     siteIcon: null,
-    listedGroups: [],
-    color: '#ffaaff',
     version,
   });
 }

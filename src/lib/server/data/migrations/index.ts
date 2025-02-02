@@ -1,47 +1,114 @@
 import { version } from '$app/environment';
-import { getDataDir, getPrivateDataDir } from '../dataDir';
-import { updateConfigVersions } from './shared';
-import migrateToV061 from './v0.6.1';
+import fs from 'fs/promises';
+import { authIsSetUp, dataIsSetUp, getDataDir, getPrivateDataDir } from '../dataDir';
 import semver from 'semver';
+import consts from '$lib/consts';
+import path from 'path';
+import { migrateDataV0_6, migratePrivateV0_6 } from './v0.6';
+import { getDataVersion, getPrivateDataVersion } from './shared';
+import { tmpdir } from 'os';
 
 
-export type MigrationFunction = (
+export type DataMigrationFunction = (
   dataDir: string,
+) => Promise<void>;
+
+export type PrivateMigrationFunction = (
   privateDataDir: string,
 ) => Promise<void>;
 
-/** Lookup table of migrations */
-const migrations: Record<string, MigrationFunction> = {
-  '0.6.0': migrateToV061,
-  // Pre-empt future releases
-  '~0.6.1': updateConfigVersions,
+// Migrations for data
+const dataMigrations: Record<string, DataMigrationFunction> = {
+  // v0.6.x --> v1.0.0
+  '~0.6.1': migrateDataV0_6,
+};
+
+// Migrations for private data
+const privateMigrations: Record<string, PrivateMigrationFunction> = {
+  // v0.6.x --> v1.0.0
+  '~0.6.1': migratePrivateV0_6,
 };
 
 /** Perform a migration from the given version */
-export default async function migrate(oldVersion: string) {
+export async function migrateAll() {
+  await migratePrivate();
+  await migrateData();
+}
+
+export async function migrateData() {
+  if (!await dataIsSetUp()) {
+    return;
+  }
+  const oldVersion = await getDataVersion(getDataDir());
+  if (oldVersion === version) {
+    return;
+  }
   console.log(`Data directory uses version ${oldVersion}. Migration needed`);
 
-  for (const [versionRange, migrateFunction] of Object.entries(migrations)) {
+  for (const [versionRange, migrateFunction] of Object.entries(dataMigrations)) {
     if (semver.satisfies(oldVersion, versionRange)) {
-      // TODO: In future, perhaps we should copy the data to a temporary
-      // location before performing the migration to avoid data destruction
-      // if things don't go according to plan.
-      // This may require checking to ensure all data is loaded from the given
-      // data dir by migrate functions (eg `updateConfigVersions` currently
-      // calls getConfig and getLocalConfig without specifying the desired
-      // directory to load from).
-      try {
-        await migrateFunction(getDataDir(), getPrivateDataDir());
-        console.log('Migration success');
-        return;
-      } catch (e) {
-        console.log('!!! Error during migration');
-        console.log(e);
-        throw e;
-      }
+      await performDataMigration(migrateFunction);
+      return;
     }
   }
   const msg = `Unable to perform data migration, as version ${oldVersion} does not have a migrate function for ${version}`;
   console.log(msg);
   throw new Error(msg);
+}
+
+export async function migratePrivate() {
+  if (!await authIsSetUp()) {
+    return;
+  }
+  const oldVersion = await getPrivateDataVersion(getPrivateDataDir());
+  if (oldVersion === version) {
+    return;
+  }
+  console.log(`Private data uses version ${oldVersion}. Migration needed`);
+
+  for (const [versionRange, migrateFunction] of Object.entries(privateMigrations)) {
+    if (semver.satisfies(oldVersion, versionRange)) {
+      await performPrivateMigration(migrateFunction);
+      return;
+    }
+  }
+  const msg = `Unable to perform data migration, as version ${oldVersion} does not have a migrate function for ${version}`;
+  console.log(msg);
+  throw new Error(msg);
+}
+
+async function performDataMigration(migrateFunction: DataMigrationFunction) {
+  // Make temporary directory with old data
+  const temp = await fs.mkdtemp(path.join(tmpdir(), `${consts.APP_NAME}-migration-`));
+  const tempData = path.join(temp, 'data');
+  await fs.cp(getDataDir(), tempData, { recursive: true });
+
+  // Now perform the migration
+  try {
+    await migrateFunction(tempData);
+    console.log('Migration success');
+    return;
+  } catch (e) {
+    console.log('!!! Error during migration');
+    console.log(e);
+    throw e;
+  }
+}
+
+async function performPrivateMigration(migrateFunction: PrivateMigrationFunction) {
+  // Make temporary directory with old data
+  const temp = await fs.mkdtemp(path.join(tmpdir(), `${consts.APP_NAME}-migration-`));
+  const tempPrivate = path.join(temp, 'private');
+  await fs.cp(getPrivateDataDir(), tempPrivate, { recursive: true });
+
+  // Now perform the migration
+  try {
+    await migrateFunction(tempPrivate);
+    console.log('Migration success');
+    return;
+  } catch (e) {
+    console.log('!!! Error during migration');
+    console.log(e);
+    throw e;
+  }
 }

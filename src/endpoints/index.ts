@@ -1,18 +1,23 @@
 /** API endpoints */
+import type { ItemId } from '$lib/itemId';
 import admin from './admin';
+import config from './config';
 import debug from './debug';
-import group from './group';
-import readme from './readme';
+import item from './item';
 
 /** Create an instance of the API client with the given token */
-export default function api(token?: string  ) {
+export default function api(fetchFn: typeof fetch = fetch, token?: string) {
   return {
-    admin: admin(token),
-    debug: debug(token),
-    group: group(token),
-    readme: readme(token),
+    /** Admin endpoints */
+    admin: admin(fetchFn, token),
+    /** Debug endpoints (only available in dev mode) */
+    debug: debug(fetchFn, token),
+    /** Site configuration */
+    config: config(fetchFn, token),
+    /** Item data endpoints */
+    item: (itemId: ItemId) => item(fetchFn, token, itemId),
     /** Create a new API client with the given token */
-    withToken: (token: string | undefined) => api(token),
+    withToken: (token: string | undefined) => api(fetchFn, token),
     /** The token currently being used for this API client */
     token,
   };

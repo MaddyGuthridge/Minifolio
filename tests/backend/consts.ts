@@ -36,3 +36,15 @@ export const validNames = [
   { name: '🙃', case: 'Emoji' },
   { name: 'Español', case: 'Foreign characters' },
 ];
+
+export const invalidColors = [
+  { color: 'ABCDEF', case: 'Missing "#"' },
+  { color: '#12345G', case: 'Invalid chars' },
+  { color: '#12345', case: 'Incorrect length' },
+]
+
+export const validColors = [
+  { color: '#ABCDEF', case: 'Uppercase' },
+  { color: '#abcdef', case: 'Lowercase' },
+  // { color: '#123', case: '3 chars' },
+]

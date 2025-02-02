@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Color from 'color';
+  import { withLightness } from '$lib/color';
+  import { colord } from 'colord';
 
   type Props = {
     color: string;
@@ -24,25 +25,24 @@
 
   const possibleSpreads: number[] = [100, 150, 300, 500];
 
-  /** Color hue offsets, picked based on the given color */
-  let colors = $derived(
+  /**
+   * Color hue offsets, picked based on the given color.
+   *
+   * Each color is of the form `[color, posX, posY, spread]`
+   */
+  let colors: [string, string, string, string][] = $derived(
     [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25].map((hueDiff) => {
-      const base = Color(color);
-      const newColor = base
-        .hue(base.hue() + hueDiff)
-        .lightness(95)
-        .hex();
+      const base = colord(color);
+      const newColor = withLightness(
+        base.hue(base.hue() + hueDiff),
+        85,
+      ).toHex();
       const [posX, posY] =
         possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
       const spread =
         possibleSpreads[Math.floor(Math.random() * possibleSpreads.length)];
 
-      return [newColor, `${posX}%`, `${posY}%`, `${spread}px`] as [
-        string,
-        string,
-        string,
-        string,
-      ];
+      return [newColor, `${posX}%`, `${posY}%`, `${spread}px`];
     }),
   );
 </script>
@@ -72,5 +72,6 @@
     left: var(--x);
     top: var(--y);
     box-shadow: 0 0 1000px var(--spread) var(--c);
+    transition: all 0.5s;
   }
 </style>

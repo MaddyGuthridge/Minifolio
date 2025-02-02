@@ -1,88 +1,157 @@
 <script lang="ts">
-  import { dev } from '$app/environment';
-  import { goto } from '$app/navigation';
-  import api from '$endpoints';
-  import type { ConfigJson } from '$lib/server/data/config';
-  import Separator from '$components/Separator.svelte';
+  import itemId, { type ItemId } from '$lib/itemId';
+  import type { ItemData } from '$lib/server/data/item/item';
+  import { getDescendant } from '$lib/itemData';
+  import consts from '$lib/consts';
+  import { onMount } from 'svelte';
+  import ControlButtons from './ControlButtons.svelte';
 
-  type Props = {
-    path: { url: string; txt: string }[];
-    config: ConfigJson;
-    /** Whether the user is logged in. Set to undefined if auth is disabled */
-    loggedIn: boolean | undefined;
+  type NavbarPath = { url: string; txt: string }[];
+
+  type PropsItem = {
+    /** ItemId */
+    path: ItemId;
+    /** Info for the last item, passed separately to allow for reactivity when editing */
+    lastItem: ItemData;
   };
 
-  let { path, config, loggedIn }: Props = $props();
+  type PropsOther = {
+    /** Path on the navbar */
+    path: NavbarPath;
+    lastItem?: undefined;
+  };
 
-  /** Log out, then reload the page */
-  async function logOut() {
-    await api().admin.auth.logout();
-    location.reload();
+  type Props = {
+    /** Full portfolio data */
+    data: ItemData;
+    /** Whether the user is logged in. Set to undefined if auth is disabled */
+    loggedIn: boolean | undefined;
+    editable?: boolean;
+    /** Whether edit mode is active */
+    editing?: boolean;
+    /** Called when beginning edits */
+    onEditBegin?: () => void;
+    /** Called when finishing edits */
+    onEditFinish?: () => void;
+  } & (PropsItem | PropsOther);
+
+  let {
+    path,
+    data,
+    loggedIn,
+    editable = false,
+    editing = false,
+    onEditBegin,
+    onEditFinish,
+    lastItem,
+  }: Props = $props();
+
+  function itemIdToPath(id: ItemId, lastItem: ItemData): NavbarPath {
+    if (id === '/') {
+      return [
+        {
+          url: '',
+          txt: lastItem.info.name || consts.APP_NAME,
+        },
+      ];
+    }
+    const tailPath = itemId
+      .components(id)
+      .slice(0, -1)
+      .map((p, i) => {
+        const descendant = getDescendant(data, itemId.slice(id, 0, i + 1)).info;
+        return {
+          url: p,
+          txt:
+            i === id.length - 1
+              ? descendant.name
+              : (descendant.shortName ?? descendant.name),
+        };
+      });
+    return [
+      {
+        url: '',
+        txt: data.info.shortName ?? data.info.name,
+      },
+      ...tailPath,
+      {
+        url: itemId.at(id, -1),
+        txt: lastItem.info.name,
+      },
+    ];
   }
 
-  /**
-   * Go to the login page, with the from parameter determining the origin page.
-   */
-  async function gotoLogin() {
-    await goto(`/admin/login?from=${window.location.pathname}`);
-  }
-
-  /** Clear all data, and take the user to the firstrun page */
-  async function clear() {
-    await api().debug.clear();
-    await goto('/admin/firstrun/account');
-  }
+  let overallPath: NavbarPath = $derived.by(() => {
+    if (typeof path === 'string') {
+      // Path is ItemId
+      return itemIdToPath(path, lastItem!);
+    } else {
+      return [{ url: '', txt: data.info.shortName ?? data.info.name }, ...path];
+    }
+  });
 
   // This function needs to accept `path` as an input, otherwise the links
-  // stop being reactive due to cacheing or something
-  function pathTo(path: { url: string; txt: string }[], i: number) {
+  // stop being reactive due to caching or something
+  function pathTo(path: NavbarPath, i: number) {
     return path
-      .slice(0, i + 1)
+      .slice(1, i + 1)
       .map((p) => p.url)
       .join('/');
   }
+
+  /** Set document data when scroll isn't at top of page */
+  function onscroll() {
+    // https://css-tricks.com/styling-based-on-scroll-position/
+    document.documentElement.dataset.scroll =
+      window.scrollY < 20 ? 'top' : 'page';
+  }
+
+  // Update scroll position on mount so that we don't get weird visual artifacts
+  // if the page loads half-way down for some reason
+  onMount(onscroll);
 </script>
+
+<svelte:window {onscroll} />
 
 <nav>
   <span style:grid-area="navigator">
-    {#if path.length === 0}
-      <h1>{config.siteName}</h1>
-    {:else}
-      <h1>
-        <a href="/">{config.siteShortName}</a> /
-        {#each path.slice(0, -1) as p, i}
-          <a href="/{pathTo(path, i)}">{p.txt}</a>
-          {'/ '}
-        {/each}
-        {path[path.length - 1].txt}
-      </h1>
-    {/if}
+    <h1>
+      {#each overallPath.slice(0, -1) as p, i}
+        <a href="/{pathTo(overallPath, i)}">{p.txt}</a>
+        {'/ '}
+      {/each}
+      {overallPath[overallPath.length - 1].txt}
+    </h1>
   </span>
 
-  <!-- Control buttons -->
-  <span id="control-buttons">
-    {#if loggedIn}
-      <button onclick={() => goto('/admin')}> Admin </button>
-      <button onclick={logOut}> Log out </button>
-    {:else if loggedIn !== undefined}
-      <!-- Only include a login button if logging in is enabled -->
-      <button onclick={gotoLogin}> Log in </button>
-    {/if}
-    <!-- About button navigates to about page -->
-    <button onclick={() => goto('/about')}> About </button>
-    <!-- In dev mode, add a quick shortcut to delete everything -->
-    {#if dev}
-      <Separator />
-      <button onclick={clear}> Clear data </button>
-    {/if}
-  </span>
+  <ControlButtons
+    {loggedIn}
+    {editable}
+    {editing}
+    {onEditBegin}
+    {onEditFinish}
+  />
 </nav>
 
 <style>
   nav {
+    position: sticky;
+    margin: 0px;
+    margin-bottom: 20px;
+    top: 0;
+    padding: 5px 10px;
     display: grid;
     grid-template-columns: 1fr auto auto;
     grid-template-areas: 'navigator empty control-buttons';
+    backdrop-filter: blur(0px) brightness(100%);
+    transition: backdrop-filter 0.5s;
+  }
+
+  :global html[data-scroll='page'] nav {
+    box-shadow:
+      -5px 0px 10px rgba(0, 0, 0, 0.5),
+      5px 0px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px) brightness(110%);
   }
 
   a {
@@ -94,25 +163,7 @@
   }
 
   h1 {
+    margin: 0px;
     font-size: 3em;
-  }
-
-  #control-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-area: control-buttons;
-    margin-right: 20px;
-  }
-  #control-buttons button {
-    /* margin: 10px; */
-    padding: 10px;
-    background-color: transparent;
-    border-radius: 5px;
-    border: none;
-  }
-  #control-buttons button:hover {
-    cursor: pointer;
-    background-color: rgba(124, 124, 124, 0.253);
   }
 </style>

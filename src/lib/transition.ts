@@ -13,13 +13,13 @@ export const [send, receive] = crossfade({
 
   fallback(node /*, params */) {
     const style = getComputedStyle(node);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const transform = style.transform === 'none' ? '' : style.transform;
 
     return {
       duration: 600,
       easing: quintOut,
       css: (t) => `
-        transform: ${transform} scale(${t});
         opacity: ${t};
       `
     };

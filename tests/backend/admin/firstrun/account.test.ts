@@ -1,5 +1,5 @@
 /**
- * Test cases for POST /api/admin/repo
+ * Test cases for POST /api/admin/firstrun/account
  */
 import api from '$endpoints';
 import { it, describe, expect } from 'vitest';

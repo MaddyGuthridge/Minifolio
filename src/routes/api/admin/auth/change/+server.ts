@@ -1,12 +1,12 @@
-import { hashAndSalt } from '$lib/server/auth/passwords.js';
+import { hashAndSalt } from '$lib/server/auth/passwords';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir.js';
+import { authIsSetUp } from '$lib/server/data/dataDir';
 import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
-import { applyStruct } from '$lib/server/util.js';
+import { applyStruct } from '$lib/server/util';
+import validate from '$lib/validate';
 import { error, json } from '@sveltejs/kit';
 import { nanoid } from 'nanoid';
 import { object, string } from 'superstruct';
-import validator from 'validator';
 
 const NewCredentials = object({
   newUsername: string(),
@@ -14,7 +14,7 @@ const NewCredentials = object({
   newPassword: string(),
 });
 
-export async function POST({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) error(400, 'Auth is not set up yet');
   const uid = await validateTokenFromRequest({ request, cookies });
 
@@ -27,17 +27,12 @@ export async function POST({ request, cookies }: import('./$types.js').RequestEv
   const { newUsername, oldPassword, newPassword }
     = applyStruct(await request.json(), NewCredentials);
 
-  if (!newUsername) {
-    return error(400, 'New username is empty');
-  }
-
   if (hashAndSalt(local.auth[uid].password.salt, oldPassword) !== local.auth[uid].password.hash) {
     return error(403, 'Old password is incorrect');
   }
 
-  if (!validator.isStrongPassword(newPassword)) {
-    return error(400, 'New password is not strong enough');
-  }
+  validate.id('Username', newUsername);
+  validate.password(newPassword);
 
   // Hash and salt new password
   const salt = nanoid();

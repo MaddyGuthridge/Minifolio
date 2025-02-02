@@ -2,13 +2,17 @@
  * Code for setting up public data.
  */
 
-import { mkdir } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
 import { runSshKeyscan, setupGitRepo, urlRequiresSsh } from '../git';
 import { dataIsSetUp, getDataDir } from './dataDir';
 import { initConfig } from './config';
-import { initReadme } from './readme';
-import { getPortfolioGlobals, invalidatePortfolioGlobals } from '.';
 import { error } from '@sveltejs/kit';
+import { itemPath, setItemInfo } from './item';
+import { randomColor } from '$lib/color';
+import { LANDING_README } from './text';
+import consts from '$lib/consts';
+import itemId from '$lib/itemId';
+import { migrateData } from './migrations';
 
 /**
  * Set up the data directory.
@@ -23,13 +27,12 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
       await runSshKeyscan(repoUrl);
     }
     await setupGitRepo(repoUrl, branch);
+    // Migrate data if needed
+    await migrateData();
   } else {
     // Otherwise, just create the data dir empty
     // Discard errors for this, as the dir may already exist
     await mkdir(getDataDir(), { recursive: true }).catch(() => { });
-    // Currently, gitignore is not needed, since private data is now stored
-    // separately
-    // await setupGitignore();
   }
 
   /**
@@ -42,14 +45,27 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
   if (!await dataIsSetUp()) {
     firstTime = true;
     await initConfig();
-    // Also set up a default README
-    await initReadme();
+    // Also set up the root item
+    await setItemInfo(itemId.ROOT, {
+      name: consts.APP_NAME,
+      shortName: null,
+      description: `A portfolio website, created using ${consts.APP_NAME}`,
+      icon: null,
+      banner: null,
+      color: randomColor(),
+      sections: [],
+      children: [],
+      filters: [],
+      seo: {
+        description: null,
+        keywords: []
+      }
+    });
+    await writeFile(itemPath(itemId.ROOT, 'README.md'), LANDING_README);
   }
 
-  // Attempt to forcefully load global data
-  invalidatePortfolioGlobals();
   try {
-    await getPortfolioGlobals();
+    // TODO: Validate data
   } catch (e) {
     console.log(e);
     error(400, `Error loading data: ${e}`);

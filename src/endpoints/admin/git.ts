@@ -1,60 +1,55 @@
 /** Git repository endpoints */
 import type { RepoStatus } from '$lib/server/git';
-import { apiFetch, json } from '../fetch';
+import { apiFetch, payload } from '../fetch';
 
-export default function git(token: string | undefined) {
-  const status = async () => {
-    return json(apiFetch(
+export default (fetchFn: typeof fetch, token: string | undefined) => ({
+  /** Retrieve information about the data repository */
+  status: async () => {
+    return apiFetch(
+      fetchFn,
       'GET',
       '/api/admin/git',
-      token,
-    )) as Promise<{ repo: RepoStatus }>;
-  };
+      { token },
+    ).json() as Promise<{ repo: RepoStatus }>;
+  },
 
-  const init = async (url: string) => {
-    return json(apiFetch(
+  /** Initialize a git repo */
+  init: async (url: string) => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/init',
-      token,
-      { url },
-    )) as Promise<RepoStatus>;
-  };
+      { token, ...payload.json({ url }) },
+    ).json() as Promise<RepoStatus>;
+  },
 
-  const commit = async (message: string) => {
-    return json(apiFetch(
+  /** Perform a git commit */
+  commit: async (message: string) => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/commit',
-      token,
-      { message },
-    )) as Promise<RepoStatus>;
-  };
+      { token, ...payload.json({ message },) },
+    ).json() as Promise<RepoStatus>;
+  },
 
-  const push = async () => {
-    return json(apiFetch(
+  /** Perform a git push */
+  push: async () => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/push',
-      token,
-    )) as Promise<RepoStatus>;
-  };
+      { token },
+    ).json() as Promise<RepoStatus>;
+  },
 
-  const pull = async () => {
-    return json(apiFetch(
+  /** Perform a git pull */
+  pull: async () => {
+    return apiFetch(
+      fetchFn,
       'POST',
       '/api/admin/git/pull',
-      token,
-    )) as Promise<RepoStatus>;
-  };
-
-  return {
-    /** Retrieve information about the data repository */
-    status,
-    /** Initialise a git repo */
-    init,
-    /** Perform a git commit */
-    commit,
-    /** Perform a git push */
-    push,
-    /** Perform a git pull */
-    pull,
-  };
-}
+      { token },
+    ).json() as Promise<RepoStatus>;
+  },
+});

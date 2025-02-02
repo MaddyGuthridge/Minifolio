@@ -1,31 +1,27 @@
 /** Text endpoints for the server */
 
-import { apiFetch, text } from '$endpoints/fetch';
+import { apiFetch } from '$endpoints/fetch';
+import { type ItemId } from '$lib/itemId';
 
 export function root(): Promise<string> {
-  return text(apiFetch('GET', '/'));
+  return apiFetch(fetch, 'GET', '/').text();
 }
 
 export function about(token?: string): Promise<string> {
-  return text(apiFetch('GET', '/about', token));
+  return apiFetch(fetch, 'GET', '/about', {token}).text();
 }
 
-export function group(groupId: string): Promise<string> {
-  return text(apiFetch('GET', `/${groupId}`));
-}
-
-export function item(groupId: string, itemId: string): Promise<string> {
-  return text(apiFetch('GET', `/${groupId}/${itemId}`));
+export function item(itemId: ItemId): Promise<string> {
+  return apiFetch(fetch, 'GET', itemId).text();
 }
 
 export function admin(token: string | undefined): Promise<string> {
-  return text(apiFetch('GET', '/admin', token));
+  return apiFetch(fetch, 'GET', '/admin', {token}).text();
 }
 
 export default {
   root,
   about,
-  group,
   item,
   admin,
 };

@@ -1,85 +1,123 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { ItemCard } from '.';
-  import type { PortfolioGlobals } from '$lib';
   import { send, receive } from '$lib/transition';
-  import IconCard from './IconCard.svelte';
-  import { NewItemModal } from '$components/modals';
+  import { type ItemId } from '$lib/itemId';
+  import type { ItemData } from '$lib/server/data/item';
+  import { getDescendant } from '$lib/itemData';
+  import { drop } from '$lib/ui';
+  import type { DndInfo } from './dndTypes';
 
   type Props = {
-    globals: PortfolioGlobals;
-    /** ID of group to which items belong */
-    groupId: string;
+    portfolio: ItemData;
     /** Item IDs to show */
-    itemIds: string[];
-    /** Whether edit mode is active */
-    editing: boolean;
-    /** Whether to give the option to create a group in edit mode */
-    createOption?: boolean;
+    itemIds: ItemId[];
     /** Called when an item is clicked */
-    onclick: (groupId: string, itemId: string) => void;
+    onclick?: (itemId: ItemId) => void;
+    /** Whether edit mode is active*/
+    editing: boolean;
+    /** Unique drag-and-drop ID, used to prevent items from being dropped between incompatible areas */
+    dndId?: string;
+    /** Called when items are re-ordered */
+    onReorder?: (itemIds: ItemId[]) => void;
+    /** Called when an item was dropped into this grid. Can be used to remove it from elsewhere. */
+    onDropItem?: (itemId: ItemId) => void;
   };
 
   let {
-    globals,
-    groupId,
+    portfolio,
     itemIds,
-    editing,
     onclick,
-    createOption = false,
+    editing,
+    dndId,
+    onReorder,
+    onDropItem,
   }: Props = $props();
 
-  let newItemModalShown = $state(false);
-  function closeNewItemModal() {
-    newItemModalShown = false;
+  function handleDrop(itemId: ItemId, info: DndInfo) {
+    if (info.dndId !== dndId) {
+      // Doesn't match, do nothing
+      return;
+    }
+    const prevIndex = itemIds.findIndex((id) => id === itemId);
+    let newItemIds = itemIds.filter((id) => id !== itemId);
+    if (info.itemId !== undefined) {
+      const targetId = info.itemId;
+      // Find location to splice it in
+      const targetIndex = itemIds.findIndex((id) => id === targetId);
+      if (prevIndex > targetIndex) {
+        if (targetIndex > 0) {
+          newItemIds.splice(targetIndex, 0, itemId);
+        } else {
+          newItemIds = [itemId, ...newItemIds];
+        }
+      } else {
+        newItemIds.splice(targetIndex, 0, itemId);
+      }
+    } else {
+      // Not dropped onto an item => place at end of list
+      newItemIds.push(itemId);
+    }
+    // Now update itemIds
+    onReorder?.(newItemIds);
+    onDropItem?.(itemId);
   }
 </script>
 
-<div class="card-grid">
-  {#each itemIds as itemId (itemId)}
-    <div
-      animate:flip={{ duration: 300 }}
-      in:receive={{ key: itemId }}
-      out:send={{ key: itemId }}
-    >
-      <ItemCard
-        {groupId}
-        {itemId}
-        {globals}
-        {editing}
-        onclick={() => onclick(groupId, itemId)}
-      />
-    </div>
-  {/each}
-  {#if editing && createOption}
-    <IconCard
-      title="New item"
-      color="#888888"
-      onclick={() => {
-        newItemModalShown = true;
-      }}
-    >
-      {#snippet icon()}
-        <i class="las la-plus"></i>
-      {/snippet}
-    </IconCard>
-    <NewItemModal
-      {groupId}
-      show={newItemModalShown}
-      onclose={closeNewItemModal}
-    />
+<div
+  use:drop={{
+    canDrop: (e) => e.source.data.dndId === dndId,
+    getData: () => ({ dndId, itemId: undefined }),
+    onDrop: (e) => {
+      // Send handleDrop the inner-most drop info
+      handleDrop(
+        e.source.data.itemId as ItemId,
+        e.location.current.dropTargets[0].data as DndInfo,
+      );
+    },
+  }}
+>
+  <div class="card-grid">
+    {#each itemIds as itemId (itemId)}
+      <div
+        animate:flip={{ duration: 300 }}
+        in:receive={{ key: itemId }}
+        out:send={{ key: itemId }}
+      >
+        <ItemCard
+          item={getDescendant(portfolio, itemId).info}
+          link={!editing}
+          {itemId}
+          onclick={() => onclick?.(itemId)}
+          {dndId}
+        />
+      </div>
+    {/each}
+  </div>
+  <!-- No child items -->
+  {#if itemIds.length === 0 && editing}
+    <div class="no-items-message"><p>No items to show</p></div>
   {/if}
 </div>
 
 <style>
+  .no-items-message {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
   .card-grid {
     /* https://css-tricks.com/an-auto-filling-css-grid-with-max-columns/ */
     /**
     * User input values.
     */
-    --grid-layout-gap: 20px;
+    --grid-layout-gap: 0px;
     --grid-column-count: 3;
-    --grid-item--min-width: 30em;
+    --grid-item--min-width: 20em;
 
     /**
     * Calculated values.
@@ -90,6 +128,7 @@
       (100% - var(--total-gap-width)) / var(--grid-column-count)
     );
 
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(
       auto-fill,

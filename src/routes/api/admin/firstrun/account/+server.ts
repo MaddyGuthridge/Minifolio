@@ -3,8 +3,7 @@ import { authIsSetUp } from '$lib/server/data/dataDir';
 import { authSetup } from '$lib/server/auth/setup';
 import { object, string, type Infer } from 'superstruct';
 import { applyStruct } from '$lib/server/util';
-import { validateId } from '$lib/validators';
-import validator from 'validator';
+import validate from '$lib/validate';
 
 const FirstRunAuthOptionsStruct = object({
   username: string(),
@@ -13,7 +12,7 @@ const FirstRunAuthOptionsStruct = object({
 
 export type FirstRunAuthOptions = Infer<typeof FirstRunAuthOptionsStruct>;
 
-export async function POST({ request, cookies }: import('./$types.js').RequestEvent) {
+export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   const options = applyStruct(await request.json(), FirstRunAuthOptionsStruct);
 
   if (await authIsSetUp()) {
@@ -21,10 +20,8 @@ export async function POST({ request, cookies }: import('./$types.js').RequestEv
   }
 
   // Validate username and password
-  validateId('username', options.username);
-  if (!validator.isStrongPassword(options.password)) {
-    error(400, 'Password is not strong enough');
-  }
+  validate.id('username', options.username);
+  validate.password(options.password);
 
   // Now set up auth
   const token = await authSetup(options.username, options.password, cookies);

@@ -1,6 +1,6 @@
 import path from 'path';
 import simpleGit, { CheckRepoActions } from 'simple-git';
-import { fileExists } from '..';
+import { fileExists } from '../util';
 
 /** Returns the path to the data repository */
 export function getDataDir(): string {

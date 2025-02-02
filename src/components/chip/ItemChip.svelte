@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { PortfolioGlobals } from '$lib';
+  import { type ItemId } from '$lib/itemId';
+  import type { ItemData } from '$lib/server/data/item';
   import Chip from './Chip.svelte';
 
   type Props = {
-    globals: PortfolioGlobals;
-    groupId: string;
-    itemId: string;
+    item: ItemData;
+    itemId: ItemId;
     link?: boolean;
     selected?: boolean;
     /** Callback for when the element is clicked */
@@ -13,15 +13,12 @@
   };
 
   let {
-    globals,
-    groupId,
+    item,
     itemId,
     link = false,
     selected = false,
     onclick,
   }: Props = $props();
-
-  let item = $derived(globals.items[groupId][itemId]);
 </script>
 
 <Chip
@@ -29,6 +26,6 @@
   description={item.info.description}
   color={item.info.color}
   {selected}
-  link={link ? { url: `/${groupId}/${itemId}`, newTab: false } : undefined}
+  link={link ? { url: itemId, newTab: false } : undefined}
   {onclick}
 />

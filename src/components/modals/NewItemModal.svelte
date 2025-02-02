@@ -1,25 +1,30 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
+  import itemId, { type ItemId } from '$lib/itemId';
   import api from '$endpoints';
   import { goto } from '$app/navigation';
+  import consts from '$lib/consts';
+  import { Button, TextInput } from '$components/base';
+  import validate from '$lib/validate';
+  import { objectAll } from '$lib/util';
 
   type Props = {
     show: boolean;
-    groupId: string;
+    parent: ItemId;
     onclose: () => void;
   };
 
-  let { show, groupId, onclose }: Props = $props();
+  let { show, parent, onclose }: Props = $props();
 
   let itemName = $state('');
-  let itemId = $state('');
+  let newItemId = $state('');
   let itemDescription = $state('');
   let userModifiedId = $state(false);
 
   function resetAndClose() {
     itemName = '';
     itemDescription = '';
-    itemId = '';
+    newItemId = '';
     userModifiedId = false;
     onclose();
   }
@@ -31,82 +36,78 @@
 
   async function makeItem() {
     await api()
-      .group.withId(groupId)
-      .item.withId(itemId)
-      .create(itemName, itemDescription);
-    await goto(`/${groupId}/${itemId}`);
+      .item(itemId.child(parent, newItemId))
+      .info.post(itemName, itemDescription);
+    // Close modal
+    resetAndClose();
+    await goto(itemId.child(parent, newItemId));
   }
+
+  let valuesOk = $state({
+    name: false,
+    id: false,
+  });
+
+  const canSubmit = $derived(objectAll(valuesOk));
 </script>
 
 <Modal {show} onclose={resetAndClose}>
   {#snippet header()}
     <h2>New item</h2>
   {/snippet}
-  <p>Creating an item within the group '{groupId}'.</p>
+  <p>Creating a new item as a child of '{parent}'.</p>
   <form onsubmit={makeItem}>
-    <p>
-      Item name
-      <input
-        placeholder="Manyfolio"
+    <div class="form-grid">
+      <label for="item-name">Item name</label>
+      <TextInput
+        id="item-name"
+        placeholder={consts.APP_NAME}
         bind:value={itemName}
         required
         oninput={() => {
           // Whenever the user modifies the name, we should update the ID
           // to match, until the user modifies the ID themselves
           if (!userModifiedId) {
-            itemId = nameToId(itemName);
+            newItemId = nameToId(itemName);
           }
         }}
+        validator={validate.name}
+        bind:valueOk={valuesOk.name}
       />
-    </p>
-    <p>
-      Item ID
-      <input
-        placeholder="manyfolio"
+      <label for="item-id">Item ID</label>
+      <TextInput
+        placeholder={consts.APP_NAME}
+        id="item-id"
         required
-        bind:value={itemId}
+        bind:value={newItemId}
         oninput={() => {
           userModifiedId = true;
         }}
+        validator={(id) => validate.id('Item ID', id)}
+        bind:valueOk={valuesOk.id}
       />
-    </p>
-    <p>
-      Item description
-      <input
-        placeholder="A data-driven portfolio website"
+      <label for="item-description">Item description</label>
+      <TextInput
+        id="item-description"
+        placeholder="A portfolio website and content management system"
         bind:value={itemDescription}
       />
-    </p>
-    <p>
-      <input type="submit" value="Create" />
-    </p>
+    </div>
+    <Button type="submit" disabled={!canSubmit}>Create</Button>
   </form>
 </Modal>
 
 <style>
-  form {
+  .form-grid {
     margin: 10px;
-  }
-
-  form p {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: 10px;
     width: 100%;
   }
-  form p input {
-    flex: 1;
-    height: 1.2rem;
-  }
 
-  input[type='submit'] {
-    height: 2rem;
-    background-color: transparent;
-    border: none;
-    border-radius: 5px;
-  }
-
-  input[type='submit']:hover {
-    background-color: rgba(124, 124, 124, 0.253);
-    cursor: pointer;
+  label {
+    display: flex;
+    align-items: center;
   }
 </style>

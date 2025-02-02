@@ -1,4 +1,4 @@
-import type { ProvidedPackageInfo, PackageProvider, PackageInfo } from '$lib/server/data/itemPackage';
+import type { ProvidedPackageInfo, PackageProvider, PackageInfo } from '$lib/server/data/item/package';
 
 /** Info required to register a package provider */
 type ProviderInfo = {
@@ -33,3 +33,6 @@ export const packageProviders: Record<PackageProvider, ProviderInfo> = {
 export function packageIsWithProvider(repo: PackageInfo): repo is ProvidedPackageInfo {
   return 'provider' in repo;
 }
+
+/** Names of package repos that are supported by the system */
+export const supportedPackageProviders = ['pypi', 'npm'] as const;

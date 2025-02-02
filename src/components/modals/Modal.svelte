@@ -19,13 +19,26 @@
   }: Props = $props();
 
   let display = $derived(show ? 'block' : 'none');
+
+  function onkeydown(e: KeyboardEvent) {
+    if (show && e.key === 'Escape') {
+      e.preventDefault();
+      onclose();
+    }
+  }
 </script>
+
+<svelte:window {onkeydown} />
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
-<div class="outer" style="display: {display};" onclick={close}>
+<div class="outer" style="display: {display};" onclick={onclose}>
   <div class="inner">
-    <div class="box" style="background-color: {color};" onclick={onclose}>
+    <div
+      class="box"
+      style="background-color: {color};"
+      onclick={(e) => e.stopPropagation()}
+    >
       <div class="header">
         {@render header?.()}
         {#if showCloseButton}
@@ -60,10 +73,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
   }
 
   .box {
-    width: 40%;
+    max-width: 500px;
+    width: 90%;
     border-radius: 10px;
   }
 

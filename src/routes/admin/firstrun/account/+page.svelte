@@ -7,9 +7,13 @@
   import Error from '$components/modals/Error.svelte';
   import { goto } from '$app/navigation';
   import Navbar from '$components/navbar';
-  import blankConfig from '$lib/blankConfig';
+  import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
-  import { idValidatorRegex } from '$lib/validators';
+  import { Button, TextInput } from '$components/base';
+  import validate from '$lib/validate';
+  import { objectAll } from '$lib/util';
+  import itemId from '$lib/itemId';
+  import Favicon from '$components/Favicon.svelte';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? 'admin' : '');
@@ -39,12 +43,22 @@
   let showLoading = $state(false);
 
   let errorText = $state('');
+
+  // Values are true only in dev mode
+  const valuesOk = $state({
+    username: dev,
+    password: dev,
+    repeatPassword: dev,
+  });
+
+  const canSubmit = $derived(objectAll(valuesOk));
 </script>
 
 <svelte:head>
   <title>Setup - {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content="#aa00aa" />
+  <Favicon />
   <!--
     Prevent web crawlers from indexing the firstrun page. Of course, if someone
     has an instance of this exposed to the open web without it being set up,
@@ -56,7 +70,12 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar config={blankConfig} loggedIn={undefined} path={[]} />
+<Navbar
+  data={blankData}
+  loggedIn={undefined}
+  path={itemId.ROOT}
+  lastItem={blankData}
+/>
 
 <div class="center">
   <Paper>
@@ -77,30 +96,37 @@
           Create a username. It may only use lowercase alphanumeric characters,
           dots, dashes and underscores.
         </p>
-        <input
-          type="text"
+        <TextInput
           id="username"
-          pattern={idValidatorRegex.source}
-          title="Username contains illegal characters"
-          bind:value={username}
           placeholder="username"
+          bind:value={username}
+          validator={(u) => validate.id('Username', u)}
+          bind:valueOk={valuesOk.username}
         />
 
         <p>Create a strong and unique password.</p>
-        <input
-          type="password"
+        <TextInput
+          password
           id="password"
-          bind:value={password}
           placeholder="A strong and unique password"
+          bind:value={password}
+          validator={validate.password}
+          bind:valueOk={valuesOk.password}
         />
         <p>Repeat your password.</p>
-        <input
-          type="password"
+        <TextInput
+          password
           id="repeatPassword"
-          bind:value={repeatPassword}
           placeholder="Repeat your password"
+          bind:value={repeatPassword}
+          errorText={password !== repeatPassword
+            ? 'Password fields must match'
+            : undefined}
+          bind:valueOk={valuesOk.repeatPassword}
         />
-        <input type="submit" id="submit-main" value="Create account" />
+        <Button type="submit" id="submit-main" disabled={!canSubmit}>
+          Create account
+        </Button>
       </form>
     </main>
   </Paper>
@@ -110,7 +136,7 @@
 <Spinner
   show={showLoading}
   header="Just a moment..."
-  text="We're setting up your data"
+  text="We're setting up your account"
 />
 
 <!-- Error shows if error occurs with setup -->
@@ -136,17 +162,5 @@
 
   form {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

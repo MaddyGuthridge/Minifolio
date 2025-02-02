@@ -7,14 +7,19 @@
   import Error from '$components/modals/Error.svelte';
   import { goto } from '$app/navigation';
   import Navbar from '$components/navbar';
-  import blankConfig from '$lib/blankConfig';
+  import { blankData } from '$lib/blankData';
   import consts from '$lib/consts';
   import KeySettings from '../../KeySettings.svelte';
+  import { Button, TextInput } from '$components/base';
+  import itemId from '$lib/itemId';
+  import Favicon from '$components/Favicon.svelte';
 
   let { data } = $props();
 
   // Default values are auto-filled in dev mode
-  let repoUrl = $state(dev ? 'git@github.com:MaddyGuthridge/portfolio-data.git' : '');
+  let repoUrl = $state(
+    dev ? 'git@github.com:MaddyGuthridge/portfolio-data.git' : '',
+  );
   let repoBranch = $state('');
 
   async function submitMain() {
@@ -61,6 +66,7 @@
   <title>Setup - {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content="#aa00aa" />
+  <Favicon />
   <!--
     Prevent web crawlers from indexing the firstrun page. Of course, if someone
     has an instance of this exposed to the open web without it being set up,
@@ -72,7 +78,12 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar config={blankConfig} loggedIn={undefined} path={[]} />
+<Navbar
+  data={blankData}
+  loggedIn={undefined}
+  path={itemId.ROOT}
+  lastItem={blankData}
+/>
 
 <div class="center">
   <Paper>
@@ -102,8 +113,7 @@
             and enter the clone URL here. If you want to import existing data, enter
             your existing repository URL here.
           </p>
-          <input
-            type="text"
+          <TextInput
             id="repo-url"
             bind:value={repoUrl}
             placeholder="git@github.com:MaddyGuthridge/portfolio-data.git"
@@ -111,15 +121,16 @@
 
           <h3>Repository branch</h3>
           <p>If you want to use a specific branch, you can enter it here.</p>
-          <input
-            type="text"
+          <TextInput
             id="repo-branch"
             bind:value={repoBranch}
             placeholder="main"
           />
 
           <h3>Ready to get started?</h3>
-          <input type="submit" id="submit-main" value="Let's go!" />
+          <Button type="submit" id="submit-main" mode="confirm">
+            Let's go!
+          </Button>
 
           <h3>Don't want to use a git repo?</h3>
           <p>
@@ -127,11 +138,9 @@
             backed up. But if you're just testing {consts.APP_NAME}, it's much
             quicker to get started without a git repo.
           </p>
-          <input
-            type="submit"
-            id="submit-no-git"
-            value="I don't want to use git"
-          />
+          <Button type="submit" id="submit-no-git">
+            I don't want to use git
+          </Button>
         </form>
       </div>
     </main>
@@ -168,17 +177,5 @@
 
   .main-content {
     margin: 0 10%;
-  }
-
-  form input {
-    width: 100%;
-    height: 2em;
-    border-radius: 5px;
-    border-style: solid;
-  }
-
-  form input[type='submit'] {
-    font-size: 1rem;
-    font-weight: bold;
   }
 </style>

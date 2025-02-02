@@ -216,7 +216,7 @@ export async function* itemChildren(item: ItemId): AsyncIterableIterator<ItemId>
  * ...etc
  * ```
  */
-export async function* iterItems(item: ItemId = '/'): AsyncIterableIterator<ItemId> {
+export async function* iterItems(item: ItemId = itemId.ROOT): AsyncIterableIterator<ItemId> {
   yield item;
   for await (const child of itemChildren(item)) {
     for await (const descendant of iterItems(child)) {

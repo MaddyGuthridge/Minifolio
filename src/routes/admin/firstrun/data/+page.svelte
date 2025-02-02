@@ -11,6 +11,7 @@
   import consts from '$lib/consts';
   import KeySettings from '../../KeySettings.svelte';
   import { Button, TextInput } from '$components/base';
+  import itemId from '$lib/itemId';
 
   let { data } = $props();
 
@@ -75,7 +76,12 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar data={blankData} loggedIn={undefined} path={'/'} lastItem={blankData} />
+<Navbar
+  data={blankData}
+  loggedIn={undefined}
+  path={itemId.ROOT}
+  lastItem={blankData}
+/>
 
 <div class="center">
   <Paper>

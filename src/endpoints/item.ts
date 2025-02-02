@@ -4,7 +4,7 @@ import { apiFetch, payload } from './fetch';
 
 export default function item(fetchFn: typeof fetch, token: string | undefined, itemId: ItemId) {
   if (itemId === '/') {
-    itemId = '';
+    itemId = '' as ItemId;
   }
 
   const info = {

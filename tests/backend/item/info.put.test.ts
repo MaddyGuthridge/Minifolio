@@ -10,7 +10,7 @@ import { invalidColors, invalidNames, validColors, validNames } from '../consts'
 import itemId from '$lib/itemId';
 
 let api: ApiClient;
-const childItemId = '/item';
+const childItemId = itemId.fromStr('/item');
 
 beforeEach(async () => {
   api = (await setup()).api;
@@ -45,14 +45,14 @@ describe('Success', () => {
   it.todo('Accepts valid banner images');
 
   it('Accepts valid children', async () => {
-    await expect(api.item('/').info.put(makeItemInfo({
+    await expect(api.item(itemId.ROOT).info.put(makeItemInfo({
       children: [itemId.suffix(childItemId)]
     })))
       .resolves.toStrictEqual({});
   });
 
   it('Accepts valid filter items', async () => {
-    await expect(api.item('/').info.put(makeItemInfo({
+    await expect(api.item(itemId.ROOT).info.put(makeItemInfo({
       filters: [childItemId],
     })))
       .resolves.toStrictEqual({});
@@ -115,7 +115,7 @@ describe('Success', () => {
             label: 'See also',
             items: [
               // Root
-              '/',
+              itemId.ROOT,
             ]
           }
         ]
@@ -203,7 +203,7 @@ describe('400', () => {
             style: 'chip',
             label: 'See also',
             items: [
-              '/invalid',
+              itemId.fromStr('/invalid'),
             ]
           }
         ]
@@ -241,7 +241,7 @@ describe('400', () => {
     test('Item does not exist', async () => {
       await expect(api.item(childItemId).info.put(makeItemInfo({
         filters: [
-          '/invalid/item',
+          itemId.fromStr('/invalid/item'),
         ]
       })))
         .rejects.toMatchObject({ code: 400 });
@@ -278,7 +278,7 @@ describe('401', () => {
 
 describe('404', () => {
   it('Rejects if item does not exist', async () => {
-    await expect(api.item('/invalid').info.put(makeItemInfo()))
+    await expect(api.item(itemId.fromStr('/invalid')).info.put(makeItemInfo()))
       .rejects.toMatchObject({ code: 404 });
   });
 });

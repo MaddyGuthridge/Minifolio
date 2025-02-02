@@ -11,6 +11,7 @@ import { itemPath, setItemInfo } from './item';
 import { randomColor } from '$lib/color';
 import { LANDING_README } from './text';
 import consts from '$lib/consts';
+import itemId from '$lib/itemId';
 
 /**
  * Set up the data directory.
@@ -42,7 +43,7 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
     firstTime = true;
     await initConfig();
     // Also set up the root item
-    await setItemInfo('/', {
+    await setItemInfo(itemId.ROOT, {
       name: consts.APP_NAME,
       shortName: null,
       description: `A portfolio website, created using ${consts.APP_NAME}`,
@@ -57,7 +58,7 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
         keywords: []
       }
     });
-    await writeFile(itemPath('/', 'README.md'), LANDING_README);
+    await writeFile(itemPath(itemId.ROOT, 'README.md'), LANDING_README);
   }
 
   try {

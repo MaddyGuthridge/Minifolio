@@ -3,7 +3,7 @@
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
   import { ItemPicker } from '$components/pickers';
-  import type { ItemId } from '$lib/itemId';
+  import itemId, { type ItemId } from '$lib/itemId';
   import { linkDisplayStyles } from '$lib/links';
   import type { ItemData } from '$lib/server/data/item';
   import type { LinksSection } from '$lib/server/data/item/section';
@@ -23,11 +23,11 @@
     onchange,
   }: Props = $props();
 
-  let newLinkId: ItemId = $state('/');
+  let newLinkId: ItemId = $state(itemId.ROOT);
 
   function addNewLink() {
     section.items.push(newLinkId);
-    newLinkId = '/';
+    newLinkId = itemId.ROOT;
     onchange();
   }
 </script>

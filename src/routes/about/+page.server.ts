@@ -7,12 +7,13 @@ import os from 'os';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { getItemData, type ItemData } from '$lib/server/data/item';
 import { blankData } from '../../lib/blankData';
+import itemId from '$lib/itemId';
 
 export async function load(req: import('./$types').RequestEvent) {
   const isInit = await dataIsSetUp();
   const loggedIn = isInit ? await isRequestAuthorized(req) : undefined;
 
-  const portfolio: ItemData = isInit ? await getItemData('/') : blankData;
+  const portfolio: ItemData = isInit ? await getItemData(itemId.ROOT) : blankData;
 
   let versions = null;
   if (!isInit || loggedIn) {

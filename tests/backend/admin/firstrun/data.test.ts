@@ -8,6 +8,7 @@ import simpleGit, { CheckRepoActions } from 'simple-git';
 import type { FirstRunDataOptions } from '../../../../src/routes/api/admin/firstrun/data/+server';
 import { getDataDir } from '$lib/server/data/dataDir';
 import genTokenTests from '../../tokenCase';
+import itemId from '$lib/itemId';
 
 // Git clone takes a while, increase the test timeout
 vi.setConfig({ testTimeout: 15_000 });
@@ -55,7 +56,7 @@ it('Generates root item by default', async () => {
   const token = await accountSetup();
   await firstrunData(token);
   const client = api(fetch, token);
-  await expect(client.item('/').info.get()).toResolve();
+  await expect(client.item(itemId.ROOT).info.get()).toResolve();
 });
 
 describe('token cases', () => {

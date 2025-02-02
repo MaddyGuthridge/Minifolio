@@ -3,23 +3,27 @@
  */
 import validate from '$lib/validate';
 import { error } from '@sveltejs/kit';
-import { string, type Infer } from 'superstruct';
+import { string, Struct } from 'superstruct';
 
 /** The ID of an Item. A string in the form `/a/b/c/...` */
-export const ItemIdStruct = string();
+export type ItemId = string & { __itemId: string };
 
 /** The ID of an Item. A string in the form `/a/b/c/...` */
-export type ItemId = Infer<typeof ItemIdStruct>;
+// Janky override of the type definition, such that TypeScript knows that anything that is typed
+// with this definition is assumed to be of type `ItemId`
+export const ItemIdStruct: Struct<ItemId, null> = string() as any;
+
+export const ROOT = '/' as ItemId;
 
 /** Ensure that an ItemId is valid */
-export function validateItemId(itemId: ItemId): ItemId {
+export function validateItemId(itemId: string): ItemId {
   if (!itemId.startsWith('/')) {
     error(400, "ItemId must have a leading '/'");
   }
-  for (const component of itemComponents(itemId)) {
+  for (const component of itemComponents(itemId as ItemId)) {
     validate.id('ItemId component', component);
   }
-  return itemId;
+  return itemId as ItemId;
 }
 
 /** Split an ItemId into its components */
@@ -32,18 +36,23 @@ export function itemComponents(itemId: ItemId): string[] {
 }
 
 /** Generate an ItemId from an array of components */
-export function fromComponents(components: string[]): ItemId {
-  return `/${components.join('/')}`;
+export function itemIdFromComponents(components: string[]): ItemId {
+  return `/${components.join('/')}` as ItemId;
+}
+
+/** Create an ItemId with no validation */
+export function itemIdFromStr(id: string): ItemId {
+  return id as ItemId;
 }
 
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
-  return fromComponents(itemComponents(itemId).slice(1));
+  return itemIdFromComponents(itemComponents(itemId).slice(1));
 }
 
 /** Return an ItemId of a child of the given ItemId */
 export function itemChild(itemId: ItemId, child: string): ItemId {
-  return fromComponents([...itemComponents(itemId), child]);
+  return itemIdFromComponents([...itemComponents(itemId), child]);
 }
 
 /** Returns the "suffix" of the item ID (the final element) */
@@ -57,11 +66,11 @@ export function itemIdHead(itemId: ItemId): string {
 }
 
 export function itemIdTail(itemId: ItemId): ItemId {
-  return fromComponents(itemComponents(itemId).slice(1));
+  return itemIdFromComponents(itemComponents(itemId).slice(1));
 }
 
 export function itemIdSlice(itemId: ItemId, start?: number, end?: number): ItemId {
-  return fromComponents(itemComponents(itemId).slice(start, end));
+  return itemIdFromComponents(itemComponents(itemId).slice(start, end));
 }
 
 export function itemidAt(itemId: ItemId, index: number): string {
@@ -70,9 +79,11 @@ export function itemidAt(itemId: ItemId, index: number): string {
 
 export default {
   Struct: ItemIdStruct,
+  ROOT,
   validate: validateItemId,
   components: itemComponents,
-  from: fromComponents,
+  fromComponents: itemIdFromComponents,
+  fromStr: itemIdFromStr,
   parent: itemParent,
   child: itemChild,
   suffix: itemIdSuffix,

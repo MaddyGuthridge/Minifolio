@@ -17,7 +17,7 @@ export async function load(req: import('./$types').RequestEvent) {
   if (!await itemExists(item)) {
     error(404, `Item ${item} does not exist`);
   }
-  const portfolio = await getItemData('/');
+  const portfolio = await getItemData(itemId.ROOT);
   const config = await getConfig();
   const itemInfo = await getItemData(item);
 

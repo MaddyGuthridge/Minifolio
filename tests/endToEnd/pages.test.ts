@@ -4,6 +4,7 @@ import { beforeEach, expect, test } from 'vitest';
 import endpoints from './endpoints';
 import type { ApiClient } from '$endpoints';
 import { setup } from '../backend/helpers';
+import itemId from '$lib/itemId';
 
 let api: ApiClient;
 
@@ -24,8 +25,9 @@ test('About page loads with token provided', async () => {
 });
 
 test('Item page loads', async () => {
-  await api.item('/my-item').info.post('My item', 'My item');
-  await expect(endpoints.item('/my-item')).resolves.toStrictEqual(expect.any(String));
+  const id = itemId.fromStr('/my-item')
+  await api.item(id).info.post('My item', 'My item');
+  await expect(endpoints.item(id)).resolves.toStrictEqual(expect.any(String));
 });
 
 test('Admin page loads with token', async () => {

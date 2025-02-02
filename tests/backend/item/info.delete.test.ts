@@ -5,6 +5,7 @@ import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, it } from 'vitest';
 import { setup } from '../helpers';
 import genTokenTests from '../tokenCase';
+import itemId from '$lib/itemId';
 
 describe('Success', () => {
   it.todo('Successfully deletes items');
@@ -20,15 +21,15 @@ describe('Success', () => {
 
 describe('401', () => {
   let api: ApiClient;
-  const itemId = '/item';
+  const id = itemId.fromStr('/item');
   beforeEach(async () => {
     api = (await setup()).api;
-    await api.item(itemId).info.post('My item');
+    await api.item(id).info.post('My item');
   });
 
   genTokenTests(
     () => api,
-    api => api.item(itemId).info.delete(),
+    api => api.item(id).info.delete(),
   );
 });
 

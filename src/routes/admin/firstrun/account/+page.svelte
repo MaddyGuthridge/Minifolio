@@ -12,6 +12,7 @@
   import { Button, TextInput } from '$components/base';
   import validate from '$lib/validate';
   import { objectAll } from '$lib/util';
+  import itemId from '$lib/itemId';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? 'admin' : '');
@@ -67,7 +68,12 @@
 
 <Background color="#aa00aa"></Background>
 
-<Navbar data={blankData} loggedIn={undefined} path={'/'} lastItem={blankData} />
+<Navbar
+  data={blankData}
+  loggedIn={undefined}
+  path={itemId.ROOT}
+  lastItem={blankData}
+/>
 
 <div class="center">
   <Paper>

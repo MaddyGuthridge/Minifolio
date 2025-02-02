@@ -9,7 +9,7 @@ import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
-import { formatItemId, itemIdsEqual, ItemIdStruct, itemIdTail, itemParent, type ItemId } from '../../../itemId';
+import itemId, { type ItemId } from '../../../itemId';
 import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { applyStruct } from '../../util';
@@ -60,7 +60,7 @@ export const ItemInfoStruct = type({
    */
   children: array(string()),
   /** Array of item IDs whose children should be used as filters for children of this item. */
-  filters: array(ItemIdStruct),
+  filters: array(itemId.Struct),
   /** SEO properties, placed in the document `<head>` to improve placement in search engines. */
   seo: type({
     /**
@@ -82,7 +82,7 @@ export type ItemInfo = Infer<typeof ItemInfoStruct>;
 /** Returns the path to an item's directory */
 export function itemPath(item: ItemId, file?: string): string {
   // Note, path.join() with an empty string has no effect
-  return path.join(getDataDir(), ...item, file ?? '');
+  return path.join(getDataDir(), item, file ?? '');
 }
 
 /** Returns whether the given item exists */
@@ -120,16 +120,16 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
 
   // Ensure each child exists
   for (const child of info.children) {
-    if (!await itemExists([...item, child])) {
-      error(400, `Child item '${formatItemId([...item, child])}' does not exist`);
+    if (!await itemExists(itemId.child(item, child))) {
+      error(400, `Child item '${itemId.child(item, child)}' does not exist`);
     }
   }
   // Ensure each filter item exists
   for (const filterItem of info.filters) {
     if (!await itemExists(filterItem)) {
-      error(400, `Filter item '${formatItemId(filterItem)}' does not exist`);
+      error(400, `Filter item '${filterItem}' does not exist`);
     }
-    if (itemIdsEqual(item, filterItem)) {
+    if (item === filterItem) {
       error(400, 'Filter items cannot be self-referencing');
     }
   }
@@ -165,20 +165,21 @@ export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
 function removeLinkToItem(target: ItemId, item: ItemInfo): ItemInfo {
   for (const section of item.sections) {
     if (section.type === 'links') {
-      section.items = section.items.filter(link => !itemIdsEqual(link, target));
+      section.items = section.items.filter(link => link !== target);
     }
   }
-  item.filters = item.filters.filter(filter => !itemIdsEqual(target, filter));
+  item.filters = item.filters.filter(filter => target !== filter);
   return item;
 }
 
 /** Delete the given item, and all references to it */
 export async function deleteItem(itemToDelete: ItemId): Promise<void> {
   await rimraf(itemPath(itemToDelete));
+  const parentId = itemId.parent(itemToDelete);
   // Remove from parent
-  const parent = await getItemInfo(itemParent(itemToDelete));
-  parent.children = parent.children.filter(child => child !== itemIdTail(itemToDelete));
-  await setItemInfo(itemParent(itemToDelete), parent);
+  const parentInfo = await getItemInfo(parentId);
+  parentInfo.children = parentInfo.children.filter(child => child !== itemId.suffix(itemToDelete));
+  await setItemInfo(parentId, parentInfo);
   // Clean up references in other items
   for await (const otherItemId of iterItems()) {
     const otherItem = await getItemInfo(otherItemId);
@@ -192,7 +193,7 @@ export async function deleteItem(itemToDelete: ItemId): Promise<void> {
 export async function* itemChildren(item: ItemId): AsyncIterableIterator<ItemId> {
   for await (const dirent of await fs.opendir(itemPath(item))) {
     if (dirent.isDirectory()) {
-      const child = [...item, dirent.name];
+      const child = itemId.child(item, dirent.name);
       if (await itemExists(child)) {
         yield child;
       }
@@ -215,7 +216,7 @@ export async function* itemChildren(item: ItemId): AsyncIterableIterator<ItemId>
  * ...etc
  * ```
  */
-export async function* iterItems(item: ItemId = []): AsyncIterableIterator<ItemId> {
+export async function* iterItems(item: ItemId = '/'): AsyncIterableIterator<ItemId> {
   yield item;
   for await (const child of itemChildren(item)) {
     for await (const descendant of iterItems(child)) {
@@ -237,20 +238,20 @@ export type ItemData = {
 }
 
 /** Returns the full text data for the given item */
-export async function getItemData(itemId: ItemId): Promise<ItemData> {
-  const info = await getItemInfo(itemId);
-  const readme = await fs.readFile(itemPath(itemId, 'README.md'), { encoding: 'utf-8' });
+export async function getItemData(item: ItemId): Promise<ItemData> {
+  const info = await getItemInfo(item);
+  const readme = await fs.readFile(itemPath(item, 'README.md'), { encoding: 'utf-8' });
 
   const children: Record<string, ItemData> = {};
-  for await (const child of itemChildren(itemId)) {
-    children[itemIdTail(child)] = await getItemData(child);
+  for await (const child of itemChildren(item)) {
+    children[itemId.suffix(child)] = await getItemData(child);
   }
 
   const ls = [];
-  for await (const dirent of await fs.opendir(itemPath(itemId))) {
+  for await (const dirent of await fs.opendir(itemPath(item))) {
     if (dirent.isFile()) {
       if (RESERVED_FILENAMES.includes(dirent.name)) continue;
-      if (itemId.length === 0 && ROOT_ITEM_RESERVED_FILENAMES.includes(dirent.name)) continue;
+      if (item === '/' && ROOT_ITEM_RESERVED_FILENAMES.includes(dirent.name)) continue;
       ls.push(dirent.name);
     }
   }

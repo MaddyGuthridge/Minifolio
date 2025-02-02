@@ -8,7 +8,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
-  import { itemIdToUrl } from '$lib/itemId';
+  import itemId from '$lib/itemId';
   import { generateKeywords } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
@@ -151,12 +151,13 @@
       {/if}
       <ItemCardGrid
         portfolio={data.portfolio}
-        itemIds={thisItem.info.children.map((id) => [...data.itemId, id])}
-        onclick={() => {}}
+        itemIds={thisItem.info.children.map((id) =>
+          itemId.child(data.itemId, id),
+        )}
         {editing}
-        dndId={`${itemIdToUrl(data.itemId)}|children`}
+        dndId={`${data.itemId}:children`}
         onReorder={(items) => {
-          thisItem.info.children = items.map((id) => id.at(-1) as string);
+          thisItem.info.children = items.map((id) => itemId.suffix(id));
           infoUpdater.update(thisItem.info);
         }}
       />
@@ -167,13 +168,12 @@
         )}
         <ItemCardGrid
           portfolio={data.portfolio}
-          itemIds={hiddenChildren.map((id) => [...data.itemId, id])}
-          onclick={() => {}}
+          itemIds={hiddenChildren.map((id) => itemId.child(data.itemId, id))}
           {editing}
-          dndId={`${itemIdToUrl(data.itemId)}|children`}
-          onDropItem={(itemId) => {
+          dndId={`${data.itemId}:children`}
+          onDropItem={(droppedItemId) => {
             // When an item is dropped here, remove it from the list of shown children
-            const tail = itemId.at(-1) as string;
+            const tail = itemId.suffix(droppedItemId);
             thisItem.info.children = thisItem.info.children.filter(
               (id) => id !== tail,
             );

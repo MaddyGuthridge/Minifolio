@@ -6,7 +6,7 @@
 import { array, enums, literal, nullable, string, type, union, type Infer } from 'superstruct';
 import { error } from '@sveltejs/kit';
 import validate from '$lib/validate';
-import { itemIdsEqual, ItemIdStruct, type ItemId } from '$lib/itemId';
+import { ItemIdStruct, type ItemId } from '$lib/itemId';
 import { RepoInfoStruct } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
@@ -45,7 +45,7 @@ async function validateLinksSection(itemId: ItemId, data: LinksSection) {
     if (!await itemExists(otherItem)) {
       error(400, `Linked item ${otherItem} does not exist`);
     }
-    if (itemIdsEqual(otherItem, itemId)) {
+    if (otherItem === itemId) {
       error(400, 'Links cannot be self-referencing');
     }
   }

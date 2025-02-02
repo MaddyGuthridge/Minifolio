@@ -23,11 +23,11 @@
     onchange,
   }: Props = $props();
 
-  let newLinkId: ItemId = $state([]);
+  let newLinkId: ItemId = $state('/');
 
   function addNewLink() {
     section.items.push(newLinkId);
-    newLinkId = [];
+    newLinkId = '/';
     onchange();
   }
 </script>

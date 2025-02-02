@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import { error, json } from '@sveltejs/kit';
 import sanitize from 'sanitize-filename';
 import mime from 'mime-types';
-import { formatItemId, itemIdFromUrl, type ItemId } from '$lib/itemId';
+import itemId, { type ItemId } from '$lib/itemId';
 import { fileExists } from '$lib/server/util';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { getItemData, itemExists, itemPath } from '$lib/server/data/item';
@@ -13,18 +13,18 @@ type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns file contents */
 export async function GET(req: Request) {
-  const item: ItemId = itemIdFromUrl(req.params.item);
+  const item: ItemId = itemId.validate(`/${req.params.item}`);
 
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   // Sanitize the filename to prevent unwanted access to the server's filesystem
   const filename = sanitize(req.params.filename);
 
   // If this is a request to an item directory (not a file within it), then return the full info on
   // the item.
-  if (await itemExists([...item, filename])) {
-    return json(await getItemData([...item, filename]));
+  if (await itemExists(itemId.child(item, filename))) {
+    return json(await getItemData(itemId.child(item, filename)));
   }
 
   // Get the path of the file to serve
@@ -69,15 +69,15 @@ async function updateFileFromRequest(filename: string, req: Request): Promise<vo
 /** POST request handler, creates file (if it doesn't exist) */
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
-  const item: ItemId = itemIdFromUrl(req.params.item);
+  const item: ItemId = itemId.validate(`/${req.params.item}`);
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   const filename = sanitize(req.params.filename);
   const file = itemPath(item, filename);
 
   if (await fileExists(file)) {
-    error(400, `File '${filename}' already exists for item ${formatItemId(item)}`);
+    error(400, `File '${filename}' already exists for item '${item}'`);
   }
 
   await updateFileFromRequest(file, req);
@@ -87,15 +87,15 @@ export async function POST(req: Request) {
 /** PUT request handler, updates file */
 export async function PUT(req: Request) {
   await validateTokenFromRequest(req);
-  const item: ItemId = itemIdFromUrl(req.params.item);
+  const item: ItemId = itemId.validate(`/${req.params.item}`);
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   const filename = sanitize(req.params.filename);
   const file = itemPath(item, filename);
 
   if (!await fileExists(file)) {
-    error(404, `File '${filename}' does not exist for item ${formatItemId(item)}`);
+    error(404, `File '${filename}' does not exist for item '${item}'`);
   }
 
   await updateFileFromRequest(file, req);
@@ -105,15 +105,15 @@ export async function PUT(req: Request) {
 /** DELETE request handler, removes file */
 export async function DELETE(req: Request) {
   await validateTokenFromRequest(req);
-  const item: ItemId = itemIdFromUrl(req.params.item);
+  const item: ItemId = itemId.validate(`/${req.params.item}`);
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   const filename = sanitize(req.params.filename);
   const file = itemPath(item, filename);
 
   if (!await fileExists(file)) {
-    error(404, `File '${filename}' does not exist for item ${formatItemId(item)}`);
+    error(404, `File '${filename}' does not exist for item '${item}'`);
   }
 
   // TODO: Update properties of info.json to remove references to the file

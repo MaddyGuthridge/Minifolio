@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
-import { formatItemId, itemIdFromUrl, validateItemId, itemIdTail, itemParent } from '$lib/itemId';
+import itemId from '$lib/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { applyStruct } from '$lib/server/util';
@@ -17,12 +17,12 @@ type Request = import('./$types').RequestEvent;
 
 /** Get item info.json */
 export async function GET(req: Request) {
-  const item = itemIdFromUrl(req.params.item);
+  const item = itemId.validate(`/${req.params.item}`);
   if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   if (!await itemExists(item)) {
-    error(404, `Item '${req.params.item}' does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   return json(await getItemInfo(item));
 }
@@ -36,15 +36,14 @@ const NewItemOptions = object({
 /** Create new item */
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemIdFromUrl(req.params.item);
-  validateItemId(item);
+  const item = itemId.validate(`/${req.params.item}`);
 
   // Ensure parent exists
-  const parent = await getItemInfo(itemParent(item))
-    .catch(() => error(404, `Parent of ${formatItemId(item)} does not exist`));
+  const parent = await getItemInfo(itemId.parent(item))
+    .catch(() => error(404, `Parent of '${item}' does not exist`));
   // Check if item exists
   if (await itemExists(item)) {
-    error(400, `Item ${formatItemId(item)} already exists`);
+    error(400, `Item '${item}' already exists`);
   }
   // Validate item properties
   const { name, description } = applyStruct(await req.request.json(), NewItemOptions);
@@ -79,8 +78,8 @@ export async function POST(req: Request) {
   await fs.writeFile(itemPath(item, 'README.md'), readme, { encoding: 'utf-8' });
 
   // Add item to parent's children
-  parent.children.push(itemIdTail(item));
-  await setItemInfo(itemParent(item), parent);
+  parent.children.push(itemId.suffix(item));
+  await setItemInfo(itemId.parent(item), parent);
 
   return json(itemInfo);
 }
@@ -88,10 +87,10 @@ export async function POST(req: Request) {
 /** Update item info.json */
 export async function PUT(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemIdFromUrl(req.params.item);
+  const item = itemId.validate(`/${req.params.item}`);
   // Check if item exists
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   // Validate properties
   const itemInfo = await validateItemInfo(item, await req.request.json());
@@ -102,14 +101,14 @@ export async function PUT(req: Request) {
 /** Delete item */
 export async function DELETE(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemIdFromUrl(req.params.item);
+  const item = itemId.validate(`/${req.params.item}`);
   // Prevent the Minifolio equivalent of `rm -rf /`
   if (item.length == 0) {
     error(403, 'Cannot delete root item');
   }
   // Check if item exists
   if (!await itemExists(item)) {
-    error(404, `Item ${formatItemId(item)} does not exist`);
+    error(404, `Item '${item}' does not exist`);
   }
   await deleteItem(item);
   return json({});

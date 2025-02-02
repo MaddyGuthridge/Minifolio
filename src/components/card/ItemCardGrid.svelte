@@ -2,7 +2,7 @@
   import { flip } from 'svelte/animate';
   import { ItemCard } from '.';
   import { send, receive } from '$lib/transition';
-  import { itemIdsEqual, itemIdToUrl, type ItemId } from '$lib/itemId';
+  import { type ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import { getDescendant } from '$lib/itemData';
   import { drop } from '$lib/ui';
@@ -39,12 +39,12 @@
       // Doesn't match, do nothing
       return;
     }
-    const prevIndex = itemIds.findIndex((id) => itemIdsEqual(id, itemId));
-    let newItemIds = itemIds.filter((id) => !itemIdsEqual(id, itemId));
+    const prevIndex = itemIds.findIndex((id) => id === itemId);
+    let newItemIds = itemIds.filter((id) => id !== itemId);
     if (info.itemId !== undefined) {
       const targetId = info.itemId;
       // Find location to splice it in
-      const targetIndex = itemIds.findIndex((id) => itemIdsEqual(id, targetId));
+      const targetIndex = itemIds.findIndex((id) => id === targetId);
       if (prevIndex > targetIndex) {
         if (targetIndex > 0) {
           newItemIds.splice(targetIndex, 0, itemId);
@@ -81,8 +81,8 @@
     {#each itemIds as itemId (itemId)}
       <div
         animate:flip={{ duration: 300 }}
-        in:receive={{ key: itemIdToUrl(itemId) }}
-        out:send={{ key: itemIdToUrl(itemId) }}
+        in:receive={{ key: itemId }}
+        out:send={{ key: itemId }}
       >
         <ItemCard
           item={getDescendant(portfolio, itemId).info}

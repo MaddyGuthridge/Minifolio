@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
 
 let api: ApiClient;
-const itemId = ['item'];
+const itemId = '/item';
 
 beforeEach(async () => {
   api = (await setup()).api;
@@ -36,12 +36,12 @@ describe('Success', () => {
 describe('400', () => {
   it('Gives an error if data is not set up', async () => {
     await api.debug.clear();
-    await expect(api.item([]).info.get()).rejects.toMatchObject({ code: 400 });
+    await expect(api.item('/').info.get()).rejects.toMatchObject({ code: 400 });
   });
 })
 
 describe('404', () => {
   it("Rejects when an item doesn't exist", async () => {
-    await expect(api.item(['invalid']).info.get()).rejects.toMatchObject({ code: 404 });
+    await expect(api.item('/invalid').info.get()).rejects.toMatchObject({ code: 404 });
   });
 });

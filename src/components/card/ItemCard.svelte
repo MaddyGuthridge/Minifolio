@@ -2,7 +2,7 @@
   import Card from './Card.svelte';
   import type { ItemInfo } from '$lib/server/data/item';
   import type { ItemId } from '$lib/itemId';
-  import { itemFileUrl, itemUrl } from '$lib/urls';
+  import { itemFileUrl } from '$lib/urls';
   import { dragAndDrop } from '$lib/ui';
 
   type Props = {
@@ -36,7 +36,7 @@
   <Card
     color={item.color}
     {onclick}
-    link={link ? { url: itemUrl(itemId), newTab: false } : undefined}
+    link={link ? { url: itemId, newTab: false } : undefined}
   >
     <div class="card-outer">
       <div class:card-icon={item.icon}>

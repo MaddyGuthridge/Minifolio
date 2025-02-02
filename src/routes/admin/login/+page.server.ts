@@ -15,6 +15,6 @@ export async function load(req: import('./$types').RequestEvent) {
     // If they are logged in, redirect them to the `from` URL if it exists.
     redirect(303, req.url.searchParams.get('from') ?? '/');
   }
-  const portfolio = await getItemData([]);
+  const portfolio = await getItemData('/');
   return { portfolio };
 }

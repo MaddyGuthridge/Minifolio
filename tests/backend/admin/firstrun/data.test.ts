@@ -55,7 +55,7 @@ it('Generates root item by default', async () => {
   const token = await accountSetup();
   await firstrunData(token);
   const client = api(fetch, token);
-  await expect(client.item([]).info.get()).toResolve();
+  await expect(client.item('/').info.get()).toResolve();
 });
 
 describe('token cases', () => {

@@ -7,36 +7,37 @@ import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
 import { invalidColors, invalidNames, validColors, validNames } from '../consts';
+import itemId from '$lib/itemId';
 
 let api: ApiClient;
-const itemId = ['item'];
+const childItemId = '/item';
 
 beforeEach(async () => {
   api = (await setup()).api;
-  await api.item(itemId).info.post('My item');
+  await api.item(childItemId).info.post('My item');
 });
 
 describe('Success', () => {
   it('Successfully updates item info', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo()))
+    await expect(api.item(childItemId).info.put(makeItemInfo()))
       .resolves.toStrictEqual({});
     // Info has been updated
-    await expect(api.item(itemId).info.get())
+    await expect(api.item(childItemId).info.get())
       .resolves.toStrictEqual(makeItemInfo());
   });
 
   it.each(validNames)('Accepts valid item names ($case)', async ({ name }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ name })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ name })))
       .resolves.toStrictEqual({});
   });
 
   it.each(validNames)('Accepts valid item short names ($case)', async ({ name }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ shortName: name })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ shortName: name })))
       .resolves.toStrictEqual({});
   });
 
   it.each(validColors)('Accepts valid colors ($case)', async ({ color }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ color })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ color })))
       .resolves.toStrictEqual({});
   });
 
@@ -44,15 +45,15 @@ describe('Success', () => {
   it.todo('Accepts valid banner images');
 
   it('Accepts valid children', async () => {
-    await expect(api.item([]).info.put(makeItemInfo({
-      children: [itemId.at(-1)!]
+    await expect(api.item('/').info.put(makeItemInfo({
+      children: [itemId.suffix(childItemId)]
     })))
       .resolves.toStrictEqual({});
   });
 
   it('Accepts valid filter items', async () => {
-    await expect(api.item([]).info.put(makeItemInfo({
-      filters: [itemId],
+    await expect(api.item('/').info.put(makeItemInfo({
+      filters: [childItemId],
     })))
       .resolves.toStrictEqual({});
   });
@@ -69,7 +70,7 @@ describe('Success', () => {
           }
         ]
       });
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
     it('Accepts valid repo info', async () => {
@@ -85,7 +86,7 @@ describe('Success', () => {
           }
         ]
       });
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
     it('Accepts valid package info', async () => {
@@ -101,7 +102,7 @@ describe('Success', () => {
           }
         ]
       });
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
 
@@ -114,13 +115,13 @@ describe('Success', () => {
             label: 'See also',
             items: [
               // Root
-              [],
+              '/',
             ]
           }
         ]
       });
 
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
   });
@@ -129,37 +130,37 @@ describe('Success', () => {
 
 describe('400', () => {
   it.each(invalidNames)('Rejects invalid item names ($case)', async ({ name }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ name })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ name })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it.each(invalidNames)('Rejects invalid item short names ($case)', async ({ name }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ shortName: name })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ shortName: name })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it('Rejects non-existent item icons', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ icon: 'nope.jpg' })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ icon: 'nope.jpg' })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it('Rejects non-existent item banners', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ banner: 'nope.jpg' })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ banner: 'nope.jpg' })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it('Rejects non-image item icons', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ icon: 'info.json' })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ icon: 'info.json' })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it('Rejects non-image item banners', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ banner: 'info.json' })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ banner: 'info.json' })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   it.each(invalidColors)('Rejects invalid item colors ($case)', async ({ color }) => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ color })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ color })))
       .rejects.toMatchObject({ code: 400 });
   });
 
@@ -175,7 +176,7 @@ describe('400', () => {
           //   ^^^ needed or TypeScript will (correctly) identify that this is wrong
         ]
       });
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });
 
@@ -190,7 +191,7 @@ describe('400', () => {
           }
         ]
       })
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });
 
@@ -202,13 +203,13 @@ describe('400', () => {
             style: 'chip',
             label: 'See also',
             items: [
-              ['invalid'],
+              '/invalid',
             ]
           }
         ]
       });
 
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });
 
@@ -220,27 +221,27 @@ describe('400', () => {
             style: 'chip',
             label: 'See also',
             items: [
-              itemId,
+              childItemId,
             ]
           }
         ]
       });
 
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });
   });
 
   it('Rejects if listed child does not exist', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({ children: ['invalid'] })))
+    await expect(api.item(childItemId).info.put(makeItemInfo({ children: ['invalid'] })))
       .rejects.toMatchObject({ code: 400 });
   });
 
   describe('Filter items', () => {
     test('Item does not exist', async () => {
-      await expect(api.item(itemId).info.put(makeItemInfo({
+      await expect(api.item(childItemId).info.put(makeItemInfo({
         filters: [
-          ['invalid', 'item'],
+          '/invalid/item',
         ]
       })))
         .rejects.toMatchObject({ code: 400 });
@@ -249,17 +250,17 @@ describe('400', () => {
     test('Self-referencing item', async () => {
       const info = makeItemInfo({
         filters: [
-          itemId
+          childItemId
         ]
       });
 
-      await expect(api.item(itemId).info.put(info))
+      await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });
   });
 
   it('Rejects empty string SEO description', async () => {
-    await expect(api.item(itemId).info.put(makeItemInfo({
+    await expect(api.item(childItemId).info.put(makeItemInfo({
       seo: {
         description: '',
         keywords: [],
@@ -271,13 +272,13 @@ describe('400', () => {
 describe('401', () => {
   genTokenTests(
     () => api,
-    api => api.item(itemId).info.put(makeItemInfo()),
+    api => api.item(childItemId).info.put(makeItemInfo()),
   );
 });
 
 describe('404', () => {
   it('Rejects if item does not exist', async () => {
-    await expect(api.item(['invalid']).info.put(makeItemInfo()))
+    await expect(api.item('/invalid').info.put(makeItemInfo()))
       .rejects.toMatchObject({ code: 404 });
   });
 });

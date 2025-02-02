@@ -3,12 +3,13 @@
  */
 
 import type { ItemId } from './itemId';
+import itemId from './itemId';
 import type { ItemData } from './server/data/item';
 
-export function generateKeywords(data: ItemData, itemId: ItemId): string {
+export function generateKeywords(data: ItemData, id: ItemId): string {
   const keywords: string[] = [];
 
-  for (const child of itemId) {
+  for (const child of itemId.components(id)) {
     keywords.push(...data.info.seo.keywords);
     data = data.children[child];
   }

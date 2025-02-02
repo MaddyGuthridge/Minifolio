@@ -1,15 +1,19 @@
 import type { ItemData, ItemInfo } from '$lib/server/data/item';
-import { itemIdToUrl, type ItemId } from '$lib/itemId';
+import { type ItemId } from '$lib/itemId';
 import { apiFetch, payload } from './fetch';
 
 export default function item(fetchFn: typeof fetch, token: string | undefined, itemId: ItemId) {
+  if (itemId === '/') {
+    itemId = '';
+  }
+
   const info = {
     /** Get the `info.json` content of the given item. */
     get: async () => {
       return apiFetch(
         fetchFn,
         'GET',
-        `/data/${itemIdToUrl(itemId, 'info.json')}`,
+        `/data${itemId}/info.json`,
         { token },
       ).json() as Promise<ItemInfo>;
     },
@@ -18,7 +22,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'POST',
-        `/data/${itemIdToUrl(itemId, 'info.json')}`,
+        `/data${itemId}/info.json`,
         { token, ...payload.json({ name, description: description ?? '' }) },
       ).json();
     },
@@ -27,7 +31,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'PUT',
-        `/data/${itemIdToUrl(itemId, 'info.json')}`,
+        `/data${itemId}/info.json`,
         { token, ...payload.json(info) },
       ).json();
     },
@@ -36,7 +40,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'DELETE',
-        `/data/${itemIdToUrl(itemId, 'info.json')}`,
+        `/data${itemId}/info.json`,
         { token },
       ).json();
     },
@@ -48,7 +52,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data/${itemIdToUrl(itemId, 'README.md')}`,
+        `/data${itemId}/README.md`,
         { token },
       ).text();
     },
@@ -57,7 +61,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'PUT',
-        `/data/${itemIdToUrl(itemId, 'README.md')}`,
+        `/data${itemId}/README.md`,
         { token, ...payload.markdown(readme) },
       ).json();
     },
@@ -69,7 +73,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data/${itemIdToUrl(itemId, filename)}`,
+        `/data${itemId}/${filename}`,
         { token }
       ).buffer();
     },
@@ -78,7 +82,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'POST',
-        `/data/${itemIdToUrl(itemId, filename)}`,
+        `/data${itemId}/${filename}`,
         { token, ...payload.file(file) },
       ).json();
     },
@@ -87,7 +91,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'PUT',
-        `/data/${itemIdToUrl(itemId, filename)}`,
+        `/data${itemId}/${filename}`,
         { token, ...payload.file(file) },
       ).json();
     },
@@ -96,7 +100,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'DELETE',
-        `/data/${itemIdToUrl(itemId, filename)}`,
+        `/data${itemId}/${filename}`,
         { token },
       ).json();
     },
@@ -114,7 +118,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data/${itemIdToUrl(itemId)}`,
+        `/data/${itemId}`,
         { token },
       ).json() as Promise<ItemData>;
     }

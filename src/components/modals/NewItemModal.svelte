@@ -1,9 +1,8 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
-  import { formatItemId, type ItemId } from '$lib/itemId';
+  import itemId, { type ItemId } from '$lib/itemId';
   import api from '$endpoints';
   import { goto } from '$app/navigation';
-  import { itemUrl } from '$lib/urls';
   import consts from '$lib/consts';
   import { Button, TextInput } from '$components/base';
   import validate from '$lib/validate';
@@ -18,14 +17,14 @@
   let { show, parent, onclose }: Props = $props();
 
   let itemName = $state('');
-  let itemId = $state('');
+  let newItemId = $state('');
   let itemDescription = $state('');
   let userModifiedId = $state(false);
 
   function resetAndClose() {
     itemName = '';
     itemDescription = '';
-    itemId = '';
+    newItemId = '';
     userModifiedId = false;
     onclose();
   }
@@ -37,11 +36,11 @@
 
   async function makeItem() {
     await api()
-      .item([...parent, itemId])
+      .item(itemId.child(parent, newItemId))
       .info.post(itemName, itemDescription);
     // Close modal
-    onclose();
-    await goto(itemUrl([...parent, itemId]));
+    resetAndClose();
+    await goto(itemId.child(parent, newItemId));
   }
 
   let valuesOk = $state({
@@ -56,7 +55,7 @@
   {#snippet header()}
     <h2>New item</h2>
   {/snippet}
-  <p>Creating a new item as a child of {formatItemId(parent)}.</p>
+  <p>Creating a new item as a child of '{parent}'.</p>
   <form onsubmit={makeItem}>
     <div class="form-grid">
       <label for="item-name">Item name</label>
@@ -69,7 +68,7 @@
           // Whenever the user modifies the name, we should update the ID
           // to match, until the user modifies the ID themselves
           if (!userModifiedId) {
-            itemId = nameToId(itemName);
+            newItemId = nameToId(itemName);
           }
         }}
         validator={validate.name}
@@ -80,7 +79,7 @@
         placeholder={consts.APP_NAME}
         id="item-id"
         required
-        bind:value={itemId}
+        bind:value={newItemId}
         oninput={() => {
           userModifiedId = true;
         }}

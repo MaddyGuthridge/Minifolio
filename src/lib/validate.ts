@@ -5,6 +5,7 @@
  */
 import { error } from '@sveltejs/kit';
 import validator from 'validator';
+import { validateItemId } from './itemId';
 
 /** Regex for matching ID strings */
 export const idValidatorRegex = /^[a-z0-9-.]+$/;
@@ -89,6 +90,7 @@ export function validatePassword(password: string): string {
 
 export default {
   id: validateId,
+  itemId: validateItemId,
   name: validateName,
   color: validateColor,
   nonEmpty: validateNonEmpty,

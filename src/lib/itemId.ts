@@ -1,72 +1,83 @@
 /**
- * Item ID type definitions and helper functions
+ * Item ID type definitions and helper functions.
  */
-import { zip } from '$lib/util';
 import validate from '$lib/validate';
-import { array, string, type Infer } from 'superstruct';
+import { error } from '@sveltejs/kit';
+import { string, type Infer } from 'superstruct';
 
-/** Return an item ID given its path in URL form */
-export function itemIdFromUrl(path: string): ItemId {
-  if (path === '') {
+/** The ID of an Item. A string in the form `/a/b/c/...` */
+export const ItemIdStruct = string();
+
+/** The ID of an Item. A string in the form `/a/b/c/...` */
+export type ItemId = Infer<typeof ItemIdStruct>;
+
+/** Ensure that an ItemId is valid */
+export function validateItemId(itemId: ItemId): ItemId {
+  if (!itemId.startsWith('/')) {
+    error(400, "ItemId must have a leading '/'");
+  }
+  for (const component of itemComponents(itemId)) {
+    validate.id('ItemId component', component);
+  }
+  return itemId;
+}
+
+/** Split an ItemId into its components */
+export function itemComponents(itemId: ItemId): string[] {
+  if (itemId === '/') {
+    // Special case for root, since `''.split('/')` produces `['']`
     return [];
   }
-  return path.split('/');
+  return itemId.slice(1).split('/');
 }
 
-/** Format the given ItemId for displaying to users */
-export function formatItemId(itemId: ItemId): string {
-  const path = itemIdToUrl(itemId);
-  return `'${path ? path : '/'}'`;
-}
-
-/**
- * Update the ItemId to its URL path.
- *
- * For example:
- *
- * ```ts
- * >>> itemIdToUrl([])
- * '/'
- * >>> itemIdToUrl(['test'])
- * 'test'
- * ```
- */
-export function itemIdToUrl(itemId: ItemId, file?: string): string {
-  if (file) {
-    return [...itemId, file].join('/');
-  } else {
-    return itemId.join('/');
-  }
-}
-
-export function validateItemId(itemId: ItemId) {
-  for (const component of itemId) {
-    validate.id('ItemId', component);
-  }
+/** Generate an ItemId from an array of components */
+export function fromComponents(components: string[]): ItemId {
+  return `/${components.join('/')}`;
 }
 
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
-  return itemId.slice(0, -1)
+  return fromComponents(itemComponents(itemId).slice(1));
 }
 
-/** Return whether the given ItemIds are equal */
-export function itemIdsEqual(first: ItemId, second: ItemId): boolean {
-  return first.length == second.length
-    && zip(first, second).find(([a, b]) => a !== b) === undefined;
+/** Return an ItemId of a child of the given ItemId */
+export function itemChild(itemId: ItemId, child: string): ItemId {
+  return fromComponents([...itemComponents(itemId), child]);
 }
 
-/**
- * Returns the "tail" of the item ID (the final element).
- *
- * Yes, I know this isn't `tail` in the Haskell sense, but I couldn't think of a better name for it.
- */
-export function itemIdTail(itemId: ItemId): string {
-  return itemId.at(-1)!;
+/** Returns the "suffix" of the item ID (the final element) */
+export function itemIdSuffix(itemId: ItemId): string {
+  return itemComponents(itemId).at(-1)!;
 }
 
-/** The ID of an Item. An array of `string`s representing the path to that item within the data. */
-export const ItemIdStruct = array(string());
+/** Returns the "head" of the item ID (the firstelement) */
+export function itemIdHead(itemId: ItemId): string {
+  return itemComponents(itemId).at(0)!;
+}
 
-/** The ID of an Item. An array of `string`s representing the path to that item within the data. */
-export type ItemId = Infer<typeof ItemIdStruct>;
+export function itemIdTail(itemId: ItemId): ItemId {
+  return fromComponents(itemComponents(itemId).slice(1));
+}
+
+export function itemIdSlice(itemId: ItemId, start?: number, end?: number): ItemId {
+  return fromComponents(itemComponents(itemId).slice(start, end));
+}
+
+export function itemidAt(itemId: ItemId, index: number): string {
+  return itemComponents(itemId)[index];
+}
+
+export default {
+  Struct: ItemIdStruct,
+  validate: validateItemId,
+  components: itemComponents,
+  from: fromComponents,
+  parent: itemParent,
+  child: itemChild,
+  suffix: itemIdSuffix,
+  head: itemIdHead,
+  tail: itemIdTail,
+  slice: itemIdSlice,
+  at: itemidAt,
+}

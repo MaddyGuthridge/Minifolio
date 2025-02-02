@@ -10,12 +10,12 @@ import fromFileSystem from '../fileRequest';
 let api: ApiClient;
 beforeEach(async () => {
   api = (await setup()).api;
-  await api.item(['child']).info.post('Child item');
+  await api.item('/child').info.post('Child item');
 });
 
 describe('Success', () => {
   it('Shows full information for the given item', async () => {
-    await expect(api.item(['child']).data()).resolves.toStrictEqual({
+    await expect(api.item('/child').data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
@@ -24,7 +24,7 @@ describe('Success', () => {
   });
 
   it('Recursively shows information about the child items', async () => {
-    await expect(api.item([]).data()).resolves.toStrictEqual({
+    await expect(api.item('/').data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),
       ls: [],
@@ -41,8 +41,8 @@ describe('Success', () => {
   });
 
   it('Shows additional files in the directory', async () => {
-    await api.item(['child']).file('hello.txt').post(await fromFileSystem('README.md'));
-    await expect(api.item(['child']).data()).resolves.toStrictEqual({
+    await api.item('/child').file('hello.txt').post(await fromFileSystem('README.md'));
+    await expect(api.item('/child').data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
@@ -53,7 +53,7 @@ describe('Success', () => {
 
 describe('404', () => {
   it("Rejects requests for items that don't exist", async () => {
-    await expect(api.item(['invalid']).data())
+    await expect(api.item('/invalid').data())
       .rejects.toMatchObject({ code: 404 });
   });
 });

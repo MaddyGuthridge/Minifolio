@@ -12,7 +12,7 @@ export async function load(req: import('./$types').RequestEvent) {
   const isInit = await dataIsSetUp();
   const loggedIn = isInit ? await isRequestAuthorized(req) : undefined;
 
-  const portfolio: ItemData = isInit ? await getItemData([]) : blankData;
+  const portfolio: ItemData = isInit ? await getItemData('/') : blankData;
 
   let versions = null;
   if (!isInit || loggedIn) {

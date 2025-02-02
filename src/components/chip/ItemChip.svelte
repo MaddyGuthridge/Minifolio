@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { itemIdToUrl, type ItemId } from '$lib/itemId';
+  import { type ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import Chip from './Chip.svelte';
 
@@ -26,6 +26,6 @@
   description={item.info.description}
   color={item.info.color}
   {selected}
-  link={link ? { url: `/${itemIdToUrl(itemId)}`, newTab: false } : undefined}
+  link={link ? { url: itemId, newTab: false } : undefined}
   {onclick}
 />

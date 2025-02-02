@@ -1,4 +1,4 @@
-import { itemIdsEqual, type ItemId } from './itemId';
+import { type ItemId } from './itemId';
 import type { ItemInfo } from './server/data/item';
 
 /** Supported display styles for links */
@@ -8,7 +8,7 @@ export const linkDisplayStyles = ['chip', 'card'] as const;
 export function itemHasLink(item: ItemInfo, targetItem: ItemId) {
   return item.sections.find(section => {
     if (section.type === 'links') {
-      return section.items.find(linkedItem => itemIdsEqual(linkedItem, targetItem));
+      return section.items.find(linkedItem => linkedItem === targetItem);
     } else {
       return false;
     }

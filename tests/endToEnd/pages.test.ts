@@ -24,8 +24,8 @@ test('About page loads with token provided', async () => {
 });
 
 test('Item page loads', async () => {
-  await api.item(['my-item']).info.post('My item', 'My item');
-  await expect(endpoints.item(['my-item'])).resolves.toStrictEqual(expect.any(String));
+  await api.item('/my-item').info.post('My item', 'My item');
+  await expect(endpoints.item('/my-item')).resolves.toStrictEqual(expect.any(String));
 });
 
 test('Admin page loads with token', async () => {

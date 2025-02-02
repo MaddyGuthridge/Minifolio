@@ -15,10 +15,10 @@ beforeEach(async () => {
 
 describe('Success', () => {
   it('Correctly updates the README for the root item', async () => {
-    await expect(api.item([]).readme.put('New readme'))
+    await expect(api.item('/').readme.put('New readme'))
       .resolves.toStrictEqual({});
     // Now when we request the README, it should have the new content
-    await expect(api.item([]).readme.get())
+    await expect(api.item('/').readme.get())
       .resolves.toStrictEqual('New readme');
   });
 });
@@ -26,7 +26,7 @@ describe('Success', () => {
 describe('400', () => {
   it('Errors if the server has not been set up', async () => {
     await apiClient().debug.clear();
-    await expect(apiClient().item([]).readme.put('New readme'))
+    await expect(apiClient().item('/').readme.put('New readme'))
       .rejects.toMatchObject({ code: 400 });
   });
 });
@@ -34,13 +34,13 @@ describe('400', () => {
 describe('401', () => {
   genTokenTests(
     () => api,
-    api => api.item([]).readme.put('Hi'),
+    api => api.item('/').readme.put('Hi'),
   );
 });
 
 describe('404', () => {
   it('Errors if the item does not exist', async () => {
-    await expect(api.item(['unknown', 'item']).readme.put('New readme'))
+    await expect(api.item('/invalid/item').readme.put('New readme'))
       .rejects.toMatchObject({ code: 404 });
   });
 });

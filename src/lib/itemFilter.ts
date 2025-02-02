@@ -1,5 +1,5 @@
 import { getDescendant } from './itemData';
-import type { ItemId } from './itemId';
+import itemId, { type ItemId } from './itemId';
 import { itemHasLink } from './links';
 import type { ItemData } from './server/data/item';
 
@@ -20,7 +20,7 @@ export function createItemFilter(portfolio: ItemData, parentId: ItemId): FilterO
   return getDescendant(portfolio, parentId).info.filters
     .map(filterItem => (
       getDescendant(portfolio, filterItem).info.children
-        .map(itemId => ({ itemId: [...filterItem, itemId], selected: false }))
+        .map(child => ({ itemId: itemId.child(filterItem, child), selected: false }))
     ))
     .filter(group => group.length);
 }
@@ -34,11 +34,11 @@ export function createItemFilter(portfolio: ItemData, parentId: ItemId): FilterO
  */
 export function applyFiltersToItemChildren(
   portfolio: ItemData,
-  itemId: ItemId,
+  id: ItemId,
   filter: FilterOptions,
 ): ItemId[] {
   // Figure out what items to show to start with
-  const items: ItemId[] = getDescendant(portfolio, itemId).info.children.map(child => [...itemId, child]);
+  const items: ItemId[] = getDescendant(portfolio, id).info.children.map(child => itemId.child(id, child));
 
   // Reduce items based on the filter
   return filter.reduce(

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ItemId } from '$lib/itemId';
+  import itemId, { type ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item/item';
   import { getDescendant } from '$lib/itemData';
   import consts from '$lib/consts';
@@ -46,8 +46,8 @@
     lastItem,
   }: Props = $props();
 
-  function itemIdToPath(itemId: ItemId, lastItem: ItemData): NavbarPath {
-    if (itemId.length === 0) {
+  function itemIdToPath(id: ItemId, lastItem: ItemData): NavbarPath {
+    if (id === '/') {
       return [
         {
           url: '',
@@ -55,40 +55,31 @@
         },
       ];
     }
-    const tailPath = itemId.map((p, i) => {
-      const descendant = getDescendant(data, itemId.slice(0, i)).info;
+    const tailPath = itemId.components(id).map((p, i) => {
+      const descendant = getDescendant(data, itemId.slice(id, 0, i)).info;
       return {
         url: p,
         txt:
-          i === itemId.length - 1
+          i === id.length - 1
             ? descendant.name
             : (descendant.shortName ?? descendant.name),
       };
     });
     return [
-      {
-        url: '',
-        txt: itemId.length
-          ? (data.info.shortName ?? data.info.name)
-          : data.info.name,
-      },
       ...tailPath,
       {
-        url: itemId.at(-1)!,
-        txt: lastItem.info.name || 'No name',
+        url: id.at(-1)!,
+        txt: lastItem.info.name,
       },
     ];
   }
 
   let overallPath: NavbarPath = $derived.by(() => {
-    if (path.length === 0 || typeof path[0] === 'string') {
+    if (typeof path === 'string') {
       // Path is ItemId
-      return itemIdToPath(path as ItemId, lastItem!);
+      return itemIdToPath(path, lastItem!);
     } else {
-      return [
-        { url: '', txt: data.info.shortName ?? data.info.name },
-        ...(path as NavbarPath),
-      ];
+      return [{ url: '', txt: data.info.shortName ?? data.info.name }, ...path];
     }
   });
 
@@ -118,7 +109,7 @@
 <nav>
   <span style:grid-area="navigator">
     <h1>
-      {#each overallPath.slice(1, -1) as p, i}
+      {#each overallPath.slice(0, -1) as p, i}
         <a href="/{pathTo(overallPath, i)}">{p.txt}</a>
         {'/ '}
       {/each}

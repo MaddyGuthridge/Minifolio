@@ -20,7 +20,7 @@ describe('Success', () => {
 
 describe('401', () => {
   let api: ApiClient;
-  const itemId = ['item'];
+  const itemId = '/item';
   beforeEach(async () => {
     api = (await setup()).api;
     await api.item(itemId).info.post('My item');

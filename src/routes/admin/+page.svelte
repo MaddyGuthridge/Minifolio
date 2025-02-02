@@ -8,6 +8,7 @@
   import ReloadData from './ReloadData.svelte';
   import LogOutAll from './LogOutAll.svelte';
   import KeySettings from './KeySettings.svelte';
+  import Favicon from '$components/Favicon.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -20,6 +21,7 @@
   <title>Admin - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content={data.portfolio.info.color} />
+  <Favicon path={data.config.siteIcon ?? undefined} />
   <!-- Prevent web crawlers from indexing the admin page -->
   <meta name="robots" content="noindex" />
 </svelte:head>

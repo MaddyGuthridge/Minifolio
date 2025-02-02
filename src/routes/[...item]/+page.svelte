@@ -3,6 +3,7 @@
   import Background from '$components/Background.svelte';
   import { Button } from '$components/base';
   import { ItemCardGrid } from '$components/card';
+  import Favicon from '$components/Favicon.svelte';
   import EditableMarkdown from '$components/markdown';
   import { NewItemModal } from '$components/modals';
   import api from '$endpoints';
@@ -58,9 +59,7 @@
     content={generateKeywords(data.portfolio, data.itemId)}
   />
   <meta name="theme-color" content={data.item.info.color} />
-  {#if data.config.siteIcon}
-    <link rel="icon" href={data.config.siteIcon} />
-  {/if}
+  <Favicon path={data.config.siteIcon ?? undefined} />
 </svelte:head>
 
 <Navbar

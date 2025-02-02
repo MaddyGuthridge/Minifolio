@@ -7,6 +7,7 @@
   import consts from '$lib/consts';
   import { onMount } from 'svelte';
   import { Button, TextInput } from '$components/base';
+  import Favicon from '$components/Favicon.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -39,6 +40,7 @@
   <title>login - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content={data.portfolio.info.color} />
+  <Favicon path={data.config.siteIcon ?? undefined} />
   <!-- Prevent web crawlers from indexing the admin page -->
   <meta name="robots" content="noindex" />
 </svelte:head>
@@ -63,11 +65,7 @@
 
       <form>
         <h3>Username</h3>
-        <TextInput
-          id="username"
-          bind:value={username}
-          placeholder="Username"
-        />
+        <TextInput id="username" bind:value={username} placeholder="Username" />
 
         <h3>Password</h3>
         <TextInput

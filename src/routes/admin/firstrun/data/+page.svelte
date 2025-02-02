@@ -12,6 +12,7 @@
   import KeySettings from '../../KeySettings.svelte';
   import { Button, TextInput } from '$components/base';
   import itemId from '$lib/itemId';
+  import Favicon from '$components/Favicon.svelte';
 
   let { data } = $props();
 
@@ -65,6 +66,7 @@
   <title>Setup - {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content="#aa00aa" />
+  <Favicon />
   <!--
     Prevent web crawlers from indexing the firstrun page. Of course, if someone
     has an instance of this exposed to the open web without it being set up,

@@ -4,6 +4,7 @@
   import consts from '$lib/consts';
   import { dev } from '$app/environment';
   import Navbar from '$components/navbar/Navbar.svelte';
+  import Favicon from '$components/Favicon.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -45,6 +46,7 @@ For security reasons, these details are only shown if you are logged in.
   <title>About {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content={data.portfolio.info.color} />
+  <Favicon path={data.siteIcon} />
 </svelte:head>
 
 <Navbar

@@ -13,6 +13,7 @@
   import validate from '$lib/validate';
   import { objectAll } from '$lib/util';
   import itemId from '$lib/itemId';
+  import Favicon from '$components/Favicon.svelte';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? 'admin' : '');
@@ -57,6 +58,7 @@
   <title>Setup - {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content="#aa00aa" />
+  <Favicon />
   <!--
     Prevent web crawlers from indexing the firstrun page. Of course, if someone
     has an instance of this exposed to the open web without it being set up,

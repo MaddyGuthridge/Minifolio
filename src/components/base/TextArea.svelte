@@ -1,6 +1,9 @@
 <script lang="ts">
   type Props = {
+    /** Font family to use */
     fontFamily?: string;
+    /** CSS font weight to use */
+    fontWeight?: string;
 
     // Default textarea props
     value: string;
@@ -10,6 +13,7 @@
 
   let {
     fontFamily,
+    fontWeight,
     value = $bindable(),
     onkeypress,
     oninput,
@@ -25,12 +29,13 @@
   {onkeypress}
   {oninput}
   style:--font={fontFamily}
+  style:--weight={fontWeight}
 ></div>
 
 <style>
   .expandable-textarea {
     font-family: var(--font);
-    resize: var(--resize);
+    font-weight: var(--weight);
     /* https://www.geeksforgeeks.org/how-to-make-textarea-100-without-overflow-when-padding-is-present/ */
     box-sizing: border-box;
     width: 100%;

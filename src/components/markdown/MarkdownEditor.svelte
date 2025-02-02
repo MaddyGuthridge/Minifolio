@@ -29,6 +29,8 @@
       bind:value={source}
       onkeypress={handleKeypress}
       oninput={() => updater.update(source)}
+      fontFamily="monospace"
+      fontWeight="bold"
     ></TextArea>
   </div>
   <span class="md-preview">

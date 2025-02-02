@@ -54,6 +54,10 @@
 </div>
 
 <style>
+  .markdown-render :global(p) {
+    text-align: justify;
+  }
+
   .markdown-render :global(p > code),
   .markdown-render :global(pre) {
     background-color: rgb(245, 245, 245);

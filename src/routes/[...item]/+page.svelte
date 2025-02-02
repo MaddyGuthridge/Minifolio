@@ -213,7 +213,6 @@
 
   .banner-image {
     width: 100%;
-    max-height: 30vh;
     border-radius: 10px;
   }
 

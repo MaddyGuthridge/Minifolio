@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import { array, boolean, nullable, number, object, record, string, union, validate, type Infer } from 'superstruct';
 import { getPrivateDataDir } from './dataDir';
+import { GitConfigStruct } from '../git';
 
 /** Path to config.local.json */
 const CONFIG_LOCAL_JSON = () => `${getPrivateDataDir()}/config.local.json`;
@@ -78,6 +79,8 @@ export const ConfigLocalJsonStruct = object({
    * blocked.
    */
   bannedUserAgents: array(string()),
+  /** Git configuration */
+  gitConfig: GitConfigStruct,
   /**
    * Path to the private key file which the server should use when connecting
    * to git repos.

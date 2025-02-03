@@ -56,6 +56,13 @@ export async function migrateDataV0_6(dataDir: string) {
 
 async function updateLocalConfig(privateDataDir: string) {
   const oldConfig = await unsafeLoadLocalConfig(privateDataDir) as ConfigLocalJson;
+  // Git config
+  const gitConfig = {
+    userName: null,
+    userEmail: null,
+  };
+  oldConfig.gitConfig = gitConfig;
+  // Version
   oldConfig.version = version;
   await setLocalConfig(oldConfig);
 }

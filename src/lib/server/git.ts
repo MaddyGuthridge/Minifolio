@@ -7,9 +7,22 @@ import { spawn } from 'child-process-promise';
 import path from 'path';
 import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
+import { getLocalConfig } from './data/localConfig';
+import { nonempty, nullable, object, string, type Infer } from 'superstruct';
 
 /** Path to the SSH known hosts file */
 const knownHostsFile = () => path.join(defaultKeysDirectory(), 'known_hosts');
+
+/** Git config options, passed with `-c` to the `git` binary */
+export const GitConfigStruct = object({
+  /** `user.name` */
+  userName: nullable(nonempty(string())),
+  /** `user.email` */
+  userEmail: nullable(nonempty(string())),
+});
+
+/** Git config options, passed with `-c` to the `git` binary */
+export type GitConfig = Infer<typeof GitConfigStruct>;
 
 /**
  * Create a git client in the given directory.
@@ -17,7 +30,15 @@ const knownHostsFile = () => path.join(defaultKeysDirectory(), 'known_hosts');
  * This configures `simpleGit` to use the configured SSH keys.
  */
 export const gitClient = async (baseDir: string | undefined) => {
-  let git = simpleGit(baseDir);
+  const localConfig = await getLocalConfig();
+  const gitConfig: string[] = [];
+  if (localConfig.gitConfig.userName) {
+    gitConfig.push(`user.name=${localConfig.gitConfig.userName}`);
+  }
+  if (localConfig.gitConfig.userEmail) {
+    gitConfig.push(`user.email=${localConfig.gitConfig.userEmail}`);
+  }
+  let git = simpleGit(baseDir, { config: gitConfig });
   if (await getPrivateKeyPath()) {
     git = git.env(
       'GIT_SSH_COMMAND',

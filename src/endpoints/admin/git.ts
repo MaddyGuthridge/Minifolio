@@ -1,5 +1,5 @@
 /** Git repository endpoints */
-import type { RepoStatus } from '$lib/server/git';
+import type { GitConfig, RepoStatus } from '$lib/server/git';
 import { apiFetch, payload } from '../fetch';
 
 export default (fetchFn: typeof fetch, token: string | undefined) => ({
@@ -11,6 +11,28 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       '/api/admin/git',
       { token },
     ).json() as Promise<{ repo: RepoStatus }>;
+  },
+
+  /** Interact with the configuration that Minifolio uses for Git */
+  config: {
+    /** Get configuration */
+    get: async () => {
+      return apiFetch(
+        fetchFn,
+        'GET',
+        '/api/admin/git/config',
+        { token },
+      ).json() as Promise<GitConfig>;
+    },
+    /** Set configuration */
+    post: async (config: GitConfig) => {
+      return apiFetch(
+        fetchFn,
+        'POST',
+        '/api/admin/git/config',
+        { token, ...payload.json(config) },
+      ).json() as Promise<Record<string, never>>;
+    },
   },
 
   /** Initialize a git repo */

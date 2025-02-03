@@ -56,6 +56,10 @@ export async function authSetup(
     bannedUserAgents: [],
     allowCloudflareIp: false,
     keyPath: null,
+    gitConfig: {
+      userName: null,
+      userEmail: null,
+    },
     version,
   };
   await setLocalConfig(config);

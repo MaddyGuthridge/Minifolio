@@ -21,9 +21,31 @@
   async function gitCommit() {
     await api().admin.git.commit(commitMessage);
   }
+
+  async function updateGitConfig() {
+    if (data.gitConfig.userName === '') {
+      data.gitConfig.userName = null;
+    }
+    if (data.gitConfig.userEmail === '') {
+      data.gitConfig.userEmail = null;
+    }
+    await api().admin.git.config.post(data.gitConfig);
+  }
 </script>
 
 <div>
+  <h2>Git config</h2>
+  <form
+    onsubmit={(e) => {
+      e.preventDefault();
+      void updateGitConfig();
+    }}
+  >
+    <TextInput bind:value={data.gitConfig.userName} placeholder="user.name" />
+    <TextInput bind:value={data.gitConfig.userEmail} type="email" placeholder="user.email" />
+    <Button type="submit">Update</Button>
+  </form>
+
   {#if data.repo}
     <h2>Git status</h2>
     <p>Current branch: {data.repo.branch}</p>
@@ -71,9 +93,8 @@
           void gitCommit();
         }}
       >
-        <input
+        <TextInput
           required
-          type="text"
           name="commit-message"
           id="commit-message"
           placeholder="Commit message"

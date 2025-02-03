@@ -46,7 +46,7 @@
     <label for="original-password">Original password</label>
     <TextInput
       id="original-password"
-      password
+      type="password"
       placeholder="Your original password"
       bind:value={originalPassword}
       validator={validate.nonEmpty}
@@ -56,7 +56,7 @@
     <label for="new-password">New password</label>
     <TextInput
       id="new-password"
-      password
+      type="password"
       placeholder="A unique and secure password"
       bind:value={newPassword}
       validator={validate.password}
@@ -66,7 +66,7 @@
     <label for="repeat-password">Repeat new password</label>
     <TextInput
       id="repeat-password"
-      password
+      type="password"
       placeholder="Your new password again"
       bind:value={repeatNewPassword}
       errorText={newPassword !== repeatNewPassword

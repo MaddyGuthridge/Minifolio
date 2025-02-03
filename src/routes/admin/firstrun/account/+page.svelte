@@ -106,7 +106,7 @@
 
         <p>Create a strong and unique password.</p>
         <TextInput
-          password
+          type="password"
           id="password"
           placeholder="A strong and unique password"
           bind:value={password}
@@ -115,7 +115,7 @@
         />
         <p>Repeat your password.</p>
         <TextInput
-          password
+          type="password"
           id="repeatPassword"
           placeholder="Repeat your password"
           bind:value={repeatPassword}

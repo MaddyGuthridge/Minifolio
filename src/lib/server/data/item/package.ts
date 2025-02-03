@@ -2,12 +2,8 @@
  * Type definitions for published packages
  */
 
-import { supportedPackageProviders } from '$lib/packageInfo';
-import { enums, literal, nullable, object, string, union, type Infer } from 'superstruct';
-
-export const PackageProviderStruct = enums(supportedPackageProviders);
-
-export type PackageProvider = Infer<typeof PackageProviderStruct>;
+import { PackageProviderStruct } from '$lib/packageInfo';
+import { literal, nullable, object, string, union, type Infer } from 'superstruct';
 
 /** Package info gathered using provider definition */
 const ProviderPackageInfoStruct = object({

@@ -5,8 +5,8 @@
   import {
     packageProviders,
     supportedPackageProviders,
+    type PackageProvider,
   } from '$lib/packageInfo';
-  import { type PackageProvider } from '$lib/server/data/item/package';
   import type { PackageSection } from '$lib/server/data/item/section';
   import { constArrayIncludes } from '$lib/util';
 

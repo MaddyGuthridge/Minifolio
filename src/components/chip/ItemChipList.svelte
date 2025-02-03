@@ -137,6 +137,7 @@
 <style>
   .chip-list {
     margin: 0 5px;
+    padding-bottom: 7px;
     display: flex;
     gap: 5px;
     align-items: center;

@@ -9,6 +9,7 @@
   import LogOutAll from './LogOutAll.svelte';
   import KeySettings from './KeySettings.svelte';
   import Favicon from '$components/Favicon.svelte';
+  import PublicConfig from './PublicConfig.svelte';
 
   type Props = {
     data: import('./$types').PageData;
@@ -38,6 +39,7 @@
   <div id="paper-container">
     <Paper>
       <div id="contents">
+        <PublicConfig configJson={data.config} imageFiles={data.portfolio.ls} />
         <GitSettings {data} />
         <KeySettings
           publicKey={data.keys.publicKey}

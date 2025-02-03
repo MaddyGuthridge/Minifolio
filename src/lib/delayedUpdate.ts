@@ -13,7 +13,7 @@ export default class DelayedUpdater<T> {
   /** Value about to be committed (or `Option.none()` if there are no changes to be committed) */
   current: Option<T>;
 
-  constructor (callback: (value: T) => Promise<void>, hesitation: number) {
+  constructor (callback: (value: T) => Promise<any>, hesitation: number) {
     this.callback = callback;
     this.hesitation = hesitation;
     this.current = Option.none();

@@ -27,9 +27,11 @@
         icon: provider.icon,
         providerName: provider.name,
         repoName: section.info.path,
-        starCount: provider.getStarCount
-          ? provider.getStarCount(section.info.path)
-          : Promise.resolve(undefined),
+        starCount: (path: string) => {
+          return provider.getStarCount
+            ? provider.getStarCount(path)
+            : Promise.resolve(undefined);
+        },
       };
     } else {
       return {
@@ -37,7 +39,7 @@
         icon: section.info.icon,
         providerName: section.info.title,
         repoName: section.info.subtitle,
-        starCount: Promise.resolve(undefined),
+        starCount: () => Promise.resolve(undefined),
       };
     }
   });
@@ -85,7 +87,7 @@
   <div class="display-inner">
     <b>{displayLabel}</b>
     <b><u>{repoName}</u></b>
-    {#await starCount}
+    {#await starCount(repoName)}
       <div class="star-count" use:tooltip={{ content: 'Loading star count' }}>
         <i class="lar la-star"></i> <i class="las la-sync spinner"></i>
       </div>

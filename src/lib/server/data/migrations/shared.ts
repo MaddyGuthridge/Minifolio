@@ -2,9 +2,8 @@
  * Shared helper functions for common data migration actions.
  */
 import { version } from '$app/environment';
-import { getConfig, setConfig, type ConfigJson } from '../config';
-import { getLocalConfig, setLocalConfig } from '../localConfig';
-import { authIsSetUp } from '../dataDir';
+import { setConfig, type ConfigJson } from '../config';
+import { setLocalConfig, type ConfigLocalJson } from '../localConfig';
 import { unsafeLoadConfig, unsafeLoadLocalConfig } from './unsafeLoad';
 
 /** Returns the version of the data */
@@ -19,15 +18,16 @@ export async function getPrivateDataVersion(privateDataDir: string): Promise<str
   return configLocalJson.version;
 }
 
-/** Update config versions (only for minor, non-breaking changes to config.json) */
-export async function updateConfigVersions() {
-  const config = await getConfig();
+/** Bump data version. Only used for minor updates with no actual changes. */
+export async function bumpDataVersion(dataDir: string) {
+  const config = await unsafeLoadConfig(dataDir) as ConfigJson;
   config.version = version;
   await setConfig(config);
-  // Only migrate local config if it is created
-  if (await authIsSetUp()) {
-    const configLocal = await getLocalConfig();
-    configLocal.version = version;
-    await setLocalConfig(configLocal);
-  }
+}
+
+/** Bump private data version. Only used for minor updates with no actual changes. */
+export async function bumpPrivateDataVersion(dataDir: string) {
+  const config = await unsafeLoadLocalConfig(dataDir) as ConfigLocalJson;
+  config.version = version;
+  await setLocalConfig(config);
 }

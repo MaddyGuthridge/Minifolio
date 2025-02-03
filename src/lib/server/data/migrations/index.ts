@@ -5,7 +5,7 @@ import semver from 'semver';
 import consts from '$lib/consts';
 import path from 'path';
 import { migrateDataV0_6, migratePrivateV0_6 } from './v0.6';
-import { getDataVersion, getPrivateDataVersion } from './shared';
+import { getDataVersion, getPrivateDataVersion, bumpDataVersion, bumpPrivateDataVersion } from './shared';
 import { tmpdir } from 'os';
 
 
@@ -21,12 +21,14 @@ export type PrivateMigrationFunction = (
 const dataMigrations: Record<string, DataMigrationFunction> = {
   // v0.6.x --> v1.0.0
   '~0.6.1': migrateDataV0_6,
+  '~1.0.0': bumpDataVersion,
 };
 
 // Migrations for private data
 const privateMigrations: Record<string, PrivateMigrationFunction> = {
   // v0.6.x --> v1.0.0
   '~0.6.1': migratePrivateV0_6,
+  '~1.0.0': bumpPrivateDataVersion,
 };
 
 /** Perform a migration from the given version */

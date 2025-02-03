@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:22
 
 # Make volumes be owned by the node user
 RUN mkdir /data

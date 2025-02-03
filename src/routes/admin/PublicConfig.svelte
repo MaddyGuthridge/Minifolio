@@ -5,7 +5,9 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
+  import itemId from '$lib/itemId';
   import type { ConfigJson } from '$lib/server/data/config';
+  import { itemFileUrl } from '$lib/urls';
 
   type Props = {
     configJson: ConfigJson;
@@ -33,6 +35,18 @@
         files={imageFiles}
         onchange={() => updater.update(config)}
       />
+      {#if config.siteIcon}
+        <p>
+          Note: the image may be squashed/stretched by the browser when
+          displayed in the address bar.
+        </p>
+        <div class="site-icon-preview">
+          <img
+            src={itemFileUrl(itemId.ROOT, config.siteIcon)}
+            alt={'Preview of site icon'}
+          />
+        </div>
+      {/if}
     </div>
 
     <label for="rel-me"><h3>Verification links</h3></label>
@@ -51,3 +65,16 @@
     />
   </form>
 </div>
+
+<style>
+  .site-icon-preview {
+    aspect-ratio: 1 / 1;
+    max-width: 30%;
+    margin: 10px;
+  }
+  .site-icon-preview > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+</style>

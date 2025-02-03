@@ -3,12 +3,17 @@
   import Background from '$components/Background.svelte';
   import { Button } from '$components/base';
   import { ItemCardGrid } from '$components/card';
+  import ItemChipList from '$components/chip/ItemChipList.svelte';
   import Favicon from '$components/Favicon.svelte';
   import EditableMarkdown from '$components/markdown';
   import { NewItemModal } from '$components/modals';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
+  import {
+    applyFiltersToItemChildren,
+    createItemFilter,
+  } from '$lib/itemFilter';
   import itemId from '$lib/itemId';
   import { generateKeywords } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
@@ -30,18 +35,37 @@
 
   let newItemModalShown = $state(false);
 
+  let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
+    await api().item(data.itemId).info.put(info);
+  }, consts.EDIT_COMMIT_HESITATION);
+
   let thisItem = $state(data.item);
+
+  let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
+
+  let displayedItems = $derived.by(() => {
+    const items = thisItem.info.children.map((id) =>
+      itemId.child(data.itemId, id),
+    );
+    if (editing) {
+      return items;
+    } else {
+      return applyFiltersToItemChildren(
+        data.portfolio,
+        data.itemId,
+        filterItems,
+      );
+    }
+  });
   // Janky workaround for allowing PageData to be bindable.
   // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
   $effect.pre(() => {
     thisItem = data.item;
     // When item data changes, also disable editing
     editing = false;
+    // Reset the filter items
+    filterItems = createItemFilter(data.portfolio, data.itemId);
   });
-
-  let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
-    await api().item(data.itemId).info.put(info);
-  }, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <svelte:head>
@@ -150,12 +174,19 @@
     <div id="children">
       {#if editing}
         <h2>Children</h2>
+      {:else}
+        <!-- Filters -->
+        <ItemChipList
+          portfolio={data.portfolio}
+          items={filterItems}
+          onfilter={(newFilter) => {
+            filterItems = newFilter;
+          }}
+        />
       {/if}
       <ItemCardGrid
         portfolio={data.portfolio}
-        itemIds={thisItem.info.children.map((id) =>
-          itemId.child(data.itemId, id),
-        )}
+        itemIds={displayedItems}
         {editing}
         dndId={`${data.itemId}:children`}
         onReorder={(items) => {

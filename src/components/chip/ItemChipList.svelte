@@ -103,7 +103,9 @@
 
   // Update filter status
   function updateFilterStatus(outerIdx: number, innerIdx: number) {
-    const newItems = items;
+    // Need to snapshot the value since it's a proxy
+    // https://github.com/sveltejs/svelte/issues/13562
+    const newItems = structuredClone($state.snapshot(items));
     newItems[outerIdx][innerIdx].selected = !items[outerIdx][innerIdx].selected;
     onfilter?.(newItems);
   }

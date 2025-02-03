@@ -106,78 +106,84 @@
   </div>
 {/snippet}
 
-{#if !editing}
-  <a href={url} target="_blank" class="outer-body">
-    {@render display()}
-  </a>
-{:else}
-  <div class="edit-outer">
-    <div class="edit-grid">
-      <label for="repo-section-label">Section label</label>
-      <TextInput
-        id="repo-section-label"
-        bind:value={section.label}
-        oninput={onchange}
-        placeholder={displayLabel}
-      />
-      <label for="repo-provider">Repo provider</label>
-      <Select
-        id="repo-provider"
-        bind:value={() => section.info.provider,
-        (newProvider) => changeRepoProvider(newProvider)}
-      >
-        <option value="custom">- Custom -</option>
-        {#each Object.entries(repoProviders) as [provider, info]}
-          <option value={provider}>{info.name}</option>
-        {/each}
-      </Select>
-      {#if section.info.provider === 'custom'}
-        <!-- Custom provider -->
-        <label for="repo-provider-name">Provider name</label>
+<div class="section-main">
+  {#if !editing}
+    <a href={url} target="_blank" class="outer-body">
+      {@render display()}
+    </a>
+  {:else}
+    <div class="edit-outer">
+      <div class="edit-grid">
+        <label for="repo-section-label">Section label</label>
         <TextInput
-          id="repo-provider-name"
-          bind:value={section.info.title}
+          id="repo-section-label"
+          bind:value={section.label}
           oninput={onchange}
-          placeholder="Provider name"
+          placeholder={displayLabel}
         />
-        <label for="repo-custom-subtitle">Subtitle</label>
-        <TextInput
-          id="repo-custom-subtitle"
-          bind:value={section.info.subtitle}
-          oninput={onchange}
-          placeholder="Subtitle"
-        />
-        <label for="repo-url">Repository URL</label>
-        <TextInput
-          id="repo-url"
-          bind:value={section.info.url}
-          oninput={onchange}
-          placeholder="Repository URL"
-        />
-        <label for="repo-icon">Repository icon</label>
-        <TextInput
-          id="repo-icon"
-          bind:value={section.info.icon}
-          oninput={onchange}
-          placeholder="LineAwesome Icon"
-        />
-      {:else}
-        <!-- Standard provider -->
-        <label for="repo-path">Repository path</label>
-        <TextInput
-          id="repo-path"
-          bind:value={section.info.path}
-          oninput={onchange}
-          placeholder="Repository Path"
-        />
-      {/if}
+        <label for="repo-provider">Repo provider</label>
+        <Select
+          id="repo-provider"
+          bind:value={() => section.info.provider,
+          (newProvider) => changeRepoProvider(newProvider)}
+        >
+          <option value="custom">- Custom -</option>
+          {#each Object.entries(repoProviders) as [provider, info]}
+            <option value={provider}>{info.name}</option>
+          {/each}
+        </Select>
+        {#if section.info.provider === 'custom'}
+          <!-- Custom provider -->
+          <label for="repo-provider-name">Provider name</label>
+          <TextInput
+            id="repo-provider-name"
+            bind:value={section.info.title}
+            oninput={onchange}
+            placeholder="Provider name"
+          />
+          <label for="repo-custom-subtitle">Subtitle</label>
+          <TextInput
+            id="repo-custom-subtitle"
+            bind:value={section.info.subtitle}
+            oninput={onchange}
+            placeholder="Subtitle"
+          />
+          <label for="repo-url">Repository URL</label>
+          <TextInput
+            id="repo-url"
+            bind:value={section.info.url}
+            oninput={onchange}
+            placeholder="Repository URL"
+          />
+          <label for="repo-icon">Repository icon</label>
+          <TextInput
+            id="repo-icon"
+            bind:value={section.info.icon}
+            oninput={onchange}
+            placeholder="LineAwesome Icon"
+          />
+        {:else}
+          <!-- Standard provider -->
+          <label for="repo-path">Repository path</label>
+          <TextInput
+            id="repo-path"
+            bind:value={section.info.path}
+            oninput={onchange}
+            placeholder="Repository Path"
+          />
+        {/if}
+      </div>
+      <Separator />
+      {@render display()}
     </div>
-    <Separator />
-    {@render display()}
-  </div>
-{/if}
+  {/if}
+</div>
 
 <style>
+  .section-main {
+    margin: 10px 0;
+  }
+
   .outer-body {
     display: flex;
     text-decoration: none;

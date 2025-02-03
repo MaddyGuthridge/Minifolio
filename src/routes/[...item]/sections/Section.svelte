@@ -57,8 +57,6 @@
     align-items: center;
 
     gap: 10px;
-    margin: 10px 0;
-    padding: 10px;
     width: 100%;
   }
 

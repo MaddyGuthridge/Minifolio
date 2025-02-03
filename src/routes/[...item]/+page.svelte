@@ -60,6 +60,9 @@
   />
   <meta name="theme-color" content={data.item.info.color} />
   <Favicon path={data.config.siteIcon ?? undefined} />
+  {#each data.config.relMe as me}
+    <link rel="me" href={me} />
+  {/each}
 </svelte:head>
 
 <Navbar

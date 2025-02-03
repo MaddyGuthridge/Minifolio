@@ -72,6 +72,7 @@ async function updatePublicConfig(dataDir: string) {
   const oldConfig: any = await unsafeLoadConfig(dataDir);
   await setConfig({
     version,
+    relMe: [],
     siteIcon: oldConfig.siteIcon,
   });
 }

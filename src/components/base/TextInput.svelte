@@ -2,8 +2,6 @@
   type Props = {
     /** Font size to use for the input field (in `rem`) */
     size?: number;
-    /** Whether input should be a password field */
-    password?: boolean;
     /**
      * Validator function -- any exception thrown will be displayed as error text.
      */
@@ -14,6 +12,7 @@
     valueOk?: boolean;
 
     // Standard props
+    type?: 'text' | 'url' | 'email' | 'password';
     value?: string | null;
     placeholder?: string;
     id?: string;
@@ -24,10 +23,10 @@
 
   let {
     size = 1,
-    password = false,
     validator,
     errorText,
     valueOk = $bindable(),
+    type = 'text',
     value = $bindable(),
     placeholder,
     name,
@@ -35,8 +34,6 @@
     oninput,
     required,
   }: Props = $props();
-
-  const inputType = $derived(password ? 'password' : 'text');
 
   let displayErrorMessage = $state(false);
   let errorMessage: string | null = $state(null);
@@ -77,7 +74,7 @@
     <p class="error-text">{overallErrorText}</p>
   {/if}
   <input
-    type={inputType}
+    {type}
     bind:value
     {name}
     {id}

@@ -69,7 +69,7 @@
 
         <h3>Password</h3>
         <TextInput
-          password
+          type="password"
           id="password"
           bind:value={password}
           placeholder="Your complex and secure password"

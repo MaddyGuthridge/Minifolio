@@ -6,7 +6,7 @@ import { commit, getRepoStatus } from '$lib/server/git';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
-  if (await dataIsSetUp()) {
+  if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest({ request, cookies });

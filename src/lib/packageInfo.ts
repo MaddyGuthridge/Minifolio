@@ -1,4 +1,12 @@
-import type { ProvidedPackageInfo, PackageProvider, PackageInfo } from '$lib/server/data/item/package';
+import type { ProvidedPackageInfo, PackageInfo } from '$lib/server/data/item/package';
+import { enums, type Infer } from 'superstruct';
+
+/** Names of package repos that are supported by the system */
+export const supportedPackageProviders = ['pypi', 'npm', 'docker'] as const;
+
+export const PackageProviderStruct = enums(supportedPackageProviders);
+
+export type PackageProvider = Infer<typeof PackageProviderStruct>;
 
 /** Info required to register a package provider */
 type ProviderInfo = {
@@ -17,22 +25,25 @@ export const packageProviders: Record<PackageProvider, ProviderInfo> = {
   pypi: {
     name: 'PyPI',
     icon: 'lab la-python',
-    makeUrl: (id: string): string => `https://pypi.org/project/${id}`,
-    makeInstallCmd: (id: string): string => `pip install ${id}`,
+    makeUrl: (id) => `https://pypi.org/project/${id}`,
+    makeInstallCmd: (id) => `pip install ${id}`,
   },
   // NPM (Node JS)
   npm: {
     name: 'NPM',
     icon: 'lab la-npm',
-    makeUrl: (id: string): string => `https://npmjs.com/package/${id}`,
-    makeInstallCmd: (id: string): string => `npm install ${id}`,
-  }
+    makeUrl: (id) => `https://npmjs.com/package/${id}`,
+    makeInstallCmd: (id) => `npm install ${id}`,
+  },
+  docker: {
+    name: 'Docker Hub',
+    icon: 'lab la-docker',
+    makeUrl: (id) => `https://hub.docker.com/r/${id}`,
+    makeInstallCmd: (id) => `docker pull ${id}`,
+  },
 };
 
 /** Returns whether a package uses a provider */
-export function packageIsWithProvider(repo: PackageInfo): repo is ProvidedPackageInfo {
-  return 'provider' in repo;
+export function packageIsWithProvider(packageInfo: PackageInfo): packageInfo is ProvidedPackageInfo {
+  return packageInfo.provider !== 'custom';
 }
-
-/** Names of package repos that are supported by the system */
-export const supportedPackageProviders = ['pypi', 'npm'] as const;

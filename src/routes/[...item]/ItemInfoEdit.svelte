@@ -15,6 +15,13 @@
   let { item = $bindable(), itemId, onchange }: Props = $props();
 
   let isRootPage = $derived(itemId.length === 0);
+
+  function commitChanges() {
+    if (item.info.seo.description === '') {
+      item.info.seo.description = null;
+    }
+    onchange(item.info);
+  }
 </script>
 
 <form onsubmit={(e) => e.preventDefault()}>
@@ -22,7 +29,7 @@
   <TextInput
     placeholder={consts.APP_NAME}
     bind:value={item.info.name}
-    oninput={() => onchange(item.info)}
+    oninput={commitChanges}
     required
   />
   <p>
@@ -36,7 +43,7 @@
   <TextInput
     placeholder={item.info.name}
     bind:value={item.info.shortName}
-    oninput={() => onchange(item.info)}
+    oninput={commitChanges}
   />
   <p>
     {#if isRootPage}
@@ -49,23 +56,19 @@
   <TextInput
     placeholder="A concise description."
     bind:value={item.info.description}
-    oninput={() => onchange(item.info)}
+    oninput={commitChanges}
     required
   />
   <p>A concise description of the item, shown on links to this page.</p>
   <h2>Color</h2>
-  <ColorPicker
-    bind:value={item.info.color}
-    oninput={() => onchange(item.info)}
-    required
-  />
+  <ColorPicker bind:value={item.info.color} oninput={commitChanges} required />
   <p>The theme color of the item is shown in the background of the page.</p>
 
   <h2>Banner image</h2>
   <FilePicker
     files={item.ls}
     bind:selected={item.info.banner}
-    onchange={() => onchange(item.info)}
+    onchange={commitChanges}
   />
   <!-- Banner image -->
   {#if item.info.banner}
@@ -82,7 +85,7 @@
   <FilePicker
     files={item.ls}
     bind:selected={item.info.icon}
-    onchange={() => onchange(item.info)}
+    onchange={commitChanges}
   />
   <!-- Banner image -->
   {#if item.info.icon}

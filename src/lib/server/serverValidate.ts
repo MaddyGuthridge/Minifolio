@@ -16,7 +16,7 @@ export async function validateFile(itemId: ItemId, filename: string): Promise<st
   if (!sanitized) {
     error(400, 'File path cannot be empty');
   }
-  await fs.access(path.join(getDataDir(), ...itemId, sanitized), fs.constants.R_OK)
+  await fs.access(path.join(getDataDir(), itemId, sanitized), fs.constants.R_OK)
     .catch(e => error(400, `Error accessing ${sanitized}: ${e}`));
   return sanitized;
 }

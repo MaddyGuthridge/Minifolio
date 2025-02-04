@@ -55,6 +55,16 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     ).json() as Promise<RepoStatus>;
   },
 
+  /** Perform a git fetch */
+  fetch: async () => {
+    return apiFetch(
+      fetchFn,
+      'POST',
+      '/api/admin/git/fetch',
+      { token },
+    ).json() as Promise<RepoStatus>;
+  },
+
   /** Perform a git push */
   push: async () => {
     return apiFetch(

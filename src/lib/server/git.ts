@@ -219,6 +219,14 @@ export async function commit(message: string) {
   await git.commit(message);
 }
 
+/** Perform a `git fetch` operation */
+export async function fetch() {
+  const git = await gitClient(getDataDir());
+
+  // Merge divergent changes
+  await git.fetch().catch(e => error(400, `${e}`));
+}
+
 /** Perform a `git pull` operation */
 export async function pull() {
   const git = await gitClient(getDataDir());

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { Button, TextInput } from '$components/base';
-  import { SpinnerButton } from '$components/base/button';
+  import { CopyButton, SpinnerButton } from '$components/base/button';
   import api from '$endpoints';
+  import { gitCommitHashShorten as gitHashShorten } from '$lib/util';
 
   type Props = {
     data: import('./$types').PageData;
@@ -75,8 +76,15 @@
 
   {#if gitStatus}
     <h2>Git status</h2>
-    <p>Current branch: {gitStatus.branch}</p>
-    <p>Current commit: {gitStatus.commit}</p>
+    <p>Current branch: <code>{gitStatus.branch}</code></p>
+    {#if gitStatus.commit}
+      <p>
+        Current commit:
+        <CopyButton text={gitStatus.commit} hint={'Copy full commit hash'}>
+          <code>{gitHashShorten(gitStatus.commit)}</code>
+        </CopyButton>
+      </p>
+    {/if}
     <p>
       {#if gitStatus.behind}
         {gitStatus.behind} commits behind.

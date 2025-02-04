@@ -1,6 +1,6 @@
 <!-- Settings panel for managing the server's public key. -->
 <script lang="ts">
-  import CopyButton from '$components/CopyButton.svelte';
+  import { CopyButton } from '$components/base/button';
   import api from '$endpoints';
   import { APP_NAME } from '$lib/consts';
   import { Button, TextInput } from '$components/base';

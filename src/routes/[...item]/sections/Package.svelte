@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Separator } from '$components';
   import { Select, TextInput } from '$components/base';
-  import CopyButton from '$components/CopyButton.svelte';
+  import { CopyButton } from '$components/base/button';
   import {
     packageProviders,
     supportedPackageProviders,

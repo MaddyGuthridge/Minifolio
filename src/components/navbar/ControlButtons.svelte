@@ -1,7 +1,7 @@
 <script lang="ts">
   import { dev } from '$app/environment';
   import { goto } from '$app/navigation';
-  import Button from '$components/base/Button.svelte';
+  import Button from '$components/base/button/Button.svelte';
   import Separator from '$components/Separator.svelte';
   import api from '$endpoints';
 

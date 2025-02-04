@@ -5,7 +5,7 @@ import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { getRepoStatus } from '$lib/server/git';
 
 export async function GET({ request, cookies }: import('./$types').RequestEvent) {
-  if (await dataIsSetUp()) {
+  if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest({ request, cookies });

@@ -1,12 +1,13 @@
 {
   "name": "minifolio",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "license": "GPL-3.0-only",
   "scripts": {
     "dev": "vite dev",
     "sync": "svelte-kit sync",
     "build": "svelte-kit sync && vite build",
+    "production": "node -r dotenv/config build",
     "preview": "vite preview",
     "test": "vitest",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

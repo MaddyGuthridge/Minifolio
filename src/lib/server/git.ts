@@ -135,7 +135,7 @@ export async function getRepoStatus(): Promise<RepoStatus> {
     url: (await git.remote(['get-url', 'origin']) || '').trim(),
     branch,
     // If command fails, no commit has been made
-    commit: await git.revparse(['--short', 'HEAD']).catch(() => null),
+    commit: await git.revparse(['HEAD']).catch(() => null),
     clean: status.isClean(),
     ahead: status.ahead,
     behind: status.behind,
@@ -217,6 +217,14 @@ export async function commit(message: string) {
   // Add all changes
   await git.add('.');
   await git.commit(message);
+}
+
+/** Perform a `git fetch` operation */
+export async function fetch() {
+  const git = await gitClient(getDataDir());
+
+  // Merge divergent changes
+  await git.fetch().catch(e => error(400, `${e}`));
 }
 
 /** Perform a `git pull` operation */

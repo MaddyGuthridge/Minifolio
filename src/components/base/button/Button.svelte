@@ -2,7 +2,7 @@
   import { tooltip } from '$lib/ui';
   import type { Snippet } from 'svelte';
 
-  type Props = {
+  export type ButtonProps = {
     /** Display mode for button (controls background color) */
     mode?: 'default' | 'warning' | 'confirm';
     /** Hint for button (controls tooltip and aria-label) */
@@ -29,7 +29,7 @@
     disabled,
     onclick,
     mode = 'default',
-  }: Props = $props();
+  }: ButtonProps = $props();
 
   let { color, hoverColor, clickColor } = $derived.by(() => {
     if (mode === 'warning') {

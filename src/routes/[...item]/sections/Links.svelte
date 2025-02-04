@@ -79,7 +79,7 @@
 <style>
   .link-chips {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
   }
   .link-chips h3 {

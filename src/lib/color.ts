@@ -26,9 +26,19 @@ export function withLightness(color: Colord, newLightness: number): Colord {
 export function colorName(color: Colord): string {
   const rawName = color.toName({ closest: true })!;
 
+  // List of suffixes. Since the library only gives names without spaces, we need to separate them
+  // out manually
   const suffixes: (string | [string, string])[] = [
+    ['springgreen', 'spring-green'],
     ['seagreen', 'sea-green'],
+    ['lawngreen', 'lawn-green'],
+    ['skyblue', 'sky blue'],
+    ['slateblue', 'slate blue'],
+    ['violetred', 'violet-red'],
+    ['greenyellow', 'green-yellow'],
+    ['honeydew', 'honey-dew'],
     'red',
+    'brick',
     'blue',
     'green',
     'orchid',
@@ -36,8 +46,25 @@ export function colorName(color: Colord): string {
     'aquamarine',
     'magenta',
     'purple',
+    'violet',
+    'pink',
     'smoke',
     'gray',
+    'salmon',
+    'almond',
+    'brown',
+    'wood',
+    'orange',
+    'blush',
+    'lavender',
+    'chiffon',
+    'white',
+    'grey',
+    'gray',
+    'rose',
+    'lace',
+    'drab',
+    'smoke',
   ];
 
   for (const suffix of suffixes) {

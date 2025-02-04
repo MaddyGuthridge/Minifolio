@@ -7,10 +7,14 @@ export function unixTime(): number {
   return Math.floor(Date.now() / 1000);
 }
 
-/** Capitalize the given string */
+/** Capitalize the first character of the given string */
 export function capitalize(str: string): string {
   // https://stackoverflow.com/a/1026087/6335363
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function gitCommitHashShorten(hash: string): string {
+  return hash.slice(0, 7);
 }
 
 /** Simple zip iterator */

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from './base';
+  import Button from './Button.svelte';
 
   type Props = {
     text: string;

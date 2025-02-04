@@ -47,7 +47,7 @@ export function itemIdFromStr(id: string): ItemId {
 
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
-  return itemIdFromComponents(itemComponents(itemId).slice(1));
+  return itemIdFromComponents(itemComponents(itemId).slice(0, -1));
 }
 
 /** Return an ItemId of a child of the given ItemId */

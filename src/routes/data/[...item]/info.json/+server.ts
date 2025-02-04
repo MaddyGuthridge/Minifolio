@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
   // Ensure parent exists
   const parent = await getItemInfo(itemId.parent(item))
-    .catch(() => error(404, `Parent of '${item}' does not exist`));
+    .catch(() => error(404, `Parent of '${item}' ('${itemId.parent(item)}') does not exist`));
   // Check if item exists
   if (await itemExists(item)) {
     error(400, `Item '${item}' already exists`);

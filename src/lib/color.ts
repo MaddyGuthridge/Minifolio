@@ -38,6 +38,7 @@ export function colorName(color: Colord): string {
     'purple',
     'smoke',
     'gray',
+    'salmon',
   ];
 
   for (const suffix of suffixes) {

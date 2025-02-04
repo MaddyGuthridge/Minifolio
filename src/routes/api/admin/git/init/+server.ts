@@ -6,7 +6,7 @@ import { error, json } from '@sveltejs/kit';
 import { object, string, validate } from 'superstruct';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
-  if (await dataIsSetUp()) {
+  if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest({ request, cookies });

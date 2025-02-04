@@ -8,18 +8,27 @@
 
   let { data }: Props = $props();
 
+  // Git status
+  let gitStatus = $state(data.repo);
+
   // Git setup
   let gitUrl = $state('');
 
   async function submitSwitchToGit() {
-    await api().admin.git.init(gitUrl);
+    gitStatus = await api().admin.git.init(gitUrl);
   }
 
   // Git controls
   let commitMessage = $state('');
 
   async function gitCommit() {
-    await api().admin.git.commit(commitMessage);
+    gitStatus = await api().admin.git.commit(commitMessage);
+  }
+  async function gitPull() {
+    gitStatus = await api().admin.git.pull();
+  }
+  async function gitPush() {
+    gitStatus = await api().admin.git.push();
   }
 
   async function updateGitConfig() {
@@ -42,39 +51,43 @@
     }}
   >
     <TextInput bind:value={data.gitConfig.userName} placeholder="user.name" />
-    <TextInput bind:value={data.gitConfig.userEmail} type="email" placeholder="user.email" />
+    <TextInput
+      bind:value={data.gitConfig.userEmail}
+      type="email"
+      placeholder="user.email"
+    />
     <Button type="submit">Update</Button>
   </form>
 
-  {#if data.repo}
+  {#if gitStatus}
     <h2>Git status</h2>
-    <p>Current branch: {data.repo.branch}</p>
-    <p>Current commit: {data.repo.commit}</p>
+    <p>Current branch: {gitStatus.branch}</p>
+    <p>Current commit: {gitStatus.commit}</p>
     <p>
-      {#if data.repo.behind}
-        {data.repo.behind} commits behind.
+      {#if gitStatus.behind}
+        {gitStatus.behind} commits behind.
       {/if}
-      {#if data.repo.ahead}
-        {data.repo.ahead} commits ahead.
+      {#if gitStatus.ahead}
+        {gitStatus.ahead} commits ahead.
       {/if}
     </p>
 
     <!-- Push/pull -->
-    {#if data.repo.behind}
-      <Button onclick={() => api().admin.git.pull()}>Pull</Button>
-    {:else if data.repo.ahead}
-      <Button onclick={() => api().admin.git.push()}>Push</Button>
+    {#if gitStatus.behind}
+      <Button onclick={gitPull}>Pull</Button>
+    {:else if gitStatus.ahead}
+      <Button onclick={gitPush}>Push</Button>
     {/if}
 
     <!-- Commit -->
-    {#if data.repo.clean}
+    {#if gitStatus.clean}
       <h3>Changes</h3>
       Working tree clean.
     {:else}
       <h3>Changes</h3>
 
       <ul>
-        {#each data.repo.changes as change}
+        {#each gitStatus.changes as change}
           {#if change.from}
             <li>Rename {change.from} to ({change.path})</li>
           {:else if change.index === '?'}

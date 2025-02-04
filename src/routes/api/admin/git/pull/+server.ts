@@ -15,5 +15,5 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
   }
 
   await pull();
-  return json(getRepoStatus(), { status: 200 });
+  return json(await getRepoStatus(), { status: 200 });
 }

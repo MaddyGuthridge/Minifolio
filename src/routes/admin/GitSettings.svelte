@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button, TextInput } from '$components/base';
+  import { SpinnerButton } from '$components/base/button';
   import api from '$endpoints';
 
   type Props = {
@@ -21,14 +22,22 @@
   // Git controls
   let commitMessage = $state('');
 
+  let actionRunning: string | null = $state(null);
+
   async function gitCommit() {
+    actionRunning = 'commit';
     gitStatus = await api().admin.git.commit(commitMessage);
+    actionRunning = null;
   }
   async function gitPull() {
+    actionRunning = 'pull';
     gitStatus = await api().admin.git.pull();
+    actionRunning = null;
   }
   async function gitPush() {
+    actionRunning = 'push';
     gitStatus = await api().admin.git.push();
+    actionRunning = null;
   }
 
   async function updateGitConfig() {
@@ -74,9 +83,13 @@
 
     <!-- Push/pull -->
     {#if gitStatus.behind}
-      <Button onclick={gitPull}>Pull</Button>
+      <SpinnerButton onclick={gitPull} running={actionRunning === 'pull'}>
+        Pull
+      </SpinnerButton>
     {:else if gitStatus.ahead}
-      <Button onclick={gitPush}>Push</Button>
+      <SpinnerButton onclick={gitPush} running={actionRunning === 'push'}>
+        Push
+      </SpinnerButton>
     {/if}
 
     <!-- Commit -->
@@ -113,7 +126,9 @@
           placeholder="Commit message"
           bind:value={commitMessage}
         />
-        <Button type="submit">Commit changes</Button>
+        <SpinnerButton type="submit" running={actionRunning === 'commit'}>
+          Commit changes
+        </SpinnerButton>
       </form>
     {/if}
   {:else}

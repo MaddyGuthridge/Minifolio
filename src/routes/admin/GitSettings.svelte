@@ -29,6 +29,11 @@
     gitStatus = await api().admin.git.commit(commitMessage);
     actionRunning = null;
   }
+  async function gitFetch() {
+    actionRunning = 'fetch';
+    gitStatus = await api().admin.git.fetch();
+    actionRunning = null;
+  }
   async function gitPull() {
     actionRunning = 'pull';
     gitStatus = await api().admin.git.pull();
@@ -81,7 +86,10 @@
       {/if}
     </p>
 
-    <!-- Push/pull -->
+    <!-- Fetch, push, pull -->
+    <SpinnerButton onclick={gitFetch} running={actionRunning === 'fetch'}>
+      Fetch
+    </SpinnerButton>
     {#if gitStatus.behind}
       <SpinnerButton onclick={gitPull} running={actionRunning === 'pull'}>
         Pull

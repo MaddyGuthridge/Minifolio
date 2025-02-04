@@ -36,6 +36,7 @@ export function colorName(color: Colord): string {
     'aquamarine',
     'magenta',
     'purple',
+    'pink',
     'smoke',
     'gray',
     'salmon',

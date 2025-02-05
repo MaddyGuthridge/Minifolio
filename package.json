@@ -68,7 +68,7 @@
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.6",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.9"
   },
   "//overrides": [
     "Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",

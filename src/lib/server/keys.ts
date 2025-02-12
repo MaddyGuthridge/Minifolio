@@ -1,10 +1,10 @@
 /** Code for managing the server's SSH keys */
 import fs from 'node:fs/promises';
 import { getPrivateDataDir } from './data/dataDir';
-import { spawn } from 'child-process-promise';
 import { APP_NAME } from '$lib/consts';
 import { getLocalConfig, setLocalConfig } from './data/localConfig';
 import path from 'node:path';
+import { execa } from 'execa';
 
 const DEFAULT_KEY_TYPE = 'ed25519';
 
@@ -63,7 +63,7 @@ export async function generateKey(): Promise<string> {
   // ssh-keygen -t $DEFAULT_KEY_TYPE -f ${defaultPrivateKeyPath()} -N '' -c "Minifolio SSH key"
   // NOTE: While cross-spawn (dependency of child-process-promise) is technically vulnerable to a
   // ReDoS attack, this is fine here, since the arguments are controlled by us
-  await spawn(
+  await execa(
     'ssh-keygen',
     [
       '-t',
@@ -75,7 +75,6 @@ export async function generateKey(): Promise<string> {
       '-C',
       `${APP_NAME} SSH key`,
     ],
-    { capture: ['stdout', 'stderr'] }
   );
   // Public key is definitely not null now
   return getPublicKey() as Promise<string>;

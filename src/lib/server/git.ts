@@ -3,12 +3,12 @@ import { dataIsSetUp, getDataDir } from './data/dataDir';
 import simpleGit, { type FileStatusResult } from 'simple-git';
 import fs from 'node:fs/promises';
 import { rimraf } from 'rimraf';
-import { spawn } from 'child-process-promise';
 import path from 'node:path';
 import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 import { getLocalConfig } from './data/localConfig';
 import { nonempty, nullable, object, string, type Infer } from 'superstruct';
+import { execa } from 'execa';
 
 /** Path to the SSH known hosts file */
 const knownHostsFile = () => path.join(defaultKeysDirectory(), 'known_hosts');
@@ -110,10 +110,7 @@ export async function runSshKeyscan(url: string) {
     }
   }
 
-  // NOTE: While this is technically vulnerable due to a ReDoS vulnerability in cross-spawn
-  // (dependency of child-process-promise), this code will only be executed by admins, so it should
-  // be ok.
-  const process = await spawn('ssh-keyscan', [host], { capture: ['stdout'] });
+  const process = await execa('ssh-keyscan', [host]);
 
   // console.log(process.stdout);
   // console.log(typeof process.stdout);

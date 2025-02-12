@@ -76,6 +76,7 @@ export default ts.config(
           { name: "path", message: "Import from `node:path`" },
           { name: "fs", message: "Import from `node:fs`" },
           { name: "fs/promises", message: "Import from `node:fs/promises`" },
+          { name: "svelte/legacy", message: "Avoid legacy Svelte features" },
         ]
       }],
     },

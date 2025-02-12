@@ -29,7 +29,7 @@
 
   let { data }: Props = $props();
 
-  const isRootItem = $derived(data.itemId.length === 0);
+  const isRootItem = $derived(data.itemId === '/');
 
   let editing = $state(false);
 

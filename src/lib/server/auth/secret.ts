@@ -1,7 +1,7 @@
 /**
  * Code for managing the authentication secret.
  */
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { getPrivateDataDir } from '../data/dataDir';
 import { nanoid } from 'nanoid';
 

@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { array, nullable, object, string, validate, type Infer } from 'superstruct';
 import { getDataDir } from './dataDir';
 import { version } from '$app/environment';

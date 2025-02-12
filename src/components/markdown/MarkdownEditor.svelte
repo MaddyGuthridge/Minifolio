@@ -20,7 +20,7 @@
     }
   }
 
-  let updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
+  const updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <div class="md-editor">

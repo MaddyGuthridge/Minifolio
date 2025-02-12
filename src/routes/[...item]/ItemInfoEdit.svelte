@@ -14,7 +14,7 @@
 
   let { item = $bindable(), itemId, onchange }: Props = $props();
 
-  let isRootPage = $derived(itemId.length === 0);
+  const isRootPage = $derived(itemId.length === 0);
 
   function commitChanges() {
     if (item.info.seo.description === '') {

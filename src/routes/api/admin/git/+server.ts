@@ -1,7 +1,6 @@
 import { error, json } from '@sveltejs/kit';
-import { dataDirUsesGit } from '$lib/server/data/dataDir';
+import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { getRepoStatus } from '$lib/server/git';
 
 export async function GET({ request, cookies }: import('./$types').RequestEvent) {

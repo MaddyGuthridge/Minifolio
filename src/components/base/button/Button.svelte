@@ -31,7 +31,7 @@
     mode = 'default',
   }: ButtonProps = $props();
 
-  let { color, hoverColor, clickColor } = $derived.by(() => {
+  const { color, hoverColor, clickColor } = $derived.by(() => {
     if (mode === 'warning') {
       return {
         color: '#FF808040',

@@ -1,11 +1,11 @@
 /**
  * Validations that can only be performed server-side.
  */
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { error } from '@sveltejs/kit';
 import sanitize from 'sanitize-filename';
 import { getDataDir } from './data/dataDir';
-import path from 'path';
+import path from 'node:path';
 import { contentType } from 'mime-types';
 import type { ItemId } from '$lib/itemId';
 

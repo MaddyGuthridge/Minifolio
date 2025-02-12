@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
 import itemId from '$lib/itemId';
@@ -103,7 +103,7 @@ export async function DELETE(req: Request) {
   await validateTokenFromRequest(req);
   const item = itemId.validate(`/${req.params.item}`);
   // Prevent the Minifolio equivalent of `rm -rf /`
-  if (item.length == 0) {
+  if (item === '/') {
     error(403, 'Cannot delete root item');
   }
   // Check if item exists

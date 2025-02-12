@@ -1,6 +1,6 @@
 import api from '$endpoints';
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import { beforeEach, expect } from 'vitest';
 
 // Before each test, clear the server data, then echo the test name

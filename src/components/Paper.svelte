@@ -5,7 +5,7 @@
     children?: Snippet;
   };
 
-  let { opacity = 0.75, children }: Props = $props();
+  const { opacity = 0.75, children }: Props = $props();
 </script>
 
 <div class="paper" style="--opacity: {opacity}">

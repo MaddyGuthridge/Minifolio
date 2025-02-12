@@ -5,7 +5,7 @@
  * match that of the item itself.
  */
 import itemId, { type ItemId } from '$lib/itemId';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { itemExists, itemPath } from '$lib/server/data/item';

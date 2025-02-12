@@ -7,7 +7,7 @@
     children?: import('svelte').Snippet;
   };
 
-  let { text, hint = 'Copy', children }: Props = $props();
+  const { text, hint = 'Copy', children }: Props = $props();
 
   function copy() {
     void navigator.clipboard.writeText(text);

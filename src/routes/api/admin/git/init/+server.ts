@@ -1,7 +1,6 @@
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataDirUsesGit } from '$lib/server/data/dataDir';
+import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
 import { getRepoStatus, initRepo } from '$lib/server/git';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { error, json } from '@sveltejs/kit';
 import { object, string, validate } from 'superstruct';
 

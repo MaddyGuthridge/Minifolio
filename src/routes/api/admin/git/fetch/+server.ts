@@ -1,8 +1,7 @@
 // Stop trying to make fetch happen! It's not going to happen!
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataDirUsesGit } from '$lib/server/data/dataDir';
+import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
 import { fetch, getRepoStatus } from '$lib/server/git';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {

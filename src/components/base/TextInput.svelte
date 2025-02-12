@@ -37,7 +37,7 @@
 
   let displayErrorMessage = $state(false);
   let errorMessage: string | null = $state(null);
-  let overallErrorText = $derived(errorText ?? errorMessage);
+  const overallErrorText = $derived(errorText ?? errorMessage);
 
   function performValidation() {
     // Only start showing error messages once the user has interacted with this

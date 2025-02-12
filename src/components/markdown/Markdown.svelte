@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import { marked } from 'marked';
   import hljs from 'highlight.js';
   import 'highlight.js/styles/stackoverflow-light.css';
@@ -9,7 +7,7 @@
     source: string;
   };
 
-  let { source }: Props = $props();
+  const { source }: Props = $props();
 
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
@@ -35,12 +33,11 @@
       });
     });
   }
-  let rendered = $derived(marked(source));
-  // https://stackoverflow.com/a/75688200/6335363
-  // TODO: Find a way to automagically disable this but only for Svelte
-  run(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    rendered && markdownRender && applySyntaxHighlighting(markdownRender);
+  const rendered = $derived(marked(source));
+  $effect(() => {
+    if (rendered && markdownRender) {
+      applySyntaxHighlighting(markdownRender);
+    }
   });
 </script>
 

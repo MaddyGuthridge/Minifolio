@@ -14,7 +14,7 @@
   import itemId from '$lib/itemId';
   import Favicon from '$components/Favicon.svelte';
 
-  let { data } = $props();
+  const { data } = $props();
 
   // Default values are auto-filled in dev mode
   let repoUrl = $state(

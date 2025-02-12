@@ -18,7 +18,7 @@
     onclick?: (e: MouseEvent | undefined | null) => void;
   };
 
-  let {
+  const {
     name,
     description,
     color,
@@ -27,18 +27,18 @@
     selected = false,
   }: Props = $props();
 
-  let fillColor = $derived(
+  const fillColor = $derived(
     selected
       ? withLightness(colord(color), 75).toHex()
       : withLightness(colord(color), 85).toHex(),
   );
-  let borderColor = $derived(
+  const borderColor = $derived(
     selected
       ? withLightness(colord(color), 40).toHex()
       : withLightness(colord(color), 50).toHex(),
   );
-  let hoverColor = $derived(withLightness(colord(color), 60).toHex());
-  let borderWidth = $derived(selected ? '2px' : '1px');
+  const hoverColor = $derived(withLightness(colord(color), 60).toHex());
+  const borderWidth = $derived(selected ? '2px' : '1px');
 </script>
 
 <a {onclick} href={link?.url}>

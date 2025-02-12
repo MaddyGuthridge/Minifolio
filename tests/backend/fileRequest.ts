@@ -1,8 +1,8 @@
 /**
  * Code for creating a `File` object from a file on the file system.
  */
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { contentType } from 'mime-types';
 
 /**

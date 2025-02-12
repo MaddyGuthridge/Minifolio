@@ -66,11 +66,7 @@ it('Has random variance in the timing for failed passwords', async () => {
   let slowest = -1;
   // Run many logins, and check that there is more than 10ms difference between the
   // fastest and slowest
-  // FIXME: Reduce this number so that the number of unsuccessful logins before a
-  // ban is reduced
-  // and perhaps find a way to get vitest to retry it a number of times if it
-  // fails
-  for (let i = 0; i < 10; i++) {
+  async function tryLogin() {
     const start = Date.now();
     try {
       await api().admin.auth.login(credentials.username + 'hi', credentials.password);
@@ -84,6 +80,11 @@ it('Has random variance in the timing for failed passwords', async () => {
       fastest = time;
     }
   }
+  const promises: Promise<void>[] = []
+  for (let i = 0; i < 10; i++) {
+    promises.push(tryLogin());
+  }
+  await Promise.all(promises);
 
   // Now make sure that the difference is big enough
   expect(slowest - fastest).toBeGreaterThanOrEqual(10);
@@ -100,10 +101,15 @@ describe('fail2ban', () => {
   });
 
   it('Blocks all logins after 25 failed login requests', async () => {
-    for (let i = 0; i < 25; i++) {
+    async function tryLogin() {
       await api().admin.auth.login(credentials.username, 'incorrect')
         // Discard error
         .catch(() => { });
+    }
+    for (let i = 0; i < 25; i++) {
+      // Back-end gets race conditions if we hit it with 25 requests at once
+      // eslint-disable-next-line no-await-in-loop
+      await tryLogin();
     }
     // User has been banned because of login failure happening too many times
     await expect(api().admin.auth.login(credentials.username, credentials.password))

@@ -2,7 +2,7 @@
  * Code for setting up public data.
  */
 
-import { mkdir, writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { runSshKeyscan, setupGitRepo, urlRequiresSsh } from '../git';
 import { dataIsSetUp, getDataDir } from './dataDir';
 import { initConfig } from './config';

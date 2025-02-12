@@ -1,6 +1,6 @@
 import { version } from '$app/environment';
 import itemId, { type ItemId } from '$lib/itemId';
-import { readdir } from 'fs/promises';
+import { readdir } from 'node:fs/promises';
 import { setConfig } from '../config';
 import { setItemInfo } from '../item';
 import type { PackageInfo } from '../item/package';
@@ -9,13 +9,13 @@ import type { ItemSection, LinksSection, PackageSection, RepoSection, SiteSectio
 import { setLocalConfig, type ConfigLocalJson } from '../localConfig';
 import { unsafeLoadConfig, unsafeLoadItemInfo, unsafeLoadLocalConfig } from './unsafeLoad';
 
-export async function migratePrivateV0_6(privateDataDir: string) {
+export async function migratePrivateV06(privateDataDir: string) {
   // Update `config.local.json`
   console.log('config.local.json');
   await updateLocalConfig(privateDataDir);
 }
 
-export async function migrateDataV0_6(dataDir: string) {
+export async function migrateDataV06(dataDir: string) {
   // Update `config.json`
   console.log('config.json');
   await updatePublicConfig(dataDir);
@@ -33,21 +33,27 @@ export async function migrateDataV0_6(dataDir: string) {
 
   for (const groupId of groups) {
     console.log(`Group: /${groupId}`);
-    // For each item
+
+    // Don't bother making the migration code fully parallel, since it only runs once for an
+    // instance and is fast enough as-is.
+    // eslint-disable-next-line no-await-in-loop
     const items = (await readdir(`${dataDir}/${groupId}`, { withFileTypes: true }))
       // Only keep directories
       .filter(d => d.isDirectory())
       .map(d => d.name);
 
+    // For each item
     for (const oldItemId of items) {
       const newItemId = itemId.fromComponents([groupId, oldItemId]);
       console.log(`Item: ${newItemId}`);
       // Update each item
+      // eslint-disable-next-line no-await-in-loop
       await updateItemInfo(dataDir, newItemId);
     }
     // Update group
     const newItemId = itemId.fromComponents([groupId]);
     console.log(`Item: ${newItemId}`);
+    // eslint-disable-next-line no-await-in-loop
     await groupToItem(dataDir, newItemId);
   }
 

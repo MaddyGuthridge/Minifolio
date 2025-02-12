@@ -14,7 +14,7 @@
     onclose: () => void;
   };
 
-  let { show, parent, onclose }: Props = $props();
+  const { show, parent, onclose }: Props = $props();
 
   let itemName = $state('');
   let newItemId = $state('');
@@ -43,7 +43,7 @@
     await goto(itemId.child(parent, newItemId));
   }
 
-  let valuesOk = $state({
+  const valuesOk = $state({
     name: false,
     id: false,
   });

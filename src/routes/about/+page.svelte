@@ -10,7 +10,7 @@
     data: import('./$types').PageData;
   };
 
-  let { data }: Props = $props();
+  const { data }: Props = $props();
 
   const mainInfo = `
 # About ${consts.APP_NAME}

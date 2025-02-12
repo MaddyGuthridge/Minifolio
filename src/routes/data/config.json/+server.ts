@@ -3,7 +3,7 @@ import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { ConfigJsonStruct, getConfig, setConfig } from '$lib/server/data/config';
 import { validate } from 'superstruct';
 import { version } from '$app/environment';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { dataIsSetUp, getDataDir } from '$lib/server/data/dataDir';
 
 export async function GET() {

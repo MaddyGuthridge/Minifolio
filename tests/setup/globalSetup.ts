@@ -42,6 +42,8 @@ export async function setup() {
 
   while (Date.now() - start < waitTime) {
     try {
+      // Intentionally synchronous requests while waiting for server start-up
+      // eslint-disable-next-line no-await-in-loop
       await api().debug.echo('Wait for server startup');
       return;
     } catch { /* empty */ }

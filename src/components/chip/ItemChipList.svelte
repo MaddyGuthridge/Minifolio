@@ -22,7 +22,7 @@
     onclick?: (itemId: ItemId) => void;
   };
 
-  let { portfolio, items, link = false, onfilter, onclick }: Props = $props();
+  const { portfolio, items, link = false, onfilter, onclick }: Props = $props();
 
   // Smoooooooooooth scrolling
   // ==================================================

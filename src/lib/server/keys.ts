@@ -1,10 +1,10 @@
 /** Code for managing the server's SSH keys */
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { getPrivateDataDir } from './data/dataDir';
 import { spawn } from 'child-process-promise';
 import { APP_NAME } from '$lib/consts';
 import { getLocalConfig, setLocalConfig } from './data/localConfig';
-import path from 'path';
+import path from 'node:path';
 
 const DEFAULT_KEY_TYPE = 'ed25519';
 

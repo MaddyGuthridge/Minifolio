@@ -1,12 +1,12 @@
 import { version } from '$app/environment';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { authIsSetUp, dataIsSetUp, getDataDir, getPrivateDataDir } from '../dataDir';
 import semver from 'semver';
 import consts from '$lib/consts';
-import path from 'path';
-import { migrateDataV0_6, migratePrivateV0_6 } from './v0.6';
+import path from 'node:path';
+import { migrateDataV06, migratePrivateV06 } from './v0.6';
 import { getDataVersion, getPrivateDataVersion, bumpDataVersion, bumpPrivateDataVersion } from './shared';
-import { tmpdir } from 'os';
+import { tmpdir } from 'node:os';
 
 
 export type DataMigrationFunction = (
@@ -20,14 +20,14 @@ export type PrivateMigrationFunction = (
 // Migrations for data
 const dataMigrations: Record<string, DataMigrationFunction> = {
   // v0.6.x --> v1.0.0
-  '~0.6.1': migrateDataV0_6,
+  '~0.6.1': migrateDataV06,
   '~1.0.0': bumpDataVersion,
 };
 
 // Migrations for private data
 const privateMigrations: Record<string, PrivateMigrationFunction> = {
   // v0.6.x --> v1.0.0
-  '~0.6.1': migratePrivateV0_6,
+  '~0.6.1': migratePrivateV06,
   '~1.0.0': bumpPrivateDataVersion,
 };
 
@@ -36,6 +36,8 @@ export async function migrateAll() {
   await migratePrivate();
   await migrateData();
 }
+
+// TODO: Fix this code duplication
 
 export async function migrateData() {
   if (!await dataIsSetUp()) {
@@ -49,6 +51,8 @@ export async function migrateData() {
 
   for (const [versionRange, migrateFunction] of Object.entries(dataMigrations)) {
     if (semver.satisfies(oldVersion, versionRange)) {
+      // The migration only runs once since we immediately return
+      // eslint-disable-next-line no-await-in-loop
       await performDataMigration(migrateFunction);
       return;
     }
@@ -70,6 +74,8 @@ export async function migratePrivate() {
 
   for (const [versionRange, migrateFunction] of Object.entries(privateMigrations)) {
     if (semver.satisfies(oldVersion, versionRange)) {
+      // The migration only runs once since we immediately return
+      // eslint-disable-next-line no-await-in-loop
       await performPrivateMigration(migrateFunction);
       return;
     }

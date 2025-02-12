@@ -13,7 +13,7 @@
     data: import('./$types').PageData;
   };
 
-  let { data }: Props = $props();
+  const { data }: Props = $props();
 
   let previousPage: string;
 

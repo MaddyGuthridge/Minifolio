@@ -1,6 +1,6 @@
 import yauzl, { Entry } from 'yauzl';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /** Wrapper around `yauzl` to keep the callback hell contained */
 export function unzip(zipFile: string, destination: string): Promise<void> {
@@ -8,8 +8,6 @@ export function unzip(zipFile: string, destination: string): Promise<void> {
     // Yoinked from documentation
     yauzl.open(zipFile, { lazyEntries: true }, (err, zipfile) => {
       if (err) {
-        // TypeScript says this is an `Error` :/
-        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
         reject(err);
       }
       zipfile.readEntry();
@@ -35,11 +33,8 @@ export function unzip(zipFile: string, destination: string): Promise<void> {
             // Read file into its output location
             zipfile.openReadStream(entry, (err, readStream) => {
               if (err) {
-                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                 reject(err);
               }
-              // No idea why this is giving a warning -- TypeScript says it returns `void`, not `any`
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
               readStream.on('end', () => zipfile.readEntry());
               readStream.pipe(output);
             });

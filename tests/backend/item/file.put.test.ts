@@ -7,7 +7,7 @@ import genTokenTests from '../tokenCase';
 import type { ApiClient } from '$endpoints';
 import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 import itemId from '$lib/itemId';
 
 let api: ApiClient;

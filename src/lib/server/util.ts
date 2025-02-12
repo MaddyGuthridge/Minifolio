@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { create, type Struct } from 'superstruct';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 /**
  * A wrapper around superstruct's assert, making it async to make error

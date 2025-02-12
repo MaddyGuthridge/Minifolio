@@ -1,6 +1,6 @@
 import { version } from '$app/environment';
 import itemId, { type ItemId } from '$lib/itemId';
-import { readdir } from 'fs/promises';
+import { readdir } from 'node:fs/promises';
 import { setConfig } from '../config';
 import { setItemInfo } from '../item';
 import type { PackageInfo } from '../item/package';

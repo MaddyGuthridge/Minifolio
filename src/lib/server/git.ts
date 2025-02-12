@@ -1,10 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { dataIsSetUp, getDataDir } from './data/dataDir';
 import simpleGit, { type FileStatusResult } from 'simple-git';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { rimraf } from 'rimraf';
 import { spawn } from 'child-process-promise';
-import path from 'path';
+import path from 'node:path';
 import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 import { getLocalConfig } from './data/localConfig';

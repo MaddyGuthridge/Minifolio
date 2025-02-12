@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import simpleGit, { CheckRepoActions } from 'simple-git';
 import { fileExists } from '../util';
 

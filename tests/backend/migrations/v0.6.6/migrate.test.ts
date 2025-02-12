@@ -2,7 +2,7 @@ import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../../helpers';
 import { migrateDataFromZip, migratePrivateDataFromZip } from '../migration';
-import path from 'path';
+import path from 'node:path';
 import itemId from '$lib/itemId';
 
 let api: ApiClient;

@@ -3,8 +3,8 @@
  *
  * This file contains type definitions and helper functions for accessing and modifying items.
  */
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { error } from '@sveltejs/kit';
 import { array, nullable, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';

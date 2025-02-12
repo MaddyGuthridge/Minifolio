@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { array, boolean, nullable, number, object, record, string, union, validate, type Infer } from 'superstruct';
 import { getPrivateDataDir } from './dataDir';
 import { GitConfigStruct } from '../git';

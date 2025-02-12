@@ -1,12 +1,12 @@
 import { version } from '$app/environment';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { authIsSetUp, dataIsSetUp, getDataDir, getPrivateDataDir } from '../dataDir';
 import semver from 'semver';
 import consts from '$lib/consts';
-import path from 'path';
+import path from 'node:path';
 import { migrateDataV0_6, migratePrivateV0_6 } from './v0.6';
 import { getDataVersion, getPrivateDataVersion, bumpDataVersion, bumpPrivateDataVersion } from './shared';
-import { tmpdir } from 'os';
+import { tmpdir } from 'node:os';
 
 
 export type DataMigrationFunction = (

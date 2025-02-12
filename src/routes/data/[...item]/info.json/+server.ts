@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { json, error } from '@sveltejs/kit';
 import { object, string } from 'superstruct';
 import itemId from '$lib/itemId';

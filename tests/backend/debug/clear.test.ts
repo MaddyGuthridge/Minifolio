@@ -3,7 +3,7 @@
  */
 import api from '$endpoints';
 import { getDataDir } from '$lib/server/data/dataDir';
-import { access } from 'fs/promises';
+import { access } from 'node:fs/promises';
 import { it, expect } from 'vitest';
 import { setup } from '../helpers';
 

@@ -1,8 +1,8 @@
 /**
  * Test cases for setting the path to the SSH key-pair.
  */
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import api, { type ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { setup } from '../../helpers';

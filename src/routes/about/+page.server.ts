@@ -3,7 +3,7 @@ import { version } from '$app/environment';
 // import { VERSION as SVELTE_VERSION } from 'svelte/compiler';
 // import { VERSION as SVELTEKIT_VERSION } from '@sveltejs/kit';
 // import { version as VITE_VERSION } from 'vite';
-import os from 'os';
+import os from 'node:os';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
 import { getItemData, type ItemData } from '$lib/server/data/item';
 import { blankData } from '../../lib/blankData';

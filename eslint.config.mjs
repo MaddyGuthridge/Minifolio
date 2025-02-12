@@ -68,7 +68,16 @@ export default ts.config(
       "@typescript-eslint/consistent-type-definitions": ["error", 'type'],
       // This error is already picked up by TypeScript, and it's annoying to need to silence it
       // twice when it is incorrect
-      "@typescript-eslint/no-unsafe-call": "off"
+      "@typescript-eslint/no-unsafe-call": "off",
+      // Prevent node standard library imports without `node:` prefix
+      "no-restricted-imports": ["error", {
+        paths: [
+          { name: "os", message: "Import from `node:os`" },
+          { name: "path", message: "Import from `node:path`" },
+          { name: "fs", message: "Import from `node:fs`" },
+          { name: "fs/promises", message: "Import from `node:fs/promises`" },
+        ]
+      }],
     },
   },
   {

@@ -1,7 +1,7 @@
 /**
  * API endpoints for accessing and modifying generic files.
  */
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import { error, json } from '@sveltejs/kit';
 import sanitize from 'sanitize-filename';
 import mime from 'mime-types';

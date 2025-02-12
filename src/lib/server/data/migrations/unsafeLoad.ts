@@ -1,6 +1,6 @@
 /** Unsafely load data, so that types are not checked */
 import type { ItemId } from '$lib/itemId';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 /** Load old config.json */
 export async function unsafeLoadConfig(dataDir: string): Promise<object> {

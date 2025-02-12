@@ -1,7 +1,6 @@
 /** Test cases to ensure invalid tokens are rejected on all endpoints */
 
-import type { ApiClient } from '$endpoints';
-import api from '$endpoints';
+import api, { type ApiClient } from '$endpoints';
 import { unixTime } from '$lib/util';
 import { sign } from 'jsonwebtoken';
 // No need for it to be secure for test cases

@@ -2,8 +2,7 @@
  * Helper functions used in SEO (search engine optimization).
  */
 
-import type { ItemId } from './itemId';
-import itemId from './itemId';
+import itemId, { type ItemId } from './itemId';
 import type { ItemData } from './server/data/item';
 
 export function generateKeywords(data: ItemData, id: ItemId): string {

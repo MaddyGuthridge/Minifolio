@@ -114,18 +114,18 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
   validate.color(info.color);
 
   // Validate each section
-  for (const section of info.sections) {
-    await validateSection(item, section);
-  }
+  await Promise.all(info.sections.map(section => validateSection(item, section)));
 
   // Ensure each child exists
-  for (const child of info.children) {
+  async function validateChild(child: string) {
     if (!await itemExists(itemId.child(item, child))) {
       error(400, `Child item '${itemId.child(item, child)}' does not exist`);
     }
   }
+  await Promise.all(info.children.map(child => validateChild(child)));
+
   // Ensure each filter item exists
-  for (const filterItem of info.filters) {
+  async function validateFilterItem(filterItem: ItemId) {
     if (!await itemExists(filterItem)) {
       error(400, `Filter item '${filterItem}' does not exist`);
     }
@@ -133,10 +133,11 @@ export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInf
       error(400, 'Filter items cannot be self-referencing');
     }
   }
+  await Promise.all(info.filters.map(filter => validateFilterItem(filter)));
 
   // SEO description
   if (info.seo.description !== null) {
-    if (info.seo.description.length == 0) {
+    if (info.seo.description.length === 0) {
       error(400, 'SEO description cannot be an empty string (use null instead)');
     }
   }

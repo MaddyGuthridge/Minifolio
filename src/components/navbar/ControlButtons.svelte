@@ -17,7 +17,7 @@
     onEditFinish?: () => void;
   };
 
-  let {
+  const {
     loggedIn,
     editable = false,
     editing = false,

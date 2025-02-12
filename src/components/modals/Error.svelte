@@ -8,7 +8,7 @@
     onclose: () => void;
   };
 
-  let { text, show, header, onclose }: Props = $props();
+  const { text, show, header, onclose }: Props = $props();
 </script>
 
 <Modal {show} color="#ffaaaa" {onclose}>

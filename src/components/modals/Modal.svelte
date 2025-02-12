@@ -9,7 +9,7 @@
     onclose: () => void;
   };
 
-  let {
+  const {
     show,
     color = 'white',
     showCloseButton = true,
@@ -18,7 +18,7 @@
     onclose,
   }: Props = $props();
 
-  let display = $derived(show ? 'block' : 'none');
+  const display = $derived(show ? 'block' : 'none');
 
   function onkeydown(e: KeyboardEvent) {
     if (show && e.key === 'Escape') {

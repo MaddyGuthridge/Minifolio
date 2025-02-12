@@ -12,7 +12,7 @@
     onclick?: (e: MouseEvent | undefined | null) => void;
   };
 
-  let {
+  const {
     item,
     itemId,
     link = false,

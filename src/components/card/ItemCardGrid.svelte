@@ -24,7 +24,7 @@
     onDropItem?: (itemId: ItemId) => void;
   };
 
-  let {
+  const {
     portfolio,
     itemIds,
     onclick,

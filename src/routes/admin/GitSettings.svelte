@@ -8,7 +8,7 @@
     data: import('./$types').PageData;
   };
 
-  let { data }: Props = $props();
+  const { data }: Props = $props();
 
   // Git status
   let gitStatus = $state(data.repo);

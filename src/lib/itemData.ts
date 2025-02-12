@@ -2,8 +2,7 @@
  * Functions for navigating and operating on the `ItemData` type
  */
 
-import type { ItemId } from './itemId';
-import itemId from './itemId';
+import itemId, { type ItemId } from './itemId';
 import type { ItemData } from './server/data/item';
 
 /**

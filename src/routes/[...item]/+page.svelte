@@ -27,7 +27,7 @@
     data: import('./$types').PageData;
   };
 
-  let { data }: Props = $props();
+  const { data }: Props = $props();
 
   const isRootItem = $derived(data.itemId === '/');
 
@@ -35,7 +35,7 @@
 
   let newItemModalShown = $state(false);
 
-  let infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
+  const infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
     await api().item(data.itemId).info.put(info);
   }, consts.EDIT_COMMIT_HESITATION);
 
@@ -43,7 +43,7 @@
 
   let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
 
-  let displayedItems = $derived.by(() => {
+  const displayedItems = $derived.by(() => {
     const items = thisItem.info.children.map((id) =>
       itemId.child(data.itemId, id),
     );

@@ -5,7 +5,7 @@ import { it, expect } from 'vitest';
 import { setup } from '../../helpers';
 import api from '$endpoints';
 
-const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise<void>((r) => void setTimeout(r, ms));
 
 it('Revokes the current token', async () => {
   const { api, username, password } = await setup();

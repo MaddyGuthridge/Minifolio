@@ -14,7 +14,7 @@
     icon?: import('svelte').Snippet;
   };
 
-  let { title, link, color, icon, onclick }: Props = $props();
+  const { title, link, color, icon, onclick }: Props = $props();
 </script>
 
 <!--

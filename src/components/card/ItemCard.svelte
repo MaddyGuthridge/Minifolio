@@ -18,7 +18,7 @@
     dndId?: string;
   };
 
-  let { item, itemId, link, onclick, dndId }: Props = $props();
+  const { item, itemId, link, onclick, dndId }: Props = $props();
 </script>
 
 <div

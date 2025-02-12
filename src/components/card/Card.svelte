@@ -15,13 +15,13 @@
     onclick?: (e: MouseEvent | undefined | null) => void;
   };
 
-  let { link, color, children, onclick }: Props = $props();
+  const { link, color, children, onclick }: Props = $props();
 
-  let baseColor = $derived(withLightness(colord(color), 80).toHex());
-  let hoverColor = $derived(withLightness(colord(color), 65).toHex());
+  const baseColor = $derived(withLightness(colord(color), 80).toHex());
+  const hoverColor = $derived(withLightness(colord(color), 65).toHex());
 
-  let linkHref = $derived(link ? link.url : undefined);
-  let linkNewTab = $derived(link?.newTab ? '_blank' : undefined);
+  const linkHref = $derived(link ? link.url : undefined);
+  const linkNewTab = $derived(link?.newTab ? '_blank' : undefined);
 </script>
 
 <!--

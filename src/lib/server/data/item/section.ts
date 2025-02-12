@@ -41,7 +41,7 @@ export type LinksSection = Infer<typeof LinksSectionStruct>;
 /** Validate a links section of an item */
 async function validateLinksSection(itemId: ItemId, data: LinksSection) {
   validate.name(data.label);
-  for (const otherItem of data.items) {
+  async function validateLinkedItem(otherItem: ItemId) {
     if (!await itemExists(otherItem)) {
       error(400, `Linked item ${otherItem} does not exist`);
     }
@@ -49,6 +49,7 @@ async function validateLinksSection(itemId: ItemId, data: LinksSection) {
       error(400, 'Links cannot be self-referencing');
     }
   }
+  await Promise.all(data.items.map(otherItem => validateLinkedItem(otherItem)));
 }
 
 /** Package information section */

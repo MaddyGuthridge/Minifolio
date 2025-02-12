@@ -35,7 +35,7 @@
     onEditFinish?: () => void;
   } & (PropsItem | PropsOther);
 
-  let {
+  const {
     path,
     data,
     loggedIn,
@@ -81,7 +81,7 @@
     ];
   }
 
-  let overallPath: NavbarPath = $derived.by(() => {
+  const overallPath: NavbarPath = $derived.by(() => {
     if (typeof path === 'string') {
       // Path is ItemId
       return itemIdToPath(path, lastItem!);

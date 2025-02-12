@@ -25,13 +25,12 @@
   /** Upload files from the form */
   async function uploadFiles() {
     if (!filesToUpload) return;
-    for (const file of filesToUpload) {
-      await api()
-        .item(itemId)
-        .file(file.name)
-        .post(file)
-        .then(() => files.push(file.name));
-    }
+    await Promise.all(
+      Array.from(filesToUpload).map(async (file) => {
+        await api().item(itemId).file(file.name).post(file);
+        files.push(file.name);
+      }),
+    );
     // Clear form
     uploadForm.reset();
   }

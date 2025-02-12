@@ -7,7 +7,7 @@
     source: string;
   };
 
-  let { source }: Props = $props();
+  const { source }: Props = $props();
 
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
@@ -33,7 +33,7 @@
       });
     });
   }
-  let rendered = $derived(marked(source));
+  const rendered = $derived(marked(source));
   $effect(() => {
     if (rendered && markdownRender) {
       applySyntaxHighlighting(markdownRender);

@@ -6,7 +6,7 @@
     color: string;
   };
 
-  let { color }: Props = $props();
+  const { color }: Props = $props();
 
   /** Possible positions for the background splotches */
   const possiblePositions: [number, number][] = [
@@ -30,7 +30,7 @@
    *
    * Each color is of the form `[color, posX, posY, spread]`
    */
-  let colors: [string, string, string, string][] = $derived(
+  const colors: [string, string, string, string][] = $derived(
     [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25].map((hueDiff) => {
       const base = colord(color);
       const newColor = withLightness(

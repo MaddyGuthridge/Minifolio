@@ -45,6 +45,8 @@
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     transition: background-color 0.5s;
+    /* https://stackoverflow.com/a/60804106/6335363 */
+    white-space: pre-wrap;
   }
 
   .expandable-textarea:focus {

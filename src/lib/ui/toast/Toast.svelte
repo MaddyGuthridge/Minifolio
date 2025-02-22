@@ -5,14 +5,18 @@
   const toast: ToastItem = $props();
 </script>
 
-<div class="toast-item" transition:fly={{ x: 200 }}>
+<div
+  class="toast-item"
+  style:--color={toast.color}
+  transition:fly={{ x: 200 }}
+>
   <h3>{toast.title}</h3>
   <p>{toast.message}</p>
 </div>
 
 <style>
   .toast-item {
-    background-color: rgb(255, 174, 174);
+    background-color: var(--color);
     border-radius: 10px;
     padding: 20px 30px;
 

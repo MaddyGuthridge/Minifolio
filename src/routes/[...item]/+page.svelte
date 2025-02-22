@@ -17,7 +17,7 @@
   import itemId from '$lib/itemId';
   import { generateKeywords } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
-  import { addToast } from '$lib/ui/toast';
+  import { reportError } from '$lib/ui/toast';
   import { itemFileUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
@@ -37,11 +37,10 @@
   let newItemModalShown = $state(false);
 
   const infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
-    try {
-      await api().item(data.itemId).info.put(info);
-    } catch (e) {
-      addToast('Error updating data', `${e}`, 5000);
-    }
+    await reportError(
+      () => api().item(data.itemId).info.put(info),
+      'Error updating item data',
+    );
   }, consts.EDIT_COMMIT_HESITATION);
 
   let thisItem = $state(data.item);

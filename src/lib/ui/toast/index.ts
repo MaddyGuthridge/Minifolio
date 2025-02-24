@@ -12,6 +12,10 @@ const defaultOptions: ErrorReporterOptions = {
   handleError: true,
 };
 
+export function showError(title: string, e: any) {
+  addToast(title, `${e}`, { kind: 'error' });
+}
+
 export async function reportError<T>(
   fn: () => Promise<T>,
   title: string,
@@ -21,7 +25,7 @@ export async function reportError<T>(
   try {
     return await fn();
   } catch (e) {
-    addToast(title, `${e}`, { kind: 'error' });
+    showError(title, e);
     if (!options.handleError) {
       throw e;
     }

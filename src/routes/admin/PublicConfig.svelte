@@ -51,15 +51,15 @@
 
     <label for="rel-me"><h3>Verification links</h3></label>
     <TextArea
-      bind:value={() => config.relMe.join('\n'),
-      (relMe: string) => (config.relMe = relMe.trim().split('\n'))}
+      bind:value={() => config.verification.relMe.join('\n'),
+      (relMe: string) => (config.verification.relMe = relMe.trim().split('\n'))}
       oninput={() => updater.update(config)}
     />
     <p>Place each URL on a separate line.</p>
     <p>The links will be included as:</p>
     <CodeBlock
       language="html"
-      code={config.relMe
+      code={config.verification.relMe
         .map((me) => `<link rel="me" href="${me}" />`)
         .join('\n')}
     />

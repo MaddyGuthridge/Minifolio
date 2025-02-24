@@ -88,7 +88,7 @@
   />
   <meta name="theme-color" content={data.item.info.color} />
   <Favicon path={data.config.siteIcon ?? undefined} />
-  {#each data.config.relMe as me}
+  {#each data.config.verification.relMe as me}
     <link rel="me" href={me} />
   {/each}
 </svelte:head>

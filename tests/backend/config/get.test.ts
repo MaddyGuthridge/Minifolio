@@ -17,7 +17,10 @@ beforeEach(async () => {
 it('Returns the current config contents', async () => {
   await expect(api.config.get()).resolves.toStrictEqual({
     siteIcon: null,
-    relMe: [],
+    verification: {
+      relMe: [],
+      atProtocol: null,
+    },
     version,
   });
 });

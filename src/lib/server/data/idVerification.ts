@@ -10,6 +10,8 @@ export const IdVerificationStruct = object({
   /**
    * AT-Protocol decentralized ID, used by Bluesky.
    *
+   * Due to the design of their verification system, only one account can be verified per domain.
+   *
    * ID is returned by the `/.well-known/atproto-did` endpoint
    */
   atProtocol: nullable(string()),

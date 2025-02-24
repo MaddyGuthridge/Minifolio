@@ -33,6 +33,9 @@
 		"./src/**/*.svelte",
 		"./tests/**/*.js",
 		"./tests/**/*.ts",
-		"./tests/**/*.svelte"
+		"./tests/**/*.svelte",
+		// Need to explicitly include the `.well-known` directory as it is
+		// hidden on UNIX systems
+		"./src/routes/.well-known/**/*.ts",
 	],
 }

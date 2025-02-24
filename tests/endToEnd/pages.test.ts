@@ -1,7 +1,6 @@
 /** Test cases to ensure pages load correctly */
 
 import { beforeEach, expect, test } from 'vitest';
-import endpoints from './endpoints';
 import type { ApiClient } from '$endpoints';
 import { setup } from '../backend/helpers';
 import itemId from '$lib/itemId';
@@ -13,23 +12,24 @@ beforeEach(async () => {
 });
 
 test('Homepage loads', async () => {
-  await expect(endpoints.root()).resolves.toStrictEqual(expect.any(String));
+  await expect(api.page.root()).resolves.toStrictEqual(expect.any(String));
 });
 
-test('About page loads', async () => {
-  await expect(endpoints.about()).resolves.toStrictEqual(expect.any(String));
+test('About page loads with no token', async () => {
+  await expect(api.withToken(undefined).page.about())
+    .resolves.toStrictEqual(expect.any(String));
 });
 
 test('About page loads with token provided', async () => {
-  await expect(endpoints.about(api.token)).resolves.toStrictEqual(expect.any(String));
+  await expect(api.page.about()).resolves.toStrictEqual(expect.any(String));
 });
 
 test('Item page loads', async () => {
   const id = itemId.fromStr('/my-item')
   await api.item(id).info.post('My item', 'My item');
-  await expect(endpoints.item(id)).resolves.toStrictEqual(expect.any(String));
+  await expect(api.page.item(id)).resolves.toStrictEqual(expect.any(String));
 });
 
 test('Admin page loads with token', async () => {
-  await expect(endpoints.admin(api.token)).resolves.toStrictEqual(expect.any(String));
+  await expect(api.page.admin()).resolves.toStrictEqual(expect.any(String));
 });

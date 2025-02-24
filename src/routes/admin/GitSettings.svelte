@@ -2,6 +2,7 @@
   import { Button, TextInput } from '$components/base';
   import { CopyButton, SpinnerButton } from '$components/base/button';
   import api from '$endpoints';
+  import { showError } from '$lib/ui/toast';
   import { gitCommitHashShorten as gitHashShorten } from '$lib/util';
 
   type Props = {
@@ -27,22 +28,42 @@
 
   async function gitCommit() {
     actionRunning = 'commit';
-    gitStatus = await api().admin.git.commit(commitMessage);
+    gitStatus = await api()
+      .admin.git.commit(commitMessage)
+      .catch((e) => {
+        showError('Unable to commit', e);
+        throw e;
+      });
     actionRunning = null;
   }
   async function gitFetch() {
     actionRunning = 'fetch';
-    gitStatus = await api().admin.git.fetch();
+    gitStatus = await api()
+      .admin.git.fetch()
+      .catch((e) => {
+        showError('Unable to fetch', e);
+        throw e;
+      });
     actionRunning = null;
   }
   async function gitPull() {
     actionRunning = 'pull';
-    gitStatus = await api().admin.git.pull();
+    gitStatus = await api()
+      .admin.git.pull()
+      .catch((e) => {
+        showError('Unable to pull', e);
+        throw e;
+      });
     actionRunning = null;
   }
   async function gitPush() {
     actionRunning = 'push';
-    gitStatus = await api().admin.git.push();
+    gitStatus = await api()
+      .admin.git.push()
+      .catch((e) => {
+        showError('Unable to push', e);
+        throw e;
+      });
     actionRunning = null;
   }
 

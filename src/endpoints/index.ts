@@ -4,6 +4,7 @@ import admin from './admin';
 import config from './config';
 import debug from './debug';
 import item from './item';
+import page from './pages';
 
 /** Create an instance of the API client with the given token */
 export default function api(fetchFn: typeof fetch = fetch, token?: string) {
@@ -16,6 +17,8 @@ export default function api(fetchFn: typeof fetch = fetch, token?: string) {
     config: config(fetchFn, token),
     /** Item data endpoints */
     item: (itemId: ItemId) => item(fetchFn, token, itemId),
+    /** An HTML page */
+    page: page(fetchFn, token),
     /** Create a new API client with the given token */
     withToken: (token: string | undefined) => api(fetchFn, token),
     /** The token currently being used for this API client */

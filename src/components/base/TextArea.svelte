@@ -9,12 +9,16 @@
     value: string;
     onkeypress?: (e: KeyboardEvent) => any;
     oninput?: () => any;
+    id?: string;
+    placeholder?: string;
   };
 
   let {
     fontFamily,
     fontWeight,
     value = $bindable(),
+    id,
+    placeholder,
     onkeypress,
     oninput,
   }: Props = $props();
@@ -26,6 +30,8 @@
   contenteditable
   bind:innerText={value}
   tabindex={0}
+  {id}
+  {placeholder}
   {onkeypress}
   {oninput}
   style:--font={fontFamily}
@@ -52,5 +58,10 @@
   .expandable-textarea:focus {
     background-color: rgba(255, 255, 255, 0.9);
     transition: background-color 0.5s;
+  }
+
+  [placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #888;
   }
 </style>

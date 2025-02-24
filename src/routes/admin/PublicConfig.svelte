@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TextArea } from '$components/base';
+  import { TextArea, TextInput } from '$components/base';
   import { CodeBlock } from '$components/markdown';
   import { FilePicker } from '$components/pickers';
   import api from '$endpoints';
@@ -49,19 +49,52 @@
       {/if}
     </div>
 
-    <label for="rel-me"><h3>Verification links</h3></label>
+    <h3>Website verification</h3>
+    <label for="rel-me">
+      <a href="https://indieweb.org/rel-me" target="_blank">
+        <h4>rel="me" verification</h4>
+      </a>
+    </label>
+    <p>Use this verification for GitHub, Mastodon and Wikipedia.</p>
     <TextArea
-      bind:value={() => config.relMe.join('\n'),
-      (relMe: string) => (config.relMe = relMe.trim().split('\n'))}
+      id="rel-me"
+      bind:value={() => config.verification.relMe.join('\n'),
+      (relMe: string) => {
+        if (relMe.trim() === '') {
+          config.verification.relMe = [];
+        } else {
+          config.verification.relMe = relMe.trim().split('\n');
+        }
+      }}
       oninput={() => updater.update(config)}
+      placeholder="https://social.example.com/@username"
     />
     <p>Place each URL on a separate line.</p>
     <p>The links will be included as:</p>
     <CodeBlock
       language="html"
-      code={config.relMe
+      code={config.verification.relMe
         .map((me) => `<link rel="me" href="${me}" />`)
         .join('\n')}
+    />
+    <label for="at-verification">
+      <a href="https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial">
+        <h4>AT Protocol verification</h4>
+      </a>
+    </label>
+    <p>Use this verification for Bluesky.</p>
+    <TextInput
+      id="at-verification"
+      bind:value={() => config.verification.atProtocol ?? '',
+      (did: string) => {
+        if (did) {
+          config.verification.atProtocol = did;
+        } else {
+          config.verification.atProtocol = null;
+        }
+      }}
+      oninput={() => updater.update(config)}
+      placeholder="did:plc:abcdef..."
     />
   </form>
 </div>

@@ -1,8 +1,9 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { array, nullable, object, string, validate, type Infer } from 'superstruct';
+import { nullable, object, string, validate, type Infer } from 'superstruct';
 import { getDataDir } from './dataDir';
 import { version } from '$app/environment';
 import { unsafeLoadConfig } from './migrations/unsafeLoad';
+import { IdVerificationStruct } from './idVerification';
 
 /** Path to config.json */
 const CONFIG_JSON = () => `${getDataDir()}/config.json`;
@@ -11,8 +12,8 @@ const CONFIG_JSON = () => `${getDataDir()}/config.json`;
 export const ConfigJsonStruct = object({
   /** Filename of icon to use for the site */
   siteIcon: nullable(string()),
-  /** Links to place in `<link rel="me" href="{}">` fields */
-  relMe: array(string()),
+  /** Identity verification */
+  verification: IdVerificationStruct,
   /** Version of server that last accessed the config.json */
   version: string(),
 });
@@ -57,7 +58,10 @@ export async function setConfig(newConfig: ConfigJson) {
 export async function initConfig() {
   await setConfig({
     siteIcon: null,
-    relMe: [],
+    verification: {
+      relMe: [],
+      atProtocol: null
+    },
     version,
   });
 }

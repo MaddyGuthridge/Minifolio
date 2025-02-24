@@ -88,6 +88,22 @@ export function validatePassword(password: string): string {
   return password;
 }
 
+/** Validate a URL */
+export function validateUrl(url: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch (_) {
+    return error(400, 'URL failed to parse');
+  }
+
+  if (!['http:', 'https:'].includes(parsed.protocol)) {
+    error(400, 'URL protocol must be HTTP or HTTPS');
+  }
+
+  return url;
+}
+
 export default {
   id: validateId,
   itemId: validateItemId,
@@ -95,4 +111,5 @@ export default {
   color: validateColor,
   nonEmpty: validateNonEmpty,
   password: validatePassword,
+  url: validateUrl,
 };

@@ -25,7 +25,10 @@ export async function setup(repoUrl?: string, branch?: string) {
 export function makeConfig(options: Partial<ConfigJson> = {}): ConfigJson {
   const config: ConfigJson = {
     siteIcon: null,
-    relMe: [],
+    verification: {
+      relMe: [],
+      atProtocol: null,
+    },
     version,
   };
   return { ...config, ...options };

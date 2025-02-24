@@ -7,6 +7,7 @@
   import DelayedUpdater from '$lib/delayedUpdate';
   import itemId from '$lib/itemId';
   import type { ConfigJson } from '$lib/server/data/config';
+  import { reportError } from '$lib/ui/toast';
   import { itemFileUrl } from '$lib/urls';
 
   type Props = {
@@ -19,10 +20,12 @@
   // Yucky work-around to make values update
   const config = $state(configJson);
 
-  const updater = new DelayedUpdater(
-    async (value: ConfigJson) => api().config.put(value),
-    consts.EDIT_COMMIT_HESITATION,
-  );
+  const updater = new DelayedUpdater(async (value: ConfigJson) => {
+    await reportError(
+      () => api().config.put(value),
+      'Error updating configuration',
+    );
+  }, consts.EDIT_COMMIT_HESITATION);
 </script>
 
 <div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button, TextInput } from '$components/base';
   import api from '$endpoints';
-    import { showError } from '$lib/ui/toast';
+  import { showError } from '$lib/ui/toast';
   import { objectAll } from '$lib/util';
   import validate from '$lib/validate';
 
@@ -15,11 +15,14 @@
   let repeatNewPassword = $state('');
 
   async function submitChangePassword() {
-    await api().admin.auth.change(username, originalPassword, newPassword)
-      .catch(e => showError('Unable to change password', e));
-    originalPassword = '';
-    newPassword = '';
-    repeatNewPassword = '';
+    await api()
+      .admin.auth.change(username, originalPassword, newPassword)
+      .then(() => {
+        originalPassword = '';
+        newPassword = '';
+        repeatNewPassword = '';
+      })
+      .catch((e) => showError('Unable to change password', e));
   }
 
   const valuesOk = $state({

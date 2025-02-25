@@ -46,6 +46,13 @@ export const ItemInfoStruct = type({
    * Chip elements.
    */
   description: string(),
+  /**
+   * The filename of the item's README file.
+   *
+   * This file must exist, and must be in a format supported by the README providers (eg Markdown,
+   * Typst, HTML).
+   */
+  readme: nullable(string()),
   /** The icon image to use for this item, as a path relative to this item's root location. */
   icon: nullable(string()),
   /** The banner image to use for this item, as a path relative to this item's root location. */

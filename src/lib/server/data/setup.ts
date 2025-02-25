@@ -50,6 +50,7 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
       name: consts.APP_NAME,
       shortName: null,
       description: `A portfolio website, created using ${consts.APP_NAME}`,
+      readme: 'README.md',
       icon: null,
       banner: null,
       color: randomColor(),

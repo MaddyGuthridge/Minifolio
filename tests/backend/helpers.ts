@@ -45,6 +45,7 @@ export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
     name: 'My item',
     shortName: null,
     description: 'Item description',
+    readme: 'README.md',
     icon: null,
     banner: null,
     color: '#aa00aa',

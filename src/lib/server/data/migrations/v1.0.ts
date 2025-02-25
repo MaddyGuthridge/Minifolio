@@ -12,6 +12,7 @@ export async function migratePrivateV10(privateDataDir: string) {
 export async function migrateDataV10(dataDir: string) {
   console.log('config.json');
   await updatePublicConfig(dataDir);
+  // TODO: Update all items to specify README file.
 }
 
 /** Update `config.json` */

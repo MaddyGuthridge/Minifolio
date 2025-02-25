@@ -8,6 +8,7 @@ export const blankData: ItemData = {
     name: 'Minifolio',
     shortName: null,
     description: '',
+    readme: null,
     color: '#ff00ff',
     icon: null,
     banner: null,

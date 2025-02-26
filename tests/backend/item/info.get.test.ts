@@ -20,6 +20,7 @@ describe('Success', () => {
       name: expect.any(String),
       shortName: null,
       description: '',
+      readme: 'README.md',
       color: expect.toSatisfy(c => /^#[0-9a-fA-F]{6}$/.test(c)),
       icon: null,
       banner: null,

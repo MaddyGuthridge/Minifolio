@@ -59,7 +59,7 @@ export async function json(response: Promise<Response>): Promise<object> {
   return Object.assign({}, json);
 }
 
-export async function buffer(response: Promise<Response>): Promise<Buffer> {
+export async function buffer(response: Promise<Response>): Promise<Uint8Array> {
   const res = await response;
   if ([404, 405].includes(res.status)) {
     throw new ApiError(404, `Error ${res.status} at ${res.url}`);
@@ -72,7 +72,7 @@ export async function buffer(response: Promise<Response>): Promise<Buffer> {
     // Unknown error
     throw new ApiError(res.status, `Request got status code ${res.status}`);
   }
-  return Buffer.from(buf);
+  return buf;
 }
 
 /**

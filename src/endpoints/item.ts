@@ -1,6 +1,7 @@
 import type { ItemData, ItemInfo } from '$lib/server/data/item';
 import { type ItemId } from '$lib/itemId';
 import { apiFetch, payload } from './fetch';
+import type { PayloadInfo } from './fetch/payload';
 
 export default function item(fetchFn: typeof fetch, token: string | undefined, itemId: ItemId) {
   if (itemId === '/') {
@@ -69,30 +70,30 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
 
   const file = (filename: string) => ({
     /** Get the contents of the given file */
-    get: async () => {
+    get: () => {
       return apiFetch(
         fetchFn,
         'GET',
         `/data${itemId}/${filename}`,
         { token }
-      ).buffer();
+      );
     },
     /** Create a file at the given path */
-    post: async (file: File) => {
+    post: async (payload: PayloadInfo) => {
       return apiFetch(
         fetchFn,
         'POST',
         `/data${itemId}/${filename}`,
-        { token, ...payload.file(file) },
+        { token, ...payload },
       ).json();
     },
     /** Update the contents of a file at the given path */
-    put: async (file: File) => {
+    put: async (payload: PayloadInfo) => {
       return apiFetch(
         fetchFn,
         'PUT',
         `/data${itemId}/${filename}`,
-        { token, ...payload.file(file) },
+        { token, ...payload },
       ).json();
     },
     /** Remove the file at the given path */

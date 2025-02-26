@@ -1,7 +1,9 @@
 import { version } from '$app/environment';
+import itemId, { type ItemId } from '$lib/itemId';
 import { setConfig } from '../config';
+import { iterItems, setItemInfo, type ItemInfo } from '../item';
 import { bumpPrivateDataVersion } from './shared';
-import { unsafeLoadConfig } from './unsafeLoad';
+import { unsafeLoadConfig, unsafeLoadItemInfo } from './unsafeLoad';
 
 export async function migratePrivateV10(privateDataDir: string) {
   // Update `config.local.json`
@@ -12,6 +14,9 @@ export async function migratePrivateV10(privateDataDir: string) {
 export async function migrateDataV10(dataDir: string) {
   console.log('config.json');
   await updatePublicConfig(dataDir);
+  for await (const item of iterItems(itemId.ROOT)) {
+    await updateItemData(dataDir, item);
+  }
 }
 
 /** Update `config.json` */
@@ -25,4 +30,10 @@ async function updatePublicConfig(dataDir: string) {
     },
     siteIcon: oldConfig.siteIcon,
   });
+}
+
+async function updateItemData(dataDir: string, item: ItemId) {
+  const itemInfo = await unsafeLoadItemInfo(dataDir, item) as ItemInfo;
+  itemInfo.readme = 'README.md';
+  await setItemInfo(item, itemInfo);
 }

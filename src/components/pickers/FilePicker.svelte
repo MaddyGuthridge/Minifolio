@@ -13,6 +13,7 @@
     onchange: () => any;
     /** Don't allow a blank selection */
     forceSelection?: boolean;
+    id?: string;
   };
 
   let {
@@ -20,10 +21,11 @@
     selected = $bindable(),
     onchange,
     forceSelection = false,
+    id,
   }: Props = $props();
 </script>
 
-<Select bind:value={selected} {onchange}>
+<Select bind:value={selected} {onchange} {id}>
   {#if !forceSelection}
     <option value={null}>- None -</option>
   {/if}

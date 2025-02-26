@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from '$components/base';
   import api from '$endpoints';
+    import { payload } from '$endpoints/fetch';
   import type { ItemId } from '$lib/itemId';
   import ItemFile from './ItemFile.svelte';
 
@@ -27,7 +28,7 @@
     if (!filesToUpload) return;
     await Promise.all(
       Array.from(filesToUpload).map(async (file) => {
-        await api().item(itemId).file(file.name).post(file);
+        await api().item(itemId).file(file.name).post(payload.file(file));
         files.push(file.name);
       }),
     );

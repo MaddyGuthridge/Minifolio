@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from '$components/base';
   import api from '$endpoints';
+  import { payload } from '$endpoints/fetch';
   import type { ItemId } from '$lib/itemId';
 
   type Props = {
@@ -35,7 +36,7 @@
 
   /** Update the given file */
   async function updateFile(file: File) {
-    await api().item(itemId).file(filename).put(file);
+    await api().item(itemId).file(filename).put(payload.file(file));
     replaceForm?.reset();
   }
 

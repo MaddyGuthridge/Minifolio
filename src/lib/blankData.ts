@@ -8,6 +8,7 @@ export const blankData: ItemData = {
     name: 'Minifolio',
     shortName: null,
     description: '',
+    readme: null,
     color: '#ff00ff',
     icon: null,
     banner: null,
@@ -16,7 +17,7 @@ export const blankData: ItemData = {
     sections: [],
     seo: { description: null, keywords: [] },
   },
-  readme: '',
+  readme: null,
   ls: [],
   children: {},
 };

@@ -18,10 +18,7 @@ import { rimraf } from 'rimraf';
 /**
  * Files that are reserved in an item -- these cannot be deleted without deleting the entire item
  */
-const RESERVED_FILENAMES = [
-  'info.json',
-  'README.md',
-];
+const RESERVED_FILENAMES = ['info.json'];
 /** Files that are reserved for the root item -- these cannot be deleted. */
 const ROOT_ITEM_RESERVED_FILENAMES = ['config.json'];
 
@@ -46,6 +43,13 @@ export const ItemInfoStruct = type({
    * Chip elements.
    */
   description: string(),
+  /**
+   * The filename of the item's README file.
+   *
+   * This file must exist, and must be in a format supported by the README providers (eg Markdown,
+   * Typst, HTML).
+   */
+  readme: nullable(string()),
   /** The icon image to use for this item, as a path relative to this item's root location. */
   icon: nullable(string()),
   /** The banner image to use for this item, as a path relative to this item's root location. */
@@ -93,7 +97,7 @@ export async function itemExists(item: ItemId): Promise<boolean> {
 }
 
 /** Validate that the given item info is valid */
-export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInfo> {
+export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<ItemInfo> {
   // Validate new info.json
   const info = applyStruct(data, ItemInfoStruct);
 
@@ -230,8 +234,13 @@ export async function* iterItems(item: ItemId = itemId.ROOT): AsyncIterableItera
 export type ItemData = {
   /** `info.json` */
   info: ItemInfo,
-  /** `README.md` */
-  readme: string,
+  /**
+   * Contents of the file referenced as the readme in `info.json`.
+   *
+   * This info is provided as part of the page load data so that the readme is available immediately
+   * on page load, which improves SEO and reduces user annoyance.
+   */
+  readme: string | null,
   /** List of children (including unlisted children) */
   children: Record<string, ItemData>,
   /** List of files within the item's data */
@@ -241,7 +250,10 @@ export type ItemData = {
 /** Returns the full text data for the given item */
 export async function getItemData(item: ItemId): Promise<ItemData> {
   const info = await getItemInfo(item);
-  const readme = await fs.readFile(itemPath(item, 'README.md'), { encoding: 'utf-8' });
+  const readme =
+    info.readme !== null
+    ? await fs.readFile(itemPath(item, info.readme), { encoding: 'utf-8' })
+    : null;
 
   const children: Record<string, ItemData> = {};
   for await (const child of itemChildren(item)) {

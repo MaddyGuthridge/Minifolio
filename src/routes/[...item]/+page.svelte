@@ -5,7 +5,6 @@
   import { ItemCardGrid } from '$components/card';
   import ItemChipList from '$components/chip/ItemChipList.svelte';
   import Favicon from '$components/Favicon.svelte';
-  import EditableMarkdown from '$components/markdown';
   import { NewItemModal } from '$components/modals';
   import api from '$endpoints';
   import consts from '$lib/consts';
@@ -21,6 +20,7 @@
   import { itemFileUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
+  import Readme from './readme';
   import Section from './sections';
   import CreateSectionForm from './sections/CreateSectionForm.svelte';
 
@@ -135,12 +135,14 @@
         {#if editing}
           <h2>README.md</h2>
         {/if}
-        <EditableMarkdown
+        <Readme
+          item={data.itemId}
+          filename={thisItem.info.readme}
+          contents={thisItem.readme}
           {editing}
-          bind:source={thisItem.readme}
-          onsubmit={() => (editing = false)}
-          onchange={async (text) => {
-            await api().item(data.itemId).readme.put(text);
+          onsubmit={() => {
+            infoUpdater.commit();
+            editing = false;
           }}
         />
       </div>

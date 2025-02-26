@@ -6,6 +6,7 @@
   import ItemChipList from '$components/chip/ItemChipList.svelte';
   import Favicon from '$components/Favicon.svelte';
   import { NewItemModal } from '$components/modals';
+    import { FilePicker } from '$components/pickers';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
@@ -115,7 +116,10 @@
       <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}
-        onchange={(newInfo) => infoUpdater.update(newInfo)}
+        onchange={(newInfo) => {
+          thisItem.info = newInfo;
+          infoUpdater.update(newInfo);
+        }}
       />
 
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
@@ -133,7 +137,16 @@
     <div id="readme">
       <div id="info-container">
         {#if editing}
-          <h2>README.md</h2>
+          <h2>Readme</h2>
+          <div class="readme-picker-box">
+            <label for="readme-picker">Pick a readme file</label>
+            <FilePicker
+              id="readme-picker"
+              files={thisItem.ls}
+              bind:selected={thisItem.info.readme}
+              onchange={() => infoUpdater.update(thisItem.info)}
+            />
+          </div>
         {/if}
         <Readme
           item={data.itemId}
@@ -254,6 +267,10 @@
   .banner-image {
     width: 100%;
     border-radius: 10px;
+  }
+
+  .readme-picker-box {
+    margin-bottom: 10px;
   }
 
   #readme {

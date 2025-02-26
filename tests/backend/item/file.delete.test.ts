@@ -24,8 +24,15 @@ describe('Success', () => {
     await expect(api.item(itemId.ROOT).file('example.md').delete())
       .resolves.toStrictEqual({});
     // Now requesting the file should give a 404
-    await expect(api.item(itemId.ROOT).file('example.md').get())
+    await expect(api.item(itemId.ROOT).file('example.md').get().text())
       .rejects.toMatchObject({ code: 404 });
+  });
+
+  it('Allows README.md to be deleted if it is no-longer the chosen readme file', async () => {
+    await api.item(itemId.ROOT).info.put(makeItemInfo({ readme: null }));
+    // Now deleting the readme should resolve
+    await expect(api.item(itemId.ROOT).file('README.md').delete())
+      .resolves.toStrictEqual({});
   });
 });
 

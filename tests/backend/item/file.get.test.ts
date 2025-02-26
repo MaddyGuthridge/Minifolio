@@ -26,11 +26,11 @@ describe('Success', () => {
 
 describe('404', () => {
   it('Errors if the item does not exist', async () => {
-    await expect(api.item(itemId.fromStr('/invalid')).file('example.md').get())
+    await expect(api.item(itemId.fromStr('/invalid')).file('example.md').get().text())
       .rejects.toMatchObject({ code: 404 });
   });
   it('Errors if the file does not exist', async () => {
-    await expect(api.item(itemId.ROOT).file('invalid').get())
+    await expect(api.item(itemId.ROOT).file('invalid').get().text())
       .rejects.toMatchObject({ code: 404 });
   });
 });

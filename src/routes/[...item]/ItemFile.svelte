@@ -3,6 +3,7 @@
   import api from '$endpoints';
   import { payload } from '$endpoints/fetch';
   import type { ItemId } from '$lib/itemId';
+  import { reportError } from '$lib/ui/toast';
 
   type Props = {
     /** ItemId to which file belongs */
@@ -20,8 +21,10 @@
 
   /** Delete the file */
   async function deleteFile() {
-    await api().item(itemId).file(filename).delete();
-    files = files.filter((f) => f !== filename);
+    await reportError(async () => {
+      await api().item(itemId).file(filename).delete();
+      files = files.filter((f) => f !== filename);
+    }, 'Unable to delete file file');
   }
 
   // Replace existing file
@@ -36,8 +39,10 @@
 
   /** Update the given file */
   async function updateFile(file: File) {
-    await api().item(itemId).file(filename).put(payload.file(file));
-    replaceForm?.reset();
+    await reportError(async () => {
+      await api().item(itemId).file(filename).put(payload.file(file));
+      replaceForm?.reset();
+    }, 'Error updating file');
   }
 
   // React to changes in selected files, uploading files when they are selected

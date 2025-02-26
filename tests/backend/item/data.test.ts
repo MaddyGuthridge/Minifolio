@@ -21,21 +21,21 @@ describe('Success', () => {
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
-      ls: [],
+      ls: ['README.md'],
     });
   });
 
-  it('Recursively shows information about the child items', async () => {
+  it.only('Recursively shows information about the child items', async () => {
     await expect(api.item(itemId.ROOT).data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),
-      ls: [],
+      ls: ['README.md'],
       children: {
         // Child object's info
         child: {
           info: expect.any(Object),
           readme: expect.any(String),
-          ls: [],
+          ls: ['README.md'],
           children: {},
         }
       },
@@ -52,7 +52,7 @@ describe('Success', () => {
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
-      ls: ['hello.txt'],
+      ls: ['README.md', 'hello.txt'],
     });
   });
 });

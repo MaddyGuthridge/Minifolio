@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
 import itemId from '$lib/itemId';
+import { payload } from '$endpoints/fetch';
 
 let api: ApiClient;
 beforeEach(async () => {
@@ -42,7 +43,11 @@ describe('Success', () => {
   });
 
   it('Shows additional files in the directory', async () => {
-    await api.item(itemId.fromStr('/child')).file('hello.txt').post(await fromFileSystem('README.md'));
+    await api
+      .item(itemId.fromStr('/child'))
+      .file('hello.txt')
+      .post(payload.file(await fromFileSystem('README.md')));
+
     await expect(api.item(itemId.fromStr('/child')).data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),

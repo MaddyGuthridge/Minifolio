@@ -8,17 +8,18 @@ import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
 import { readFile } from 'node:fs/promises';
 import itemId from '$lib/itemId';
+import { payload } from '$endpoints/fetch';
 
 let api: ApiClient;
 beforeEach(async () => {
   api = (await setup()).api;
-  await api.item(itemId.ROOT).file('example.md').post(await fromFileSystem('README.md'));
+  await api.item(itemId.ROOT).file('example.md').post(payload.file(await fromFileSystem('README.md')));
 });
 
 
 describe('Success', () => {
   it('Returns the file', async () => {
-    const content = await api.item(itemId.ROOT).file('example.md').get().then(buf => buf.toString());
+    const content = await api.item(itemId.ROOT).file('example.md').get().text();
     expect(content).toStrictEqual(await readFile('README.md', { encoding: 'utf-8' }));
   });
 });

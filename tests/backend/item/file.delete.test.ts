@@ -8,11 +8,15 @@ import fromFileSystem from '../fileRequest';
 import genTokenTests from '../tokenCase';
 import itemId from '$lib/itemId';
 import { setItemInfo } from '$lib/server/data/item';
+import { payload } from '$endpoints/fetch';
 
 let api: ApiClient;
 beforeEach(async () => {
   api = (await setup()).api;
-  await api.item(itemId.ROOT).file('example.md').post(await fromFileSystem('README.md'));
+  await api
+    .item(itemId.ROOT)
+    .file('example.md')
+    .post(payload.file(await fromFileSystem('README.md')));
 });
 
 describe('Success', () => {
@@ -36,7 +40,7 @@ describe('400', () => {
     { field: 'banner' },
   ])('Rejects requests to delete $field image files', async ({ field }) => {
     await api.item(itemId.ROOT).file('image.png')
-      .post(await fromFileSystem('static/minifolio.png'));
+      .post(payload.file(await fromFileSystem('static/minifolio.png')));
     // Update info to make `image.png` be the chosen file for the given field
     const info = makeItemInfo({
       [field]: 'image.png',
@@ -51,7 +55,10 @@ describe('400', () => {
 describe('401', () => {
   genTokenTests(
     () => api,
-    async api => api.item(itemId.ROOT).file('example.md').post(await fromFileSystem('README.md')),
+    async api => api
+      .item(itemId.ROOT)
+      .file('example.md')
+      .post(payload.file(await fromFileSystem('README.md'))),
   );
 });
 

@@ -2,7 +2,9 @@
 
 Migration test case for `v0.6.6`.
 
-## Data
+## Migration test data
+
+### Public
 
 Overall structure:
 
@@ -17,7 +19,7 @@ Of note:
 * `listed` has a URL of `https://example.com`
 * `listed` and `unlisted` link to each other
 
-## Private data
+### Private
 
 * Username: `maddy`
 * Password: `Maddy123#`

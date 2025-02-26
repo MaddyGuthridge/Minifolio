@@ -100,7 +100,7 @@ export async function itemExists(item: ItemId): Promise<boolean> {
 }
 
 /** Validate that the given item info is valid */
-export async function validateItemInfo(item: ItemId, data: any): Promise<ItemInfo> {
+export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<ItemInfo> {
   // Validate new info.json
   const info = applyStruct(data, ItemInfoStruct);
 

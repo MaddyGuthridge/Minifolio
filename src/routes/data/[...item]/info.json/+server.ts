@@ -52,6 +52,7 @@ export async function POST(req: Request) {
   const itemInfo = await validateItemInfo(item, {
     name,
     description,
+    readme: 'README.md',
     shortName: null,
     icon: null,
     banner: null,

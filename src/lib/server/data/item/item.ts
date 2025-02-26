@@ -237,8 +237,13 @@ export async function* iterItems(item: ItemId = itemId.ROOT): AsyncIterableItera
 export type ItemData = {
   /** `info.json` */
   info: ItemInfo,
-  /** `README.md` */
-  readme: string,
+  /**
+   * Contents of the file referenced as the readme in `info.json`.
+   *
+   * This info is provided as part of the page load data so that the readme is available immediately
+   * on page load, which improves SEO and reduces user annoyance.
+   */
+  readme: string | null,
   /** List of children (including unlisted children) */
   children: Record<string, ItemData>,
   /** List of files within the item's data */
@@ -248,7 +253,10 @@ export type ItemData = {
 /** Returns the full text data for the given item */
 export async function getItemData(item: ItemId): Promise<ItemData> {
   const info = await getItemInfo(item);
-  const readme = await fs.readFile(itemPath(item, 'README.md'), { encoding: 'utf-8' });
+  const readme =
+    info.readme !== null
+    ? await fs.readFile(itemPath(item, info.readme), { encoding: 'utf-8' })
+    : null;
 
   const children: Record<string, ItemData> = {};
   for await (const child of itemChildren(item)) {

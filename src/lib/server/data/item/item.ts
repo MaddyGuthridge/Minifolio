@@ -18,10 +18,7 @@ import { rimraf } from 'rimraf';
 /**
  * Files that are reserved in an item -- these cannot be deleted without deleting the entire item
  */
-const RESERVED_FILENAMES = [
-  'info.json',
-  'README.md',
-];
+const RESERVED_FILENAMES = ['info.json'];
 /** Files that are reserved for the root item -- these cannot be deleted. */
 const ROOT_ITEM_RESERVED_FILENAMES = ['config.json'];
 

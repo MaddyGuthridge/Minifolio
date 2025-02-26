@@ -25,7 +25,7 @@ describe('Success', () => {
     });
   });
 
-  it.only('Recursively shows information about the child items', async () => {
+  it('Recursively shows information about the child items', async () => {
     await expect(api.item(itemId.ROOT).data()).resolves.toStrictEqual({
       info: expect.any(Object),
       readme: expect.any(String),

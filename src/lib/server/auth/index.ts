@@ -10,5 +10,4 @@ export {
   generateToken,
   validateTokenFromRequest,
   isRequestAuthorized,
-  redirectOnInvalidToken,
 } from './tokens';

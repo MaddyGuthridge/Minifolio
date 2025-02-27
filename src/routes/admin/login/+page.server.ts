@@ -1,10 +1,16 @@
 import itemId from '$lib/itemId';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { getConfig } from '$lib/server/data/config';
+import { authIsSetUp } from '$lib/server/data/dataDir';
 import { getItemData } from '$lib/server/data/item';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(req: import('./$types').RequestEvent) {
+  // Don't use redirectForSetup, as this route should be available as soon as
+  // the first account is created
+  if (!await authIsSetUp()) {
+    redirect(303, '/admin/firstrun/account');
+  }
   // Users that are already logged in should be redirected to the main admin
   // page
   let loggedIn = false;

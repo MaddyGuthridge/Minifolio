@@ -1,5 +1,6 @@
 <script lang="ts">
   import { TextInput } from '$components/base';
+  import DataImage from '$components/base/DataImage.svelte';
   import { ColorPicker, FilePicker } from '$components/pickers';
   import consts from '$lib/consts';
   import type { ItemId } from '$lib/itemId';
@@ -72,13 +73,12 @@
   />
   <!-- Banner image -->
   {#if item.info.banner}
-    <p>
-      <img
-        src={itemFileUrl(itemId, item.info.banner)}
+    <div class="banner-image">
+      <DataImage
+        url={itemFileUrl(itemId, item.info.banner)}
         alt={`Banner of ${item.info.name}`}
-        class="banner-image"
       />
-    </p>
+    </div>
   {/if}
 
   <h2>Icon image</h2>
@@ -89,13 +89,12 @@
   />
   <!-- Banner image -->
   {#if item.info.icon}
-    <p>
-      <img
-        src={itemFileUrl(itemId, item.info.icon)}
+    <div class="icon-image">
+      <DataImage
+        url={itemFileUrl(itemId, item.info.icon)}
         alt={`Icon of ${item.info.name}`}
-        class="icon-image"
       />
-    </p>
+    </div>
   {/if}
 </form>
 
@@ -106,11 +105,14 @@
 
   .banner-image {
     width: 100%;
-    max-height: 30vh;
     border-radius: 10px;
+    overflow: hidden;
+    margin: 10px;
   }
   .icon-image {
     max-width: 30%;
     border-radius: 10px;
+    overflow: hidden;
+    margin: 10px;
   }
 </style>

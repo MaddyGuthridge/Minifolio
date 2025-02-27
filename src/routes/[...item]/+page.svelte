@@ -2,11 +2,12 @@
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
   import { Button } from '$components/base';
+  import DataImage from '$components/base/DataImage.svelte';
   import { ItemCardGrid } from '$components/card';
   import ItemChipList from '$components/chip/ItemChipList.svelte';
   import Favicon from '$components/Favicon.svelte';
   import { NewItemModal } from '$components/modals';
-    import { FilePicker } from '$components/pickers';
+  import { FilePicker } from '$components/pickers';
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
@@ -126,11 +127,12 @@
     {:else}
       <!-- Banner image -->
       {#if thisItem.info.banner}
-        <img
-          src={itemFileUrl(data.itemId, thisItem.info.banner)}
-          alt={`Banner of ${thisItem.info.name}`}
-          class="banner-image"
-        />
+        <div class="banner-image">
+          <DataImage
+            url={itemFileUrl(data.itemId, thisItem.info.banner)}
+            alt={`Banner of ${thisItem.info.name}`}
+          />
+        </div>
       {/if}
     {/if}
 
@@ -267,6 +269,7 @@
   .banner-image {
     width: 100%;
     border-radius: 10px;
+    overflow: hidden;
   }
 
   .readme-picker-box {

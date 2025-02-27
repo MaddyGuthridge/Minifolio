@@ -3,7 +3,7 @@ import { validate, number, string, type, type Infer } from 'superstruct';
 import jwt, { type Algorithm as JwtAlgorithm } from 'jsonwebtoken';
 import { unixTime } from '$lib/util';
 import { getLocalConfig, setLocalConfig } from '../data/localConfig';
-import { error, redirect, type Cookies } from '@sveltejs/kit';
+import { error, type Cookies } from '@sveltejs/kit';
 import { getAuthSecret } from './secret';
 
 /** Maximum lifetime of a session -- 14 days */
@@ -157,11 +157,4 @@ export async function isRequestAuthorized(req: { request: Request, cookies: Cook
   return validateTokenFromRequest(req)
     .then(() => true)
     .catch(() => false);
-}
-
-/**
- * If the given request's token is invalid, throw a redirect to the given URL.
- */
-export async function redirectOnInvalidToken(req: { request: Request, cookies: Cookies }, url: string) {
-  await validateTokenFromRequest(req).catch(() => redirect(303, url));
 }

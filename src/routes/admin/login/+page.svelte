@@ -9,6 +9,8 @@
   import { Button, TextInput } from '$components/base';
   import Favicon from '$components/Favicon.svelte';
   import { reportError } from '$lib/ui/toast';
+    import { dev } from '$app/environment';
+    import devConsts from '$lib/devConsts';
 
   type Props = {
     data: import('./$types').PageData;
@@ -18,8 +20,8 @@
 
   let previousPage: string;
 
-  let username = $state('');
-  let password = $state('');
+  let username = $state(dev ? devConsts.defaultUsername : '');
+  let password = $state(dev ? devConsts.defaultPassword : '');
 
   onMount(() => {
     previousPage =
@@ -39,11 +41,11 @@
 </script>
 
 <svelte:head>
-  <title>login - {data.portfolio.info.name}</title>
+  <title>Login - {data.portfolio.info.name}</title>
   <meta name="generator" content={consts.APP_NAME} />
   <meta name="theme-color" content={data.portfolio.info.color} />
   <Favicon path={data.config.siteIcon ?? undefined} />
-  <!-- Prevent web crawlers from indexing the admin page -->
+  <!-- Prevent web crawlers from indexing the login page -->
   <meta name="robots" content="noindex" />
 </svelte:head>
 
@@ -64,6 +66,9 @@
       <div class="center">
         <h1 style="font-size: 3rem">Login</h1>
       </div>
+      {#if dev}
+        <p>Values are auto-filled in dev mode.</p>
+      {/if}
 
       <form>
         <h3>Username</h3>

@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { authIsSetUp, dataIsSetUp } from '$lib/server/data/dataDir';
-import { redirectOnInvalidToken } from '$lib/server/auth/tokens';
+import { redirectOnInvalidToken } from '$lib/server/redirects';
 import { getPrivateKeyPath, getPublicKey } from '$lib/server/keys';
 
 export async function load(req: import('./$types').RequestEvent) {

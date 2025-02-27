@@ -14,11 +14,12 @@
   import { objectAll } from '$lib/util';
   import itemId from '$lib/itemId';
   import Favicon from '$components/Favicon.svelte';
+    import devConsts from '$lib/devConsts';
 
   // Default values are auto-filled in dev mode
-  let username = $state(dev ? 'admin' : '');
-  let password = $state(dev ? 'abc123ABC!' : '');
-  let repeatPassword = $state(dev ? 'abc123ABC!' : '');
+  let username = $state(dev ? devConsts.defaultUsername : '');
+  let password = $state(dev ? devConsts.defaultPassword : '');
+  let repeatPassword = $state(dev ? devConsts.defaultPassword : '');
 
   async function createAccount() {
     showLoading = true;

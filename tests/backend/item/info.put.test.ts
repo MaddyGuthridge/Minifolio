@@ -8,6 +8,8 @@ import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
 import { invalidColors, invalidNames, validColors, validNames } from '../consts';
 import itemId from '$lib/itemId';
+import { payload } from '$endpoints/fetch';
+import fromFileSystem from '../fileRequest';
 
 let api: ApiClient;
 const childItemId = itemId.fromStr('/item');
@@ -41,8 +43,19 @@ describe('Success', () => {
       .resolves.toStrictEqual({});
   });
 
-  it.todo('Accepts valid icon images');
-  it.todo('Accepts valid banner images');
+  it.each([
+    { field: 'icon' },
+    { field: 'banner' },
+  ])('Accepts valid images for $field field', async ({ field }) => {
+    // Upload an image
+    await api
+      .item(childItemId)
+      .file('image.png')
+      .post(payload.file(await fromFileSystem('static/minifolio.png')));
+
+    await expect(api.item(childItemId).info.put(makeItemInfo({ [field]: 'image.png' })))
+      .resolves.toStrictEqual({});
+  });
 
   it('Accepts valid children', async () => {
     await expect(api.item(itemId.ROOT).info.put(makeItemInfo({

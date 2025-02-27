@@ -1,6 +1,7 @@
 import { dev } from '$app/environment';
 import api from '$endpoints';
 import consts from '$lib/consts';
+import { notifyContentUpdate } from '$lib/contentObserver';
 
 function helloWorld() {
   console.log(`%c${consts.APP_NAME}\n`, 'font-size: 3rem');
@@ -10,11 +11,12 @@ function helloWorld() {
 
 export const init = () => {
   helloWorld();
-  // In dev mode, attach the `endpoints` to the console
+  // In dev mode, attach some useful tools to the console
   if (dev) {
-    // @ts-expect-error: Global variables are usually an anti-pattern, but this is very useful for
-    // debugging, and so it is done in dev mode.
+    // @ts-expect-error -- attach API controller
     globalThis.api = api();
+    // @ts-expect-error -- attach content observer update function
+    globalThis.notifyContentUpdate = notifyContentUpdate;
   }
 }
 

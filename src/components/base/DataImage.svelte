@@ -11,7 +11,8 @@
 
   let unsubscribe: (() => void) | undefined = undefined;
 
-  const makeImageUrl = (url: string) => `${url}?t=${new Date().getTime()}`;
+  // https://stackoverflow.com/a/9943419/6335363
+  const makeImageUrl = (url: string) => `${url}#${new Date().getTime()}`;
 
   let imageUrl = $state(makeImageUrl(url));
 

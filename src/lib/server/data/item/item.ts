@@ -167,13 +167,17 @@ export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
 }
 
 /** Remove links to the target within the given item */
-function removeLinkToItem(target: ItemId, item: ItemInfo): ItemInfo {
+function removeLinkToItem(target: ItemId, item: ItemInfo, andChildren = false): ItemInfo {
+  const filterFn = andChildren
+    ? (other: ItemId) => !itemId.isChild(other, target)
+    : (other: ItemId) => other !== target;
+
   for (const section of item.sections) {
     if (section.type === 'links') {
-      section.items = section.items.filter(link => link !== target);
+      section.items = section.items.filter(filterFn);
     }
   }
-  item.filters = item.filters.filter(filter => target !== filter);
+  item.filters = item.filters.filter(filterFn);
   return item;
 }
 
@@ -188,7 +192,7 @@ export async function deleteItem(itemToDelete: ItemId): Promise<void> {
   // Clean up references in other items
   for await (const otherItemId of iterItems()) {
     const otherItem = await getItemInfo(otherItemId);
-    await setItemInfo(otherItemId, removeLinkToItem(itemToDelete, otherItem));
+    await setItemInfo(otherItemId, removeLinkToItem(itemToDelete, otherItem, true));
   }
 }
 

@@ -20,14 +20,14 @@ export function validateItemId(itemId: string): ItemId {
   if (!itemId.startsWith('/')) {
     error(400, "ItemId must have a leading '/'");
   }
-  for (const component of itemComponents(itemId as ItemId)) {
+  for (const component of itemIdComponents(itemId as ItemId)) {
     validate.id('ItemId component', component);
   }
   return itemId as ItemId;
 }
 
 /** Split an ItemId into its components */
-export function itemComponents(itemId: ItemId): string[] {
+export function itemIdComponents(itemId: ItemId): string[] {
   if (itemId === '/') {
     // Special case for root, since `''.split('/')` produces `['']`
     return [];
@@ -47,41 +47,53 @@ export function itemIdFromStr(id: string): ItemId {
 
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
-  return itemIdFromComponents(itemComponents(itemId).slice(0, -1));
+  return itemIdFromComponents(itemIdComponents(itemId).slice(0, -1));
 }
 
 /** Return an ItemId of a child of the given ItemId */
 export function itemChild(itemId: ItemId, child: string): ItemId {
-  return itemIdFromComponents([...itemComponents(itemId), child]);
+  return itemIdFromComponents([...itemIdComponents(itemId), child]);
 }
 
 /** Returns the "suffix" of the item ID (the final element) */
 export function itemIdSuffix(itemId: ItemId): string {
-  return itemComponents(itemId).at(-1)!;
+  return itemIdComponents(itemId).at(-1)!;
 }
 
-/** Returns the "head" of the item ID (the firstelement) */
+/** Returns the "head" of the item ID (the first element) */
 export function itemIdHead(itemId: ItemId): string {
-  return itemComponents(itemId).at(0)!;
+  return itemIdComponents(itemId).at(0)!;
 }
 
+/** Returns the "tail" of the item ID (all elements after the first) */
 export function itemIdTail(itemId: ItemId): ItemId {
-  return itemIdFromComponents(itemComponents(itemId).slice(1));
+  return itemIdFromComponents(itemIdComponents(itemId).slice(1));
 }
 
+/** Create an array slice from the components of the given item ID */
 export function itemIdSlice(itemId: ItemId, start?: number, end?: number): ItemId {
-  return itemIdFromComponents(itemComponents(itemId).slice(start, end));
+  return itemIdFromComponents(itemIdComponents(itemId).slice(start, end));
 }
 
-export function itemidAt(itemId: ItemId, index: number): string {
-  return itemComponents(itemId).at(index)!;
+/** Return the nth component of the given item ID */
+export function itemIdAt(itemId: ItemId, index: number): string {
+  return itemIdComponents(itemId).at(index)!;
+}
+
+/**
+ * Returns whether the item `first` is a descendant of the item `second`. Also returns `true` if
+ * they are equal
+ */
+export function itemIsDescendant(first: ItemId, second: ItemId): boolean {
+  // Slice `first` to same length as `second`, then check if they are equal
+  return itemIdSlice(first, 0, itemIdComponents(second).length) === second;
 }
 
 export default {
   Struct: ItemIdStruct,
   ROOT,
   validate: validateItemId,
-  components: itemComponents,
+  components: itemIdComponents,
   fromComponents: itemIdFromComponents,
   fromStr: itemIdFromStr,
   parent: itemParent,
@@ -90,5 +102,6 @@ export default {
   head: itemIdHead,
   tail: itemIdTail,
   slice: itemIdSlice,
-  at: itemidAt,
+  at: itemIdAt,
+  isChild: itemIsDescendant,
 }

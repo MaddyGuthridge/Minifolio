@@ -42,3 +42,8 @@ export function notifyContentUpdate(path: string) {
     subscriber.callback();
   });
 }
+
+/** Returns the state of the contentObserver system, for debugging */
+export function getObserverState() {
+  return observerData;
+}

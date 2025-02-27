@@ -1,7 +1,7 @@
 import { dev } from '$app/environment';
 import api from '$endpoints';
 import consts from '$lib/consts';
-import { notifyContentUpdate } from '$lib/contentObserver';
+import { getObserverState, notifyContentUpdate } from '$lib/contentObserver';
 
 function helloWorld() {
   console.log(`%c${consts.APP_NAME}\n`, 'font-size: 3rem');
@@ -16,7 +16,9 @@ export const init = () => {
     // @ts-expect-error -- attach API controller
     globalThis.api = api();
     // @ts-expect-error -- attach content observer update function
-    globalThis.notifyContentUpdate = notifyContentUpdate;
+    globalThis.observerNotify = notifyContentUpdate;
+    // @ts-expect-error -- attach content observer get state function
+    globalThis.observerState = getObserverState;
   }
 }
 

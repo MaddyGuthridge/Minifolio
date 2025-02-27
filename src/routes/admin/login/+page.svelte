@@ -8,6 +8,7 @@
   import { onMount } from 'svelte';
   import { Button, TextInput } from '$components/base';
   import Favicon from '$components/Favicon.svelte';
+    import { reportError } from '$lib/ui/toast';
 
   type Props = {
     data: import('./$types').PageData;
@@ -30,8 +31,7 @@
   });
 
   async function doLogin() {
-    await api().admin.auth.login(username, password);
-    // TODO: Cleanly handle and display errors
+    await reportError(() => api().admin.auth.login(username, password), 'Unable to log in');
     await goto(previousPage);
   }
 </script>

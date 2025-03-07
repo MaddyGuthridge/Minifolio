@@ -2,7 +2,7 @@
   import { Button } from '$components/base';
   import api from '$endpoints';
   import { payload } from '$endpoints/fetch';
-  import { notifyContentUpdate } from '$lib/contentObserver';
+  import { notifyContentUpdate } from '$lib/observer';
   import type { ItemId } from '$lib/itemId';
   import { reportError } from '$lib/ui/toast';
   import { itemFileUrl } from '$lib/urls';

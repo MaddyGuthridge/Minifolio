@@ -1,7 +1,7 @@
 import { dev } from '$app/environment';
 import api from '$endpoints';
 import consts from '$lib/consts';
-import { getObserverState, notifyContentUpdate } from '$lib/contentObserver';
+import { getObserverState, notifyContentUpdate } from '$lib/observer';
 
 function helloWorld() {
   console.log(`%c${consts.APP_NAME}\n`, 'font-size: 3rem');

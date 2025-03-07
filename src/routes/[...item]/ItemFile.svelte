@@ -2,8 +2,10 @@
   import { Button } from '$components/base';
   import api from '$endpoints';
   import { payload } from '$endpoints/fetch';
+  import { notifyContentUpdate } from '$lib/observer';
   import type { ItemId } from '$lib/itemId';
   import { reportError } from '$lib/ui/toast';
+  import { itemFileUrl } from '$lib/urls';
 
   type Props = {
     /** ItemId to which file belongs */
@@ -42,6 +44,8 @@
     await reportError(async () => {
       await api().item(itemId).file(filename).put(payload.file(file));
       replaceForm?.reset();
+      // Notify observers to reload
+      notifyContentUpdate(itemFileUrl(itemId, filename));
     }, 'Error updating file');
   }
 

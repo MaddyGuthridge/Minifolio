@@ -29,12 +29,10 @@
     if (!filesToUpload) return;
     await Promise.all(
       Array.from(filesToUpload).map(async (file) => {
-        await reportError(
-          () => api().item(itemId).file(file.name).post(payload.file(file)),
-          'Error uploading file',
-          { handleError: false },
-        );
-        files.push(file.name);
+        await reportError(async () => {
+          await api().item(itemId).file(file.name).post(payload.file(file));
+          files.push(file.name);
+        }, 'Error uploading file');
       }),
     );
     // Clear form

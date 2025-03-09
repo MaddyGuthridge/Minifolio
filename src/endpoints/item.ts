@@ -45,6 +45,15 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
         { token },
       ).json();
     },
+    /** Move the given item */
+    move: async (target: ItemId) => {
+      return apiFetch(
+        fetchFn,
+        'POST',
+        `/data${itemId}/info.json/move`,
+        { token, ...payload.json({ target }) },
+      ).json();
+    }
   };
 
   const readme = {

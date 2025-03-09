@@ -80,6 +80,11 @@ export function itemIdAt(itemId: ItemId, index: number): string {
   return itemIdComponents(itemId).at(index)!;
 }
 
+/** Replace the search value with newValue within the given itemId */
+export function itemIdReplace(itemId: ItemId, search: ItemId, newValue: ItemId): ItemId {
+  return itemId.replace(search, newValue) as ItemId;
+}
+
 /**
  * Returns whether the item `first` is a descendant of the item `second`. Also returns `true` if
  * they are equal
@@ -103,5 +108,6 @@ export default {
   tail: itemIdTail,
   slice: itemIdSlice,
   at: itemIdAt,
-  isChild: itemIsDescendant,
+  replace: itemIdReplace,
+  isDescendant: itemIsDescendant,
 }

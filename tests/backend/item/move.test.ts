@@ -27,11 +27,61 @@ describe('Success', () => {
     await expect(api.item(id1).info.get()).rejects.toMatchObject({ code: 404 });
   });
 
-  it.todo('Also moves children');
+  it('Also moves children', async () => {
+    await api.item(itemId.child(id1, 'child')).info.post('Child item');
+    await api.item(id1).info.move(target);
 
-  it.todo('Updates links to the moved items');
+    // Child exists in new location
+    await expect(api.item(itemId.child(target, 'child')).info.get()).toResolve();
+  });
 
-  it.todo('Updates links to children of the moved items');
+  it('Updates links to the moved items', async () => {
+    // Link root to item1
+    await api.item(itemId.ROOT).info.put(makeItemInfo({
+      sections: [{
+        type: 'links',
+        label: 'See also',
+        style: 'chip',
+        items: [id1],
+      }],
+    }));
+
+    await api.item(id1).info.move(target);
+
+    await expect(api.item(itemId.ROOT).info.get()).resolves.toMatchObject({
+      sections: [{
+        type: 'links',
+        label: 'See also',
+        style: 'chip',
+        items: [target],
+      }],
+    });
+  });
+
+  it('Updates links to children of the moved items', async () => {
+    const child = itemId.child(id1, 'child');
+    const childTarget = itemId.child(target, 'child');
+    await api.item(child).info.post('Child item');
+    // Link to child item
+    await api.item(itemId.ROOT).info.put(makeItemInfo({
+      sections: [{
+        type: 'links',
+        label: 'See also',
+        style: 'chip',
+        items: [child],
+      }],
+    }));
+    await api.item(id1).info.move(target);
+    // Link now points to child's new location
+    await expect(api.item(itemId.ROOT).info.get()).resolves.toMatchObject({
+      sections: [{
+        type: 'links',
+        label: 'See also',
+        style: 'chip',
+        items: [childTarget],
+      }],
+    });
+  });
 
   test('Listed items are listed in their new locations', async () => {
     await expect(api.item(id1).info.move(target)).resolves.toStrictEqual({});

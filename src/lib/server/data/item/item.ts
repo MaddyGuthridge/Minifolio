@@ -12,7 +12,7 @@ import serverValidate from '$lib/server/serverValidate';
 import itemId, { type ItemId } from '../../../itemId';
 import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
-import { applyStruct } from '../../util';
+import { applyStruct, move } from '../../util';
 import { rimraf } from 'rimraf';
 
 /**
@@ -166,10 +166,25 @@ export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
   );
 }
 
+/** Rename links to the target within the given item */
+function renameLinkToItem(oldTarget: ItemId, newTarget: ItemId, item: ItemInfo, andChildren = false): ItemInfo {
+  const mapFn = andChildren
+    ? (other: ItemId) => (itemId.isDescendant(other, oldTarget) ? itemId.replace(other, oldTarget, newTarget) : other)
+    : (other: ItemId) => other === oldTarget ? newTarget : other;
+
+  for (const section of item.sections) {
+    if (section.type === 'links') {
+      section.items = section.items.map(mapFn);
+    }
+  }
+  item.filters = item.filters.map(mapFn);
+  return item;
+}
+
 /** Remove links to the target within the given item */
 function removeLinkToItem(target: ItemId, item: ItemInfo, andChildren = false): ItemInfo {
   const filterFn = andChildren
-    ? (other: ItemId) => !itemId.isChild(other, target)
+    ? (other: ItemId) => !itemId.isDescendant(other, target)
     : (other: ItemId) => other !== target;
 
   for (const section of item.sections) {
@@ -193,6 +208,45 @@ export async function deleteItem(itemToDelete: ItemId): Promise<void> {
   for await (const otherItemId of iterItems()) {
     const otherItem = await getItemInfo(otherItemId);
     await setItemInfo(otherItemId, removeLinkToItem(itemToDelete, otherItem, true));
+  }
+}
+
+/** Rename the given item, updating all references to it */
+export async function moveItem(item: ItemId, target: ItemId) {
+  if (itemId.isDescendant(target, item)) {
+    error(400, `Cannot move '${item}' to a child of itself`);
+  }
+
+  const newParentId = itemId.parent(target);
+  if (!await itemExists(newParentId)) {
+    error(400, `Cannot move '${item}' - parent of target '${target}' does not exist`);
+  }
+
+  if (await itemExists(target)) {
+    error(400, `Cannot move '${item}' - content already exists at target '${target}'`);
+  }
+
+  // Move from old item to new item
+  await move(itemPath(item), itemPath(target));
+
+  // Remove from listed children of parent
+  const oldParent = await getItemInfo(itemId.parent(item));
+  const oldSuffix = itemId.suffix(item);
+  const listed = oldParent.children.includes(oldSuffix);
+  if (listed) {
+    // Remove from listed children of old parent
+    oldParent.children = oldParent.children.filter(child => child !== oldSuffix);
+    await setItemInfo(itemId.parent(item), oldParent);
+    // Add to listed children of new parent
+    const newParent = await getItemInfo(newParentId);
+    newParent.children.push(itemId.suffix(target));
+    await setItemInfo(newParentId, newParent);
+  }
+
+  // Update other references
+  for await (const otherItemId of iterItems()) {
+    const otherItem = await getItemInfo(otherItemId);
+    await setItemInfo(otherItemId, renameLinkToItem(item, target, otherItem, true));
   }
 }
 

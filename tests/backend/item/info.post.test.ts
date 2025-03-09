@@ -34,7 +34,8 @@ describe('Success', () => {
 
   it('Generates item with a valid `README.md`', async () => {
     await api.item(id).info.post('My item');
-    await expect(api.item(id).readme.get()).resolves.toStrictEqual(expect.any(String));
+    await expect(api.item(id).file('README.md').get().text())
+      .resolves.toStrictEqual(expect.any(String));
   });
 
   it('Adds new items as children by default', async () => {

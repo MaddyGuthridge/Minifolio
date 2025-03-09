@@ -45,27 +45,15 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
         { token },
       ).json();
     },
-  };
-
-  const readme = {
-    /** Get the `README.md` of the given item */
-    get: async () => {
+    /** Move the given item */
+    move: async (target: ItemId) => {
       return apiFetch(
         fetchFn,
-        'GET',
-        `/data${itemId}/README.md`,
-        { token },
-      ).text();
-    },
-    /** Update the `README.md` of the given item */
-    put: async (readme: string) => {
-      return apiFetch(
-        fetchFn,
-        'PUT',
-        `/data${itemId}/README.md`,
-        { token, ...payload.markdown(readme) },
+        'POST',
+        `/data${itemId}/info.json/move`,
+        { token, ...payload.json({ target }) },
       ).json();
-    },
+    }
   };
 
   const file = (filename: string) => ({
@@ -110,8 +98,6 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
   return {
     /** `info.json` of the item */
     info,
-    /** `README.md` of the item */
-    readme,
     /** A file belonging to the item */
     file,
     /** The full recursive item data */

@@ -74,4 +74,10 @@
     box-shadow: 0 0 1000px var(--spread) var(--c);
     transition: all 0.5s;
   }
+
+  @media (prefers-reduced-motion) {
+    .dot {
+      transition: all 0s;
+    }
+  }
 </style>

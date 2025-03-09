@@ -1,7 +1,7 @@
 import itemId, { ItemIdStruct } from '$lib/itemId';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { itemExists } from '$lib/server/data/item';
-import { applyStruct } from '$lib/server/util';
+import { getItemInfo, itemExists, itemPath, setItemInfo } from '$lib/server/data/item';
+import { applyStruct, move } from '$lib/server/util';
 import { json, error } from '@sveltejs/kit';
 import { object } from 'superstruct';
 
@@ -19,8 +19,12 @@ export async function POST(req: Request) {
 
   const { target } = applyStruct(await req.request.json(), object({ target: ItemIdStruct }));
 
+  if (itemId.isChild(target, item)) {
+    error(400, `Cannot move '${item}' to a child of itself`);
+  }
 
-  if (!await itemExists(itemId.parent(target))) {
+  const newParentId = itemId.parent(target);
+  if (!await itemExists(newParentId)) {
     error(400, `Cannot move '${item}' - parent of target '${target}' does not exist`);
   }
 
@@ -28,7 +32,22 @@ export async function POST(req: Request) {
     error(400, `Cannot move '${item}' - content already exists at target '${target}'`);
   }
 
-  // TODO
+  // Move from old item to new item
+  await move(itemPath(item), itemPath(target));
+
+  // Remove from listed children of parent
+  const oldParent = await getItemInfo(itemId.parent(item));
+  const oldSuffix = itemId.suffix(item);
+  const listed = oldParent.children.includes(oldSuffix);
+  if (listed) {
+    // Remove from listed children of old parent
+    oldParent.children = oldParent.children.filter(child => child !== oldSuffix);
+    await setItemInfo(itemId.parent(item), oldParent);
+    // Add to listed children of new parent
+    const newParent = await getItemInfo(newParentId);
+    newParent.children.push(itemId.suffix(target));
+    await setItemInfo(newParentId, newParent);
+  }
 
   return json({});
 }

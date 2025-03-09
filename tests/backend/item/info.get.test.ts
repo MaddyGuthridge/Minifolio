@@ -40,10 +40,11 @@ describe('400', () => {
     await api.debug.clear();
     await expect(api.item(itemId.ROOT).info.get()).rejects.toMatchObject({ code: 400 });
   });
-})
+});
 
 describe('404', () => {
   it("Rejects when an item doesn't exist", async () => {
-    await expect(api.item(itemId.fromStr('/invalid')).info.get()).rejects.toMatchObject({ code: 404 });
+    await expect(api.item(itemId.fromStr('/invalid')).info.get())
+      .rejects.toMatchObject({ code: 404 });
   });
 });

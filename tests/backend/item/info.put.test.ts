@@ -6,10 +6,12 @@ import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
-import { invalidColors, invalidNames, validColors, validNames } from '../consts';
+import { invalidColors, invalidNames, invalidUrls, validColors, validNames, validUrls } from '../consts';
 import itemId from '$lib/itemId';
 import { payload } from '$endpoints/fetch';
 import fromFileSystem from '../fileRequest';
+import type { RepoInfo } from '$lib/server/data/item/repo';
+import type { PackageInfo } from '$lib/server/data/item/package';
 
 let api: ApiClient;
 const childItemId = itemId.fromStr('/item');
@@ -72,46 +74,60 @@ describe('Success', () => {
   });
 
   describe('Sections', () => {
-    it('Accepts valid website info', async () => {
+    it.each(validUrls)('Accepts valid website info', async ({ url }) => {
       const info = makeItemInfo({
         sections: [
           {
             type: 'site',
             icon: null,
             label: 'Visit the website',
-            url: 'https://example.com',
+            url,
           }
         ]
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
-    it('Accepts valid repo info', async () => {
+    it.each<RepoInfo>([
+      { provider: 'github', path: 'MaddyGuthridge/Minifolio' },
+      {
+        provider: 'custom',
+        icon: 'lab la-github',
+        title: 'Manual link to GitHub',
+        subtitle: '',
+        url: 'https://github.com/MaddyGuthridge/Minifolio'
+      },
+    ])('Accepts valid repo info', async (repoInfo) => {
       const info = makeItemInfo({
         sections: [
           {
             type: 'repo',
             label: 'Check out the code',
-            info: {
-              provider: 'github',
-              path: 'MaddyGuthridge/Minifolio',
-            }
+            info: repoInfo,
           }
         ]
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
-    it('Accepts valid package info', async () => {
+    it.each<PackageInfo>([
+      { provider: 'npm', id: 'jsc-compiler' },
+      { provider: 'pypi', id: 'pyhtml-enhanced' },
+      { provider: 'docker', id: 'maddyguthridge/minifolio' },
+      {
+        provider: 'custom',
+        providerName: 'Custom provider',
+        command: 'dnf install cowsay',
+        icon: 'lab la-fedora',
+        url: 'https://packages.fedoraproject.org/pkgs/cowsay/cowsay/',
+      },
+    ])('Accepts valid package info', async (packageInfo) => {
       const info = makeItemInfo({
         sections: [
           {
             type: 'package',
             label: 'Install the app',
-            info: {
-              provider: 'npm',
-              id: 'everything',
-            }
+            info: packageInfo,
           }
         ]
       });
@@ -203,7 +219,60 @@ describe('400', () => {
             url: 'https://example.com',
           }
         ]
-      })
+      });
+      await expect(api.item(childItemId).info.put(info))
+        .rejects.toMatchObject({ code: 400 });
+    });
+
+    it.each(invalidUrls)('Rejects site sections with invalid URLs ($case)', async ({ url }) => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'site',
+            icon: null,
+            label: 'Label',
+            url,
+          }
+        ]
+      });
+      await expect(api.item(childItemId).info.put(info))
+        .rejects.toMatchObject({ code: 400 });
+    });
+
+    it('Rejects repo sections with unknown repo providers', async () => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'repo',
+            label: 'View the code',
+            info: {
+              // Intentionally work around TypeScript error
+              //                 vvvvvvv
+              provider: 'invalid' as any,
+              path: 'MaddyGuthridge/Minifolio',
+            }
+          }
+        ]
+      });
+      await expect(api.item(childItemId).info.put(info))
+        .rejects.toMatchObject({ code: 400 });
+    });
+
+    it('Rejects package sections with unknown package providers', async () => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'package',
+            label: 'Install the code',
+            info: {
+              // Intentionally work around TypeScript error
+              //                 vvvvvvv
+              provider: 'invalid' as any,
+              id: 'MaddyGuthridge/Minifolio',
+            }
+          }
+        ]
+      });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });

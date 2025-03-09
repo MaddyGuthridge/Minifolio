@@ -48,3 +48,17 @@ export const validColors = [
   { color: '#abcdef', case: 'Lowercase' },
   // { color: '#123', case: '3 chars' },
 ]
+
+export const invalidUrls = [
+  { url: 'example.com', case: 'Missing protocol' },
+  { url: 'https//example.com', case: 'Invalid protocol syntax' },
+  { url: 'ssh://example.com', case: 'Non-HTTP protocol' },
+];
+
+export const validUrls = [
+  { url: 'http://example.com', case: 'HTTP protocol' },
+  { url: 'https://example.com', case: 'HTTPS protocol' },
+  { url: 'https://example.com/example', case: 'Non-root page' },
+  { url: 'https://example.com/example?foo=bar', case: 'Query string' },
+  { url: 'https://example.com/example#anchor', case: 'Fragment string' },
+]

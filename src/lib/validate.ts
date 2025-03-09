@@ -101,6 +101,8 @@ export function validateUrl(url: string): string {
     error(400, 'URL protocol must be HTTP or HTTPS');
   }
 
+  console.log('Protocol:', parsed.protocol);
+
   return url;
 }
 

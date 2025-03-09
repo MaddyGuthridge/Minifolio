@@ -122,6 +122,7 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
       if (data.label !== null) {
         validate.name(data.label);
       }
+      validate.url(data.url);
       break;
   }
 }

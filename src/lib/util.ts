@@ -66,3 +66,17 @@ export function constArrayIncludes<T extends E, E>(arr: readonly T[], ele: E): e
 export function objectAll(obj: Record<string, boolean>): obj is Record<string, true> {
   return Object.values(obj).find(v => v !== true) === undefined;
 }
+
+function removeAllChars(input: string, chars: string): string {
+  return [...chars].reduce((str, char) => str.replaceAll(char, ''), input);
+}
+
+/** Convert a name to a value that is (hopefully) safe to use as an ID */
+export function nameToId(name: string): string {
+  return removeAllChars(
+    name
+      .toLowerCase()
+      .replaceAll(' ', '-'),
+    "!@#$%^&*()=+[]{};:'\",<>/?\\|`~",
+  );
+}

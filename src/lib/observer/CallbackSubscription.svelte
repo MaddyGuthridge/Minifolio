@@ -13,13 +13,18 @@
     /** Function to call when reloading data */
     reloadFn: () => Promise<T>;
     /**
+     * Original value -- used before the reload function has been resolved. If this value is updated,
+     * it will cause an update for `value`.
+     */
+    originalValue: T,
+    /**
      * Bindable prop to store data results in -- it will update whenever the content at the URL
      * changes.
      */
     value: T;
   };
 
-  let { url, reloadFn, value = $bindable() }: Props = $props();
+  let { url, reloadFn, originalValue, value = $bindable() }: Props = $props();
 
   // Prevent load on mount, since the data is already correct then
   let firstLoad = true;
@@ -41,6 +46,10 @@
   }
 
   $effect(() => subscribeToContent(url, triggerReload(reloadFn)));
+
+  $effect(() => {
+    value = originalValue;
+  });
 </script>
 <!--
   @component

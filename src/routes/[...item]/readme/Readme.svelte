@@ -25,6 +25,7 @@
   <CallbackSubscription
     url={itemFileUrl(item, filename)}
     reloadFn={() => api().item(item).file(filename).get().text()}
+    originalValue={contents}
     bind:value={displayContents}
   />
 

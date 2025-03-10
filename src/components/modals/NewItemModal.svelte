@@ -6,7 +6,7 @@
   import consts from '$lib/consts';
   import { Button, TextInput } from '$components/base';
   import validate from '$lib/validate';
-  import { objectAll } from '$lib/util';
+  import { nameToId, objectAll } from '$lib/util';
 
   type Props = {
     show: boolean;
@@ -29,23 +29,19 @@
     onclose();
   }
 
-  function nameToId(name: string): string {
-    // TODO: Make this a little more reliable
-    return name.toLowerCase().replaceAll(' ', '-');
-  }
-
   async function makeItem() {
     await api()
       .item(itemId.child(parent, newItemId))
       .info.post(itemName, itemDescription);
     // Close modal
+    const target = itemId.child(parent, newItemId)
     resetAndClose();
-    await goto(itemId.child(parent, newItemId));
+    await goto(target);
   }
 
   const valuesOk = $state({
     name: false,
-    id: false,
+    id: true,
   });
 
   const canSubmit = $derived(objectAll(valuesOk));

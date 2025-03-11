@@ -1,7 +1,7 @@
 <script lang="ts">
   import { marked } from 'marked';
   import hljs from 'highlight.js';
-  import 'highlight.js/styles/stackoverflow-light.css';
+  // import 'highlight.js/styles/stackoverflow-light.css';
 
   type Props = {
     source: string;
@@ -55,24 +55,27 @@
     text-align: justify;
   }
 
+  .markdown-render :global(p > code) {
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+
   .markdown-render :global(p > code),
   .markdown-render :global(pre) {
     background-color: rgb(245, 245, 245);
-    padding: 2px 5px;
-    border-radius: 3px;
     border-color: rgb(231, 231, 231);
     border-style: solid;
     border-width: 1px;
     /* Kinda bold but not obnoxiously so */
     font-weight: 600;
   }
-  /* Override the background colour from code highlighting */
-  .markdown-render :global(code) {
-    background-color: rgb(245, 245, 245);
+  .markdown-render :global(pre) {
+    padding: 1em;
+    border-radius: 5px;
   }
 
-  .markdown-render :global(pre > code) {
-    padding: 1em;
+  .markdown-render :global(pre code.hljs) {
+    padding: 0 !important;
   }
 
   /*

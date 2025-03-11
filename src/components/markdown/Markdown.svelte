@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { marked } from 'marked';
+  import { marked, type Tokens } from 'marked';
   import hljs from 'highlight.js';
   import 'highlight.js/styles/stackoverflow-light.css';
+  // Custom heading IDs using `{#id}` after heading text
+  import customHeadingId from 'marked-custom-heading-id';
+  // GitHub-flavoured Markdown, automatic heading IDs
+  import { gfmHeadingId } from 'marked-gfm-heading-id';
 
   type Props = {
     source: string;
@@ -11,12 +15,12 @@
 
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
-    link(href: string, title: string | null | undefined, text: string) {
-      const link = marked.Renderer.prototype.link.call(this, href, title, text);
+    link(options: Tokens.Link) {
+      const link = marked.Renderer.prototype.link.call(this, options);
       return link.replace('<a', "<a target='_blank' rel='noreferrer' ");
     },
   };
-  marked.use({ renderer });
+  marked.use(gfmHeadingId(), customHeadingId(), { renderer });
 
   let markdownRender: HTMLDivElement | undefined = $state();
 
@@ -55,24 +59,27 @@
     text-align: justify;
   }
 
+  .markdown-render :global(p > code) {
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+
   .markdown-render :global(p > code),
   .markdown-render :global(pre) {
     background-color: rgb(245, 245, 245);
-    padding: 2px 5px;
-    border-radius: 3px;
     border-color: rgb(231, 231, 231);
     border-style: solid;
     border-width: 1px;
     /* Kinda bold but not obnoxiously so */
     font-weight: 600;
   }
-  /* Override the background colour from code highlighting */
-  .markdown-render :global(code) {
-    background-color: rgb(245, 245, 245);
+  .markdown-render :global(pre) {
+    padding: 1em;
+    border-radius: 5px;
   }
 
-  .markdown-render :global(pre > code) {
-    padding: 1em;
+  .markdown-render :global(pre code.hljs) {
+    padding: 0 !important;
   }
 
   /*

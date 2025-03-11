@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { marked } from 'marked';
+  import { marked, type Tokens } from 'marked';
   import hljs from 'highlight.js';
-  // import 'highlight.js/styles/stackoverflow-light.css';
+  import 'highlight.js/styles/stackoverflow-light.css';
+  // Custom heading IDs using `{#id}` after heading text
+  import customHeadingId from 'marked-custom-heading-id';
+  // GitHub-flavoured Markdown, automatic heading IDs
+  import { gfmHeadingId } from 'marked-gfm-heading-id';
 
   type Props = {
     source: string;
@@ -11,12 +15,12 @@
 
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
-    link(href: string, title: string | null | undefined, text: string) {
-      const link = marked.Renderer.prototype.link.call(this, href, title, text);
+    link(options: Tokens.Link) {
+      const link = marked.Renderer.prototype.link.call(this, options);
       return link.replace('<a', "<a target='_blank' rel='noreferrer' ");
     },
   };
-  marked.use({ renderer });
+  marked.use(gfmHeadingId(), customHeadingId(), { renderer });
 
   let markdownRender: HTMLDivElement | undefined = $state();
 

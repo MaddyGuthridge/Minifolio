@@ -59,12 +59,12 @@
     text-align: justify;
   }
 
-  .markdown-render :global(p > code) {
+  .markdown-render :global(p code) {
     padding: 2px 5px;
     border-radius: 3px;
   }
 
-  .markdown-render :global(p > code),
+  .markdown-render :global(p code),
   .markdown-render :global(pre) {
     background-color: rgb(245, 245, 245);
     border-color: rgb(231, 231, 231);

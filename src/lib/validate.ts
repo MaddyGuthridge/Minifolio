@@ -21,7 +21,7 @@ export function validateId(type: string, id: string): string {
     error(400, `${type} cannot be empty`);
   }
   if (!idValidatorRegex.test(id)) {
-    error(400, `${type} '${id}' is contains illegal characters`);
+    error(400, `${type} '${id}' contains illegal characters`);
   }
   if (id.startsWith('.')) {
     error(400, `${type} '${id}' has a leading dot`);

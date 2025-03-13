@@ -67,6 +67,14 @@ export function objectAll(obj: Record<string, boolean>): obj is Record<string, t
   return Object.values(obj).find(v => v !== true) === undefined;
 }
 
+/**
+ * Removes all characters from the given `input` string, if those characters are contained within
+ * the `chars` string.
+ * 
+ * @param input input string to remove from
+ * @param chars string of characters to remove
+ * @returns input string with desired characters removed
+ */
 function removeAllChars(input: string, chars: string): string {
   return [...chars].reduce((str, char) => str.replaceAll(char, ''), input);
 }

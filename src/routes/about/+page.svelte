@@ -2,7 +2,7 @@
   import Background from '$components/Background.svelte';
   import Markdown from '$components/markdown/Markdown.svelte';
   import consts from '$lib/consts';
-  import { dev } from '$app/environment';
+  import { dev, version } from '$app/environment';
   import Navbar from '$components/navbar/Navbar.svelte';
   import Favicon from '$components/Favicon.svelte';
 
@@ -12,6 +12,10 @@
 
   const { data }: Props = $props();
 
+  const versionInfo = dev
+    ? `v${version} - dev`
+    : `[v${version}](${consts.APP_GITHUB}/releases/tag/v${version})`;
+
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
 
   const contributors = consts.APP_CONTRIBUTORS.length
@@ -19,7 +23,7 @@
     : "I'd love to have your contributions!";
 
   const mainInfo = `
-# About ${consts.APP_NAME}
+# About ${consts.APP_NAME} (${versionInfo})
 
 This portfolio website is driven by [${consts.APP_NAME}](${consts.APP_DOCS}), a
 [free and open-source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
@@ -44,7 +48,6 @@ Here's how you can help out:
 
 For security reasons, these details are only shown if you are logged in.
 
-* ${consts.APP_NAME}: v${data.versions.site} ${dev ? '(dev)' : ''}
 * Node: ${data.versions.node}
 * OS: ${data.versions.os}
 `;

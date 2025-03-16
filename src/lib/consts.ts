@@ -6,6 +6,8 @@
 export const APP_NAME = 'Minifolio';
 /** Link to app's GitHub repo */
 export const APP_GITHUB = 'https://github.com/MaddyGuthridge/Minifolio';
+/** Link to app documentation */
+export const APP_DOCS = 'https://minifolio.maddyguthridge.com';
 
 export const APP_ICON_URL = '/minifolio.png';
 
@@ -24,6 +26,7 @@ export const EDIT_COMMIT_HESITATION = 1_000;
 export default {
   APP_NAME,
   APP_GITHUB,
+  APP_DOCS,
   APP_ICON_URL,
   APP_AUTHOR,
   APP_CONTRIBUTORS,

@@ -24,10 +24,14 @@
   }: Props = $props();
 </script>
 
+<!--
+  Use contenteditable="plaintext-only" to force pasting as plaintext
+  https://stackoverflow.com/a/76881059/6335363
+-->
 <div
   class="expandable-textarea"
   role="textbox"
-  contenteditable
+  contenteditable="plaintext-only"
   bind:innerText={value}
   tabindex={0}
   {id}

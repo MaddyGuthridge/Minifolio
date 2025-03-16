@@ -144,7 +144,7 @@
     grid-template-columns: 1fr auto auto;
     grid-template-areas: 'navigator empty control-buttons';
     backdrop-filter: blur(0px) brightness(100%);
-    transition: backdrop-filter 0.5s;
+    transition: all 0.5s;
   }
 
   :global html[data-scroll='page'] nav {

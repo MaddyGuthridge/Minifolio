@@ -65,7 +65,7 @@
 <svelte:head>
   <title>Setup - {consts.APP_NAME}</title>
   <meta name="generator" content={consts.APP_NAME} />
-  <meta name="theme-color" content="#aa00aa" />
+  <meta name="theme-color" content={blankData.info.color} />
   <Favicon />
   <!--
     Prevent web crawlers from indexing the firstrun page. Of course, if someone
@@ -76,7 +76,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color="#aa00aa"></Background>
+<Background color={blankData.info.color}></Background>
 
 <Navbar
   data={blankData}
@@ -93,6 +93,10 @@
           Welcome to your fancy new portfolio website!
         </h1>
         <h2>Let's get set up!</h2>
+        <p>
+          If you're stuck, check the
+          <a href={`${consts.APP_DOCS}/getting-started`} target="_blank">setup guide</a>.
+        </p>
         {#if dev}
           <p>Values are auto-filled in dev mode.</p>
         {/if}

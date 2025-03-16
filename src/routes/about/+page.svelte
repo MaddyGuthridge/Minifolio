@@ -2,7 +2,7 @@
   import Background from '$components/Background.svelte';
   import Markdown from '$components/markdown/Markdown.svelte';
   import consts from '$lib/consts';
-  import { dev } from '$app/environment';
+  import { dev, version } from '$app/environment';
   import Navbar from '$components/navbar/Navbar.svelte';
   import Favicon from '$components/Favicon.svelte';
 
@@ -12,17 +12,32 @@
 
   const { data }: Props = $props();
 
-  const mainInfo = `
-# About ${consts.APP_NAME}
+  const versionInfo = dev
+    ? `v${version} - dev`
+    : `[v${version}](${consts.APP_GITHUB}/releases/tag/v${version})`;
 
-This portfolio website is driven by ${consts.APP_NAME}, a
+  const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
+
+  const contributors = consts.APP_CONTRIBUTORS.length
+    ? `Thanks to the contributors:\n\n${consts.APP_CONTRIBUTORS.map((c) => `* [${c[0]}](${c[1]})`).join('\n')}`
+    : "I'd love to have your contributions!";
+
+  const mainInfo = `
+# About ${consts.APP_NAME} (${versionInfo})
+
+This portfolio website is driven by [${consts.APP_NAME}](${consts.APP_DOCS}), a
 [free and open-source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
 portfolio-oriented content management system made with <3 by
-[Maddy Guthridge](https://maddyguthridge.com).
+${authorLink}.
 
+${contributors}
+
+Here's how you can help out:
+
+* [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_DOCS}/deploy).
 * [View the source code on GitHub](${consts.APP_GITHUB}).
-* [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_GITHUB}/blob/main/docs/Deploy.md).
-* [View the GPLv3 software license for ${consts.APP_NAME}](${consts.APP_GITHUB}/blob/main/LICENSE.md).
+* [Contribute code or documentation to ${consts.APP_NAME}](${consts.APP_DOCS}/contributing).
+* [View the GPLv3 software license](${consts.APP_GITHUB}/blob/main/LICENSE.md).
 `;
 
   let technicalDetails = '';
@@ -33,7 +48,6 @@ portfolio-oriented content management system made with <3 by
 
 For security reasons, these details are only shown if you are logged in.
 
-* ${consts.APP_NAME}: v${data.versions.site} ${dev ? '(dev)' : ''}
 * Node: ${data.versions.node}
 * OS: ${data.versions.os}
 `;

@@ -1,5 +1,4 @@
 import { isRequestAuthorized } from '$lib/server/auth/tokens';
-import { version } from '$app/environment';
 // import { VERSION as SVELTE_VERSION } from 'svelte/compiler';
 // import { VERSION as SVELTEKIT_VERSION } from '@sveltejs/kit';
 // import { version as VITE_VERSION } from 'vite';
@@ -23,7 +22,6 @@ export async function load(req: import('./$types').RequestEvent) {
   let versions = null;
   if (!isInit || loggedIn) {
     versions = {
-      site: version,
       node: process.version,
       os: `${os.platform()} ${os.release()}`
     };

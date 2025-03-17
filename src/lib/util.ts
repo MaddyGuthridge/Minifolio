@@ -70,7 +70,7 @@ export function objectAll(obj: Record<string, boolean>): obj is Record<string, t
 /**
  * Removes all characters from the given `input` string, if those characters are contained within
  * the `chars` string.
- * 
+ *
  * @param input input string to remove from
  * @param chars string of characters to remove
  * @returns input string with desired characters removed
@@ -87,4 +87,9 @@ export function nameToId(name: string): string {
       .replaceAll(' ', '-'),
     "!@#$%^&*()=+[]{};:'\",<>/?\\|`~",
   );
+}
+
+/** Choose a random item from the given array */
+export function randomChoice<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
 }

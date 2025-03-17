@@ -15,10 +15,11 @@
     -15, -10, -5, 0, 5, 10, 90, 95, 100, 105, 110, 115,
   ];
   // y positions can be anywhere, since x is generally off the page
+  // Values from -25% to 175%
   const possiblePositionsY = [...Array(40).keys()].map((i) => i * 5 - 25);
 
-  // Possible values for spread of splotch blur, in px
-  const possibleSpreads: number[] = [50, 100, 150, 200, 250, 300];
+  // Possible values for spread of splotch blur, as a percentage of the viewport width
+  const possibleSpreads: number[] = [5, 10, 15, 20];
 
   // Possible offsets of hue values, in degrees
   const hueOffsets = [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25];
@@ -46,7 +47,7 @@
       const y = randomChoice(possiblePositionsY);
       const spread = randomChoice(possibleSpreads);
 
-      return { c, x: `${x}%`, y: `${y}%`, spread: `${spread}px` };
+      return { c, x: `${x}%`, y: `${y}%`, spread: `${spread}vw` };
     }),
   );
 </script>

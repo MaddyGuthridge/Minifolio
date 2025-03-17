@@ -27,7 +27,7 @@
   const numSplotches = 15;
 
   type Splotch = {
-    c: string;
+    color: string;
     x: string;
     y: string;
     spread: string;
@@ -42,18 +42,18 @@
     [...Array(numSplotches).keys()].map(() => {
       const base = colord(color);
       const hueDiff = randomChoice(hueOffsets);
-      const c = withLightness(base.hue(base.hue() + hueDiff), 85).toHex();
+      const newColor = withLightness(base.hue(base.hue() + hueDiff), 85).toHex();
       const x = randomChoice(possiblePositionsX);
       const y = randomChoice(possiblePositionsY);
       const spread = randomChoice(possibleSpreads);
 
-      return { c, x: `${x}%`, y: `${y}%`, spread: `${spread}vw` };
+      return { color: newColor, x: `${x}%`, y: `${y}%`, spread: `${spread}vw` };
     }),
   );
 </script>
 
 <div id="background">
-  {#each colors as { c, x, y, spread }}
+  {#each colors as { color: c, x, y, spread }}
     <div
       class="dot"
       style:--c={c}

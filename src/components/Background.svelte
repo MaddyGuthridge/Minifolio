@@ -42,7 +42,10 @@
     [...Array(numSplotches).keys()].map(() => {
       const base = colord(color);
       const hueDiff = randomChoice(hueOffsets);
-      const newColor = withLightness(base.hue(base.hue() + hueDiff), 85).toHex();
+      const newColor = withLightness(
+        base.hue(base.hue() + hueDiff),
+        85,
+      ).toHex();
       const x = randomChoice(possiblePositionsX);
       const y = randomChoice(possiblePositionsY);
       const spread = randomChoice(possibleSpreads);
@@ -53,10 +56,10 @@
 </script>
 
 <div id="background">
-  {#each colors as { color: c, x, y, spread }}
+  {#each colors as { color, x, y, spread }}
     <div
       class="dot"
-      style:--c={c}
+      style:--color={color}
       style:--x={x}
       style:--y={y}
       style:--spread={spread}
@@ -79,13 +82,19 @@
     position: absolute;
     left: var(--x);
     top: var(--y);
-    box-shadow: 0 0 1000px var(--spread) var(--c);
+    box-shadow: 0 0 1000px var(--spread) var(--color);
     transition: all 0.5s;
   }
 
   @media (prefers-reduced-motion) {
     .dot {
       transition: all 0s;
+    }
+  }
+
+  @media (prefers-contrast: more), (prefers-reduced-transparency) {
+    .dot {
+      box-shadow: none;
     }
   }
 </style>

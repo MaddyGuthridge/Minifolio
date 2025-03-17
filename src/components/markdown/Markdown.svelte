@@ -59,12 +59,20 @@
     text-align: justify;
   }
 
-  .markdown-render :global(p code) {
+  /*
+    It's pretty annoying needing to select all of these manually so many times. I wonder if there's
+    a better way...
+  */
+  .markdown-render :global(p code),
+  .markdown-render :global(ol code),
+  .markdown-render :global(ul code) {
     padding: 2px 5px;
     border-radius: 3px;
   }
 
   .markdown-render :global(p code),
+  .markdown-render :global(ol code),
+  .markdown-render :global(ul code),
   .markdown-render :global(pre) {
     background-color: rgb(245, 245, 245);
     border-color: rgb(231, 231, 231);

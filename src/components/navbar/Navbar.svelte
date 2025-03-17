@@ -135,7 +135,7 @@
 
 <style>
   nav {
-    position: sticky;
+    width: 100%;
     margin: 0px;
     margin-bottom: 20px;
     top: 0;
@@ -145,13 +145,22 @@
     grid-template-areas: 'navigator empty control-buttons';
     backdrop-filter: blur(0px) brightness(100%);
     transition: all 0.5s;
+    /* Temporary fix before I make a proper mobile interface */
+    overflow-x: hidden;
   }
 
-  :global html[data-scroll='page'] nav {
-    box-shadow:
-      -5px 0px 10px rgba(0, 0, 0, 0.5),
-      5px 0px 10px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px) brightness(110%);
+  /* If the device is wide enough, make the navbar sticky */
+  @media (min-width: 50rem) {
+    nav {
+      position: sticky;
+    }
+
+    :global html[data-scroll='page'] nav {
+      box-shadow:
+        -5px 0px 10px rgba(0, 0, 0, 0.5),
+        5px 0px 10px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px) brightness(110%);
+    }
   }
 
   a {

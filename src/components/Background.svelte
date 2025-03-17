@@ -1,5 +1,6 @@
 <script lang="ts">
   import { withLightness } from '$lib/color';
+  import { randomChoice } from '$lib/util';
   import { colord } from 'colord';
 
   type Props = {
@@ -8,50 +9,57 @@
 
   const { color }: Props = $props();
 
-  /** Possible positions for the background splotches */
-  const possiblePositions: [number, number][] = [
-    [0, 10],
-    [-5, 45],
-    [60, 15],
-    [95, 85],
-    [30, 110],
-    [20, 15],
-    [80, 30],
-    [90, 10],
-    [10, 80],
-    [5, 95],
-    [45, 80],
+  // Possible positions for the background splotches, in % units.
+  // x positions should stay off the page
+  const possiblePositionsX = [
+    -15, -10, -5, 0, 5, 10, 90, 95, 100, 105, 110, 115,
   ];
+  // y positions can be anywhere, since x is generally off the page
+  // Values from -25% to 175%
+  const possiblePositionsY = [...Array(40).keys()].map((i) => i * 5 - 25);
 
-  const possibleSpreads: number[] = [100, 150, 300, 500];
+  // Possible values for spread of splotch blur, as a percentage of the viewport width
+  const possibleSpreads: number[] = [5, 10, 15, 20];
+
+  // Possible offsets of hue values, in degrees
+  const hueOffsets = [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25];
+
+  const numSplotches = 15;
+
+  type Splotch = {
+    color: string;
+    x: string;
+    y: string;
+    spread: string;
+  };
 
   /**
    * Color hue offsets, picked based on the given color.
    *
    * Each color is of the form `[color, posX, posY, spread]`
    */
-  const colors: [string, string, string, string][] = $derived(
-    [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25].map((hueDiff) => {
+  const colors: Splotch[] = $derived(
+    [...Array(numSplotches).keys()].map(() => {
       const base = colord(color);
+      const hueDiff = randomChoice(hueOffsets);
       const newColor = withLightness(
         base.hue(base.hue() + hueDiff),
         85,
       ).toHex();
-      const [posX, posY] =
-        possiblePositions[Math.floor(Math.random() * possiblePositions.length)];
-      const spread =
-        possibleSpreads[Math.floor(Math.random() * possibleSpreads.length)];
+      const x = randomChoice(possiblePositionsX);
+      const y = randomChoice(possiblePositionsY);
+      const spread = randomChoice(possibleSpreads);
 
-      return [newColor, `${posX}%`, `${posY}%`, `${spread}px`];
+      return { color: newColor, x: `${x}%`, y: `${y}%`, spread: `${spread}vw` };
     }),
   );
 </script>
 
 <div id="background">
-  {#each colors as [c, x, y, spread]}
+  {#each colors as { color, x, y, spread }}
     <div
       class="dot"
-      style:--c={c}
+      style:--color={color}
       style:--x={x}
       style:--y={y}
       style:--spread={spread}
@@ -62,6 +70,9 @@
 <style>
   #background {
     z-index: -1;
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
   }
 
   .dot {
@@ -71,13 +82,19 @@
     position: absolute;
     left: var(--x);
     top: var(--y);
-    box-shadow: 0 0 1000px var(--spread) var(--c);
+    box-shadow: 0 0 1000px var(--spread) var(--color);
     transition: all 0.5s;
   }
 
   @media (prefers-reduced-motion) {
     .dot {
       transition: all 0s;
+    }
+  }
+
+  @media (prefers-contrast: more), (prefers-reduced-transparency) {
+    .dot {
+      box-shadow: none;
     }
   }
 </style>

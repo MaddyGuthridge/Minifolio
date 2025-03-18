@@ -19,6 +19,7 @@ beforeEach(async () => {
 it('Generates a basic sitemap for an empty site', async () => {
   await expect(api.sitemap()).resolves.toStrictEqual({
     urlset: {
+      '@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
       url: {
         loc: `${BASE_URL}/`
       }
@@ -30,6 +31,7 @@ it('Includes children in sitemap', async () => {
   await api.item(itemId.fromStr('/child')).info.post('Child item');
   await expect(api.sitemap()).resolves.toStrictEqual({
     urlset: {
+      '@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
       url: [
         {
           loc: `${BASE_URL}/`,

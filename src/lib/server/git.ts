@@ -40,21 +40,21 @@ export const gitClient = async (baseDir: string | undefined) => {
   }
   let git = simpleGit(baseDir, { config: gitConfig });
   if (await getPrivateKeyPath()) {
-    git = git.env(
-      'GIT_SSH_COMMAND',
-      [
-        'ssh',
-        // Specify private key with -i (https://stackoverflow.com/a/29754018/6335363)
-        '-i',
-        await getPrivateKeyPath(),
-        // Only use specified identity file
-        '-o',
-        'IdentitiesOnly=yes',
-        // Specify known_hosts file with -o (https://stackoverflow.com/a/62725161/6335363)
-        '-o',
-        `UserKnownHostsFile=${knownHostsFile()}`,
-      ].join(' '),
-    );
+    const gitSshCommand = [
+      'ssh',
+      // Specify private key with -i (https://stackoverflow.com/a/29754018/6335363)
+      '-i',
+      await getPrivateKeyPath(),
+      // Only use specified identity file
+      '-o',
+      'IdentitiesOnly=yes',
+      // Specify known_hosts file with -o (https://stackoverflow.com/a/62725161/6335363)
+      '-o',
+      `UserKnownHostsFile=${knownHostsFile()}`,
+    ].join(' ');
+    console.log('Debug: gunning git with SSH command:');
+    console.log(gitSshCommand);
+    git = git.env('GIT_SSH_COMMAND', gitSshCommand);
   }
   return git;
 }

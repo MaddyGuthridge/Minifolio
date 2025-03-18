@@ -55,11 +55,20 @@
 </div>
 
 <style>
+  /* Justify text */
   .markdown-render :global(p) {
     text-align: justify;
   }
 
+  /* Make images fit in their allocated space */
+  .markdown-render :global(img) {
+    width: 100%;
+    border-radius: 10px;
+  }
+
   /*
+    Inline code
+
     It's pretty annoying needing to select all of these manually so many times. I wonder if there's
     a better way...
   */
@@ -69,7 +78,6 @@
     padding: 2px 5px;
     border-radius: 3px;
   }
-
   .markdown-render :global(p code),
   .markdown-render :global(ol code),
   .markdown-render :global(ul code),
@@ -81,11 +89,15 @@
     /* Kinda bold but not obnoxiously so */
     font-weight: 600;
   }
+  /* Code blocks */
   .markdown-render :global(pre) {
     padding: 1em;
     border-radius: 5px;
   }
-
+  /*
+    hljs adds its own padding in the themes which conflicts with our own definitions, causing
+    annoying visual glitches.
+  */
   .markdown-render :global(pre code.hljs) {
     padding: 0 !important;
   }

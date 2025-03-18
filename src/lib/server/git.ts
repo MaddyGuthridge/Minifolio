@@ -52,7 +52,7 @@ export const gitClient = async (baseDir: string | undefined) => {
       '-o',
       `UserKnownHostsFile=${knownHostsFile()}`,
     ].join(' ');
-    console.log('Debug: gunning git with SSH command:');
+    console.log('Debug: running git with SSH command:');
     console.log(gitSshCommand);
     git = git.env('GIT_SSH_COMMAND', gitSshCommand);
   }

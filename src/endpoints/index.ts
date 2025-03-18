@@ -3,8 +3,13 @@ import type { ItemId } from '$lib/itemId';
 import admin from './admin';
 import config from './config';
 import debug from './debug';
+import { apiFetch } from './fetch';
 import item from './item';
 import page from './pages';
+
+export function sitemap(fetchFn: typeof fetch, token: string | undefined) {
+  return apiFetch(fetchFn, 'GET', '/sitemap.xml', { token }).xml();
+}
 
 /** Create an instance of the API client with the given token */
 export default function api(fetchFn: typeof fetch = fetch, token?: string) {
@@ -17,6 +22,8 @@ export default function api(fetchFn: typeof fetch = fetch, token?: string) {
     config: config(fetchFn, token),
     /** Item data endpoints */
     item: (itemId: ItemId) => item(fetchFn, token, itemId),
+    /** Sitemap.xml, converted to JS object */
+    sitemap: () => sitemap(fetchFn, token),
     /** An HTML page */
     page: page(fetchFn, token),
     /** Create a new API client with the given token */

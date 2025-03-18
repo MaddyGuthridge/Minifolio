@@ -1,3 +1,4 @@
+import { convert } from 'xmlbuilder2';
 import ApiError from './ApiError';
 
 /** Process a text response, returning the text as a string */
@@ -15,6 +16,25 @@ export async function text(response: Promise<Response>): Promise<string> {
     throw new ApiError(res.status, `Request got status code ${res.status}`);
   }
   return text;
+}
+
+/** Process an XML response, converting it to a JS object */
+export async function xml(response: Promise<Response>): Promise<object> {
+  // TODO: Fix this coed duplication
+  const res = await response;
+  if ([404, 405].includes(res.status)) {
+    throw new ApiError(404, `Error ${res.status} at ${res.url}`);
+  }
+  const text = await res.text();
+  if ([400, 401, 403].includes(res.status)) {
+    throw new ApiError(res.status, text);
+  }
+  if (![200, 304].includes(res.status)) {
+    // Unknown error
+    throw new ApiError(res.status, `Request got status code ${res.status}`);
+  }
+
+  return convert(text, { format: 'object' });
 }
 
 /** Process a JSON response, returning the data as a JS object */
@@ -81,6 +101,7 @@ export async function buffer(response: Promise<Response>): Promise<Uint8Array> {
  */
 export default (response: Promise<Response>) => ({
   json: () => json(response),
+  xml: () => xml(response),
   text: () => text(response),
   buffer: () => buffer(response),
   response,

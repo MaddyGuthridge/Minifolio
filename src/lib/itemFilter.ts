@@ -28,18 +28,15 @@ export function createItemFilter(portfolio: ItemData, parentId: ItemId): FilterO
 /**
  * Returns a list of itemIds within the given groupId that match the given filter
  *
- * @param globals global data
- * @param groupId group ID to find items within
+ * @param portfolio global data
+ * @param items list of items to filter on
  * @param filter filter options
  */
 export function applyFiltersToItemChildren(
   portfolio: ItemData,
-  id: ItemId,
+  items: ItemId[],
   filter: FilterOptions,
 ): ItemId[] {
-  // Figure out what items to show to start with
-  const items: ItemId[] = getDescendant(portfolio, id).info.children.map(child => itemId.child(id, child));
-
   // Reduce items based on the filter
   return filter.reduce(
     (prevItems, filterSet) => {

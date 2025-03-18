@@ -46,36 +46,42 @@
   });
 </script>
 
-<table>
-  <thead>
-    <tr>
-      <th>Filename</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each files as filename}
-      <ItemFile {itemId} {filename} bind:files />
-    {/each}
-  </tbody>
-</table>
-<form bind:this={uploadForm}>
-  <label for="upload">
-    <Button onclick={() => fileSelectButton.click()}>Upload Files</Button>
-  </label>
-  <input
-    type="file"
-    name="file"
-    id="upload"
-    bind:files={filesToUpload}
-    bind:this={fileSelectButton}
-    style="display: none"
-    multiple
-    required
-  />
-</form>
+<div class="file-manager">
+  <h2>Files</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each files as filename}
+        <ItemFile {itemId} {filename} bind:files />
+      {/each}
+    </tbody>
+  </table>
+  <form bind:this={uploadForm}>
+    <label for="upload">
+      <Button onclick={() => fileSelectButton.click()}>Upload Files</Button>
+    </label>
+    <input
+      type="file"
+      name="file"
+      id="upload"
+      bind:files={filesToUpload}
+      bind:this={fileSelectButton}
+      style="display: none"
+      multiple
+      required
+    />
+  </form>
+</div>
 
 <style>
+  .file-manager {
+    width: 100%;
+  }
   table {
     width: 100%;
   }

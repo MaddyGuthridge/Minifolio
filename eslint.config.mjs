@@ -56,6 +56,7 @@ export default ts.config(
       // strictness in areas where it really doesn't matter (eg error handling)
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
       // Also disable template expression checks, since they're also error handling stuff
       // TODO: Enable them at some point when I get around to actually tidying things up
       '@typescript-eslint/no-base-to-string': 'off',

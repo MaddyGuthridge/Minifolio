@@ -58,11 +58,12 @@
     } else {
       return applyFiltersToItemChildren(
         data.portfolio,
-        data.itemId,
+        items,
         filterItems,
       );
     }
   });
+
   // Janky workaround for allowing PageData to be bindable.
   // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
   $effect.pre(() => {

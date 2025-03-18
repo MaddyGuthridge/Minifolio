@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TextInput } from '$components/base';
+  import { TextArea, TextInput } from '$components/base';
   import DataImage from '$components/base/DataImage.svelte';
   import { ColorPicker, FilePicker } from '$components/pickers';
   import consts from '$lib/consts';
@@ -17,11 +17,15 @@
 
   const isRootPage = $derived(itemId.length === 0);
 
+  // FIXME: Make this only happen when committing to the server to prevent annoying bugs when
+  // performing certain edits
   function commitChanges() {
-    if (item.info.seo.description === '') {
-      item.info.seo.description = null;
+    const info = item.info;
+    if (info.seo.description === '') {
+      info.seo.description = null;
     }
-    onchange(item.info);
+    // info.seo.keywords = item.info.seo.keywords.filter(kw => kw.trim().length);
+    onchange(info);
   }
 </script>
 
@@ -96,6 +100,29 @@
       />
     </div>
   {/if}
+
+  <h2>SEO options</h2>
+  <h3>Page description</h3>
+  <p>The description of the page, shown to search engines.</p>
+  <TextInput
+    placeholder="A concise description."
+    bind:value={item.info.seo.description}
+    oninput={commitChanges}
+  />
+
+  <h3>Page keywords</h3>
+  <p>
+    The page's keywords, shown to search engines. Keywords of parent items are
+    included automatically.
+  </p>
+  <p>Place each keyword on a new line.</p>
+  <TextArea
+    placeholder="Keywords for this page"
+    bind:value={() => item.info.seo.keywords.join('\n'), (kws) => {
+      item.info.seo.keywords = kws.split('\n');
+    }}
+    oninput={commitChanges}
+  />
 </form>
 
 <style>

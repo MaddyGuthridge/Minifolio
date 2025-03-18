@@ -24,6 +24,6 @@ export default function page(fetchFn: typeof fetch, token: string | undefined) {
     /** AT Protocol decentralized ID */
     atProtoDid: async () => {
       return apiFetch(fetchFn, 'GET', '/.well-known/atproto-did', {token}).text();
-    }
+    },
   };
 }

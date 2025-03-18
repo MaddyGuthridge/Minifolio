@@ -16,7 +16,7 @@
     createItemFilter,
   } from '$lib/itemFilter';
   import itemId from '$lib/itemId';
-  import { generateKeywords } from '$lib/seo';
+  import { generateKeywords, getDescription } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { reportError } from '$lib/ui/toast';
   import { itemFileUrl } from '$lib/urls';
@@ -56,11 +56,7 @@
     if (editing) {
       return items;
     } else {
-      return applyFiltersToItemChildren(
-        data.portfolio,
-        items,
-        filterItems,
-      );
+      return applyFiltersToItemChildren(data.portfolio, items, filterItems);
     }
   });
 
@@ -73,6 +69,9 @@
     // Reset the filter items
     filterItems = createItemFilter(data.portfolio, data.itemId);
   });
+
+  // SEO description
+  const seoDescription = getDescription(data.portfolio, data.itemId);
 </script>
 
 <svelte:head>
@@ -81,8 +80,8 @@
   {:else}
     <title>{thisItem.info.name} - {data.portfolio.info.name}</title>
   {/if}
-  {#if data.portfolio.info.seo.description}
-    <meta name="description" content={data.portfolio.info.seo.description} />
+  {#if seoDescription}
+    <meta name="description" content={seoDescription} />
   {/if}
   <meta name="generator" content={consts.APP_NAME} />
   <meta

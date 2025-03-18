@@ -29,7 +29,7 @@ export function validateItemId(itemId: string): ItemId {
 /** Split an ItemId into its components */
 export function itemIdComponents(itemId: ItemId): string[] {
   if (itemId === '/') {
-    // Special case for root, since `''.split('/')` produces `['']`
+    // Special case for root, since `'/'.split('/')` produces `['']`
     return [];
   }
   return itemId.slice(1).split('/');
@@ -48,6 +48,17 @@ export function itemIdFromStr(id: string): ItemId {
 /** Returns the ItemId for the parent of the given item */
 export function itemParent(itemId: ItemId): ItemId {
   return itemIdFromComponents(itemIdComponents(itemId).slice(0, -1));
+}
+
+/** Returns all ancestors of the given item ID, including itself */
+export function itemAncestors(itemId: ItemId): ItemId[] {
+  const ancestors = [itemId];
+  while (itemId !== ROOT) {
+    itemId = itemIdSlice(itemId, 0, -1);
+    ancestors.push(itemId);
+  }
+
+  return ancestors;
 }
 
 /** Return an ItemId of a child of the given ItemId */
@@ -102,6 +113,7 @@ export default {
   fromComponents: itemIdFromComponents,
   fromStr: itemIdFromStr,
   parent: itemParent,
+  ancestors: itemAncestors,
   child: itemChild,
   suffix: itemIdSuffix,
   head: itemIdHead,

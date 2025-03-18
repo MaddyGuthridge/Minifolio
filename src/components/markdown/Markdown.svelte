@@ -112,10 +112,17 @@
     display: inline;
   }
 
-  .markdown-render :global(a) {
-    text-decoration: none;
-  }
-  .markdown-render :global(a):hover {
-    text-decoration: underline;
+  /*
+    Make links not have an underline unless hovered.
+
+    This is disabled when high contrast is enabled, which improves visibility.
+  */
+  @media not (prefers-contrast) {
+    .markdown-render :global(a) {
+      text-decoration: none;
+    }
+    .markdown-render :global(a):hover {
+      text-decoration: underline;
+    }
   }
 </style>

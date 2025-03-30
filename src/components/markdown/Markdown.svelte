@@ -125,6 +125,34 @@
   }
 
   /*
+    Table formatting
+    https://www.w3schools.com/css/css_table.asp
+    https://stackoverflow.com/a/3084318/6335363
+  */
+  /* Borders */
+  .markdown-render :global(table),
+  .markdown-render :global(th),
+  .markdown-render :global(td) {
+    border: 1px solid #00000040;
+    border-collapse: collapse;
+  }
+  /* Padding around cells */
+  .markdown-render :global(th),
+  .markdown-render :global(td) {
+    padding: 5px;
+  }
+  /* Color alternating lines */
+  .markdown-render :global(tr:nth-child(even)) {
+    background-color: #00000010;
+  }
+  /* Extra emphasis for headings */
+  .markdown-render :global(th) {
+    padding: 5px 15px;
+    background-color: #00000010;
+    font-size: large;
+  }
+
+  /*
     Make links not have an underline unless hovered.
 
     This is disabled when high contrast is enabled, which improves visibility.

@@ -29,3 +29,6 @@ services:
       PRIVATE_DATA_PATH: "/private_data"
       HOST: 0.0.0.0
       PORT: 3000
+      # Request body has max size of 10 MB. Adjust as needed
+      # https://svelte.dev/docs/kit/adapter-node#Environment-variables-BODY_SIZE_LIMIT
+      BODY_SIZE_LIMIT: 10M

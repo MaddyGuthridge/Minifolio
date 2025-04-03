@@ -1,0 +1,42 @@
+# Minifolio -- production.docker-compose.yml
+# ==========================================
+#
+# Example docker-compose.yml for production
+#
+# Data paths
+# ----------
+#
+# * The data directory will be set up inside `./data` on the host system
+# * The private_data directory will be set up inside `./private_data` on the
+#   host system.
+#
+# Note that you may need to adjust these paths if you copy this file out from
+# this repo, since it is written so it works nicely when located inside of the
+# `docker/` directory.
+#
+# Running:
+# --------
+#
+# From the root of the repository, run:
+#
+#     docker compose -f docker/production.docker-compose.yml up
+
+services:
+  minifolio:
+    image: maddyguthridge/minifolio
+    hostname: minifolio
+    restart: always
+    ports:
+      - 127.0.0.1:5097:3000/tcp
+    volumes:
+      - "../data:/data:rw"
+      - "../private_data:/private_data:rw"
+
+    environment:
+      DATA_REPO_PATH: "/data"
+      PRIVATE_DATA_PATH: "/private_data"
+      HOST: 0.0.0.0
+      PORT: 3000
+      # Request body has max size of 10 MB. Adjust as needed
+      # https://svelte.dev/docs/kit/adapter-node#Environment-variables-BODY_SIZE_LIMIT
+      BODY_SIZE_LIMIT: 10M

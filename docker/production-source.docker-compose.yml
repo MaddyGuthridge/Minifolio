@@ -1,28 +1,36 @@
-# Minifolio
-# Example docker-compose.yml
+# Minifolio -- production-source.docker-compose.yml
+# ==========================================
 #
-# Usage:
+# Example docker-compose.yml for production, but built from source.
+#
+# Data paths
+# ----------
+#
 # * The data directory will be set up inside `./data` on the host system
 # * The private_data directory will be set up inside `./private_data` on the
 #   host system.
+#
+# Running:
+# --------
+#
+# From the root of the repository, run:
+#
+#     docker compose -f docker/production-source.docker-compose.yml up
+
 services:
   minifolio:
-    # To build from the local repo, rather than the latest published version:
-    # Comment out this line
-    image: maddyguthridge/minifolio
-    # And uncomment these lines
-    # build:
-    #   context: .
-    #   ssh:
-    #     - default
+    build:
+      context: .
+      ssh:
+        - default
 
     hostname: minifolio
     restart: always
     ports:
       - 127.0.0.1:3000:3000/tcp
     volumes:
-      - "./data:/data:rw"
-      - "./private_data:/private_data:rw"
+      - "../data:/data:rw"
+      - "../private_data:/private_data:rw"
 
     environment:
       DATA_REPO_PATH: "/data"

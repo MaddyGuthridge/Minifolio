@@ -17,7 +17,12 @@
   const renderer = {
     link(options: Tokens.Link) {
       const link = marked.Renderer.prototype.link.call(this, options);
-      return link.replace('<a', "<a target='_blank' rel='noreferrer' ");
+      // Only make links open in a new tab if they point to a different page
+      if (options.href.startsWith('#')) {
+        return link;
+      } else {
+        return link.replace('<a', "<a target='_blank' rel='noreferrer' ");
+      }
     },
   };
   marked.use(gfmHeadingId(), customHeadingId(), { renderer });

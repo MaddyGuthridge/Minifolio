@@ -1,3 +1,8 @@
+# docker/staging.dockerfile
+# =====================
+#
+# Dockerfile for running the server in production mode.
+
 FROM node:22
 
 # Make volumes be owned by the node user

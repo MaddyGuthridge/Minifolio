@@ -1,0 +1,61 @@
+# Minifolio -- dev.docker-compose.yml
+# ===================================
+#
+# This file defines a docker-compose image suitable for development.
+#
+# Data paths
+# ----------
+# * The data directory will be set up inside `./data` on the host system
+# * The private_data directory will be set up inside `./private_data` on the
+#   host system.
+#
+# Running:
+# --------
+# From the root of the repository, run:
+#
+#     docker compose -f docker/dev.docker-compose.yml up
+#
+# Testing:
+# --------
+#
+# If you really want to, you might be able to use this to do development
+# without actually installing the things you need to work on Minifolio (node,
+# etc). You probably shouldn't though.
+#
+# Note: test suite is currently broken under docker due to inability to remove
+# data dir.
+#
+# Run test suite:
+#     docker compose -f docker/dev.docker-compose.yml exec minifolio npm t
+#
+# Run type-checking:
+#     docker compose -f docker/dev.docker-compose.yml exec minifolio npm run check
+#
+# Run linting:
+#     docker compose -f docker/dev.docker-compose.yml exec minifolio npm run lint
+#
+
+services:
+  minifolio:
+    build:
+      context: ".."
+      dockerfile: "docker/dev.dockerfile"
+      ssh:
+        - default
+
+    hostname: minifolio-dev
+    restart: always
+    ports:
+      - 127.0.0.1:5096:5096/tcp
+    volumes:
+      - "../data:/data:rw"
+      - "../private_data:/private_data:rw"
+
+    environment:
+      HOST: "0.0.0.0"
+      PORT: 5096
+      DATA_REPO_PATH: "/data"
+      PRIVATE_DATA_PATH: "/private_data"
+      # Request body has max size of 10 MB. Adjust as needed
+      # https://svelte.dev/docs/kit/adapter-node#Environment-variables-BODY_SIZE_LIMIT
+      BODY_SIZE_LIMIT: 10M

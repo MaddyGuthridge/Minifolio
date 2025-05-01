@@ -52,7 +52,7 @@ describe('Success', () => {
       info: expect.any(Object),
       readme: expect.any(String),
       children: {},
-      ls: ['README.md', 'hello.txt'],
+      ls: expect.toIncludeSameMembers(['README.md', 'hello.txt']),
     });
   });
 });

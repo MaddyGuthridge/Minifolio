@@ -6,6 +6,8 @@
   import customHeadingId from 'marked-custom-heading-id';
   // GitHub-flavoured Markdown, automatic heading IDs
   import { gfmHeadingId } from 'marked-gfm-heading-id';
+  // Smartypants quotation marks and the like
+  import { markedSmartypantsLite } from 'marked-smartypants-lite';
 
   type Props = {
     source: string;
@@ -25,7 +27,7 @@
       }
     },
   };
-  marked.use(gfmHeadingId(), customHeadingId(), { renderer });
+  marked.use(gfmHeadingId(), customHeadingId(), markedSmartypantsLite(), { renderer });
 
   let markdownRender: HTMLDivElement | undefined = $state();
 

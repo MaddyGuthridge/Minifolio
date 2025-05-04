@@ -28,6 +28,7 @@
     "marked": "^15.0.2",
     "marked-custom-heading-id": "^2.0.14",
     "marked-gfm-heading-id": "^4.1.1",
+    "marked-smartypants-lite": "^1.0.3",
     "mime-types": "^2.1.35",
     "mv": "^2.1.1",
     "nanoid": "^5.0.7",

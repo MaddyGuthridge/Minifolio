@@ -44,13 +44,14 @@ export async function makeItem(api: ApiClient, id: ItemId, name = 'My item') {
 export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
   const item: ItemInfo = {
     name: 'My item',
+    author: null,
     shortName: null,
     description: 'Item description',
     timeCreated: unixTime(),
     timeEdited: unixTime(),
     readme: 'README.md',
     article: false,
-    feed: false,
+    feed: null,
     icon: null,
     banner: null,
     color: '#aa00aa',

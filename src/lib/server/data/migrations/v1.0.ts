@@ -36,9 +36,10 @@ async function updatePublicConfig(dataDir: string) {
 async function updateItemData(dataDir: string, item: ItemId) {
   const itemInfo = await unsafeLoadItemInfo(dataDir, item) as ItemInfo;
   itemInfo.readme = 'README.md';
+  itemInfo.author = null;
   itemInfo.timeCreated = unixTime();
   itemInfo.timeEdited = unixTime();
   itemInfo.article = false;
-  itemInfo.feed = false;
+  itemInfo.feed = null;
   await setItemInfo(item, itemInfo);
 }

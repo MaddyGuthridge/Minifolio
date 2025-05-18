@@ -14,6 +14,7 @@ import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { applyStruct, move } from '../../util';
 import { rimraf } from 'rimraf';
+import { FeedOptionsStruct } from './feeds';
 
 /**
  * Files that are reserved in an item -- these cannot be deleted without deleting the entire item
@@ -60,10 +61,16 @@ export const ItemInfoStruct = type({
    */
   article: boolean(),
   /**
-   * Whether children of this item should be accessible within feeds such as RSS, ActivityPub and
-   * AT Protocol
+   * The author of this item. If this is `null`, the value from the parent will be used instead.
    */
-  feed: boolean(),
+  author: nullable(type({
+    /** The name of the author */
+    name: string(),
+    /** The author's email address. If `null`, it will not be shown to users. */
+    email: nullable(string()),
+  })),
+  /** Options for feeds, such as RSS and Atom */
+  feed: nullable(FeedOptionsStruct),
   /** The icon image to use for this item, as a path relative to this item's root location. */
   icon: nullable(string()),
   /** The banner image to use for this item, as a path relative to this item's root location. */

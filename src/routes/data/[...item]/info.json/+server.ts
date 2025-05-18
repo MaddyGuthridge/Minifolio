@@ -52,13 +52,14 @@ export async function POST(req: Request) {
 
   const itemInfo = await validateItemInfo(item, {
     name,
+    shortName: null,
+    author: null,
     description,
     timeCreated: unixTime(),
     timeEdited: unixTime(),
     readme: 'README.md',
     article: false,
-    feed: false,
-    shortName: null,
+    feed: null,
     icon: null,
     banner: null,
     color: parent.color,

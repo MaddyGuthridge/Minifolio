@@ -94,7 +94,7 @@ export async function GET(req: Request) {
     xml,
     {
       headers: {
-        'Content-Type': 'application/xml',
+        'Content-Type': consts.MIME_TYPES.RSS,
         'Content-Length': `${Buffer.from(xml, 'utf-8').length}`,
       }
     }

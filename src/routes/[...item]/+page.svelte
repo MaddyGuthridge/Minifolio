@@ -19,7 +19,7 @@
   import { generateKeywords, getDescription } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { reportError } from '$lib/ui/toast';
-  import { itemFileUrl } from '$lib/urls';
+  import { itemFileUrl, itemRssUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Readme from './readme';
@@ -75,24 +75,45 @@
 </script>
 
 <svelte:head>
+  <!-- Title -->
   {#if isRootItem}
     <title>{data.portfolio.info.name}</title>
   {:else}
     <title>{thisItem.info.name} - {data.portfolio.info.name}</title>
   {/if}
+  <!-- SEO -->
   {#if seoDescription}
     <meta name="description" content={seoDescription} />
   {/if}
-  <meta name="generator" content={consts.APP_NAME} />
   <meta
     name="keywords"
     content={generateKeywords(data.portfolio, data.itemId)}
   />
+
+  <!-- Theming -->
   <meta name="theme-color" content={data.item.info.color} />
   <Favicon path={data.config.siteIcon ?? undefined} />
+
+  <!-- List Minifolio as generator -->
+  <meta name="generator" content={consts.APP_NAME} />
+
+  <!-- Site verification: rel="me" -->
   {#each data.config.verification.relMe as me}
     <link rel="me" href={me} />
   {/each}
+
+  <!-- Feeds -->
+  {#if thisItem.info.feed}
+    <!-- RSS -->
+    {#if thisItem.info.feed.providers.rss}
+      <link
+        rel="alternate"
+        type={consts.MIME_TYPES.RSS}
+        title={thisItem.info.name}
+        href={itemRssUrl(data.itemId)}
+      />
+    {/if}
+  {/if}
 </svelte:head>
 
 <Navbar

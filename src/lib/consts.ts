@@ -23,6 +23,11 @@ export const APP_CONTRIBUTORS: AuthorInfo[] = [];
 /** Amount of time to wait after editing is finished before committing edits to the server */
 export const EDIT_COMMIT_HESITATION = 1_000;
 
+/** Common mime-types to use */
+export const MIME_TYPES = {
+  RSS: 'application/rss+xml',
+} as const;
+
 export default {
   APP_NAME,
   APP_GITHUB,
@@ -31,4 +36,5 @@ export default {
   APP_AUTHOR,
   APP_CONTRIBUTORS,
   EDIT_COMMIT_HESITATION,
+  MIME_TYPES,
 };

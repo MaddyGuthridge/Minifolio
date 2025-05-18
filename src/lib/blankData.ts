@@ -13,7 +13,7 @@ export const blankData: ItemData = {
     timeEdited: unixTime(),
     readme: null,
     article: false,
-    rss: false,
+    feed: false,
     color: '#ff00ff',
     icon: null,
     banner: null,

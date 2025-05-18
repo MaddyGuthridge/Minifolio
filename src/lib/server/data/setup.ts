@@ -55,7 +55,7 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
       timeEdited: unixTime(),
       readme: 'README.md',
       article: false,
-      rss: false,
+      feed: false,
       icon: null,
       banner: null,
       color: randomColor(),

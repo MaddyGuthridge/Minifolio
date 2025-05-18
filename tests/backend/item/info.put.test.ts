@@ -27,7 +27,7 @@ describe('Success', () => {
       .resolves.toStrictEqual({});
     // Info has been updated
     await expect(api.item(childItemId).info.get())
-      .resolves.toStrictEqual(makeItemInfo());
+      .resolves.toStrictEqual(makeItemInfo({ timeCreated: expect.any(Number), timeEdited: expect.any(Number) }));
   });
 
   it.each(validNames)('Accepts valid item names ($case)', async ({ name }) => {

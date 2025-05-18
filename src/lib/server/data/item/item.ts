@@ -59,8 +59,11 @@ export const ItemInfoStruct = type({
    * font.
    */
   article: boolean(),
-  /** Whether children of this item should be accessible as an RSS feed */
-  rss: boolean(),
+  /**
+   * Whether children of this item should be accessible within feeds such as RSS, ActivityPub and
+   * AT Protocol
+   */
+  feed: boolean(),
   /** The icon image to use for this item, as a path relative to this item's root location. */
   icon: nullable(string()),
   /** The banner image to use for this item, as a path relative to this item's root location. */

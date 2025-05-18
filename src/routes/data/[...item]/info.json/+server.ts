@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     timeEdited: unixTime(),
     readme: 'README.md',
     article: false,
-    rss: false,
+    feed: false,
     shortName: null,
     icon: null,
     banner: null,

@@ -24,6 +24,6 @@ async function updateItemData(dataDir: string, item: ItemId) {
   itemInfo.timeCreated = unixTime();
   itemInfo.timeEdited = unixTime();
   itemInfo.article = false;
-  itemInfo.rss = false;
+  itemInfo.feed = false;
   await setItemInfo(item, itemInfo);
 }

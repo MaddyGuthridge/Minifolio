@@ -50,7 +50,7 @@ export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
     timeEdited: unixTime(),
     readme: 'README.md',
     article: false,
-    rss: false,
+    feed: false,
     icon: null,
     banner: null,
     color: '#aa00aa',

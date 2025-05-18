@@ -19,10 +19,10 @@ export function itemDataUrl(item: ItemId) {
   return `/data${item}`;
 }
 
-export function itemRssUrl(item: ItemId) {
+export function itemAtomUrl(item: ItemId) {
   if (item !== '/') {
-    return `${item}/rss.xml`;
+    return `${item}/feed.atom`;
   } else {
-    return '/rss.xml';
+    return '/feed.atom';
   }
 }

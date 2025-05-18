@@ -25,7 +25,10 @@ export const EDIT_COMMIT_HESITATION = 1_000;
 
 /** Common mime-types to use */
 export const MIME_TYPES = {
-  RSS: 'application/rss+xml',
+  /** Atom feed (like RSS) */
+  ATOM: 'application/atom+xml',
+  /** HTML page */
+  HTML: 'text/html',
 } as const;
 
 export default {

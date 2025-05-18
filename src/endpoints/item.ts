@@ -96,12 +96,12 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
   });
 
   const feeds = {
-    /** RSS feed */
-    rss: async () => {
+    /** Atom feed */
+    atom: async () => {
       return apiFetch(
         fetchFn,
         'GET',
-        `${itemId}/rss.xml`,
+        `${itemId}/feed.atom`,
         { token },
       ).xml();
     },

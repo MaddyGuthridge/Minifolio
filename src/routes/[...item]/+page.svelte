@@ -19,7 +19,7 @@
   import { generateKeywords, getDescription } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';
   import { reportError } from '$lib/ui/toast';
-  import { itemFileUrl, itemRssUrl } from '$lib/urls';
+  import { itemFileUrl, itemAtomUrl } from '$lib/urls';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import MainDataEdit from './ItemInfoEdit.svelte';
   import Readme from './readme';
@@ -105,12 +105,12 @@
   <!-- Feeds -->
   {#if thisItem.info.feed}
     <!-- RSS -->
-    {#if thisItem.info.feed.providers.rss}
+    {#if thisItem.info.feed.providers.atom}
       <link
         rel="alternate"
-        type={consts.MIME_TYPES.RSS}
+        type={consts.MIME_TYPES.ATOM}
         title={thisItem.info.name}
-        href={itemRssUrl(data.itemId)}
+        href={itemAtomUrl(data.itemId)}
       />
     {/if}
   {/if}

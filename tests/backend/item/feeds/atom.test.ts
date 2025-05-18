@@ -43,11 +43,18 @@ describe('Success', () => {
     await expect(api.item(itemId.ROOT).feeds.atom()).resolves.toStrictEqual({
       feed: {
         '@xmlns': 'http://www.w3.org/2005/Atom',
-        link: {
-          '@href': `${BASE_URL}/feed.atom`,
-          '@rel': 'self',
-          '@type': consts.MIME_TYPES.ATOM,
-        },
+        link: [
+          {
+            '@href': `${BASE_URL}/feed.atom`,
+            '@rel': 'self',
+            '@type': consts.MIME_TYPES.ATOM,
+          },
+          {
+            '@href': BASE_URL,
+            '@rel': 'alternate',
+            '@type': consts.MIME_TYPES.HTML,
+          },
+        ],
         generator: {
           '#': 'Minifolio',
           '@uri': consts.APP_DOCS,
@@ -56,6 +63,7 @@ describe('Success', () => {
         id: BASE_URL,
         title: 'My blog',
         subtitle: 'View this item page in the portfolio',
+        updated: expect.any(String),
       }
     });
   });
@@ -78,11 +86,18 @@ describe('Success', () => {
     await expect(api.item(itemId.ROOT).feeds.atom()).resolves.toStrictEqual({
       feed: {
         '@xmlns': 'http://www.w3.org/2005/Atom',
-        link: {
-          '@href': `${BASE_URL}/feed.atom`,
-          '@rel': 'self',
-          '@type': consts.MIME_TYPES.ATOM,
-        },
+        link: [
+          {
+            '@href': `${BASE_URL}/feed.atom`,
+            '@rel': 'self',
+            '@type': consts.MIME_TYPES.ATOM,
+          },
+          {
+            '@href': BASE_URL,
+            '@rel': 'alternate',
+            '@type': consts.MIME_TYPES.HTML,
+          },
+        ],
         generator: {
           '#': 'Minifolio',
           '@uri': consts.APP_DOCS,
@@ -91,29 +106,32 @@ describe('Success', () => {
         id: BASE_URL,
         title: 'My blog',
         subtitle: 'View this item page in the portfolio',
+        updated: expect.any(String),
         entry: [
           {
-            content: {
-              '@src': `${BASE_URL}/post1`,
-              '@type': consts.MIME_TYPES.HTML,
-            },
             id: `${BASE_URL}/post1`,
             published: expect.any(String),
             updated: expect.any(String),
             summary: 'Description',
             title: 'Post 1',
-          },
-          {
-            content: {
-              '@src': `${BASE_URL}/post2`,
+            link: {
+              '@href': `${BASE_URL}/post1`,
+              '@rel': 'alternate',
               '@type': consts.MIME_TYPES.HTML,
             },
+          },
+          {
             id: `${BASE_URL}/post2`,
             // Not bothering to test timestamps here
             published: expect.any(String),
             updated: expect.any(String),
             summary: 'Description',
             title: 'Post 2',
+            link: {
+              '@href': `${BASE_URL}/post2`,
+              '@rel': 'alternate',
+              '@type': consts.MIME_TYPES.HTML,
+            },
           },
         ]
       }

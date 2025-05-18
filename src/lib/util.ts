@@ -7,6 +7,10 @@ export function unixTime(): number {
   return Math.floor(Date.now() / 1000);
 }
 
+export function unixToIsoTime(unixTime: number): string {
+  return new Date(unixTime * 1000).toISOString();
+}
+
 /** Capitalize the first character of the given string */
 export function capitalize(str: string): string {
   // https://stackoverflow.com/a/1026087/6335363

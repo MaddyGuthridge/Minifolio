@@ -5,23 +5,13 @@ import { itemFileUrl } from '$lib/urls';
 import { error } from '@sveltejs/kit';
 import { create } from 'xmlbuilder2';
 import type { AuthorInfo } from '$lib/server/data/item/item';
-import { version } from '$app/environment';
+import { dev, version } from '$app/environment';
 import { getConfig } from '$lib/server/data/config';
+import type { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
+import { unixTime, unixToIsoTime } from '$lib/util';
 
 type Request = import('./$types').RequestEvent;
 
-async function getFeedAuthor(item: ItemId): Promise<AuthorInfo | null> {
-  for (const ancestor of itemId.ancestors(item)) {
-    // Really should look this info up in parallel
-    // At least it'll be better once I cache the data again...
-    // eslint-disable-next-line no-await-in-loop
-    const info = await getItemInfo(ancestor);
-    if (info.author) {
-      return info.author;
-    }
-  }
-  return null;
-}
 
 /**
  * Get the current value of the RSS feed for this item.
@@ -67,24 +57,16 @@ export async function GET(req: Request) {
     .att('rel', 'self')
     .att('type', consts.MIME_TYPES.ATOM);
 
+  // Add link to blog site
+  root.ele('link')
+    .att('href', itemUrl)
+    .att('rel', 'alternate')
+    .att('type', consts.MIME_TYPES.HTML);
+
   // Add basic info
   root.ele('title').txt(info.feed.title);
   root.ele('id').txt(itemUrl);
-
-  // Author
-  const authorInfo = await getFeedAuthor(item);
-  if (authorInfo) {
-    const xmlAuthor = root.ele('author');
-    if (authorInfo.name) {
-      xmlAuthor.ele('name').txt(authorInfo.name);
-    }
-    if (authorInfo.email) {
-      xmlAuthor.ele('email').txt(authorInfo.email);
-    }
-    if (authorInfo.uri) {
-      xmlAuthor.ele('uri').txt(authorInfo.uri);
-    }
-  }
+  await addAuthorInfo(item, root);
 
   // Feed subtitle -- use SEO description if possible
   root.ele('subtitle').txt(info.seo.description ?? info.description);
@@ -102,6 +84,20 @@ export async function GET(req: Request) {
     root.ele('icon').txt(itemFileUrl(item, info.banner));
   }
 
+  // Determine last-updated time
+  // Doing a manual implementation of Math.min is pretty yucky code tbh
+  // Sounds like a good case for a design pattern or something, but I really cannot be bothered
+  // right now (eepy)
+  let lastUpdated = unixTime();
+  for (const child of info.children) {
+    // eslint-disable-next-line no-await-in-loop
+    const childInfo = await getItemInfo(itemId.child(item, child));
+    if (childInfo.timeEdited < lastUpdated) {
+      lastUpdated = info.timeEdited;
+    }
+  }
+  root.ele('updated').txt(unixToIsoTime(lastUpdated));
+
   // Only add public children
   for (const child of info.children) {
     const childId = itemId.child(item, child);
@@ -110,12 +106,24 @@ export async function GET(req: Request) {
     // Really should look up all child item infos concurrently, but can't be bothered at the moment
     // eslint-disable-next-line no-await-in-loop
     const childInfo = await getItemInfo(childId);
+    // Link to entry
+    xmlChild.ele('link')
+      .att('href', childUrl)
+      .att('rel', 'alternate')
+      .att('type', consts.MIME_TYPES.HTML);
+
     xmlChild.ele('title').txt(childInfo.name);
     xmlChild.ele('id').txt(childUrl);
     // Use SEO description if provided, as it is more likely to be interesting to readers
     xmlChild.ele('summary').txt(childInfo.seo.description ?? childInfo.description);
+
+    // Author info
+    // eslint-disable-next-line no-await-in-loop
+    await addAuthorInfo(childId, xmlChild);
+
+
     // Content: link to site
-    xmlChild.ele('content').att('src', childUrl).att('type', consts.MIME_TYPES.HTML);
+    // xmlChild.ele('content').att('src', childUrl).att('type', consts.MIME_TYPES.HTML);
 
     // TODO: Investigate using categories based on the links of an item
     // https://validator.w3.org/feed/docs/atom.html#category
@@ -123,11 +131,12 @@ export async function GET(req: Request) {
     // Publication and update times as an ISO time string
     // Also of note, we need to multiple the UNIX timestamp by 1000 as JS works in milliseconds for
     // its timestamps, rather than seconds (to my knowledge, the typical format).
-    xmlChild.ele('published').txt(new Date(info.timeCreated * 1000).toISOString());
-    xmlChild.ele('updated').txt(new Date(info.timeEdited * 1000).toISOString());
+    xmlChild.ele('published').txt(unixToIsoTime(childInfo.timeCreated));
+    xmlChild.ele('updated').txt(unixToIsoTime(childInfo.timeEdited));
   }
 
-  const xml = root.end();
+
+  const xml = root.end({ prettyPrint: dev });
   return new Response(
     xml,
     {
@@ -137,4 +146,33 @@ export async function GET(req: Request) {
       }
     }
   );
+}
+
+async function addAuthorInfo(item: ItemId, node: XMLBuilder) {
+  const authorInfo = await getFeedAuthor(item);
+  if (authorInfo) {
+    const xmlAuthor = node.ele('author');
+    if (authorInfo.name) {
+      xmlAuthor.ele('name').txt(authorInfo.name);
+    }
+    if (authorInfo.email) {
+      xmlAuthor.ele('email').txt(authorInfo.email);
+    }
+    if (authorInfo.uri) {
+      xmlAuthor.ele('uri').txt(authorInfo.uri);
+    }
+  }
+}
+
+async function getFeedAuthor(item: ItemId): Promise<AuthorInfo | null> {
+  for (const ancestor of itemId.ancestors(item)) {
+    // Really should look this info up in parallel
+    // At least it'll be better once I cache the data again...
+    // eslint-disable-next-line no-await-in-loop
+    const info = await getItemInfo(ancestor);
+    if (info.author) {
+      return info.author;
+    }
+  }
+  return null;
 }

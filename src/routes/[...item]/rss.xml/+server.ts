@@ -31,11 +31,21 @@ export async function GET(req: Request) {
   }
 
   const baseUrl = `${req.url.protocol}//${req.url.host}`;
-  const itemUrl = `${baseUrl}${item}`;
+  const itemUrl = `${baseUrl}${item === '/' ? '' : item}`;
 
   const root = create({ version: '1.0', encoding: 'UTF-8' })
     .ele('rss')
-    .att('version', '2.0');
+    .att('version', '2.0')
+    .att('xmlns:atom', 'http://www.w3.org/2005/Atom')
+    .ele('channel');
+
+  // Use atom namespace for self-link to make it easier to cache
+  // https://stackoverflow.com/a/48138913/6335363
+  // https://www.rssboard.org/rss-profile#namespace-elements-atom-link
+  root.ele('atom:link')
+    .att('href', `${itemUrl}/rss.xml`)
+    .att('rel', 'self')
+    .att('type', 'application/rss+xml');
 
   // Add basic info
   root.ele('title').txt(info.feed.title);

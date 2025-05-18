@@ -13,6 +13,7 @@ import { LANDING_README } from './text';
 import consts from '$lib/consts';
 import itemId from '$lib/itemId';
 import { migrateData } from './migrations';
+import { unixTime } from '$lib/util';
 
 /**
  * Set up the data directory.
@@ -50,7 +51,11 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
       name: consts.APP_NAME,
       shortName: null,
       description: `A portfolio website, created using ${consts.APP_NAME}`,
+      timeCreated: unixTime(),
+      timeEdited: unixTime(),
       readme: 'README.md',
+      article: false,
+      rss: false,
       icon: null,
       banner: null,
       color: randomColor(),

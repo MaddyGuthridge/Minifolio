@@ -8,6 +8,7 @@ import type { RepoInfo, RepoProvider } from '../item/repo';
 import type { ItemSection, LinksSection, PackageSection, RepoSection, SiteSection } from '../item/section';
 import { setLocalConfig, type ConfigLocalJson } from '../localConfig';
 import { unsafeLoadConfig, unsafeLoadItemInfo, unsafeLoadLocalConfig } from './unsafeLoad';
+import { unixTime } from '$lib/util';
 
 export async function migratePrivateV06(privateDataDir: string) {
   // Update `config.local.json`
@@ -94,7 +95,11 @@ async function createRootItem(dataDir: string) {
     name: oldConfig.siteName,
     shortName: oldConfig.siteShortName,
     description: '',
+    timeCreated: unixTime(),
+    timeEdited: unixTime(),
     readme: 'README.md',
+    rss: false,
+    article: false,
     icon: null,
     banner: null,
     color: oldConfig.color,
@@ -116,7 +121,11 @@ async function groupToItem(dataDir: string, group: string) {
     name: groupInfo.name,
     shortName: null,
     description: groupInfo.description,
+    timeCreated: unixTime(),
+    timeEdited: unixTime(),
     readme: 'README.md',
+    rss: false,
+    article: false,
     icon: groupInfo.icon,
     banner: groupInfo.banner,
     color: groupInfo.color,
@@ -159,7 +168,11 @@ async function updateItemInfo(dataDir: string, item: ItemId) {
     name: itemInfo.name,
     shortName: null,
     description: itemInfo.description,
+    timeCreated: unixTime(),
+    timeEdited: unixTime(),
     readme: 'README.md',
+    article: false,
+    rss: false,
     icon: itemInfo.icon,
     banner: itemInfo.banner,
     color: itemInfo.color,

@@ -9,6 +9,7 @@ import { validateName } from '$lib/validate';
 import formatTemplate from '$lib/server/formatTemplate';
 import { ITEM_README } from '$lib/server/data/text';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
+import { unixTime } from '$lib/util';
 
 /**
  * API endpoints for accessing info.json
@@ -52,7 +53,11 @@ export async function POST(req: Request) {
   const itemInfo = await validateItemInfo(item, {
     name,
     description,
+    timeCreated: unixTime(),
+    timeEdited: unixTime(),
     readme: 'README.md',
+    article: false,
+    rss: false,
     shortName: null,
     icon: null,
     banner: null,

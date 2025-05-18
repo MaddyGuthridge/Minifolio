@@ -109,6 +109,7 @@ describe('Success', () => {
               '@type': consts.MIME_TYPES.HTML,
             },
             id: `${BASE_URL}/post2`,
+            // Not bothering to test timestamps here
             published: expect.any(String),
             updated: expect.any(String),
             summary: 'Description',
@@ -137,6 +138,30 @@ describe('Success', () => {
     const atom = await api.item(itemId.ROOT).feeds.atom() as any;
     expect(atom.feed).not.toHaveProperty('entry');
   });
+
+  it('Uses the SEO description of items, if they have one', async () => {
+    await api.item(itemId.ROOT).info.put(makeItemInfo({
+      feed: {
+        title: 'My blog',
+        providers: {
+          atom: true,
+        },
+      },
+    }));
+    const childId = itemId.fromStr('/post1');
+    await api.item(childId).info.post('Post 1', 'This description is not shown');
+    await api.item(childId).info.put(makeItemInfo({
+      seo: {
+        description: 'This description is shown',
+        keywords: [],
+      }
+    }));
+
+    // Now load feed
+    const atom = await api.item(itemId.ROOT).feeds.atom() as any;
+
+    expect(atom.feed.entry.summary).toStrictEqual('This description is shown');
+  });
 });
 
 describe('404', () => {
@@ -144,7 +169,7 @@ describe('404', () => {
     await expect(api.item(itemId.ROOT).feeds.atom()).rejects.toMatchObject({ code: 404 });
   });
 
-  it("Gives a 404 if RSS isn't enabled", async () => {
+  it("Gives a 404 if Atom isn't enabled", async () => {
     await api.item(itemId.ROOT).info.put(makeItemInfo({
       feed: {
         title: 'My blog',

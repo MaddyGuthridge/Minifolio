@@ -18,3 +18,11 @@ export function itemFileUrl(item: ItemId, file: string) {
 export function itemDataUrl(item: ItemId) {
   return `/data${item}`;
 }
+
+export function itemAtomUrl(item: ItemId) {
+  if (item !== '/') {
+    return `${item}/feed.atom`;
+  } else {
+    return '/feed.atom';
+  }
+}

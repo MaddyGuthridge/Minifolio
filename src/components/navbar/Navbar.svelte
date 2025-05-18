@@ -124,13 +124,15 @@
     </h1>
   </span>
 
-  <ControlButtons
-    {loggedIn}
-    {editable}
-    {editing}
-    {onEditBegin}
-    {onEditFinish}
-  />
+  <div style:grid-area="control-buttons" class="control-buttons">
+    <ControlButtons
+      {loggedIn}
+      {editable}
+      {editing}
+      {onEditBegin}
+      {onEditFinish}
+    />
+  </div>
 </nav>
 
 <style>
@@ -147,6 +149,12 @@
     transition: all 0.5s;
     /* Temporary fix before I make a proper mobile interface */
     overflow-x: hidden;
+  }
+
+  .control-buttons {
+    height: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   /* If the device is wide enough, make the navbar sticky */
@@ -176,3 +184,16 @@
     font-size: 3em;
   }
 </style>
+
+<!-- If JS is disabled, don't make the navbar sticky (it'll just get in the way of feed readers) -->
+<noscript>
+  <style>
+    nav {
+      position: relative !important;
+    }
+
+    .control-buttons {
+      display: none !important;
+    }
+  </style>
+</noscript>

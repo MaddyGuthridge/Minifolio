@@ -20,10 +20,11 @@ export async function migrateDataV11(dataDir: string) {
 
 async function updateItemData(dataDir: string, item: ItemId) {
   const itemInfo = await unsafeLoadItemInfo(dataDir, item) as ItemInfo;
+  itemInfo.author = null;
   // Easier than looking up file metadata
   itemInfo.timeCreated = unixTime();
   itemInfo.timeEdited = unixTime();
   itemInfo.article = false;
-  itemInfo.rss = false;
+  itemInfo.feed = null;
   await setItemInfo(item, itemInfo);
 }

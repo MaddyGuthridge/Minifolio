@@ -13,6 +13,7 @@ export async function load(req: import('./$types').RequestEvent) {
   const isInit = await dataIsSetUp();
   const loggedIn = isInit ? await isRequestAuthorized(req) : undefined;
 
+  // FIXME: Super wasteful to load all data here,,,
   const portfolio: ItemData = isInit ? await getItemData(itemId.ROOT) : blankData;
   let siteIcon: string | undefined = undefined;
   if (isInit) {

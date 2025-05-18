@@ -1,6 +1,6 @@
 # Migrations / v1.0.6
 
-Migration test case fore `v1.0.6`
+Migration test case for `v1.0.6`
 
 ## Migration test data
 
@@ -16,4 +16,4 @@ Migration test case fore `v1.0.6`
 * Username: `admin`
 * Password: `abc123ABC!`
 
-No notable changes to data structure (yet).
+No notable changes to data structure.

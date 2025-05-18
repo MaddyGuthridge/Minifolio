@@ -4,6 +4,7 @@ import { setup } from '../../helpers';
 import { migrateDataFromZip, migratePrivateDataFromZip } from '../migration';
 import path from 'node:path';
 import itemId from '$lib/itemId';
+import { validateItemInfo } from '$lib/server/data/item';
 
 let api: ApiClient;
 
@@ -14,6 +15,14 @@ beforeEach(async () => {
 describe('Public data', () => {
   beforeEach(async () => {
     await migrateDataFromZip(path.join(__dirname, 'data.zip'));
+  });
+
+  test.each([
+    itemId.ROOT,
+    itemId.fromStr('/child'),
+  ])('Items match validation (%s)', async (itemId) => {
+    const info = await api.item(itemId).info.get();
+    await validateItemInfo(itemId, info);
   });
 
   test('Verification info is displayed correctly', async () => {

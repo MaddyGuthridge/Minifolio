@@ -5,6 +5,7 @@ import simpleGit from 'simple-git';
 import { getDataDir } from '$lib/server/data/dataDir';
 import type { ItemInfo } from '$lib/server/data/item';
 import type { ItemId } from '$lib/itemId';
+import { unixTime } from '$lib/util';
 
 /** Set up the server, returning (amongst other things) an API client */
 export async function setup(repoUrl?: string, branch?: string) {
@@ -45,7 +46,11 @@ export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
     name: 'My item',
     shortName: null,
     description: 'Item description',
+    timeCreated: unixTime(),
+    timeEdited: unixTime(),
     readme: 'README.md',
+    article: false,
+    rss: false,
     icon: null,
     banner: null,
     color: '#aa00aa',

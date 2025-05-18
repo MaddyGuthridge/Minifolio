@@ -4,6 +4,7 @@ import { setup } from '../../helpers';
 import { migrateDataFromZip, migratePrivateDataFromZip } from '../migration';
 import path from 'node:path';
 import itemId from '$lib/itemId';
+import { validateItemInfo } from '$lib/server/data/item';
 
 let api: ApiClient;
 
@@ -17,18 +18,27 @@ describe('Public data', () => {
   });
 
   it('Correctly creates all items', async () => {
-    await expect(api.item(itemId.ROOT).info.get()).resolves.toMatchObject({
-      children: ['group']
-    });
+    const rootInfo = await api.item(itemId.ROOT).info.get();
+    expect(rootInfo).toMatchObject({ children: ['group'] });
+    // All required fields should be present in all items
+    await validateItemInfo(itemId.ROOT, rootInfo);
 
-    await expect(api.item(itemId.fromStr('/group')).info.get()).resolves.toMatchObject({
-      // Only listed child is listed
+    const childId = itemId.fromStr('/group');
+    const child = await api.item(childId).info.get();
+    expect(child).toMatchObject({
+      // Only listed child is included
       children: ['listed']
     });
+    await validateItemInfo(childId, child);
 
+    const grandchild1Id = itemId.fromStr('/group/listed');
+    const grandchild2Id = itemId.fromStr('/group/unlisted');
+    // Both grandchildren have valid data
+    await validateItemInfo(grandchild1Id, await api.item(grandchild1Id).info.get());
+    await validateItemInfo(grandchild2Id, await api.item(grandchild2Id).info.get());
     // Both children resolve
-    await expect(api.item(itemId.fromStr('/group/listed')).info.get()).toResolve();
-    await expect(api.item(itemId.fromStr('/group/unlisted')).info.get()).toResolve();
+    await expect(api.item(grandchild1Id).info.get()).toResolve();
+    await expect(api.item(grandchild2Id).info.get()).toResolve();
   });
 
   it('Migrates URL sections correctly', async () => {

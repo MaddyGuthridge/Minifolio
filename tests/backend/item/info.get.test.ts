@@ -5,6 +5,7 @@ import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
 import itemId from '$lib/itemId';
+import { validateItemInfo } from '$lib/server/data/item';
 
 let api: ApiClient;
 const id = itemId.fromStr('/item');
@@ -16,22 +17,8 @@ beforeEach(async () => {
 
 describe('Success', () => {
   it('Correctly returns info', async () => {
-    await expect(api.item(id).info.get()).resolves.toStrictEqual({
-      name: expect.any(String),
-      shortName: null,
-      description: '',
-      readme: 'README.md',
-      color: expect.toSatisfy(c => /^#[0-9a-fA-F]{6}$/.test(c)),
-      icon: null,
-      banner: null,
-      children: [],
-      filters: [],
-      sections: [],
-      seo: {
-        description: null,
-        keywords: [expect.any(String)],
-      },
-    })
+    const itemInfo = await api.item(id).info.get();
+    await validateItemInfo(id, itemInfo);
   });
 });
 

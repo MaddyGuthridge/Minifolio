@@ -137,8 +137,8 @@
     {/if}
 
     <div id="readme">
-      <div id="info-container">
-        {#if editing}
+      {#if editing}
+        <div class="readme-picker-box">
           <h2>Readme</h2>
           <div class="readme-picker-box">
             <label for="readme-picker">Pick a readme file</label>
@@ -149,18 +149,24 @@
               onchange={() => infoUpdater.update(thisItem.info)}
             />
           </div>
-        {/if}
-        <Readme
-          item={data.itemId}
-          filename={thisItem.info.readme}
-          contents={thisItem.readme}
-          {editing}
-          onsubmit={() => {
-            infoUpdater.commit();
-            editing = false;
-          }}
-        />
-      </div>
+        </div>
+      {/if}
+      <Readme
+        item={data.itemId}
+        article={thisItem.info.article}
+        setArticle={(value) => {
+          console.log('Article:', value);
+          thisItem.info.article = value;
+          infoUpdater.update(thisItem.info);
+        }}
+        filename={thisItem.info.readme}
+        contents={thisItem.readme}
+        {editing}
+        onsubmit={() => {
+          infoUpdater.commit();
+          editing = false;
+        }}
+      />
     </div>
 
     <div id="sections">
@@ -282,10 +288,11 @@
     flex-direction: column;
     align-items: center;
   }
-  #info-container {
-    padding: 20px;
+
+  .readme-picker-box {
     width: 100%;
   }
+
   #sections {
     width: 100%;
   }

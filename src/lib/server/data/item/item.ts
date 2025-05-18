@@ -6,7 +6,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { error } from '@sveltejs/kit';
-import { array, nullable, string, type, type Infer } from 'superstruct';
+import { array, boolean, nullable, number, string, type, type Infer } from 'superstruct';
 import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
 import itemId, { type ItemId } from '../../../itemId';
@@ -43,6 +43,10 @@ export const ItemInfoStruct = type({
    * Chip elements.
    */
   description: string(),
+  /** Time when this item was created, as a UNIX timestamp, in seconds */
+  timeCreated: number(),
+  /** Time when this item was last edited, as a UNIX timestamp, in seconds */
+  timeEdited: number(),
   /**
    * The filename of the item's README file.
    *
@@ -50,6 +54,13 @@ export const ItemInfoStruct = type({
    * Typst, HTML).
    */
   readme: nullable(string()),
+  /**
+   * Whether this item is an article, meaning that it is displayed with a narrower width and a serif
+   * font.
+   */
+  article: boolean(),
+  /** Whether children of this item should be accessible as an RSS feed */
+  rss: boolean(),
   /** The icon image to use for this item, as a path relative to this item's root location. */
   icon: nullable(string()),
   /** The banner image to use for this item, as a path relative to this item's root location. */

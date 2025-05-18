@@ -7,11 +7,19 @@
 
   type Props = {
     source: string;
+    article: boolean;
+    setArticle: (value: boolean) => void;
     onsubmit: () => void;
     onchange: (text: string) => Promise<void>;
   };
 
-  let { source = $bindable(), onsubmit, onchange }: Props = $props();
+  let {
+    source = $bindable(),
+    article,
+    setArticle,
+    onsubmit,
+    onchange,
+  }: Props = $props();
 
   function handleKeypress(e: KeyboardEvent) {
     if (e.ctrlKey && e.key === 'Enter') {
@@ -23,22 +31,45 @@
   const updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
 </script>
 
-<div class="md-editor">
-  <div class="md-input">
-    <TextArea
-      bind:value={source}
-      onkeypress={handleKeypress}
-      oninput={() => updater.update(source)}
-      fontFamily="monospace"
-      fontWeight="bold"
-    ></TextArea>
-  </div>
-  <span class="md-preview">
-    <Markdown {source} />
+<div class="outer">
+  <span class="article-mode-checkbox">
+    <input
+      type="checkbox"
+      id="article-mode-checkbox"
+      checked={article}
+      onchange={() => setArticle(!article)}
+    />
+    <label for="article-mode-checkbox">Article mode</label>
   </span>
+  <div class="md-editor">
+    <div class="md-input">
+      <TextArea
+        bind:value={source}
+        onkeypress={handleKeypress}
+        oninput={() => updater.update(source)}
+        fontFamily="monospace"
+        fontWeight="bold"
+      ></TextArea>
+    </div>
+    <span class="md-preview">
+      <Markdown {source} {article} />
+    </span>
+  </div>
 </div>
 
 <style>
+  .outer {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-mode-checkbox {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+
   .md-editor {
     display: flex;
     gap: 20px;

@@ -11,13 +11,16 @@
     onsubmit: () => void;
     /** Called when content changes */
     onchange: (text: string) => Promise<void>;
+    /** Whether to display the Markdown as an article */
+    article?: boolean;
+    setArticle: (value: boolean) => void;
   };
 
-  let { source = $bindable(), editing, onsubmit, onchange }: Props = $props();
+  let { source = $bindable(), editing, onsubmit, onchange, article = false, setArticle }: Props = $props();
 </script>
 
 {#if editing}
-  <MarkdownEditor bind:source {onsubmit} {onchange} />
+  <MarkdownEditor bind:source {article} {setArticle} {onsubmit} {onchange} />
 {:else}
-  <Markdown {source} />
+  <Markdown {source} {article} />
 {/if}

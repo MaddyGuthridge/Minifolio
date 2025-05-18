@@ -95,11 +95,25 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
     },
   });
 
+  const feeds = {
+    /** RSS feed */
+    rss: async () => {
+      return apiFetch(
+        fetchFn,
+        'GET',
+        `${itemId}/rss.xml`,
+        { token },
+      ).xml();
+    },
+  };
+
   return {
     /** `info.json` of the item */
     info,
     /** A file belonging to the item */
     file,
+    /** Feed data */
+    feeds,
     /** The full recursive item data */
     data: async () => {
       return apiFetch(

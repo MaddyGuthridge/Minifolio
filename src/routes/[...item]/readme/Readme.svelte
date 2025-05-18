@@ -8,13 +8,15 @@
 
   type Props = {
     item: ItemId;
+    article: boolean;
+    setArticle: (value: boolean) => void;
     filename: string | null;
     contents: string | null;
     editing: boolean;
     onsubmit: () => void;
   };
 
-  const { item, filename, contents, editing, onsubmit }: Props = $props();
+  const { item, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
 
   /** Contents displayed -- updated in $effect */
   let displayContents = $state(contents ?? '');
@@ -32,6 +34,8 @@
   {#if filename.endsWith('.md')}
     <MarkdownReadme
       {item}
+      {article}
+      {setArticle}
       {filename}
       contents={displayContents}
       {editing}

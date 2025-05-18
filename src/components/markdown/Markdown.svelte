@@ -11,9 +11,10 @@
 
   type Props = {
     source: string;
+    article?: boolean;
   };
 
-  const { source }: Props = $props();
+  const { source, article = false }: Props = $props();
 
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
@@ -27,7 +28,9 @@
       }
     },
   };
-  marked.use(gfmHeadingId(), customHeadingId(), markedSmartypantsLite(), { renderer });
+  marked.use(gfmHeadingId(), customHeadingId(), markedSmartypantsLite(), {
+    renderer,
+  });
 
   let markdownRender: HTMLDivElement | undefined = $state();
 
@@ -52,7 +55,20 @@
   });
 </script>
 
-<div class="markdown-render" bind:this={markdownRender}>
+<div
+  class="markdown-render"
+  style={
+    article ?
+      `
+        max-width: 800px;
+        font-family: Garamond, serif;
+      `
+      : `
+        max-width: 1000px;
+      `
+  }
+  bind:this={markdownRender}
+>
   <!--
     We only render markdown specifically from the `data/` directory, so
     this is safe.

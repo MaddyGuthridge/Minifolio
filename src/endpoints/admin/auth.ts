@@ -30,6 +30,17 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     ).json();
   },
   /**
+   * Refresh the given token, invalidating it and returning a new one.
+   */
+  refresh: async () => {
+    return apiFetch(
+      fetchFn,
+      'POST',
+      '/api/admin/auth/refresh',
+      { token },
+    ).json() as Promise<{ token: string }>;
+  },
+  /**
    * Change the authentication of the admin account
    *
    * @param token The auth token

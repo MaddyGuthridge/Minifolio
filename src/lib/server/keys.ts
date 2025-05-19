@@ -41,7 +41,7 @@ export async function setKeyPath(keyPath: string) {
   await setLocalConfig(cfg);
 }
 
-/** Disable the server's SSH authentication */
+/** Disable the server's SSH authentication capabilities */
 export async function disableKey() {
   const cfg = await getLocalConfig();
   cfg.keyPath = null;
@@ -61,8 +61,6 @@ export async function generateKey(): Promise<string> {
   await setLocalConfig(cfg);
 
   // ssh-keygen -t $DEFAULT_KEY_TYPE -f ${defaultPrivateKeyPath()} -N '' -c "Minifolio SSH key"
-  // NOTE: While cross-spawn (dependency of child-process-promise) is technically vulnerable to a
-  // ReDoS attack, this is fine here, since the arguments are controlled by us
   await execa(
     'ssh-keygen',
     [

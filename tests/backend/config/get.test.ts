@@ -20,6 +20,8 @@ it('Returns the current config contents', async () => {
     verification: {
       relMe: [],
       atProtocol: null,
+      google: null,
+      bing: null,
     },
     version,
   });

@@ -101,6 +101,13 @@
   {#each data.config.verification.relMe as me}
     <link rel="me" href={me} />
   {/each}
+  <!-- Site verification: Google and Bing -->
+  {#if data.config.verification.google}
+    <meta name={consts.VERIFICATION_TAGS.google} content={data.config.verification.google} />
+  {/if}
+  {#if data.config.verification.bing}
+    <meta name={consts.VERIFICATION_TAGS.bing} content={data.config.verification.bing} />
+  {/if}
 
   <!-- Feeds -->
   {#if thisItem.info.feed}

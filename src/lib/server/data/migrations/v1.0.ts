@@ -28,6 +28,8 @@ async function updatePublicConfig(dataDir: string) {
     verification: {
       relMe: oldConfig.relMe,
       atProtocol: null,
+      google: null,
+      bing: null,
     },
     siteIcon: oldConfig.siteIcon,
   });

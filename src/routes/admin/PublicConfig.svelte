@@ -55,50 +55,125 @@
     <h3>Website verification</h3>
     <label for="rel-me">
       <a href="https://indieweb.org/rel-me" target="_blank">
-        <h4>rel="me" verification</h4>
+        <h4>rel="me"</h4>
       </a>
     </label>
     <p>Use this verification for GitHub, Mastodon and Wikipedia.</p>
     <TextArea
       id="rel-me"
-      bind:value={() => config.verification.relMe.join('\n'),
-      (relMe: string) => {
-        if (relMe.trim() === '') {
-          config.verification.relMe = [];
-        } else {
-          config.verification.relMe = relMe.trim().split('\n');
+      bind:value={
+        () => config.verification.relMe.join('\n'),
+        (relMe: string) => {
+          if (relMe.trim() === '') {
+            config.verification.relMe = [];
+          } else {
+            config.verification.relMe = relMe.trim().split('\n');
+          }
         }
-      }}
+      }
       oninput={() => updater.update(config)}
       placeholder="https://social.example.com/@username"
     />
     <p>Place each URL on a separate line.</p>
-    <p>The links will be included as:</p>
-    <CodeBlock
-      language="html"
-      code={config.verification.relMe
-        .map((me) => `<link rel="me" href="${me}" />`)
-        .join('\n')}
-    />
+    {#if config.verification.relMe.length}
+      <p>The links will be included as:</p>
+      <CodeBlock
+        language="html"
+        code={config.verification.relMe
+          .map((me) => `<link rel="me" href="${me}" />`)
+          .join('\n')}
+      />
+    {/if}
+
     <label for="at-verification">
-      <a href="https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial">
-        <h4>AT Protocol verification</h4>
+      <a
+        href="https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial"
+        target="_blank"
+      >
+        <h4>AT Protocol</h4>
       </a>
     </label>
     <p>Use this verification for Bluesky.</p>
     <TextInput
       id="at-verification"
-      bind:value={() => config.verification.atProtocol ?? '',
-      (did: string) => {
-        if (did) {
-          config.verification.atProtocol = did;
-        } else {
-          config.verification.atProtocol = null;
+      bind:value={
+        () => config.verification.atProtocol ?? '',
+        (did: string) => {
+          if (did) {
+            config.verification.atProtocol = did;
+          } else {
+            config.verification.atProtocol = null;
+          }
         }
-      }}
+      }
       oninput={() => updater.update(config)}
       placeholder="did:plc:abcdef..."
     />
+    {#if config.verification.atProtocol}
+      <p>Your DID will be placed at <code>/.well-known/atproto-did</code></p>
+    {/if}
+
+    <label for="google-verification">
+      <a
+        href="https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag"
+        target="_blank"
+      >
+        <h4>Google Search Console</h4>
+      </a>
+    </label>
+    <p>Use this verification for Google Search Console.</p>
+    <TextInput
+      id="google-verification"
+      bind:value={
+        () => config.verification.google ?? '',
+        (newValue: string) => {
+          if (newValue) {
+            config.verification.google = newValue;
+          } else {
+            config.verification.google = null;
+          }
+        }
+      }
+      oninput={() => updater.update(config)}
+    />
+    {#if config.verification.google}
+      <p>Your verification will be included as:</p>
+      <CodeBlock
+        language="html"
+        code={`<meta name="${consts.VERIFICATION_TAGS.google}" content="${config.verification.google}" />`}
+      />
+    {/if}
+
+    <label for="bing-verification">
+      <a
+        href="https://www.bing.com/webmasters/help/add-and-verify-site-12184f8b"
+        target="_blank"
+      >
+        <h4>Bing Webmaster</h4>
+      </a>
+    </label>
+    <p>Use this verification for Bing Webmaster Tools.</p>
+    <TextInput
+      id="bing-verification"
+      bind:value={
+        () => config.verification.bing ?? '',
+        (newValue: string) => {
+          if (newValue) {
+            config.verification.bing = newValue;
+          } else {
+            config.verification.bing = null;
+          }
+        }
+      }
+      oninput={() => updater.update(config)}
+    />
+    {#if config.verification.bing}
+      <p>Your verification will be included as:</p>
+      <CodeBlock
+        language="html"
+        code={`<meta name="${consts.VERIFICATION_TAGS.bing}" content="${config.verification.bing}" />`}
+      />
+    {/if}
   </form>
 </div>
 

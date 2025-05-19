@@ -31,6 +31,12 @@ export const MIME_TYPES = {
   HTML: 'text/html',
 } as const;
 
+/** Tags to use for verification */
+export const VERIFICATION_TAGS = {
+  google: 'google-site-verification',
+  bing: 'msvalidate.01',
+} as const;
+
 export default {
   APP_NAME,
   APP_GITHUB,
@@ -40,4 +46,5 @@ export default {
   APP_CONTRIBUTORS,
   EDIT_COMMIT_HESITATION,
   MIME_TYPES,
+  VERIFICATION_TAGS,
 };

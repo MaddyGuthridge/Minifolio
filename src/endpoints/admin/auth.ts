@@ -72,4 +72,15 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       { token, ...payload.json({ username, password }) },
     ).json() as Promise<Record<string, never>>;
   },
+  /**
+   * Regenerate authentication secret, thereby invalidating all sessions for all users.
+   */
+  regenerateSecret: async () => {
+    return apiFetch(
+      fetchFn,
+      'POST',
+      '/api/admin/auth/regenerate-secret',
+      { token },
+    ).json() as Promise<Record<string, never>>;
+  },
 });

@@ -4,6 +4,7 @@
   import api from '$endpoints';
   import { APP_NAME } from '$lib/consts';
   import { Button, TextInput } from '$components/base';
+    import { dev } from '$app/environment';
 
   type Props = {
     /** Public key currently being used by the server */
@@ -66,15 +67,15 @@
   </form>
 {/snippet}
 
-{#snippet systemSsh()}
+{#snippet disableSsh()}
   <form
     onsubmit={(e) => {
       e.preventDefault();
       void useSystemSsh();
     }}
   >
-    <div>Use the system's SSH configuration</div>
-    <Button type="submit">Use system SSH</Button>
+    <div>Disable SSH authentication</div>
+    <Button type="submit">Disable SSH</Button>
   </form>
 {/snippet}
 
@@ -82,11 +83,11 @@
   <h2>SSH key settings</h2>
   {#if privateKeyPath === null}
     <p>
-      <b>{APP_NAME} is using your system's default SSH configuration.</b>
-    </p>
-    <p>
-      Note that in Docker, this may be unset, unless you are forwarding your
-      host's SSH agent.
+      {#if dev}
+        <b>Using system SSH</b>
+      {:else}
+        <b>SSH authentication is disabled.</b>
+      {/if}
     </p>
     {@render keyAtPath()}
     {@render generateKey()}
@@ -98,7 +99,7 @@
     <CopyButton text={publicKey ?? ''}>Copy to clipboard</CopyButton>
     {@render keyAtPath()}
     {@render generateKey()}
-    {@render systemSsh()}
+    {@render disableSsh()}
   {/if}
 </div>
 

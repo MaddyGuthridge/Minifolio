@@ -15,4 +15,16 @@ export const IdVerificationStruct = object({
    * ID is returned by the `/.well-known/atproto-did` endpoint
    */
   atProtocol: nullable(string()),
+  /**
+   * Google site verification.
+   *
+   * Links placed in `<meta name="google-site-verification" content="..." />` tag
+   */
+  google: nullable(string()),
+  /**
+   * Bing site verification.
+   *
+   * Links placed in `<meta name="msvalidate01" content="..." />` tag
+   */
+  bing: nullable(string()),
 });

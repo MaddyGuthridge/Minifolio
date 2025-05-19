@@ -27,6 +27,8 @@ export function makeConfig(options: Partial<ConfigJson> = {}): ConfigJson {
     verification: {
       relMe: [],
       atProtocol: null,
+      google: null,
+      bing: null,
     },
     version,
   };

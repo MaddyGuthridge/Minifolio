@@ -14,6 +14,8 @@ describe('rel="me"', () => {
     await api.config.put(makeConfig({ verification: {
       relMe: [url],
       atProtocol: null,
+      google: null,
+      bing: null,
     }}));
 
     // rel="me" now included in metadata
@@ -26,6 +28,8 @@ describe('rel="me"', () => {
     await expect(api.config.put(makeConfig({ verification: {
       relMe: [url],
       atProtocol: null,
+      google: null,
+      bing: null,
     }}))).rejects.toMatchObject({ code: 400 });
   });
 });
@@ -36,6 +40,8 @@ describe('AT Protocol', () => {
     await api.config.put(makeConfig({ verification: {
       relMe: [],
       atProtocol: did,
+      google: null,
+      bing: null,
     }}));
 
     // AT protocol page now shows that content
@@ -46,6 +52,8 @@ describe('AT Protocol', () => {
     await expect(api.config.put(makeConfig({ verification: {
       relMe: [],
       atProtocol: 'invalid:did:abcdef...',
+      google: null,
+      bing: null,
     }}))).rejects.toMatchObject({ code: 400 });
   });
 

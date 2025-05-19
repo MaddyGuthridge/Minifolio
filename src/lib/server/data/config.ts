@@ -60,7 +60,9 @@ export async function initConfig() {
     siteIcon: null,
     verification: {
       relMe: [],
-      atProtocol: null
+      atProtocol: null,
+      google: null,
+      bing: null,
     },
     version,
   });

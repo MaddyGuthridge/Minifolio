@@ -10,6 +10,10 @@
 # * The private_data directory will be set up inside `./private_data` on the
 #   host system.
 #
+# Importantly, you will need to manually create these directories yourself as
+# Docker will create them as the root user, making them un-writable for the
+# `node` user under which the server runs.
+#
 # Note that you may need to adjust these paths if you copy this file out from
 # this repo, since it is written so it works nicely when located inside of the
 # `docker/` directory.
@@ -29,12 +33,12 @@ services:
     ports:
       - 127.0.0.1:5097:3000/tcp
     volumes:
-      - "../data:/data:rw"
-      - "../private_data:/private_data:rw"
+      - "../data:/home/node/data:rw"
+      - "../private_data:/home/node/private_data:rw"
 
     environment:
-      DATA_REPO_PATH: "/data"
-      PRIVATE_DATA_PATH: "/private_data"
+      DATA_REPO_PATH: "/home/node/data"
+      PRIVATE_DATA_PATH: "/home/node/private_data"
       HOST: 0.0.0.0
       PORT: 3000
       # Request body has max size of 10 MB. Adjust as needed

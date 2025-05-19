@@ -5,12 +5,6 @@
 
 FROM node:22
 
-# Make volumes be owned by the node user
-RUN mkdir /data
-RUN chown node:node /data
-RUN mkdir /private_data
-RUN chown node:node /private_data
-
 # Install Git and SSH
 RUN apt install -y openssh-client git
 

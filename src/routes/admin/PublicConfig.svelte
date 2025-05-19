@@ -55,7 +55,7 @@
     <h3>Website verification</h3>
     <label for="rel-me">
       <a href="https://indieweb.org/rel-me" target="_blank">
-        <h4>rel="me" verification</h4>
+        <h4>rel="me"</h4>
       </a>
     </label>
     <p>Use this verification for GitHub, Mastodon and Wikipedia.</p>
@@ -80,9 +80,10 @@
         .map((me) => `<link rel="me" href="${me}" />`)
         .join('\n')}
     />
+
     <label for="at-verification">
       <a href="https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial">
-        <h4>AT Protocol verification</h4>
+        <h4>AT Protocol</h4>
       </a>
     </label>
     <p>Use this verification for Bluesky.</p>
@@ -98,6 +99,44 @@
       }}
       oninput={() => updater.update(config)}
       placeholder="did:plc:abcdef..."
+    />
+
+    <label for="google-verification">
+      <a href="https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag">
+        <h4>Google Search Console</h4>
+      </a>
+    </label>
+    <p>Use this verification for Google Search Console.</p>
+    <TextInput
+      id="google-verification"
+      bind:value={() => config.verification.google ?? '',
+      (newValue: string) => {
+        if (newValue) {
+          config.verification.google = newValue;
+        } else {
+          config.verification.google = null;
+        }
+      }}
+      oninput={() => updater.update(config)}
+    />
+
+    <label for="bing-verification">
+      <a href="https://www.bing.com/webmasters/help/add-and-verify-site-12184f8b">
+        <h4>Bing Webmaster</h4>
+      </a>
+    </label>
+    <p>Use this verification for Bing Webmaster Tools.</p>
+    <TextInput
+      id="bing-verification"
+      bind:value={() => config.verification.bing ?? '',
+      (newValue: string) => {
+        if (newValue) {
+          config.verification.bing = newValue;
+        } else {
+          config.verification.bing = null;
+        }
+      }}
+      oninput={() => updater.update(config)}
     />
   </form>
 </div>

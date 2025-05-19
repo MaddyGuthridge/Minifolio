@@ -9,6 +9,7 @@ import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 import { getLocalConfig } from './data/localConfig';
 import { nonempty, nullable, object, string, type Infer } from 'superstruct';
 import { execa } from 'execa';
+import { runningInDocker } from './machine';
 
 /** Path to the SSH known hosts file */
 const knownHostsFile = () => path.join(defaultKeysDirectory(), 'known_hosts');
@@ -31,6 +32,7 @@ export type GitConfig = Infer<typeof GitConfigStruct>;
  */
 export const gitClient = async (baseDir: string | undefined) => {
   const localConfig = await getLocalConfig();
+
   const gitConfig: string[] = [];
   if (localConfig.gitConfig.userName) {
     gitConfig.push(`user.name=${localConfig.gitConfig.userName}`);
@@ -93,6 +95,7 @@ export function urlRequiresSsh(url: string): boolean {
  *                  "host.com"
  */
 export async function runSshKeyscan(url: string) {
+  console.log('repoUrl requires SSH, running keyscan...');
   // FIXME: This probably doesn't work in some cases
   const host = url.split('@', 2)[1].split(':', 1)[0];
 
@@ -101,10 +104,11 @@ export async function runSshKeyscan(url: string) {
 
   // Check if ~/.ssh/known_hosts already has this host in it
   if (await fileExists(knownHostsFile())) {
+    console.log(`Checking if host '${host}' is included in known hosts`);
     const hostsContent = await fs.readFile(knownHostsFile(), { encoding: 'utf-8' });
     for (const line of hostsContent.split(/\r?\n/)) {
       if (line.startsWith(`${host} `)) {
-        // Host is already known
+        console.log('Host is already known');
         return;
       }
     }
@@ -117,6 +121,7 @@ export async function runSshKeyscan(url: string) {
 
   // Now add to known hosts file
   await fs.appendFile(knownHostsFile(), process.stdout, { encoding: 'utf-8' });
+  console.log('ssh-keyscan success');
 }
 
 /** Return status info for repo */
@@ -204,6 +209,11 @@ export async function initRepo(url: string) {
  * later.
  */
 export async function commit(message: string) {
+  const localConfig = await getLocalConfig();
+  if (await runningInDocker() && !localConfig.gitConfig.userName && !localConfig.gitConfig.userEmail) {
+    error(400, 'When Minifolio is running in Docker, you must configure `git` credentials before creating a commit');
+  }
+
   const git = await gitClient(getDataDir());
 
   const changes = await git.status();

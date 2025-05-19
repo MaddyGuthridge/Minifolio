@@ -9,6 +9,8 @@ import { unixTime } from '$lib/util';
 import { generateToken } from './tokens';
 import type { Cookies } from '@sveltejs/kit';
 import { generateAuthSecret } from './secret';
+import { runningInDocker } from '../machine';
+import { generateKey } from '../keys';
 
 /**
  * Set up auth information.
@@ -17,7 +19,8 @@ import { generateAuthSecret } from './secret';
  *
  * 1. Setting up the auth secret
  * 2. Creating the first account
- * 3. Storing the auth info info the local config.
+ * 3. Storing the auth info info the local config
+ * 4. In Docker, ensuring that the system has an SSH key
  */
 export async function authSetup(
   username: string,
@@ -63,6 +66,12 @@ export async function authSetup(
     version,
   };
   await setLocalConfig(config);
+
+  // Now that basic config is set up, if we're running in Docker, ensure that we have a valid SSH
+  // key (since system SSH will be unavailable).
+  if (await runningInDocker()) {
+    await generateKey();
+  }
 
   return generateToken(userId, cookies);
 }

@@ -51,6 +51,11 @@
         icon: '',
       },
     },
+    download: {
+      type: 'download',
+      label: null,
+      file: '',
+    },
   } as const;
 </script>
 

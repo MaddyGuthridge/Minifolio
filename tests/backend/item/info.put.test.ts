@@ -88,6 +88,7 @@ describe('Success', () => {
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
+
     it.each<RepoInfo>([
       { provider: 'github', path: 'MaddyGuthridge/Minifolio' },
       {
@@ -110,6 +111,7 @@ describe('Success', () => {
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
+
     it.each<PackageInfo>([
       { provider: 'npm', id: 'jsc-compiler' },
       { provider: 'pypi', id: 'pyhtml-enhanced' },
@@ -150,6 +152,20 @@ describe('Success', () => {
         ]
       });
 
+      await expect(api.item(childItemId).info.put(info))
+        .resolves.toStrictEqual({});
+    });
+
+    it('Accepts valid file downloads', async () => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'download',
+            label: 'Download as PDF',
+            file: 'README.md',
+          }
+        ]
+      });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
@@ -309,6 +325,34 @@ describe('400', () => {
         ]
       });
 
+      await expect(api.item(childItemId).info.put(info))
+        .rejects.toMatchObject({ code: 400 });
+    });
+
+    it('Rejects download sections where the file does not exist', async () => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'download',
+            label: 'Download a random text file',
+            file: 'invalid.txt',
+          }
+        ]
+      });
+      await expect(api.item(childItemId).info.put(info))
+        .rejects.toMatchObject({ code: 400 });
+    });
+
+    it('Rejects download sections where the file exists in a parent directory', async () => {
+      const info = makeItemInfo({
+        sections: [
+          {
+            type: 'download',
+            label: 'Download a random text file',
+            file: '../README.md',
+          }
+        ]
+      });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
     });

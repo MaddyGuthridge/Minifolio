@@ -203,6 +203,7 @@
       {/if}
       {#each thisItem.info.sections as _section, i}
         <Section
+          item={data.itemId}
           portfolio={data.portfolio}
           bind:section={thisItem.info.sections[i]}
           {editing}

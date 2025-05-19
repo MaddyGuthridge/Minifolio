@@ -9,6 +9,12 @@ function helloWorld() {
   console.log(`Check out the code at\n${consts.APP_GITHUB}`);
 }
 
+/** When page is loaded, attempt to refresh the token if possible */
+function refreshToken() {
+  void api().admin.auth.refresh()
+    .catch(() => {/* Ignore errors */});
+}
+
 export const init = () => {
   helloWorld();
   // In dev mode, attach some useful tools to the console
@@ -20,5 +26,6 @@ export const init = () => {
     // @ts-expect-error -- attach content observer get state function
     globalThis.observerState = getObserverState;
   }
+  refreshToken();
 }
 

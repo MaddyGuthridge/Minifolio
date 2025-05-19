@@ -21,7 +21,8 @@ it('Generates a basic sitemap for an empty site', async () => {
     urlset: {
       '@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
       url: {
-        loc: `${BASE_URL}/`
+        loc: `${BASE_URL}/`,
+        lastmod: expect.any(String),
       }
     }
   });
@@ -35,9 +36,11 @@ it('Includes children in sitemap', async () => {
       url: [
         {
           loc: `${BASE_URL}/`,
+          lastmod: expect.any(String),
         },
         {
           loc: `${BASE_URL}/child`,
+          lastmod: expect.any(String),
         },
       ]
     }

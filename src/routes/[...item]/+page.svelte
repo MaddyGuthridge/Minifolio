@@ -103,10 +103,10 @@
   {/each}
   <!-- Site verification: Google and Bing -->
   {#if data.config.verification.google}
-    <meta name="google-site-verification" content={data.config.verification.google} />
+    <meta name={consts.VERIFICATION_TAGS.google} content={data.config.verification.google} />
   {/if}
   {#if data.config.verification.bing}
-    <meta name="msvalidate.01" content={data.config.verification.bing} />
+    <meta name={consts.VERIFICATION_TAGS.bing} content={data.config.verification.bing} />
   {/if}
 
   <!-- Feeds -->

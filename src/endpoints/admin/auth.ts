@@ -30,6 +30,17 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     ).json();
   },
   /**
+   * Refresh the given token, invalidating it and returning a new one.
+   */
+  refresh: async () => {
+    return apiFetch(
+      fetchFn,
+      'POST',
+      '/api/admin/auth/refresh',
+      { token },
+    ).json() as Promise<{ token: string }>;
+  },
+  /**
    * Change the authentication of the admin account
    *
    * @param token The auth token
@@ -70,6 +81,17 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       'POST',
       '/api/admin/auth/disable',
       { token, ...payload.json({ username, password }) },
+    ).json() as Promise<Record<string, never>>;
+  },
+  /**
+   * Regenerate authentication secret, thereby invalidating all sessions for all users.
+   */
+  regenerateSecret: async () => {
+    return apiFetch(
+      fetchFn,
+      'POST',
+      '/api/admin/auth/regenerate-secret',
+      { token },
     ).json() as Promise<Record<string, never>>;
   },
 });

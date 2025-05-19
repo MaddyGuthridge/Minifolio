@@ -1,14 +1,30 @@
 /**
  * Test cases for POST /api/admin/auth/revoke
  */
-import { it, expect } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../../helpers';
-import api from '$endpoints';
+import type { ApiClient } from '$endpoints';
+import genTokenTests from '../../tokenCase';
+
+let api: ApiClient;
+let username: string;
+let password: string;
+
+beforeEach(async () => {
+  const res = await setup();
+  api = res.api;
+  username = res.username;
+  password = res.password;
+});
+
+genTokenTests(
+  () => api,
+  api => api.admin.auth.logout(),
+);
 
 const sleep = (ms: number) => new Promise<void>((r) => void setTimeout(r, ms));
 
-it('Revokes the current token', async () => {
-  const { api, username, password } = await setup();
+it('Revokes all current tokens', async () => {
   const { token: token2 } = await api.admin.auth.login(username, password);
   // Wait a second, since otherwise the token will have been created at the new
   // notBefore time
@@ -22,12 +38,7 @@ it('Revokes the current token', async () => {
   await expect(api.withToken(token3).admin.auth.logout()).toResolve();
 });
 
-it('Fails for invalid tokens', async () => {
-  await expect(api(undefined).admin.auth.revoke()).toReject();
-});
-
 it('Gives a 400 when no data directory is set up', async () => {
-  const { api } = await setup();
   await api.debug.clear();
   await expect(api.admin.auth.revoke()).rejects.toMatchObject({ code: 400 });
 });

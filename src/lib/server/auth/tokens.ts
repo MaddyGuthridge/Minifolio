@@ -6,8 +6,8 @@ import { getLocalConfig, setLocalConfig } from '../data/localConfig';
 import { error, type Cookies } from '@sveltejs/kit';
 import { getAuthSecret } from './secret';
 
-/** Maximum lifetime of a session -- 14 days */
-const sessionLifetime = 60 * 60 * 24 * 14;
+/** Maximum lifetime of a session -- 3 days (unless refreshed) */
+const sessionLifetime = 60 * 60 * 24 * 3;
 
 /** Algorithm to sign and validate JWT */
 const algorithm: JwtAlgorithm = 'HS256';

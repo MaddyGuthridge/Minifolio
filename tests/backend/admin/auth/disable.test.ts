@@ -1,11 +1,28 @@
 /**
  * Test cases for POST /api/admin/auth/disable
  */
-import { it, expect } from 'vitest';
+import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../../helpers';
+import type { ApiClient } from '$endpoints';
+import genTokenTests from '../../tokenCase';
+
+let api: ApiClient;
+let username: string;
+let password: string;
+
+beforeEach(async () => {
+  const res = await setup();
+  api = res.api;
+  username = res.username;
+  password = res.password;
+});
+
+genTokenTests(
+  () => api,
+  api => api.admin.auth.disable(username, password),
+);
 
 it('Disables authentication', async () => {
-  const { api, username, password } = await setup();
   await expect(api.admin.auth.disable(username, password)).resolves.toStrictEqual({});
   // Logging in should fail
   await expect(api.admin.auth.login(username, password))
@@ -18,20 +35,12 @@ it('Disables authentication', async () => {
   await expect(api.admin.auth.logout()).rejects.toMatchObject({ code: 401 });
 });
 
-it('Errors for invalid tokens', async () => {
-  const { api, username, password } = await setup();
-  await expect(api.withToken('invalid').admin.auth.disable(username, password))
-    .rejects.toMatchObject({ code: 401 });
-});
-
 it('Errors for incorrect passwords', async () => {
-  const { api, username } = await setup();
   await expect(api.admin.auth.disable(username, 'incorrect'))
     .rejects.toMatchObject({ code: 403 });
 });
 
 it('Errors if the data is not set up', async () => {
-  const { api, username, password } = await setup();
   await api.debug.clear();
   await expect(api.admin.auth.disable(username, password))
     .rejects.toMatchObject({ code: 400 });

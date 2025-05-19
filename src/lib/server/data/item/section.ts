@@ -11,6 +11,7 @@ import { RepoInfoStruct } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
 import { linkDisplayStyles } from '$lib/links';
+import { validateFile } from '$lib/server/serverValidate';
 
 /** Header within the sections */
 const HeadingSectionStruct = type({
@@ -93,6 +94,19 @@ const SiteSectionStruct = type({
 /** Website link */
 export type SiteSection = Infer<typeof SiteSectionStruct>;
 
+/** File download */
+const DownloadSectionStruct = type({
+  /** The type of section (in this case 'download') */
+  type: literal('download'),
+  /** The file-name of the file that should be downloaded */
+  file: string(),
+  /** The text to display for the section (defaults to "Download") */
+  label: nullable(string()),
+});
+
+/** File download */
+export type DownloadSection = Infer<typeof DownloadSectionStruct>;
+
 /** A section on the item page */
 export const ItemSectionStruct = union([
   HeadingSectionStruct,
@@ -100,6 +114,7 @@ export const ItemSectionStruct = union([
   PackageSectionStruct,
   RepoSectionStruct,
   SiteSectionStruct,
+  DownloadSectionStruct,
 ]);
 
 /** A section on the item page */
@@ -123,6 +138,12 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
         validate.name(data.label);
       }
       validate.url(data.url);
+      break;
+    case 'download':
+      if (data.label !== null) {
+        validate.name(data.label);
+      }
+      await validateFile(itemId, data.file);
       break;
   }
 }

@@ -1,7 +1,9 @@
 <script lang="ts">
   import { Button } from '$components/base';
+  import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import type { ItemSection } from '$lib/server/data/item/section';
+  import Download from './Download.svelte';
   import Heading from './Heading.svelte';
   import Links from './Links.svelte';
   import Package from './Package.svelte';
@@ -9,6 +11,7 @@
   import Site from './Site.svelte';
 
   type Props = {
+    item: ItemId;
     section: ItemSection;
     editing: boolean;
     portfolio: ItemData;
@@ -19,6 +22,7 @@
   };
 
   let {
+    item,
     section = $bindable(),
     editing,
     portfolio,
@@ -39,6 +43,8 @@
       <Heading bind:section {editing} {onchange} />
     {:else if section.type === 'links'}
       <Links bind:section {editing} {portfolio} {onchange} />
+    {:else if section.type === 'download'}
+      <Download bind:section {editing} {portfolio} {item} {onchange} />
     {/if}
   </div>
   {#if editing}

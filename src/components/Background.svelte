@@ -36,7 +36,7 @@
   /**
    * Color hue offsets, picked based on the given color.
    *
-   * Each color is of the form `[color, posX, posY, spread]`
+   * Each color is of the form `{ color, posX, posY, spread }`
    */
   const colors: Splotch[] = $derived(
     [...Array(numSplotches).keys()].map(() => {

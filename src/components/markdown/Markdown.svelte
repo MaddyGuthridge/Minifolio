@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { marked, type Tokens } from 'marked';
+  import { Marked, Renderer, type Tokens } from 'marked';
   import hljs from 'highlight.js';
   import 'highlight.js/styles/stackoverflow-light.css';
   // Custom heading IDs using `{#id}` after heading text
@@ -19,7 +19,7 @@
   // https://github.com/markedjs/marked/discussions/2982#discussioncomment-6979586
   const renderer = {
     link(options: Tokens.Link) {
-      const link = marked.Renderer.prototype.link.call(this, options);
+      const link = Renderer.prototype.link.call(this, options);
       // Only make links open in a new tab if they point to a different page
       if (options.href.startsWith('#')) {
         return link;
@@ -28,9 +28,14 @@
       }
     },
   };
-  marked.use(gfmHeadingId(), customHeadingId(), markedSmartypantsLite(), {
-    renderer,
-  });
+
+  // Specifically instantiate a new `Marked` instance to avoid exceeding the call stack
+  const marked = new Marked(
+    gfmHeadingId(),
+    customHeadingId(),
+    markedSmartypantsLite(),
+    { renderer },
+  );
 
   let markdownRender: HTMLDivElement | undefined = $state();
 
@@ -47,7 +52,7 @@
       });
     });
   }
-  const rendered = $derived(marked(source));
+  const rendered = $derived(marked.parse(source));
   $effect(() => {
     if (rendered && markdownRender) {
       applySyntaxHighlighting(markdownRender);
@@ -57,16 +62,14 @@
 
 <div
   class="markdown-render"
-  style={
-    article ?
-      `
+  style={article
+    ? `
         max-width: 800px;
         font-family: Garamond, serif;
       `
-      : `
+    : `
         max-width: 1000px;
-      `
-  }
+      `}
   bind:this={markdownRender}
 >
   <!--

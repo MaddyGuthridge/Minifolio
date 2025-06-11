@@ -1,13 +1,19 @@
 import dotenv from 'dotenv';
 import ApiError from './ApiError';
-// import fetch from 'cross-fetch';
 import { browser } from '$app/environment';
 import response from './response';
 import type { PayloadInfo } from './payload';
 
 export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-/** Determine which URL to request to */
+/**
+ * Determines the URL to send requests to.
+ *
+ * For example, if running in the browser, request to the current host
+ * Or if running in test suite, request to `process.env` `HOST` and `PORT`.
+ *
+ * @returns URL of the backend server
+ */
 export function getUrl() {
   if (browser) {
     // Running in browser (request to whatever origin we are running in)

@@ -13,8 +13,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "svelte-kit sync && eslint .",
-    "lint-fix": "svelte-kit sync && eslint --fix .",
-    "ts-node": "ts-node-esm"
+    "lint:fix": "svelte-kit sync && eslint --fix ."
   },
   "type": "module",
   "dependencies": {

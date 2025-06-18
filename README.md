@@ -26,7 +26,7 @@ npm run dev -- --open
   and stopped.
 * Type checking can be run with `npm run check`.
 * Linting can be run with `npm run lint`. Automatic fixes can be applied using
-  `npm run lint-fix`.
+  `npm run lint:fix`.
 
 ### Building
 
@@ -39,5 +39,8 @@ npm run build
 To run the production server:
 
 ```bash
-node -r dotenv/config build
+npm run production
 ```
+
+Or you can just use Docker: see instructions for the various docker configs in
+the `docker/` directory.

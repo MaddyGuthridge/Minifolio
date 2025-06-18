@@ -81,6 +81,12 @@
 </div>
 
 <style>
+  /* Better text spacing */
+  .markdown-render {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: #111;
+  }
   /* Justify text */
   .markdown-render :global(p) {
     text-align: justify;

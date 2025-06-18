@@ -81,15 +81,24 @@
 </div>
 
 <style>
-  /* Better text spacing */
+  /* Better text readability */
   .markdown-render {
+    /* Larger font size */
     font-size: 1.2rem;
-    line-height: 1.4;
     color: #111;
+    /* Paragraph spacing */
+    line-height: 1.5;
   }
-  /* Justify text */
   .markdown-render :global(p) {
+    /* Justify text */
     text-align: justify;
+  }
+
+  .markdown-render :global(h1),
+  .markdown-render :global(h2),
+  .markdown-render :global(h3) {
+    /* Less spacing on headings */
+    line-height: 1.2;
   }
 
   /* Make images fit in their allocated space */
@@ -125,6 +134,7 @@
   .markdown-render :global(pre) {
     padding: 1em;
     border-radius: 5px;
+    line-height: 1.2;
   }
   /*
     hljs adds its own padding in the themes which conflicts with our own definitions, causing

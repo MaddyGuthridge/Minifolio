@@ -332,7 +332,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 1300px;
+    max-width: 1000px;
     width: 90%;
   }
 

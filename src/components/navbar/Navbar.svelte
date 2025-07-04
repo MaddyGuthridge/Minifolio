@@ -158,7 +158,7 @@
   }
 
   /* If the device is wide enough, make the navbar sticky */
-  @media (min-width: 50rem) {
+  @media (50rem <= width) {
     nav {
       position: sticky;
     }

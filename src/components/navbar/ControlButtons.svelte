@@ -53,35 +53,30 @@
   }
 </script>
 
-{#snippet buttons()}
-  <span id="control-buttons">
-    {#if loggedIn}
-      {#if editable}
-        <!-- Use the one button so that animations persist between states -->
-        <Button
-          onclick={editButtonClick}
-          mode={editing ? 'confirm' : 'default'}
-        >
-          {editing ? 'Finish editing' : 'Edit'}
-        </Button>
-      {/if}
-      <Button onclick={() => goto('/admin')}>Admin</Button>
-      <Button onclick={logOut}>Log out</Button>
-    {:else if loggedIn !== undefined}
-      <!-- Only include a login button if logging in is enabled -->
-      <Button onclick={gotoLogin}>Log in</Button>
+<span id="control-buttons">
+  {#if loggedIn}
+    {#if editable}
+      <!-- Use the one button so that animations persist between states -->
+      <Button onclick={editButtonClick} mode={editing ? 'confirm' : 'default'}>
+        {editing ? 'Finish editing' : 'Edit'}
+      </Button>
     {/if}
-    <!-- About button navigates to about page -->
-    <Button onclick={() => goto('/about')}>About</Button>
-    <!-- In dev mode, add a quick shortcut to delete everything -->
-    {#if dev}
+    <Button onclick={() => goto('/admin')}>Admin</Button>
+    <Button onclick={logOut}>Log out</Button>
+  {:else if loggedIn !== undefined}
+    <!-- Only include a login button if logging in is enabled -->
+    <Button onclick={gotoLogin}>Log in</Button>
+  {/if}
+  <!-- About button navigates to about page -->
+  <Button onclick={() => goto('/about')}>About</Button>
+  <!-- In dev mode, add a quick shortcut to delete everything -->
+  {#if dev}
+    <div class="sep">
       <Separator />
-      <Button onclick={clear} mode="warning">Clear data</Button>
-    {/if}
-  </span>
-{/snippet}
-
-{@render buttons()}
+    </div>
+    <Button onclick={clear} mode="warning">Clear data</Button>
+  {/if}
+</span>
 
 <!-- TODO: Make control buttons responsive, so they change to a curtain menu on mobile devices -->
 
@@ -93,5 +88,16 @@
     justify-content: center;
     grid-area: control-buttons;
     margin-right: 20px;
+  }
+
+  /* When screen is narrow, make buttons vertical and hide the separator */
+  @media (width < 50rem) {
+    #control-buttons {
+      flex-direction: column;
+    }
+
+    .sep {
+      display: none;
+    }
   }
 </style>

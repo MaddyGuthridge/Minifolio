@@ -68,7 +68,7 @@ For security reasons, these details are only shown if you are logged in.
   data={data.portfolio}
   loggedIn={data.loggedIn}
 />
-<Background color={'#ff00ff'} />
+<Background color={data.portfolio.info.color} />
 
 <main>
   <div>
@@ -81,8 +81,10 @@ For security reasons, these details are only shown if you are logged in.
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   main > div {
-    min-width: 80%;
+    max-width: 800px;
+    padding: 20px;
   }
 </style>

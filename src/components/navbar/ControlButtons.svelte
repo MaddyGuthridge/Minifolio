@@ -78,7 +78,7 @@
   {/if}
 </span>
 
-<!-- TODO: Make control buttons responsive, so they change to a curtain menu on mobile devices -->
+<!-- TODO: Make control buttons change to a curtain menu on mobile devices -->
 
 <style>
   #control-buttons {

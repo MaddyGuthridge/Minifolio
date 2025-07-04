@@ -13,7 +13,7 @@
   const { data }: Props = $props();
 
   const versionInfo = dev
-    ? `v${version} - dev`
+    ? `v${version}-dev`
     : `[v${version}](${consts.APP_GITHUB}/releases/tag/v${version})`;
 
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
@@ -32,7 +32,7 @@ ${authorLink}.
 
 ${contributors}
 
-Here's how you can help out:
+Here's how you can get involved:
 
 * [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_DOCS}/deploy).
 * [View the source code on GitHub](${consts.APP_GITHUB}).

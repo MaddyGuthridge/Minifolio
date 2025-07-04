@@ -13,7 +13,7 @@
   const { data }: Props = $props();
 
   const versionInfo = dev
-    ? `v${version} - dev`
+    ? `v${version}-dev`
     : `[v${version}](${consts.APP_GITHUB}/releases/tag/v${version})`;
 
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
@@ -32,7 +32,7 @@ ${authorLink}.
 
 ${contributors}
 
-Here's how you can help out:
+Here's how you can get involved:
 
 * [Learn how to deploy your own instance of ${consts.APP_NAME}](${consts.APP_DOCS}/deploy).
 * [View the source code on GitHub](${consts.APP_GITHUB}).
@@ -68,7 +68,7 @@ For security reasons, these details are only shown if you are logged in.
   data={data.portfolio}
   loggedIn={data.loggedIn}
 />
-<Background color={'#ff00ff'} />
+<Background color={data.portfolio.info.color} />
 
 <main>
   <div>
@@ -81,8 +81,10 @@ For security reasons, these details are only shown if you are logged in.
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   main > div {
-    min-width: 80%;
+    max-width: 800px;
+    padding: 20px;
   }
 </style>

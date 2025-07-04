@@ -70,17 +70,26 @@
     filterItems = createItemFilter(data.portfolio, data.itemId);
   });
 
+  // Page title
+  const pageTitle = $derived(
+    isRootItem
+      ? data.portfolio.info.name
+      : `${thisItem.info.name} - ${data.portfolio.info.name}`,
+  );
   // SEO description
   const seoDescription = getDescription(data.portfolio, data.itemId);
+  // Open graph content type
+  const ogType = $derived(
+    thisItem.info.article
+    ? 'article'
+    : 'website'
+  );
 </script>
 
 <svelte:head>
   <!-- Title -->
-  {#if isRootItem}
-    <title>{data.portfolio.info.name}</title>
-  {:else}
-    <title>{thisItem.info.name} - {data.portfolio.info.name}</title>
-  {/if}
+  <title>{pageTitle}</title>
+
   <!-- SEO -->
   {#if seoDescription}
     <meta name="description" content={seoDescription} />
@@ -89,6 +98,26 @@
     name="keywords"
     content={generateKeywords(data.portfolio, data.itemId)}
   />
+
+  <!--
+    Social (open graph)
+    https://ogp.me/
+  -->
+  <meta name="og:title" content={pageTitle} />
+  <meta name="og:description" content={seoDescription} />
+  <meta name="og:type" content={ogType} />
+  <!--
+    Adding author info for articles requires accessing data of all parent items, which is possible
+    using the given data in `data.portfolio` but I really cannot be bothered to implement that
+    at the moment.
+  -->
+
+  <!-- Site icon -->
+  {#if data.config.siteIcon}
+    <meta property="og:image" content={itemFileUrl(itemId.ROOT, data.config.siteIcon)} />
+  {:else}
+    <meta property="og:image" content={consts.APP_ICON_URL} />
+  {/if}
 
   <!-- Theming -->
   <meta name="theme-color" content={data.item.info.color} />
@@ -103,10 +132,16 @@
   {/each}
   <!-- Site verification: Google and Bing -->
   {#if data.config.verification.google}
-    <meta name={consts.VERIFICATION_TAGS.google} content={data.config.verification.google} />
+    <meta
+      name={consts.VERIFICATION_TAGS.google}
+      content={data.config.verification.google}
+    />
   {/if}
   {#if data.config.verification.bing}
-    <meta name={consts.VERIFICATION_TAGS.bing} content={data.config.verification.bing} />
+    <meta
+      name={consts.VERIFICATION_TAGS.bing}
+      content={data.config.verification.bing}
+    />
   {/if}
 
   <!-- Feeds -->

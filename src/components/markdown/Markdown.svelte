@@ -88,6 +88,8 @@
     color: #111;
     /* Paragraph spacing */
     line-height: 1.5;
+    /* Prevent overflow */
+    width: 100%;
   }
   .markdown-render :global(p) {
     /* Justify text */

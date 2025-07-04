@@ -181,7 +181,22 @@
 
   h1 {
     margin: 0px;
-    font-size: 3em;
+  }
+
+  @media (width < 30rem) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+  @media (30rem <= width < 50rem) {
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+  @media (50rem <= width) {
+    h1 {
+      font-size: 3rem;
+    }
   }
 </style>
 

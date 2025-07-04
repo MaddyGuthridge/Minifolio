@@ -94,6 +94,8 @@
   .markdown-render :global(p) {
     /* Justify text */
     text-align: justify;
+    /* Hyphenate text in paragraphs if needed */
+    hyphens: auto;
   }
 
   .markdown-render :global(h1),

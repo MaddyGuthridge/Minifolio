@@ -3,7 +3,7 @@
 #
 # Dockerfile for running the server in dev mode
 
-FROM node:22
+FROM node:24
 
 # Install Git and SSH
 RUN apt install -y openssh-client git

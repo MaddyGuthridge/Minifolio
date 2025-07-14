@@ -113,21 +113,21 @@ export default ts.config(
       // ======================
 
       // Use semicolons to help prevent weird and wonderful JS quirks
-      "@stylistic/semi": ["error", "always", { omitLastInOneLineBlock: true }],
+      '@stylistic/semi': ['error', 'always', { omitLastInOneLineBlock: true }],
       // Single quotes where possible
-      "@stylistic/quotes": ["error", "single", { avoidEscape: true, allowTemplateLiterals: false }],
+      '@stylistic/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
       // Only quote object properties if it'd be a syntax error otherwise
-      "@stylistic/quote-props": ["error", "as-needed"],
+      '@stylistic/quote-props': ['error', 'as-needed'],
       // Use one true brace style
-      "@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+      '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
       // Always use comma for delimiting type definitions, since it matches object notation
-      "@stylistic/member-delimiter-style": ["error", {
+      '@stylistic/member-delimiter-style': ['error', {
         multiline: {
-          delimiter: "comma",
+          delimiter: 'comma',
           requireLast: true,
         },
         singleline: {
-          delimiter: "comma",
+          delimiter: 'comma',
           requireLast: false,
         }
       }],

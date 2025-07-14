@@ -137,7 +137,9 @@ async function groupToItem(dataDir: string, group: string) {
     children: groupInfo.listedItems,
     filters: groupInfo.filterGroups.map((g: string) => itemId.fromComponents([g])),
     seo: {
-      description: groupInfo.pageDescription ?? null,
+      // Cannot use `??` since I want to handle the case where groupInfo.pageDescription is ''
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      description: groupInfo.pageDescription || null,
       keywords: groupInfo.keywords,
     },
   });
@@ -185,7 +187,8 @@ async function updateItemInfo(dataDir: string, item: ItemId) {
     children: [],
     filters: [],
     seo: {
-      description: itemInfo.pageDescription ?? null,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      description: itemInfo.pageDescription || null,
       keywords: itemInfo.keywords,
     },
   });

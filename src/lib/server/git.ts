@@ -134,7 +134,7 @@ export async function getRepoStatus(): Promise<RepoStatus> {
   const branch = status.current !== 'No' ? status.current : null;
 
   return {
-    url: (await git.remote(['get-url', 'origin']) || '').trim(),
+    url: (await git.remote(['get-url', 'origin']) ?? '').trim(),
     branch,
     // If command fails, no commit has been made
     commit: await git.revparse(['HEAD']).catch(() => null),

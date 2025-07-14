@@ -84,9 +84,7 @@ export const devLogger: Handle = async (req) => {
   // Only use spinners if connected to a tty to avoid creating a needlessly
   // long log file
   const isTty = process.stdout.isTTY;
-  if (!spinners) {
-    spinners = new Spinnies();
-  }
+  spinners ??= new Spinnies();
 
   const requestId = `${requestCount++}`;
   const requestStartTime = Date.now();

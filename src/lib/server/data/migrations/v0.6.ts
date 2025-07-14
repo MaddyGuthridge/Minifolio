@@ -110,7 +110,7 @@ async function createRootItem(dataDir: string) {
     children: oldConfig.listedGroups,
     filters: [],
     seo: {
-      description: oldConfig.siteDescription || null,
+      description: oldConfig.siteDescription ?? null,
       keywords: oldConfig.siteKeywords,
     },
   });
@@ -137,7 +137,7 @@ async function groupToItem(dataDir: string, group: string) {
     children: groupInfo.listedItems,
     filters: groupInfo.filterGroups.map((g: string) => itemId.fromComponents([g])),
     seo: {
-      description: groupInfo.pageDescription || null,
+      description: groupInfo.pageDescription ?? null,
       keywords: groupInfo.keywords,
     },
   });
@@ -185,7 +185,7 @@ async function updateItemInfo(dataDir: string, item: ItemId) {
     children: [],
     filters: [],
     seo: {
-      description: itemInfo.pageDescription || null,
+      description: itemInfo.pageDescription ?? null,
       keywords: itemInfo.keywords,
     },
   });

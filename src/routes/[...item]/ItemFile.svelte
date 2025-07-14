@@ -9,11 +9,11 @@
 
   type Props = {
     /** ItemId to which file belongs */
-    itemId: ItemId;
+    itemId: ItemId,
     /** File name */
-    filename: string;
+    filename: string,
     /** Full list of files (bind to this so that updates are correctly processed) */
-    files: string[];
+    files: string[],
   };
 
   let { itemId, filename, files = $bindable() }: Props = $props();
@@ -25,7 +25,7 @@
   async function deleteFile() {
     await reportError(async () => {
       await api().item(itemId).file(filename).delete();
-      files = files.filter((f) => f !== filename);
+      files = files.filter(f => f !== filename);
     }, 'Unable to delete file file');
   }
 

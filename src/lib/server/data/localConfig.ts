@@ -46,7 +46,7 @@ export const ConfigLocalJsonStruct = object({
        * sessions that have expired).
        */
       revokedSessions: record(string(), number()),
-    })
+    }),
   })),
   /**
    * Whether to enable fail2ban, where IP addresses that fail to log in are

@@ -15,14 +15,13 @@ beforeEach(async () => {
   api = (await setup()).api;
 });
 
-
 describe('Success', () => {
   it('Creates the file', async () => {
     await expect(
       api
         .item(itemId.ROOT)
         .file('example.md')
-        .post(payload.file(await fromFileSystem('README.md')))
+        .post(payload.file(await fromFileSystem('README.md'))),
     ).resolves.toStrictEqual({});
   });
 });
@@ -38,7 +37,7 @@ describe('400', () => {
       api
         .item(itemId.ROOT)
         .file('example.md')
-        .post(payload.file(await fromFileSystem('README.md')))
+        .post(payload.file(await fromFileSystem('README.md'))),
     ).rejects.toMatchObject({ code: 400 });
   });
 });
@@ -59,7 +58,7 @@ describe('404', () => {
       api
         .item(itemId.fromStr('/invalid'))
         .file('example.md')
-        .post(payload.file(await fromFileSystem('README.md')))
-     ).rejects.toMatchObject({ code: 404 });
+        .post(payload.file(await fromFileSystem('README.md'))),
+    ).rejects.toMatchObject({ code: 404 });
   });
 });

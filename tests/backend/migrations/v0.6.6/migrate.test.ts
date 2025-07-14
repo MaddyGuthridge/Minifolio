@@ -27,7 +27,7 @@ describe('Public data', () => {
     const child = await api.item(childId).info.get();
     expect(child).toMatchObject({
       // Only listed child is included
-      children: ['listed']
+      children: ['listed'],
     });
     await validateItemInfo(childId, child);
 
@@ -51,7 +51,7 @@ describe('Public data', () => {
           icon: null,
           label: null,
         },
-      ])
+      ]),
     });
   });
 
@@ -64,7 +64,7 @@ describe('Public data', () => {
           items: ['/group/unlisted'],
           style: 'card',
         },
-      ])
+      ]),
     });
   });
 });

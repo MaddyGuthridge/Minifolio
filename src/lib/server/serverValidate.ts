@@ -9,7 +9,6 @@ import path from 'node:path';
 import { contentType } from 'mime-types';
 import type { ItemId } from '$lib/itemId';
 
-
 /** Validate that the given file exists, and is readable */
 export async function validateFile(itemId: ItemId, filename: string): Promise<string> {
   const sanitized = sanitize(filename);

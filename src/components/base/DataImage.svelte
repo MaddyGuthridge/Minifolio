@@ -2,8 +2,8 @@
   import { UrlSubscription } from '$lib/observer';
 
   type Props = {
-    url: string;
-    alt: string;
+    url: string,
+    alt: string,
   };
 
   const { url, alt }: Props = $props();

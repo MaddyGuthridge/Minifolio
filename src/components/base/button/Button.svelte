@@ -4,20 +4,20 @@
 
   export type ButtonProps = {
     /** Display mode for button (controls background color) */
-    mode?: 'default' | 'warning' | 'confirm';
+    mode?: 'default' | 'warning' | 'confirm',
     /** Hint for button (controls tooltip and aria-label) */
-    hint?: string;
+    hint?: string,
     /** Whether the hint tool-tip should be interactive */
-    hintInteractive?: boolean;
+    hintInteractive?: boolean,
 
     // Standard button props
-    children: Snippet;
-    id?: string;
-    type?: 'submit';
+    children: Snippet,
+    id?: string,
+    type?: 'submit',
     /** Whether button is disabled */
-    disabled?: boolean;
+    disabled?: boolean,
     /** onclick callback */
-    onclick?: () => any;
+    onclick?: () => any,
   };
 
   const {

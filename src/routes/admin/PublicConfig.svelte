@@ -11,8 +11,8 @@
   import { itemFileUrl } from '$lib/urls';
 
   type Props = {
-    configJson: ConfigJson;
-    imageFiles: string[];
+    configJson: ConfigJson,
+    imageFiles: string[],
   };
 
   const { configJson, imageFiles }: Props = $props();
@@ -80,7 +80,7 @@
       <CodeBlock
         language="html"
         code={config.verification.relMe
-          .map((me) => `<link rel="me" href="${me}" />`)
+          .map(me => `<link rel="me" href="${me}" />`)
           .join('\n')}
       />
     {/if}

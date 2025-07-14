@@ -65,7 +65,7 @@ export function apiFetch(
   if (Object.keys(query).length) {
     url
       = `${baseUrl}${route}?`
-      + new URLSearchParams(query).toString();
+        + new URLSearchParams(query).toString();
   } else {
     url = `${baseUrl}${route}`;
   }

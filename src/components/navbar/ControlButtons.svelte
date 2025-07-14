@@ -7,14 +7,14 @@
 
   type Props = {
     /** Whether the user is logged in. Set to undefined if auth is disabled */
-    loggedIn: boolean | undefined;
-    editable?: boolean;
+    loggedIn: boolean | undefined,
+    editable?: boolean,
     /** Whether edit mode is active */
-    editing?: boolean;
+    editing?: boolean,
     /** Called when beginning edits */
-    onEditBegin?: () => void;
+    onEditBegin?: () => void,
     /** Called when finishing edits */
-    onEditFinish?: () => void;
+    onEditFinish?: () => void,
   };
 
   const {

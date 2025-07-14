@@ -11,35 +11,35 @@ export type PackageProvider = Infer<typeof PackageProviderStruct>;
 /** Info required to register a package provider */
 type ProviderInfo = {
   /** Name of provider (eg Pypi) */
-  name: string
+  name: string,
   /** Icon id to use (from LineAwesome) */
-  icon: string
+  icon: string,
   /** Return a URL for the repo given the package ID */
-  makeUrl: (id: string) => string
+  makeUrl: (id: string) => string,
   /** Return a command to install the package with the given ID */
-  makeInstallCmd: (id: string) => string
-}
+  makeInstallCmd: (id: string) => string,
+};
 
 export const packageProviders: Record<PackageProvider, ProviderInfo> = {
   // Pypi (Python)
   pypi: {
     name: 'PyPI',
     icon: 'lab la-python',
-    makeUrl: (id) => `https://pypi.org/project/${id}`,
-    makeInstallCmd: (id) => `pip install ${id}`,
+    makeUrl: id => `https://pypi.org/project/${id}`,
+    makeInstallCmd: id => `pip install ${id}`,
   },
   // NPM (Node JS)
   npm: {
     name: 'NPM',
     icon: 'lab la-npm',
-    makeUrl: (id) => `https://npmjs.com/package/${id}`,
-    makeInstallCmd: (id) => `npm install ${id}`,
+    makeUrl: id => `https://npmjs.com/package/${id}`,
+    makeInstallCmd: id => `npm install ${id}`,
   },
   docker: {
     name: 'Docker Hub',
     icon: 'lab la-docker',
-    makeUrl: (id) => `https://hub.docker.com/r/${id}`,
-    makeInstallCmd: (id) => `docker pull ${id}`,
+    makeUrl: id => `https://hub.docker.com/r/${id}`,
+    makeInstallCmd: id => `docker pull ${id}`,
   },
 };
 

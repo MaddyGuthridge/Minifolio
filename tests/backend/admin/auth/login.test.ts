@@ -80,7 +80,7 @@ it('Has random variance in the timing for failed passwords', async () => {
       fastest = time;
     }
   }
-  const promises: Promise<void>[] = []
+  const promises: Promise<void>[] = [];
   for (let i = 0; i < 10; i++) {
     promises.push(tryLogin());
   }

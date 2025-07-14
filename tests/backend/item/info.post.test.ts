@@ -6,11 +6,11 @@ import { setup } from '../helpers';
 import type { ApiClient } from '$endpoints';
 import genTokenTests from '../tokenCase';
 import { invalidIds, invalidNames, validIds, validNames } from '../consts';
-import { assert } from 'superstruct'
+import { assert } from 'superstruct';
 import { ItemInfoStruct } from '$lib/server/data/item';
 import itemId from '$lib/itemId';
 
-const id = itemId.fromStr('/item')
+const id = itemId.fromStr('/item');
 let api: ApiClient;
 beforeEach(async () => {
   api = (await setup()).api;
@@ -54,7 +54,7 @@ describe('400', () => {
   });
 
   it.each(invalidIds)('Rejects invalid item IDs ($case)', async ({ id }) => {
-    await expect(api.item(itemId.fromStr(`/${id}`)).info.post('My item')).rejects.toMatchObject({ code: 400 })
+    await expect(api.item(itemId.fromStr(`/${id}`)).info.post('My item')).rejects.toMatchObject({ code: 400 });
   });
 
   it('Rejects duplicate IDs', async () => {
@@ -63,7 +63,7 @@ describe('400', () => {
   });
 
   it.each(invalidNames)('Rejects invalid item names ($case)', async ({ name }) => {
-    await expect(api.item(id).info.post(name)).rejects.toMatchObject({ code: 400 })
+    await expect(api.item(id).info.post(name)).rejects.toMatchObject({ code: 400 });
   });
 });
 

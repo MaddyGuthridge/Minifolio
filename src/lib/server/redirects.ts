@@ -10,12 +10,12 @@ import { validateTokenFromRequest } from './auth';
  * If data isn't set up, redirect user to the appropriate setup page
  */
 export async function redirectForSetup() {
-    if (!await authIsSetUp()) {
-      redirect(303, '/admin/firstrun/account');
-    }
-    if (!await dataIsSetUp()) {
-      redirect(303, '/admin/firstrun/data');
-    }
+  if (!await authIsSetUp()) {
+    redirect(303, '/admin/firstrun/account');
+  }
+  if (!await dataIsSetUp()) {
+    redirect(303, '/admin/firstrun/data');
+  }
 }
 
 /**

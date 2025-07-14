@@ -32,7 +32,6 @@ async function firstrunData(token: string, options: Partial<FirstRunDataOptions>
 
   const combined = { ...defaults, ...options };
 
-
   return api(fetch, token).admin.firstrun.data(
     combined.repoUrl,
     combined.branch,

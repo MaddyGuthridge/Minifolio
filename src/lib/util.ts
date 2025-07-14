@@ -1,4 +1,3 @@
-
 /**
  * Get a UNIX timestamp.
  * @returns current time. as a UNIX timestamp.
@@ -34,6 +33,7 @@ export class Option<T> {
   static none<T>(): Option<T> {
     return new Option(false);
   }
+
   static some<T>(value: T): Option<T> {
     return new Option(true, value);
   }
@@ -41,9 +41,9 @@ export class Option<T> {
   isSome: boolean;
   value: T | undefined;
 
-  constructor (isSome: false);
-  constructor (isSome: true, value: T);
-  constructor (isSome: boolean, value?: T) {
+  constructor(isSome: false);
+  constructor(isSome: true, value: T);
+  constructor(isSome: boolean, value?: T) {
     this.isSome = isSome;
     this.value = value;
   }

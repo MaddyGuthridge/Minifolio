@@ -191,7 +191,7 @@ export async function setItemInfo(item: ItemId, data: ItemInfo): Promise<void> {
   await fs.writeFile(
     itemPath(item, 'info.json'),
     JSON.stringify(data, undefined, 2),
-    { encoding: 'utf-8' }
+    { encoding: 'utf-8' },
   );
 }
 
@@ -332,15 +332,15 @@ export type ItemData = {
   children: Record<string, ItemData>,
   /** List of files within the item's data */
   ls: string[],
-}
+};
 
 /** Returns the full text data for the given item */
 export async function getItemData(item: ItemId): Promise<ItemData> {
   const info = await getItemInfo(item);
-  const readme =
-    info.readme !== null
-    ? await fs.readFile(itemPath(item, info.readme), { encoding: 'utf-8' })
-    : null;
+  const readme
+    = info.readme !== null
+      ? await fs.readFile(itemPath(item, info.readme), { encoding: 'utf-8' })
+      : null;
 
   const children: Record<string, ItemData> = {};
   for await (const child of itemChildren(item)) {

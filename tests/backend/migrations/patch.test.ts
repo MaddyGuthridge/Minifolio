@@ -24,7 +24,6 @@ beforeEach(async () => {
   credentials = { username: data.username, password: data.password };
 });
 
-
 function downgrade(version: string): string {
   const semver = new SemVer(version);
   semver.patch = 0;

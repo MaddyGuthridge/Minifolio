@@ -3,6 +3,8 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
+import stylistic from '@stylistic/eslint-plugin';
+import esNode from 'eslint-plugin-n';
 import globals from 'globals';
 
 export default ts.config(
@@ -10,6 +12,12 @@ export default ts.config(
   ...ts.configs.recommendedTypeChecked,
   ...ts.configs.stylisticTypeChecked,
   ...svelte.configs['flat/recommended'],
+  stylistic.configs.recommended,
+  {
+    plugins: {
+      n: esNode,
+    },
+  },
   {
     languageOptions: {
       globals: {
@@ -42,6 +50,33 @@ export default ts.config(
   },
   {
     rules: {
+      // Default ESLint rules
+      // ====================
+
+      // Use `Promise.all` instead of `await` in a for loop for better async performance
+      'no-await-in-loop': 'error',
+      // Don't allow duplicate imports, because they are yucky
+      'no-duplicate-imports': 'error',
+      // Common mistake with `new Promise`
+      'no-promise-executor-return': ['error', { allowVoid: true }],
+      // Accidentally forgetting to use `back-ticks` for template literals
+      'no-template-curly-in-string': 'error',
+      // Use === instead of ==
+      'eqeqeq': 'error',
+      // Use dot notation for object property access
+      'dot-notation': 'error',
+      // Don't use `alert` and similar functions
+      'no-alert': 'error',
+      // Use camelCase for naming
+      'camelcase': 'error',
+      // Use `const` over `let` where reasonable
+      // Not required for destructuring, since that just makes things painful for Svelte props where
+      // some props are bindable
+      'prefer-const': ['error', { destructuring: 'all' }],
+
+      // @typescript-eslint rules
+      // ========================
+
       // Allow explicit any, to avoid type gymnastics
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['error', {
@@ -50,8 +85,6 @@ export default ts.config(
       }],
       // Disallow floating promises to avoid random crashes
       '@typescript-eslint/no-floating-promises': 'error',
-      // Single quotes where possible
-      quotes: ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
       // Allow some `any` expressions since otherwise they seriously mess with tests, or enforce
       // strictness in areas where it really doesn't matter (eg error handling)
       '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -66,40 +99,49 @@ export default ts.config(
       // Allow empty functions, as they are useful to silence promise errors
       '@typescript-eslint/no-empty-function': 'off',
       // Use `type` instead of `interface`
-      "@typescript-eslint/consistent-type-definitions": ["error", 'type'],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       // This error is already picked up by TypeScript, and it's annoying to need to silence it
       // twice when it is incorrect
-      "@typescript-eslint/no-unsafe-call": "off",
-      // Prevent node standard library imports without `node:` prefix
-      "no-restricted-imports": ["error", {
+      '@typescript-eslint/no-unsafe-call': 'off',
+      'no-restricted-imports': ['error', {
         paths: [
-          { name: "os", message: "Import from `node:os`" },
-          { name: "path", message: "Import from `node:path`" },
-          { name: "fs", message: "Import from `node:fs`" },
-          { name: "fs/promises", message: "Import from `node:fs/promises`" },
-          { name: "svelte/legacy", message: "Avoid legacy Svelte features" },
+          { name: 'svelte/legacy', message: 'Avoid legacy Svelte features' },
         ]
       }],
-      // Use `Promise.all` instead of `await` in a for loop for better async performance
-      "no-await-in-loop": "error",
-      // Don't allow duplicate imports, because they are yucky
-      "no-duplicate-imports": "error",
-      // Common mistake with `new Promise`
-      "no-promise-executor-return": ["error", { allowVoid: true }],
-      // Accidentally forgetting to use `back-ticks` for template literals
-      "no-template-curly-in-string": "error",
-      // Use === instead of ==
-      "eqeqeq": "error",
-      // Use dot notation for object property access
-      "dot-notation": "error",
-      // Don't use `alert` and similar functions
-      "no-alert": "error",
-      // Use camelCase for naming
-      "camelcase": "error",
-      // Use `const` over `let` where reasonable
-      // Not required for destructuring, since that just makes things painful for Svelte props where
-      // some props are bindable
-      "prefer-const": ["error", { destructuring: "all" }],
+
+      // Stylistic ESLint rules
+      // ======================
+
+      // Use semicolons to help prevent weird and wonderful JS quirks
+      "@stylistic/semi": ["error", "always", { omitLastInOneLineBlock: true }],
+      // Single quotes where possible
+      "@stylistic/quotes": ["error", "single", { avoidEscape: true, allowTemplateLiterals: false }],
+      // Only quote object properties if it'd be a syntax error otherwise
+      "@stylistic/quote-props": ["error", "as-needed"],
+      // Use one true brace style
+      "@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+      // Always use comma for delimiting type definitions, since it matches object notation
+      "@stylistic/member-delimiter-style": ["error", {
+        multiline: {
+          delimiter: "comma",
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: "comma",
+          requireLast: false,
+        }
+      }],
+
+      // Node (eslint-plugin-n) rules
+      // ============================
+
+      // For bin scripts listed in package.json, require a correct shebang
+      'n/hashbang': 'error',
+      // Don't concat to __file and __dirname (this is unsafe, use `path.join` instead)
+      'n/no-path-concat': 'error',
+      // Use `node:` prefix when importing from node standard library modules (they don't exist in
+      // some other runtimes)
+      'n/prefer-node-protocol': 'error',
     },
   },
   {

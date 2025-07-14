@@ -2,10 +2,10 @@
   import Modal from './Modal.svelte';
 
   type Props = {
-    header: string;
-    text: string;
-    show: boolean;
-    onclose: () => void;
+    header: string,
+    text: string,
+    show: boolean,
+    onclose: () => void,
   };
 
   const { text, show, header, onclose }: Props = $props();

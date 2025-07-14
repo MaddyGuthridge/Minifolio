@@ -2,9 +2,9 @@
   import Modal from './Modal.svelte';
 
   type Props = {
-    header: string;
-    text: string;
-    show: boolean;
+    header: string,
+    text: string,
+    show: boolean,
   };
 
   const { header, text, show }: Props = $props();

@@ -5,17 +5,17 @@
 
   type Props = {
     /** Name to show for chip */
-    name: string;
+    name: string,
     /** Description to show on hover */
-    description: string;
+    description: string,
     /** Color to use for the chip */
-    color: string;
+    color: string,
     /** Link behavior options */
-    link?: { url: string; newTab: boolean };
+    link?: { url: string, newTab: boolean },
     /** Whether the chip should render as selected (filled) */
-    selected?: boolean;
+    selected?: boolean,
     /** Callback when the chip is clicked */
-    onclick?: (e: MouseEvent | undefined | null) => void;
+    onclick?: (e: MouseEvent | undefined | null) => void,
   };
 
   const {

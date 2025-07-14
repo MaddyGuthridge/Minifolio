@@ -13,7 +13,7 @@
     import devConsts from '$lib/devConsts';
 
   type Props = {
-    data: import('./$types').PageData;
+    data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();
@@ -24,8 +24,7 @@
   let password = $state(dev ? devConsts.defaultPassword : '');
 
   onMount(() => {
-    previousPage =
-      new URLSearchParams(window.location.search).get('from') ?? '/';
+    previousPage = new URLSearchParams(window.location.search).get('from') ?? '/';
     // Avoid circular redirects
     if (previousPage.endsWith('/admin/login')) {
       previousPage = '/';

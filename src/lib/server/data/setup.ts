@@ -65,8 +65,8 @@ export async function setupData(repoUrl?: string, branch?: string): Promise<bool
       filters: [],
       seo: {
         description: null,
-        keywords: []
-      }
+        keywords: [],
+      },
     });
     await writeFile(itemPath(itemId.ROOT, 'README.md'), LANDING_README);
   }

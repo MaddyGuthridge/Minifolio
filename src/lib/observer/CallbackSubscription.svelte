@@ -9,9 +9,9 @@
 
   type Props = {
     /** URL to subscribe to */
-    url: string;
+    url: string,
     /** Function to call when reloading data */
-    reloadFn: () => Promise<T>;
+    reloadFn: () => Promise<T>,
     /**
      * Original value -- used before the reload function has been resolved. If this value is updated,
      * it will cause an update for `value`.
@@ -21,7 +21,7 @@
      * Bindable prop to store data results in -- it will update whenever the content at the URL
      * changes.
      */
-    value: T;
+    value: T,
   };
 
   let { url, reloadFn, originalValue, value = $bindable() }: Props = $props();

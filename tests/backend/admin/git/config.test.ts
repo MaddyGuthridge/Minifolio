@@ -33,11 +33,11 @@ describe('Git config get', () => {
     () => api,
     api => api.admin.git.config.get(),
   );
-})
+});
 
 describe('Git config post', () => {
   genTokenTests(
     () => api,
     api => api.admin.git.config.post({ userName: null, userEmail: null }),
   );
-})
+});

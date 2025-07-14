@@ -6,33 +6,33 @@
   import { onMount } from 'svelte';
   import ControlButtons from './ControlButtons.svelte';
 
-  type NavbarPath = { url: string; txt: string }[];
+  type NavbarPath = { url: string, txt: string }[];
 
   type PropsItem = {
     /** ItemId */
-    path: ItemId;
+    path: ItemId,
     /** Info for the last item, passed separately to allow for reactivity when editing */
-    lastItem: ItemData;
+    lastItem: ItemData,
   };
 
   type PropsOther = {
     /** Path on the navbar */
-    path: NavbarPath;
-    lastItem?: undefined;
+    path: NavbarPath,
+    lastItem?: undefined,
   };
 
   type Props = {
     /** Full portfolio data */
-    data: ItemData;
+    data: ItemData,
     /** Whether the user is logged in. Set to undefined if auth is disabled */
-    loggedIn: boolean | undefined;
-    editable?: boolean;
+    loggedIn: boolean | undefined,
+    editable?: boolean,
     /** Whether edit mode is active */
-    editing?: boolean;
+    editing?: boolean,
     /** Called when beginning edits */
-    onEditBegin?: () => void;
+    onEditBegin?: () => void,
     /** Called when finishing edits */
-    onEditFinish?: () => void;
+    onEditFinish?: () => void,
   } & (PropsItem | PropsOther);
 
   const {
@@ -95,15 +95,15 @@
   function pathTo(path: NavbarPath, i: number) {
     return path
       .slice(1, i + 1)
-      .map((p) => p.url)
+      .map(p => p.url)
       .join('/');
   }
 
   /** Set document data when scroll isn't at top of page */
   function onscroll() {
     // https://css-tricks.com/styling-based-on-scroll-position/
-    document.documentElement.dataset.scroll =
-      window.scrollY < 20 ? 'top' : 'page';
+    document.documentElement.dataset.scroll
+      = window.scrollY < 20 ? 'top' : 'page';
   }
 
   // Update scroll position on mount so that we don't get weird visual artifacts

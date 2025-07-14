@@ -20,4 +20,4 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       { token, ...payload.json({ repoUrl, branch }) },
     ).json() as Promise<{ firstTime: boolean }>;
   },
-})
+});

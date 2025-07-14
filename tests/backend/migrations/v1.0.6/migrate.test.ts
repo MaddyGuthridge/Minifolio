@@ -30,7 +30,7 @@ describe('Public data', () => {
       verification: {
         relMe: ['https://social.example.com/@someone'],
         atProtocol: null,
-      }
+      },
     });
   });
 

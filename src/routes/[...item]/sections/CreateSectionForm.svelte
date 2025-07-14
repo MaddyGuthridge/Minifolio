@@ -4,7 +4,7 @@
   import { capitalize } from '$lib/util';
 
   type Props = {
-    oncreate: (info: ItemSection) => void;
+    oncreate: (info: ItemSection) => void,
   };
 
   const { oncreate }: Props = $props();

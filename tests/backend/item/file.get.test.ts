@@ -16,7 +16,6 @@ beforeEach(async () => {
   await api.item(itemId.ROOT).file('example.md').post(payload.file(await fromFileSystem('README.md')));
 });
 
-
 describe('Success', () => {
   it('Returns the file', async () => {
     const content = await api.item(itemId.ROOT).file('example.md').get().text();

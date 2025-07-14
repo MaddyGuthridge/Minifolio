@@ -51,7 +51,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       fetchFn,
       'POST',
       '/api/admin/git/commit',
-      { token, ...payload.json({ message },) },
+      { token, ...payload.json({ message }) },
     ).json() as Promise<RepoStatus>;
   },
 

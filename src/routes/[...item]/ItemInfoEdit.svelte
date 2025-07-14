@@ -8,9 +8,9 @@
   import { itemFileUrl } from '$lib/urls';
 
   type Props = {
-    itemId: ItemId;
-    item: ItemData;
-    onchange: (info: ItemInfo) => void;
+    itemId: ItemId,
+    item: ItemData,
+    onchange: (info: ItemInfo) => void,
   };
 
   let { item = $bindable(), itemId, onchange }: Props = $props();
@@ -29,7 +29,7 @@
   }
 </script>
 
-<form onsubmit={(e) => e.preventDefault()}>
+<form onsubmit={e => e.preventDefault()}>
   <h2>Name</h2>
   <TextInput
     placeholder={consts.APP_NAME}

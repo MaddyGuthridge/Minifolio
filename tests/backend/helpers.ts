@@ -60,7 +60,7 @@ export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
     filters: [],
     seo: {
       description: 'View this item page in the portfolio',
-      keywords: []
+      keywords: [],
     },
   };
 

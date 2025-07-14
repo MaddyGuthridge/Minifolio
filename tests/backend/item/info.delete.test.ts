@@ -22,7 +22,7 @@ describe('Success', () => {
 
     // Expect item not found error
     await expect(api.item(child).info.get())
-    .rejects.toMatchObject({ code: 404 });
+      .rejects.toMatchObject({ code: 404 });
   });
 
   it('Removes child items', async () => {
@@ -32,7 +32,7 @@ describe('Success', () => {
       .resolves.toStrictEqual({});
     // Grandchild also deleted
     await expect(api.item(grandchild).info.get())
-    .rejects.toMatchObject({ code: 404 });
+      .rejects.toMatchObject({ code: 404 });
   });
 
   it('Removes links to this item', async () => {
@@ -60,7 +60,7 @@ describe('Success', () => {
           //     ^^^
           //     Gone
         }),
-      ]
+      ],
     });
   });
 
@@ -91,7 +91,7 @@ describe('Success', () => {
           //     ^^^
           //     Gone
         }),
-      ]
+      ],
     });
   });
 

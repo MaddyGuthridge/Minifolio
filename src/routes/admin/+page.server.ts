@@ -22,6 +22,6 @@ export async function load(req: import('./$types').RequestEvent) {
     keys: {
       publicKey: await getPublicKey(),
       keyPath: await getPrivateKeyPath(),
-    }
+    },
   };
 }

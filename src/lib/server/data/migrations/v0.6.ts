@@ -257,6 +257,6 @@ function makeLinksSection(info: LinkItem): LinksSection {
     type: 'links',
     label: title,
     style,
-    items: items.map(linkedItemId => itemId.fromComponents([groupId, linkedItemId]))
-  }
+    items: items.map(linkedItemId => itemId.fromComponents([groupId, linkedItemId])),
+  };
 }

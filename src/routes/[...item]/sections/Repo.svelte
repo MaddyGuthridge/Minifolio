@@ -12,9 +12,9 @@
   import { constArrayIncludes } from '$lib/util';
 
   type Props = {
-    section: RepoSection;
-    editing: boolean;
-    onchange: () => void;
+    section: RepoSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   let { section = $bindable(), editing, onchange }: Props = $props();
@@ -64,9 +64,8 @@
           // Replace it with the content after the domain name
           path: section.info.url.replace(/^https:\/\//, '').split('/')[1] ?? '',
         };
-      }
-      // Otherwise, just change the provider
-      else {
+      } else {
+        // Otherwise, just change the provider
         section.info.provider = newProvider;
       }
     } else {
@@ -127,7 +126,7 @@
         <Select
           id="repo-provider"
           bind:value={() => section.info.provider,
-          (newProvider) => changeRepoProvider(newProvider)}
+          newProvider => changeRepoProvider(newProvider)}
         >
           <option value="custom">- Custom -</option>
           {#each Object.entries(repoProviders) as [provider, info]}

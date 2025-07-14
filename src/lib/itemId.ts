@@ -122,4 +122,4 @@ export default {
   at: itemIdAt,
   replace: itemIdReplace,
   isDescendant: itemIsDescendant,
-}
+};

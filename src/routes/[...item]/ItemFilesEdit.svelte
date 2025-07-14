@@ -8,9 +8,9 @@
 
   type Props = {
     /** ItemId to which the files belong */
-    itemId: ItemId;
+    itemId: ItemId,
     /** Array of files belonging to the item */
-    files: string[];
+    files: string[],
   };
 
   let { itemId, files = $bindable() }: Props = $props();
@@ -20,7 +20,7 @@
 
   /** Selected files to upload */
   let filesToUpload: FileList | undefined = $state();
-  /** Form where files are uploaded*/
+  /** Form where files are uploaded */
   let uploadForm: HTMLFormElement;
   /** Button used to choose files */
   let fileSelectButton: HTMLInputElement;

@@ -4,9 +4,9 @@
   import { colord } from 'colord';
 
   type Props = {
-    value: string;
-    oninput?: () => any;
-    required?: boolean;
+    value: string,
+    oninput?: () => any,
+    required?: boolean,
   };
 
   let { value = $bindable(), oninput, required }: Props = $props();

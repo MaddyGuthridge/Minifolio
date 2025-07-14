@@ -2,7 +2,7 @@
   import consts from '$lib/consts';
 
   type Props = {
-    path?: string;
+    path?: string,
   };
 
   const { path }: Props = $props();

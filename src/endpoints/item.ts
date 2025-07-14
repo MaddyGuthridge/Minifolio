@@ -53,7 +53,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
         `/data${itemId}/info.json/move`,
         { token, ...payload.json({ target }) },
       ).json();
-    }
+    },
   };
 
   const file = (filename: string) => ({
@@ -63,7 +63,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
         fetchFn,
         'GET',
         `/data${itemId}/${filename}`,
-        { token }
+        { token },
       );
     },
     /** Create a file at the given path */
@@ -122,6 +122,6 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
         `/data/${itemId}`,
         { token },
       ).json() as Promise<ItemData>;
-    }
+    },
   };
 }

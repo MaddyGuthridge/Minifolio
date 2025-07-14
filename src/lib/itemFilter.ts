@@ -10,9 +10,9 @@ import type { ItemData } from './server/data/item';
  */
 export type FilterOptions = {
   /** Item ID of the item */
-  itemId: ItemId;
+  itemId: ItemId,
   /** Whether the item is selected */
-  selected: boolean;
+  selected: boolean,
 }[][];
 
 /** Create an item filter for the given items */
@@ -46,7 +46,7 @@ export function applyFiltersToItemChildren(
         return prevItems;
       }
       // For each item, check if it links to any selected filters
-      return prevItems.filter(itemId => {
+      return prevItems.filter((itemId) => {
         const itemToCheck = getDescendant(portfolio, itemId);
         // Item must meet all selected filters
         // If we can find one that doesn't match, exclude it

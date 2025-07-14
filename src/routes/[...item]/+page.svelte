@@ -27,7 +27,7 @@
   import CreateSectionForm from './sections/CreateSectionForm.svelte';
 
   type Props = {
-    data: import('./$types').PageData;
+    data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();
@@ -50,7 +50,7 @@
   let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
 
   const displayedItems = $derived.by(() => {
-    const items = thisItem.info.children.map((id) =>
+    const items = thisItem.info.children.map(id =>
       itemId.child(data.itemId, id),
     );
     if (editing) {
@@ -81,8 +81,8 @@
   // Open graph content type
   const ogType = $derived(
     thisItem.info.article
-    ? 'article'
-    : 'website'
+      ? 'article'
+      : 'website',
   );
 </script>
 
@@ -281,25 +281,25 @@
         {editing}
         dndId={`${data.itemId}:children`}
         onReorder={(items) => {
-          thisItem.info.children = items.map((id) => itemId.suffix(id));
+          thisItem.info.children = items.map(id => itemId.suffix(id));
           infoUpdater.update(thisItem.info);
         }}
       />
       {#if editing}
         <h3>Hidden children</h3>
         {@const hiddenChildren = Object.keys(thisItem.children).filter(
-          (child) => !thisItem.info.children.includes(child),
+          child => !thisItem.info.children.includes(child),
         )}
         <ItemCardGrid
           portfolio={data.portfolio}
-          itemIds={hiddenChildren.map((id) => itemId.child(data.itemId, id))}
+          itemIds={hiddenChildren.map(id => itemId.child(data.itemId, id))}
           {editing}
           dndId={`${data.itemId}:children`}
           onDropItem={(droppedItemId) => {
             // When an item is dropped here, remove it from the list of shown children
             const tail = itemId.suffix(droppedItemId);
             thisItem.info.children = thisItem.info.children.filter(
-              (id) => id !== tail,
+              id => id !== tail,
             );
             infoUpdater.update(thisItem.info);
           }}

@@ -105,4 +105,4 @@ export default (response: Promise<Response>) => ({
   text: () => text(response),
   buffer: () => buffer(response),
   response,
-})
+});

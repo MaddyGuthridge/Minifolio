@@ -3,15 +3,15 @@
 
   type Props = {
     /** Title to use for the card */
-    title: string;
+    title: string,
     /** Link behavior options */
-    link?: { url: string; newTab: boolean };
+    link?: { url: string, newTab: boolean },
     /** Hex color to use for the card */
-    color: string;
+    color: string,
     /** Callback for when the element is clicked */
-    onclick?: (e: MouseEvent | undefined | null) => void;
+    onclick?: (e: MouseEvent | undefined | null) => void,
     /** Icon to use */
-    icon?: import('svelte').Snippet;
+    icon?: import('svelte').Snippet,
   };
 
   const { title, link, color, icon, onclick }: Props = $props();

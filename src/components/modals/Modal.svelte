@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   type Props = {
-    show: boolean;
-    color?: string;
-    showCloseButton?: boolean;
-    header?: Snippet;
-    children?: Snippet;
-    onclose: () => void;
+    show: boolean,
+    color?: string,
+    showCloseButton?: boolean,
+    header?: Snippet,
+    children?: Snippet,
+    onclose: () => void,
   };
 
   const {
@@ -37,7 +37,7 @@
     <div
       class="box"
       style="background-color: {color};"
-      onclick={(e) => e.stopPropagation()}
+      onclick={e => e.stopPropagation()}
     >
       <div class="header">
         {@render header?.()}

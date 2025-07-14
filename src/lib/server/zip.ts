@@ -29,7 +29,7 @@ export function unzip(zipFile: string, destination: string): Promise<void> {
             // Since the `decodeStrings` option is on-by-default, there is no need to worry about
             // maliciously-crafted `entry.fileName` values trying to escape the destination path
             // (eg `../../escaped`).
-            const output = fs.createWriteStream(outputFile)
+            const output = fs.createWriteStream(outputFile);
             // Read file into its output location
             zipfile.openReadStream(entry, (err, readStream) => {
               if (err) {

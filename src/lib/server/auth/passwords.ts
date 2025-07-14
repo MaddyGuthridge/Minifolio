@@ -1,5 +1,4 @@
-
-import { hash } from 'crypto';
+import { hash } from 'node:crypto';
 import { getLocalConfig } from '../data/localConfig';
 import { error } from '@sveltejs/kit';
 
@@ -13,7 +12,7 @@ const FAIL_DURATION = 100;
  * Promise that resolves in a random amount of time, used to get some timing
  * invariance.
  */
-const sleepRandom = () => new Promise<void>((r) => void setTimeout(r, Math.random() * FAIL_DURATION));
+const sleepRandom = () => new Promise<void>(r => void setTimeout(r, Math.random() * FAIL_DURATION));
 
 /**
  * Throw a 401 after a random (small) amount of time, so that timing attacks

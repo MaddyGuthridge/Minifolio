@@ -4,16 +4,16 @@
 
   type Props = {
     /** Markdown source code */
-    source: string;
+    source: string,
     /** Whether we are currently editing the markdown */
-    editing: boolean;
+    editing: boolean,
     /** Called when the user uses the submit shortcut (ie "Ctrl+Enter") */
-    onsubmit: () => void;
+    onsubmit: () => void,
     /** Called when content changes */
-    onchange: (text: string) => Promise<void>;
+    onchange: (text: string) => Promise<void>,
     /** Whether to display the Markdown as an article */
-    article?: boolean;
-    setArticle: (value: boolean) => void;
+    article?: boolean,
+    setArticle: (value: boolean) => void,
   };
 
   let { source = $bindable(), editing, onsubmit, onchange, article = false, setArticle }: Props = $props();

@@ -1,16 +1,16 @@
 <script lang="ts">
   type Props = {
     /** Font family to use */
-    fontFamily?: string;
+    fontFamily?: string,
     /** CSS font weight to use */
-    fontWeight?: string;
+    fontWeight?: string,
 
     // Default textarea props
-    value: string;
-    onkeypress?: (e: KeyboardEvent) => any;
-    oninput?: () => any;
-    id?: string;
-    placeholder?: string;
+    value: string,
+    onkeypress?: (e: KeyboardEvent) => any,
+    oninput?: () => any,
+    id?: string,
+    placeholder?: string,
   };
 
   let {

@@ -11,9 +11,9 @@ type SubscriberCallback = () => void;
 /** Internal data representing a subscriber */
 type SubscriberEntry = {
   /** Unique ID for this subscriber */
-  id: number;
+  id: number,
   /** Callback function */
-  callback: SubscriberCallback;
+  callback: SubscriberCallback,
 };
 
 /** Record containing info about all current subscribers */
@@ -33,12 +33,12 @@ export function subscribeToContent(path: string, callback: SubscriberCallback) {
 
   return () => {
     observerData[path] = observerData[path].filter(subscriber => subscriber.id !== id);
-  }
+  };
 }
 
 /** Notify subscribers of a change to the given file */
 export function notifyContentUpdate(path: string) {
-  (observerData[path] || []).forEach(subscriber => {
+  (observerData[path] || []).forEach((subscriber) => {
     subscriber.callback();
   });
 }

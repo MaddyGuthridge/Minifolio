@@ -10,7 +10,7 @@ export async function refresh(fetchFn: typeof fetch, token: string | undefined) 
     fetchFn,
     'POST',
     '/api/admin/data/refresh',
-    { token }
+    { token },
   ).json() as Record<string, never>;
 }
 
@@ -28,6 +28,6 @@ export default function admin(fetchFn: typeof fetch, token: string | undefined) 
     data: {
       /** Refresh the data store */
       refresh: () => refresh(fetchFn, token),
-    }
+    },
   };
 }

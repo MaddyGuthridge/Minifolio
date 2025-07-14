@@ -24,7 +24,7 @@ export async function load(req: import('./$types').RequestEvent) {
   if (!isInit || loggedIn) {
     versions = {
       node: process.version,
-      os: `${os.platform()} ${os.release()}`
+      os: `${os.platform()} ${os.release()}`,
     };
   }
 

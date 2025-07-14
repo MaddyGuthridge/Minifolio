@@ -1,8 +1,8 @@
 <script lang="ts">
   import { type Snippet } from 'svelte';
   type Props = {
-    opacity?: number;
-    children?: Snippet;
+    opacity?: number,
+    children?: Snippet,
   };
 
   const { opacity = 0.75, children }: Props = $props();

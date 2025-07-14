@@ -64,7 +64,7 @@ describe('Success', () => {
         title: 'My blog',
         subtitle: 'View this item page in the portfolio',
         updated: expect.any(String),
-      }
+      },
     });
   });
 
@@ -81,7 +81,6 @@ describe('Success', () => {
     // Create posts
     await api.item(itemId.fromStr('/post1')).info.post('Post 1', 'Description');
     await api.item(itemId.fromStr('/post2')).info.post('Post 2', 'Description');
-
 
     await expect(api.item(itemId.ROOT).feeds.atom()).resolves.toStrictEqual({
       feed: {
@@ -133,8 +132,8 @@ describe('Success', () => {
               '@type': consts.MIME_TYPES.HTML,
             },
           },
-        ]
-      }
+        ],
+      },
     });
   });
 
@@ -172,7 +171,7 @@ describe('Success', () => {
       seo: {
         description: 'This description is shown',
         keywords: [],
-      }
+      },
     }));
 
     // Now load feed

@@ -26,7 +26,7 @@ export async function PUT({ request, cookies }: import('./$types').RequestEvent)
   if (newConfig.version !== version) {
     return error(
       400,
-      `New version (${newConfig.version}) doesn't match server version (${version})`
+      `New version (${newConfig.version}) doesn't match server version (${version})`,
     );
   }
 

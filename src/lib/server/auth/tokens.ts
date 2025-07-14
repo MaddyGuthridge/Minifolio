@@ -41,7 +41,7 @@ export async function generateToken(userId: string, cookies?: Cookies): Promise<
   const token = jwt.sign(
     { sessionId, iat, uid: userId },
     await getAuthSecret(),
-    { expiresIn: sessionLifetime, algorithm }
+    { expiresIn: sessionLifetime, algorithm },
   );
   const expires = iat + sessionLifetime;
   if (cookies) {
@@ -50,8 +50,8 @@ export async function generateToken(userId: string, cookies?: Cookies): Promise<
       token,
       {
         path: '/',
-        expires: new Date(expires * 1000)
-      }
+        expires: new Date(expires * 1000),
+      },
     );
   }
   return token;
@@ -142,7 +142,7 @@ export async function validateTokenFromRequest(req: { request: Request, cookies:
   if (!token) {
     error(401, 'A token is required to access this endpoint');
   }
-  const data = await validateToken(token).catch(e => {
+  const data = await validateToken(token).catch((e) => {
     // console.log(e);
     // Remove token from cookies, as it is invalid
     req.cookies.delete('token', { path: '/' });

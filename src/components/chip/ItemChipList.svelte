@@ -9,17 +9,17 @@
 
   type Props = {
     /** Portfolio data data */
-    portfolio: ItemData;
+    portfolio: ItemData,
     /**
      * Filter options to display
      */
-    items: FilterOptions;
+    items: FilterOptions,
     /** Whether to link each chip to its respective page */
-    link?: boolean;
+    link?: boolean,
     /** Called when the filter is updated */
-    onfilter?: (options: FilterOptions) => void;
+    onfilter?: (options: FilterOptions) => void,
     /** Called when an item is clicked */
-    onclick?: (itemId: ItemId) => void;
+    onclick?: (itemId: ItemId) => void,
   };
 
   const { portfolio, items, link = false, onfilter, onclick }: Props = $props();
@@ -53,9 +53,9 @@
     // position to prevent jank
     if (
       // Aiming further left but we're scrolling right
-      (targetScrollPosition > ele.scrollLeft && e.deltaY < 0) ||
+      (targetScrollPosition > ele.scrollLeft && e.deltaY < 0)
       // Aiming further right but we're scrolling left
-      (targetScrollPosition < ele.scrollLeft && e.deltaY > 0)
+      || (targetScrollPosition < ele.scrollLeft && e.deltaY > 0)
     ) {
       targetScrollPosition = ele.scrollLeft;
     }

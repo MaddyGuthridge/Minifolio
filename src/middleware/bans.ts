@@ -28,6 +28,6 @@ const banMiddleware: Handle = async (req) => {
   }
   // They are fine, let them access the site
   return req.resolve(req.event);
-}
+};
 
 export default banMiddleware;

@@ -4,12 +4,12 @@
   import Chip from './Chip.svelte';
 
   type Props = {
-    item: ItemData;
-    itemId: ItemId;
-    link?: boolean;
-    selected?: boolean;
+    item: ItemData,
+    itemId: ItemId,
+    link?: boolean,
+    selected?: boolean,
     /** Callback for when the element is clicked */
-    onclick?: (e: MouseEvent | undefined | null) => void;
+    onclick?: (e: MouseEvent | undefined | null) => void,
   };
 
   const {

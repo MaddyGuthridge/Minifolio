@@ -7,11 +7,11 @@ export const supportedRepoProviders = ['github', 'gitlab'] as const;
 /** Info required to register a repo provider */
 type RepoProviderInfo = {
   /** Name of provider (eg GitHub) */
-  name: string
+  name: string,
   /** Icon id to use (from LineAwesome) */
-  icon: string
+  icon: string,
   /** Return a URL for the repo given the repo string */
-  makeUrl: (repo: string) => string
+  makeUrl: (repo: string) => string,
   /**
    * Fetches the number of stars for the repo.
    *
@@ -19,8 +19,8 @@ type RepoProviderInfo = {
    *
    * Function is undefined if fetching star counts is unavailable.
    */
-  getStarCount: ((repo: string) => Promise<number | undefined>) | undefined
-}
+  getStarCount: ((repo: string) => Promise<number | undefined>) | undefined,
+};
 
 export const repoProviders: Record<RepoProvider, RepoProviderInfo> = {
   // GitHub
@@ -30,7 +30,7 @@ export const repoProviders: Record<RepoProvider, RepoProviderInfo> = {
     makeUrl: (repo: string): string => `https://github.com/${repo}`,
     getStarCount: async (repo: string): Promise<number | undefined> => {
       if (repo.split('/').length !== 2) {
-        // Not a repo (perhaps an organisation) -- no star count
+        // Not a repo (perhaps an organization) -- no star count
         return undefined;
       }
       // https://github.com/orgs/community/discussions/31111#discussioncomment-3492603
@@ -49,7 +49,7 @@ export const repoProviders: Record<RepoProvider, RepoProviderInfo> = {
     // Accessing project statistics on GitLab requires an API token
     // https://docs.gitlab.com/ee/api/project_statistics.html
     getStarCount: undefined,
-  }
+  },
 };
 
 /** Returns whether a repo uses a provider */

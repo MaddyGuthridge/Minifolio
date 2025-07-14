@@ -30,4 +30,4 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       { token, ...payload.json(config) },
     ).json() as Promise<Record<string, never>>;
   },
-})
+});

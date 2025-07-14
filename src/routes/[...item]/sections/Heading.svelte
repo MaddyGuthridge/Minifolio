@@ -3,9 +3,9 @@
   import type { HeadingSection } from '$lib/server/data/item/section';
 
   type Props = {
-    section: HeadingSection;
-    editing: boolean;
-    onchange: () => void;
+    section: HeadingSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   const { section = $bindable(), editing, onchange }: Props = $props();

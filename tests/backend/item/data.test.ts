@@ -37,7 +37,7 @@ describe('Success', () => {
           readme: expect.any(String),
           ls: ['README.md'],
           children: {},
-        }
+        },
       },
     });
   });

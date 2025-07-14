@@ -9,19 +9,19 @@
   import type { DndInfo } from './dndTypes';
 
   type Props = {
-    portfolio: ItemData;
+    portfolio: ItemData,
     /** Item IDs to show */
-    itemIds: ItemId[];
+    itemIds: ItemId[],
     /** Called when an item is clicked */
-    onclick?: (itemId: ItemId) => void;
-    /** Whether edit mode is active*/
-    editing: boolean;
+    onclick?: (itemId: ItemId) => void,
+    /** Whether edit mode is active */
+    editing: boolean,
     /** Unique drag-and-drop ID, used to prevent items from being dropped between incompatible areas */
-    dndId?: string;
+    dndId?: string,
     /** Called when items are re-ordered */
-    onReorder?: (itemIds: ItemId[]) => void;
+    onReorder?: (itemIds: ItemId[]) => void,
     /** Called when an item was dropped into this grid. Can be used to remove it from elsewhere. */
-    onDropItem?: (itemId: ItemId) => void;
+    onDropItem?: (itemId: ItemId) => void,
   };
 
   const {
@@ -39,12 +39,12 @@
       // Doesn't match, do nothing
       return;
     }
-    const prevIndex = itemIds.findIndex((id) => id === itemId);
-    let newItemIds = itemIds.filter((id) => id !== itemId);
+    const prevIndex = itemIds.findIndex(id => id === itemId);
+    let newItemIds = itemIds.filter(id => id !== itemId);
     if (info.itemId !== undefined) {
       const targetId = info.itemId;
       // Find location to splice it in
-      const targetIndex = itemIds.findIndex((id) => id === targetId);
+      const targetIndex = itemIds.findIndex(id => id === targetId);
       if (prevIndex > targetIndex) {
         if (targetIndex > 0) {
           newItemIds.splice(targetIndex, 0, itemId);
@@ -66,7 +66,7 @@
 
 <div
   use:drop={{
-    canDrop: (e) => e.source.data.dndId === dndId,
+    canDrop: e => e.source.data.dndId === dndId,
     getData: () => ({ dndId, itemId: undefined }),
     onDrop: (e) => {
       // Send handleDrop the inner-most drop info

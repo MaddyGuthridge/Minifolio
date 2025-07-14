@@ -53,7 +53,7 @@ export function validateName(name: string): string {
     illegalNameChars
       .reduce((n, c) => n.replace(c, ''), name)
       .length
-    !== name.length
+      !== name.length
   ) {
     error(400, 'Name contains illegal whitespace characters');
   }

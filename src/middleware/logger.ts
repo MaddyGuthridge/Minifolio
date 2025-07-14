@@ -13,7 +13,7 @@ function colorRequestMethod(method: string): string {
     get: chalk.blue,
     post: chalk.green,
     put: chalk.yellow,
-    delete: chalk.red
+    delete: chalk.red,
   };
 
   return mapping[method.toLowerCase()](method) ?? method;
@@ -111,7 +111,6 @@ export const devLogger: Handle = async (req) => {
   return response;
 };
 
-
 export const productionLogger: Handle = async (req) => {
   const requestStartTime = Date.now();
   const response = await req.resolve(req.event);
@@ -120,11 +119,11 @@ export const productionLogger: Handle = async (req) => {
     req.event.request.method,
     `${req.event.url.pathname}:`,
     response.status,
-    `(${Date.now() - requestStartTime} ms)`
+    `(${Date.now() - requestStartTime} ms)`,
   ].join(' ');
   console.log(responseString);
   return response;
-}
+};
 
 export default function logger() {
   return dev ? devLogger : productionLogger;

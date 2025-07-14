@@ -42,7 +42,6 @@ test('Endpoint gives a 400 before account is set up', async () => {
     .rejects.toMatchObject({ code: 400 });
 });
 
-
 it('Key path can be set before data is set up', async () => {
   const { token } = await api().admin.firstrun.account('admin', 'abc123ABC$');
   const [privateKeyPath] = await generateDummyKeypair();

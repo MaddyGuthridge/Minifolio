@@ -21,7 +21,6 @@ beforeEach(async () => {
     .post(payload.file(await fromFileSystem('README.md')));
 });
 
-
 describe('Success', () => {
   it('Updates the file', async () => {
     await api
@@ -51,7 +50,7 @@ describe('404', () => {
       api
         .item(itemId.fromStr('/invalid'))
         .file('file')
-        .put(payload.file(await fromFileSystem('LICENSE.md')))
+        .put(payload.file(await fromFileSystem('LICENSE.md'))),
     ).rejects.toMatchObject({ code: 404 });
   });
   it('Errors if the file does not exist', async () => {
@@ -59,7 +58,7 @@ describe('404', () => {
       api
         .item(itemId.ROOT)
         .file('invalid')
-        .put(payload.file(await fromFileSystem('LICENSE.md')))
+        .put(payload.file(await fromFileSystem('LICENSE.md'))),
     ).rejects.toMatchObject({ code: 404 });
   });
 });

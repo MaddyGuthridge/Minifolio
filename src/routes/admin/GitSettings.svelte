@@ -6,7 +6,7 @@
   import { gitCommitHashShorten as gitHashShorten } from '$lib/util';
 
   type Props = {
-    data: import('./$types').PageData;
+    data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();

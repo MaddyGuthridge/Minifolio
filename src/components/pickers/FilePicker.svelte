@@ -6,14 +6,14 @@
   // properly in Svelte
   type Props = {
     /** Files to pick from */
-    files: string[];
+    files: string[],
     /** Selected file (bind to this) */
-    selected: string | undefined | null;
+    selected: string | undefined | null,
     /** Callback for when a value is changed */
-    onchange: () => any;
+    onchange: () => any,
     /** Don't allow a blank selection */
-    forceSelection?: boolean;
-    id?: string;
+    forceSelection?: boolean,
+    id?: string,
   };
 
   let {

@@ -13,7 +13,7 @@ export default class DelayedUpdater<T> {
   /** Value about to be committed (or `Option.none()` if there are no changes to be committed) */
   current: Option<T>;
 
-  constructor (callback: (value: T) => Promise<any>, hesitation: number) {
+  constructor(callback: (value: T) => Promise<any>, hesitation: number) {
     this.callback = callback;
     this.hesitation = hesitation;
     this.current = Option.none();
@@ -34,8 +34,9 @@ export default class DelayedUpdater<T> {
       clearTimeout(this.changeTimer);
     }
     this.current = Option.some(newValue);
-    this.changeTimer = setTimeout(() => this.__timerDone(), this.hesitation)
+    this.changeTimer = setTimeout(() => this.__timerDone(), this.hesitation);
   }
+
   /** Immediately update the value */
   immediateUpdate(newValue: T) {
     if (this.changeTimer) {
@@ -45,6 +46,7 @@ export default class DelayedUpdater<T> {
     this.current = Option.none();
     void this.callback(newValue);
   }
+
   /** Flush the current value, immediately committing it, and clearing the timer */
   commit() {
     if (this.changeTimer) {

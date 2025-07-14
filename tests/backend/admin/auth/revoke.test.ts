@@ -22,7 +22,7 @@ genTokenTests(
   api => api.admin.auth.logout(),
 );
 
-const sleep = (ms: number) => new Promise<void>((r) => void setTimeout(r, ms));
+const sleep = (ms: number) => new Promise<void>(r => void setTimeout(r, ms));
 
 it('Revokes all current tokens', async () => {
   const { token: token2 } = await api.admin.auth.login(username, password);

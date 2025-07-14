@@ -10,5 +10,5 @@ export {
   iterItems,
   getItemData,
   type ItemInfo,
-  type ItemData
+  type ItemData,
 } from './item';

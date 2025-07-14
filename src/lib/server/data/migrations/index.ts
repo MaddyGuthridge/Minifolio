@@ -10,7 +10,6 @@ import { migrateDataV11, migratePrivateV11 } from './v1.1';
 import { getDataVersion, getPrivateDataVersion, bumpDataVersion, bumpPrivateDataVersion } from './shared';
 import { tmpdir } from 'node:os';
 
-
 export type DataMigrationFunction = (
   dataDir: string,
 ) => Promise<void>;

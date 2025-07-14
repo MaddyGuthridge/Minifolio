@@ -30,4 +30,4 @@ it('Invalidates tokens', async () => {
 test('New token works correctly', async () => {
   const { token } = await api.admin.auth.refresh();
   await expect(api.withToken(token).admin.auth.refresh()).toResolve();
-})
+});

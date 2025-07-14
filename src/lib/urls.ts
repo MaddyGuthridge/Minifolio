@@ -11,7 +11,7 @@ export function itemFileUrl(item: ItemId, file: string) {
   if (item !== '/') {
     return `/data${item}/${file}`;
   } else {
-    return `/data/${file}`
+    return `/data/${file}`;
   }
 }
 

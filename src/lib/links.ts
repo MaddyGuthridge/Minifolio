@@ -6,7 +6,7 @@ export const linkDisplayStyles = ['chip', 'card'] as const;
 
 /** Returns whether the given item links to the target */
 export function itemHasLink(item: ItemInfo, targetItem: ItemId) {
-  return item.sections.find(section => {
+  return item.sections.find((section) => {
     if (section.type === 'links') {
       return section.items.find(linkedItem => linkedItem === targetItem);
     } else {

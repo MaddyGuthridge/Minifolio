@@ -16,7 +16,7 @@ function generateTextPayloadFn<T>(
   contentType: string,
   converter: (body: T) => string,
 ): (body: T) => TextPayload {
-  return (body) => ({
+  return body => ({
     contentType,
     payload: converter(body),
   });
@@ -40,5 +40,5 @@ export default {
     return { contentType: undefined, payload: form };
   },
   /** Request using a custom mime-type */
-  custom: (contentType: string, body: string) => ({ contentType, payload: body })
+  custom: (contentType: string, body: string) => ({ contentType, payload: body }),
 };

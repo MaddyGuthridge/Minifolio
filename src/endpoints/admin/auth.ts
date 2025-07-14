@@ -65,7 +65,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       fetchFn,
       'POST',
       '/api/admin/auth/revoke',
-      { token }
+      { token },
     ).json() as Promise<Record<string, never>>;
   },
   /**

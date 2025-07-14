@@ -12,7 +12,7 @@
   import PublicConfig from './PublicConfig.svelte';
 
   type Props = {
-    data: import('./$types').PageData;
+    data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();

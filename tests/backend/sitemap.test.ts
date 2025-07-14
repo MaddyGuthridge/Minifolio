@@ -15,7 +15,6 @@ beforeEach(async () => {
   api = (await setup()).api;
 });
 
-
 it('Generates a basic sitemap for an empty site', async () => {
   await expect(api.sitemap()).resolves.toStrictEqual({
     urlset: {
@@ -23,8 +22,8 @@ it('Generates a basic sitemap for an empty site', async () => {
       url: {
         loc: `${BASE_URL}/`,
         lastmod: expect.any(String),
-      }
-    }
+      },
+    },
   });
 });
 
@@ -42,7 +41,7 @@ it('Includes children in sitemap', async () => {
           loc: `${BASE_URL}/child`,
           lastmod: expect.any(String),
         },
-      ]
-    }
+      ],
+    },
   });
 });

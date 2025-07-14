@@ -3,12 +3,12 @@
 
   type Props = {
     /** URL to subscribe to */
-    url: string;
+    url: string,
     /**
      * Bindable URL to use in parent component -- it will update whenever the content at the URL
      * changes.
      */
-    derivedUrl: string;
+    derivedUrl: string,
   };
 
   let { url, derivedUrl = $bindable() }: Props = $props();

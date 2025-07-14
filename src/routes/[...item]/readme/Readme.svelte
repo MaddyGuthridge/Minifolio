@@ -7,13 +7,13 @@
   import MarkdownReadme from './MarkdownReadme.svelte';
 
   type Props = {
-    item: ItemId;
-    article: boolean;
-    setArticle: (value: boolean) => void;
-    filename: string | null;
-    contents: string | null;
-    editing: boolean;
-    onsubmit: () => void;
+    item: ItemId,
+    article: boolean,
+    setArticle: (value: boolean) => void,
+    filename: string | null,
+    contents: string | null,
+    editing: boolean,
+    onsubmit: () => void,
   };
 
   const { item, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();

@@ -105,7 +105,7 @@
           id="username"
           placeholder="username"
           bind:value={username}
-          validator={(u) => validate.id('Username', u)}
+          validator={u => validate.id('Username', u)}
           bind:valueOk={valuesOk.username}
         />
 

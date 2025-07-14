@@ -1,18 +1,17 @@
-
 export type RecordItems<K extends string, V> = [K, V][];
 
 /** Ordered record, basically a record + ordering */
 export type OrderedRecord<K extends string, V> = {
-  __record: Record<K, V>
-  __order: K[]
-  get: (key: K) => V
-  set: (key: K, value: V) => void
-  keys: () => K[]
-  values: () => V[]
-  items: () => RecordItems<K, V>
-  filter: (fn: (key: K, value: V) => boolean) => OrderedRecord<K, V>
-  map: <T>(fn: (key: K, value: V) => T) => OrderedRecord<K, T>
-}
+  __record: Record<K, V>,
+  __order: K[],
+  get: (key: K) => V,
+  set: (key: K, value: V) => void,
+  keys: () => K[],
+  values: () => V[],
+  items: () => RecordItems<K, V>,
+  filter: (fn: (key: K, value: V) => boolean) => OrderedRecord<K, V>,
+  map: <T>(fn: (key: K, value: V) => T) => OrderedRecord<K, T>,
+};
 
 /** Create an ordered record from a record and an array of key names */
 export function fromRecord<K extends string, V>(record: Record<K, V>, order: K[]): OrderedRecord<K, V> {
@@ -25,11 +24,11 @@ export function fromRecord<K extends string, V>(record: Record<K, V>, order: K[]
     // for us to cast it to the correct type. Therefore, we just need to
     // silence the error. Yucky.
     Object.fromEntries(
-      items().map(([k, v]) => [k, fn(k, v)])
+      items().map(([k, v]) => [k, fn(k, v)]),
     ),
     order,
   );
-  const filter: OrderedRecord<K, V>['filter'] = fn => {
+  const filter: OrderedRecord<K, V>['filter'] = (fn) => {
     const filtered = items().filter(([k, v]) => fn(k, v));
     return fromRecord(
       Object.fromEntries(
@@ -42,7 +41,7 @@ export function fromRecord<K extends string, V>(record: Record<K, V>, order: K[]
     __record: record,
     __order: order,
     get: k => record[k],
-    set: (k, v) => { record[k] = v; },
+    set: (k, v) => { record[k] = v },
     keys: () => order,
     values,
     items,

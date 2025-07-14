@@ -6,11 +6,11 @@
   import { TextArea } from '$components/base';
 
   type Props = {
-    source: string;
-    article: boolean;
-    setArticle: (value: boolean) => void;
-    onsubmit: () => void;
-    onchange: (text: string) => Promise<void>;
+    source: string,
+    article: boolean,
+    setArticle: (value: boolean) => void,
+    onsubmit: () => void,
+    onchange: (text: string) => Promise<void>,
   };
 
   let {

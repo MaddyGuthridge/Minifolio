@@ -7,15 +7,15 @@
 
   type Props = {
     /** Item info to display */
-    item: ItemInfo;
+    item: ItemInfo,
     /** ID of item to link to */
-    itemId: ItemId;
+    itemId: ItemId,
     /** Whether to link to the given item */
-    link: boolean;
+    link: boolean,
     /** Callback for when the element is clicked */
-    onclick?: (e: MouseEvent | undefined | null) => void;
+    onclick?: (e: MouseEvent | undefined | null) => void,
     /** Unique ID to use for drag-and-drop operations */
-    dndId?: string;
+    dndId?: string,
   };
 
   const { item, itemId, link, onclick, dndId }: Props = $props();
@@ -29,7 +29,7 @@
       getInitialData: () => ({ dndId, itemId }),
     },
     drop: {
-      canDrop: (e) => dndId === e.source.data.dndId,
+      canDrop: e => dndId === e.source.data.dndId,
       getData: () => ({ dndId, itemId }),
     },
   }}

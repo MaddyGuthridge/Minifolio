@@ -2,9 +2,9 @@
   import Button from './Button.svelte';
 
   type Props = {
-    text: string;
-    hint?: string;
-    children?: import('svelte').Snippet;
+    text: string,
+    hint?: string,
+    children?: import('svelte').Snippet,
   };
 
   const { text, hint = 'Copy', children }: Props = $props();

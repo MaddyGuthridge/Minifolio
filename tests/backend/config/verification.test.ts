@@ -16,7 +16,7 @@ describe('rel="me"', () => {
       atProtocol: null,
       google: null,
       bing: null,
-    }}));
+    } }));
 
     // rel="me" now included in metadata
     const rootPage = await api.page.root();
@@ -30,7 +30,7 @@ describe('rel="me"', () => {
       atProtocol: null,
       google: null,
       bing: null,
-    }}))).rejects.toMatchObject({ code: 400 });
+    } }))).rejects.toMatchObject({ code: 400 });
   });
 });
 
@@ -42,7 +42,7 @@ describe('AT Protocol', () => {
       atProtocol: did,
       google: null,
       bing: null,
-    }}));
+    } }));
 
     // AT protocol page now shows that content
     await expect(api.page.atProtoDid()).resolves.toStrictEqual(did);
@@ -54,7 +54,7 @@ describe('AT Protocol', () => {
       atProtocol: 'invalid:did:abcdef...',
       google: null,
       bing: null,
-    }}))).rejects.toMatchObject({ code: 400 });
+    } }))).rejects.toMatchObject({ code: 400 });
   });
 
   test('AT protocol page gives a 404 if no verification is set up', async () => {
@@ -62,4 +62,4 @@ describe('AT Protocol', () => {
     await expect(api.page.atProtoDid())
       .rejects.toMatchObject({ code: 404 });
   });
-})
+});

@@ -5,7 +5,6 @@ import { authIsSetUp } from '$lib/server/data/dataDir';
 import { getIpFromRequest } from '$lib/server/request';
 import { error, json } from '@sveltejs/kit';
 
-
 export async function POST(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) error(400, 'Auth is not set up yet');
 

@@ -1,8 +1,8 @@
 export type ToastItem = {
-  title: string;
-  message: string;
-  id: number;
-  color: string;
+  title: string,
+  message: string,
+  id: number,
+  color: string,
 };
 
 const toastColors = {

@@ -10,10 +10,10 @@
   import { capitalize } from '$lib/util';
 
   type Props = {
-    portfolio: ItemData;
-    section: LinksSection;
-    editing: boolean;
-    onchange: () => void;
+    portfolio: ItemData,
+    section: LinksSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   const {
@@ -38,7 +38,7 @@
       <h3>{section.label}</h3>
       <ItemChipList
         {portfolio}
-        items={[section.items.map((i) => ({ itemId: i, selected: false }))]}
+        items={[section.items.map(i => ({ itemId: i, selected: false }))]}
         link={!editing}
       />
     </div>

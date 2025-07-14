@@ -61,7 +61,7 @@ describe('Success', () => {
 
   it('Accepts valid children', async () => {
     await expect(api.item(itemId.ROOT).info.put(makeItemInfo({
-      children: [itemId.suffix(childItemId)]
+      children: [itemId.suffix(childItemId)],
     })))
       .resolves.toStrictEqual({});
   });
@@ -82,8 +82,8 @@ describe('Success', () => {
             icon: null,
             label: 'Visit the website',
             url,
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
@@ -96,7 +96,7 @@ describe('Success', () => {
         icon: 'lab la-github',
         title: 'Manual link to GitHub',
         subtitle: '',
-        url: 'https://github.com/MaddyGuthridge/Minifolio'
+        url: 'https://github.com/MaddyGuthridge/Minifolio',
       },
     ])('Accepts valid repo info', async (repoInfo) => {
       const info = makeItemInfo({
@@ -105,8 +105,8 @@ describe('Success', () => {
             type: 'repo',
             label: 'Check out the code',
             info: repoInfo,
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
@@ -130,8 +130,8 @@ describe('Success', () => {
             type: 'package',
             label: 'Install the app',
             info: packageInfo,
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
@@ -147,9 +147,9 @@ describe('Success', () => {
             items: [
               // Root
               itemId.ROOT,
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       });
 
       await expect(api.item(childItemId).info.put(info))
@@ -163,14 +163,13 @@ describe('Success', () => {
             type: 'download',
             label: 'Download as PDF',
             file: 'README.md',
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .resolves.toStrictEqual({});
     });
   });
-
 });
 
 describe('400', () => {
@@ -217,9 +216,9 @@ describe('400', () => {
           {
             type: 'unknown',
             title: 'Title',
-          } as any
+          } as any,
           //   ^^^ needed or TypeScript will (correctly) identify that this is wrong
-        ]
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -233,8 +232,8 @@ describe('400', () => {
             icon: null,
             label: name,
             url: 'https://example.com',
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -248,8 +247,8 @@ describe('400', () => {
             icon: null,
             label: 'Label',
             url,
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -266,9 +265,9 @@ describe('400', () => {
               //                 vvvvvvv
               provider: 'invalid' as any,
               path: 'MaddyGuthridge/Minifolio',
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -285,9 +284,9 @@ describe('400', () => {
               //                 vvvvvvv
               provider: 'invalid' as any,
               id: 'MaddyGuthridge/Minifolio',
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -302,9 +301,9 @@ describe('400', () => {
             label: 'See also',
             items: [
               itemId.fromStr('/invalid'),
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       });
 
       await expect(api.item(childItemId).info.put(info))
@@ -320,9 +319,9 @@ describe('400', () => {
             label: 'See also',
             items: [
               childItemId,
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       });
 
       await expect(api.item(childItemId).info.put(info))
@@ -336,8 +335,8 @@ describe('400', () => {
             type: 'download',
             label: 'Download a random text file',
             file: 'invalid.txt',
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -350,8 +349,8 @@ describe('400', () => {
             type: 'download',
             label: 'Download a random text file',
             file: '../README.md',
-          }
-        ]
+          },
+        ],
       });
       await expect(api.item(childItemId).info.put(info))
         .rejects.toMatchObject({ code: 400 });
@@ -368,7 +367,7 @@ describe('400', () => {
       await expect(api.item(childItemId).info.put(makeItemInfo({
         filters: [
           itemId.fromStr('/invalid/item'),
-        ]
+        ],
       })))
         .rejects.toMatchObject({ code: 400 });
     });
@@ -376,8 +375,8 @@ describe('400', () => {
     test('Self-referencing item', async () => {
       const info = makeItemInfo({
         filters: [
-          childItemId
-        ]
+          childItemId,
+        ],
       });
 
       await expect(api.item(childItemId).info.put(info))
@@ -390,7 +389,7 @@ describe('400', () => {
       seo: {
         description: '',
         keywords: [],
-      }
+      },
     }))).rejects.toMatchObject({ code: 400 });
   });
 });

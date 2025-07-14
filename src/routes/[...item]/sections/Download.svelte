@@ -9,11 +9,11 @@
   import { itemFileUrl } from '$lib/urls';
 
   type Props = {
-    item: ItemId;
-    portfolio: ItemData;
-    section: DownloadSection;
-    editing: boolean;
-    onchange: () => void;
+    item: ItemId,
+    portfolio: ItemData,
+    section: DownloadSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   let { item, portfolio, section = $bindable(), editing, onchange }: Props = $props();

@@ -25,7 +25,7 @@ test('About page loads with token provided', async () => {
 });
 
 test('Item page loads', async () => {
-  const id = itemId.fromStr('/my-item')
+  const id = itemId.fromStr('/my-item');
   await api.item(id).info.post('My item', 'My item');
   await expect(api.page.item(id)).resolves.toStrictEqual(expect.any(String));
 });

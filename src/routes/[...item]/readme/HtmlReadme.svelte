@@ -2,7 +2,7 @@
   import * as cheerio from 'cheerio';
 
   type Props = {
-    contents: string;
+    contents: string,
   };
 
   const { contents }: Props = $props();

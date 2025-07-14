@@ -12,7 +12,7 @@ function helloWorld() {
 /** When page is loaded, attempt to refresh the token if possible */
 function refreshToken() {
   void api().admin.auth.refresh()
-    .catch(() => {/* Ignore errors */});
+    .catch(() => { /* Ignore errors */ });
 }
 
 export const init = () => {
@@ -27,5 +27,4 @@ export const init = () => {
     globalThis.observerState = getObserverState;
   }
   refreshToken();
-}
-
+};

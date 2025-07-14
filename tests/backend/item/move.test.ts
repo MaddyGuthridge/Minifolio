@@ -95,7 +95,6 @@ describe('Success', () => {
 
     // Should not be a child of root
     await expect(api.item(itemId.ROOT).info.get()).resolves.toMatchObject({ children: ['item2'] });
-
   });
 
   test('Unlisted items are unlisted in their new locations', async () => {

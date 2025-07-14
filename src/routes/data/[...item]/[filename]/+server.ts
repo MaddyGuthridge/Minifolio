@@ -69,7 +69,7 @@ const FORM_DATA_CONTENT_TYPES = [
   // It either ends with `$` (end of string), or `;` as a separator before the additional data
   // Example of a matched string: 'Content type: multipart/form-data; boundary=----formdata-undici-074183355857'
   /^multipart\/form-data($|;)/,
-  'application/x-www-form-urlencoded'
+  'application/x-www-form-urlencoded',
 ];
 /** Update the given file using data from the given request's form data */
 async function updateFileFromFormData(filename: string, req: Request): Promise<void> {

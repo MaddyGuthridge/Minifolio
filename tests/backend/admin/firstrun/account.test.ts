@@ -44,7 +44,7 @@ describe('password', () => {
 it('Gives a token on success', async () => {
   await expect(firstrunAccount())
     .resolves.toMatchObject({
-      token: expect.any(String)
+      token: expect.any(String),
     });
 });
 

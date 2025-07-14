@@ -41,13 +41,13 @@ export const invalidColors = [
   { color: 'ABCDEF', case: 'Missing "#"' },
   { color: '#12345G', case: 'Invalid chars' },
   { color: '#12345', case: 'Incorrect length' },
-]
+];
 
 export const validColors = [
   { color: '#ABCDEF', case: 'Uppercase' },
   { color: '#abcdef', case: 'Lowercase' },
   // { color: '#123', case: '3 chars' },
-]
+];
 
 export const invalidUrls = [
   { url: 'example.com', case: 'Missing protocol' },
@@ -61,4 +61,4 @@ export const validUrls = [
   { url: 'https://example.com/example', case: 'Non-root page' },
   { url: 'https://example.com/example?foo=bar', case: 'Query string' },
   { url: 'https://example.com/example#anchor', case: 'Fragment string' },
-]
+];

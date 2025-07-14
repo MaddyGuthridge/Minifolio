@@ -32,8 +32,8 @@ test('Generated keys are stored within the private data directory', async () => 
       // Intentionally remove leading `./` as it is not included
       // This would be better with path checking, but I honestly cannot be
       // bothered at the moment.
-      getPrivateDataDir().replace('./', '')
-    )
+      getPrivateDataDir().replace('./', ''),
+    ),
   ).toBeTrue();
 });
 

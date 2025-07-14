@@ -11,9 +11,9 @@
   import { constArrayIncludes } from '$lib/util';
 
   type Props = {
-    section: PackageSection;
-    editing: boolean;
-    onchange: () => void;
+    section: PackageSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   function commitChange() {
@@ -57,9 +57,8 @@
           provider: newProvider,
           id: '',
         };
-      }
-      // Otherwise, just change the provider
-      else {
+      } else {
+        // Otherwise, just change the provider
         section.info.provider = newProvider;
       }
     } else {
@@ -132,7 +131,7 @@
         <Select
           id="repo-provider"
           bind:value={() => section.info.provider,
-          (newProvider) => changePackageProvider(newProvider)}
+          newProvider => changePackageProvider(newProvider)}
         >
           <option value="custom">- Custom -</option>
           {#each Object.entries(packageProviders) as [provider, info]}

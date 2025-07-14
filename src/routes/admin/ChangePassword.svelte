@@ -6,7 +6,7 @@
   import validate from '$lib/validate';
 
   type Props = {
-    username: string;
+    username: string,
   };
 
   let { username = $bindable() }: Props = $props();
@@ -22,7 +22,7 @@
         newPassword = '';
         repeatNewPassword = '';
       })
-      .catch((e) => showError('Unable to change password', e));
+      .catch(e => showError('Unable to change password', e));
   }
 
   const valuesOk = $state({
@@ -44,7 +44,7 @@
       id="username"
       placeholder="Your account username"
       bind:value={username}
-      validator={(u) => validate.id('Username', u)}
+      validator={u => validate.id('Username', u)}
       bind:valueOk={valuesOk.username}
     />
     <!-- Original password field -->

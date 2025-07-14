@@ -10,8 +10,8 @@
   import { markedSmartypantsLite } from 'marked-smartypants-lite';
 
   type Props = {
-    source: string;
-    article?: boolean;
+    source: string,
+    article?: boolean,
   };
 
   const { source, article = false }: Props = $props();

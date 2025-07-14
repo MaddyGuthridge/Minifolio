@@ -4,7 +4,7 @@
   import { colord } from 'colord';
 
   type Props = {
-    color: string;
+    color: string,
   };
 
   const { color }: Props = $props();
@@ -16,7 +16,7 @@
   ];
   // y positions can be anywhere, since x is generally off the page
   // Values from -25% to 175%
-  const possiblePositionsY = [...Array(40).keys()].map((i) => i * 5 - 25);
+  const possiblePositionsY = [...Array(40).keys()].map(i => i * 5 - 25);
 
   // Possible values for spread of splotch blur, as a percentage of the viewport width
   const possibleSpreads: number[] = [5, 10, 15, 20];
@@ -27,10 +27,10 @@
   const numSplotches = 15;
 
   type Splotch = {
-    color: string;
-    x: string;
-    y: string;
-    spread: string;
+    color: string,
+    x: string,
+    y: string,
+    spread: string,
   };
 
   /**

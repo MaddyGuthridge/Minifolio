@@ -11,14 +11,14 @@
   import Site from './Site.svelte';
 
   type Props = {
-    item: ItemId;
-    section: ItemSection;
-    editing: boolean;
-    portfolio: ItemData;
-    /** Called when data changes*/
-    onchange: () => void;
+    item: ItemId,
+    section: ItemSection,
+    editing: boolean,
+    portfolio: ItemData,
+    /** Called when data changes */
+    onchange: () => void,
     /** Called when section is deleted */
-    ondelete: () => void;
+    ondelete: () => void,
   };
 
   let {

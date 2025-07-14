@@ -4,9 +4,9 @@
   import type { SiteSection } from '$lib/server/data/item/section';
 
   type Props = {
-    section: SiteSection;
-    editing: boolean;
-    onchange: () => void;
+    section: SiteSection,
+    editing: boolean,
+    onchange: () => void,
   };
 
   let { section = $bindable(), editing, onchange }: Props = $props();

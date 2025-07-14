@@ -5,13 +5,13 @@
   import type { ItemId } from '$lib/itemId';
 
   type Props = {
-    item: ItemId;
-    article: boolean;
-    setArticle: (value: boolean) => void;
-    filename: string;
-    contents: string;
-    editing: boolean;
-    onsubmit: () => void;
+    item: ItemId,
+    article: boolean,
+    setArticle: (value: boolean) => void,
+    filename: string,
+    contents: string,
+    editing: boolean,
+    onsubmit: () => void,
   };
 
   const { item, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();

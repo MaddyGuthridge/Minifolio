@@ -6,7 +6,6 @@ import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';
 import api, { type ApiClient } from '$endpoints';
 
-
 it('Allows key-based authentication to be disabled', async () => {
   const { api } = await setup();
   await expect(api.admin.keys.disable()).resolves.toStrictEqual({});

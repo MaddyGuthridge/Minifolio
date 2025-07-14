@@ -59,25 +59,25 @@ export const gitClient = async (baseDir: string | undefined) => {
     git = git.env('GIT_SSH_COMMAND', gitSshCommand);
   }
   return git;
-}
+};
 
 /** Status information of a git repo */
 export type RepoStatus = {
   /** The repo URL */
-  url: string
+  url: string,
   /** The current branch */
-  branch: string | null
+  branch: string | null,
   /** The current commit hash */
-  commit: string | null
+  commit: string | null,
   /** Whether the repository has any uncommitted changes */
-  clean: boolean
+  clean: boolean,
   /** Number of commits ahead of origin */
-  ahead: number
+  ahead: number,
   /** Number of commits behind origin */
-  behind: number
+  behind: number,
   /** Changes for files */
   changes: FileStatusResult[],
-}
+};
 
 /** Returns whether the given URL requires SSH */
 export function urlRequiresSsh(url: string): boolean {
@@ -177,7 +177,7 @@ export async function setupGitRepo(repo: string, branch?: string | null) {
       await rimraf(getDataDir());
       error(
         400,
-        'The repo directory is non-empty, but does not contain a config.json file'
+        'The repo directory is non-empty, but does not contain a config.json file',
       );
     }
   } else {

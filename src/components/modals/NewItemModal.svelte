@@ -9,9 +9,9 @@
   import { nameToId, objectAll } from '$lib/util';
 
   type Props = {
-    show: boolean;
-    parent: ItemId;
-    onclose: () => void;
+    show: boolean,
+    parent: ItemId,
+    onclose: () => void,
   };
 
   const { show, parent, onclose }: Props = $props();
@@ -34,7 +34,7 @@
       .item(itemId.child(parent, newItemId))
       .info.post(itemName, itemDescription);
     // Close modal
-    const target = itemId.child(parent, newItemId)
+    const target = itemId.child(parent, newItemId);
     resetAndClose();
     await goto(target);
   }
@@ -79,7 +79,7 @@
         oninput={() => {
           userModifiedId = true;
         }}
-        validator={(id) => validate.id('Item ID', id)}
+        validator={id => validate.id('Item ID', id)}
         bind:valueOk={valuesOk.id}
       />
       <label for="item-description">Item description</label>

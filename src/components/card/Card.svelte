@@ -6,13 +6,13 @@
 
   type Props = {
     /** Link behavior options */
-    link?: { url: string; newTab: boolean };
+    link?: { url: string, newTab: boolean },
     /** Hex color to use on the card */
-    color: string;
+    color: string,
     /** Body content to place in the card */
-    children: Snippet;
+    children: Snippet,
     /** Callback for when the element is clicked */
-    onclick?: (e: MouseEvent | undefined | null) => void;
+    onclick?: (e: MouseEvent | undefined | null) => void,
   };
 
   const { link, color, children, onclick }: Props = $props();

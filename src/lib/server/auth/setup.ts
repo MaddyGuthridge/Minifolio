@@ -50,7 +50,7 @@ export async function authSetup(
         sessions: {
           notBefore: unixTime(),
           revokedSessions: {},
-        }
+        },
       },
     },
     enableFail2ban: false,

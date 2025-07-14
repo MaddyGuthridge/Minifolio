@@ -2,8 +2,8 @@
   import Markdown from './Markdown.svelte';
 
   type Props = {
-    code: string;
-    language: string;
+    code: string,
+    language: string,
   };
 
   const { code, language }: Props = $props();

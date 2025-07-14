@@ -5,9 +5,9 @@
   import type { ItemData } from '$lib/server/data/item';
 
   type Props = {
-    portfolio: ItemData;
-    value: ItemId;
-    id?: string;
+    portfolio: ItemData,
+    value: ItemId,
+    id?: string,
   };
 
   let { portfolio, value: value = $bindable(), id }: Props = $props();
@@ -24,7 +24,7 @@
 {#snippet descendantOptions(index: number)}
   <Select
     bind:value={() => itemId.at(value, index),
-    (newSelection) => setSelection(index, newSelection)}
+    newSelection => setSelection(index, newSelection)}
   >
     <option value={undefined}
       >{index === 0 ? '-- Root --' : '-- This item --'}</option

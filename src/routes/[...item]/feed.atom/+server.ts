@@ -12,7 +12,6 @@ import { unixTime, unixToIsoTime } from '$lib/util';
 
 type Request = import('./$types').RequestEvent;
 
-
 /**
  * Get the current value of the RSS feed for this item.
  *
@@ -121,7 +120,6 @@ export async function GET(req: Request) {
     // eslint-disable-next-line no-await-in-loop
     await addAuthorInfo(childId, xmlChild);
 
-
     // Content: link to site
     // xmlChild.ele('content').att('src', childUrl).att('type', consts.MIME_TYPES.HTML);
 
@@ -135,7 +133,6 @@ export async function GET(req: Request) {
     xmlChild.ele('updated').txt(unixToIsoTime(childInfo.timeEdited));
   }
 
-
   const xml = root.end({ prettyPrint: dev });
   return new Response(
     xml,
@@ -143,8 +140,8 @@ export async function GET(req: Request) {
       headers: {
         'Content-Type': consts.MIME_TYPES.ATOM,
         'Content-Length': `${Buffer.from(xml, 'utf-8').length}`,
-      }
-    }
+      },
+    },
   );
 }
 

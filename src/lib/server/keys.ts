@@ -14,7 +14,7 @@ const defaultPrivateKeyPath = () => path.join(defaultKeysDirectory(), `id_${DEFA
 const publicKeyPath = (privateKeyPath: string) => `${privateKeyPath}.pub`;
 
 export async function getPrivateKeyPath(): Promise<string | null> {
-  return await getLocalConfig().then(c => c.keyPath)
+  return await getLocalConfig().then(c => c.keyPath);
 }
 
 /** Returns the server's SSH public key */

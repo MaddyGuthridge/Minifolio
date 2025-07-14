@@ -21,6 +21,6 @@ export async function load(req: import('./$types').RequestEvent) {
     item: itemInfo,
     portfolio,
     config,
-    loggedIn: await isRequestAuthorized(req)
+    loggedIn: await isRequestAuthorized(req),
   };
 }

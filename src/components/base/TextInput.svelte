@@ -1,24 +1,24 @@
 <script lang="ts">
   type Props = {
     /** Font size to use for the input field (in `rem`) */
-    size?: number;
+    size?: number,
     /**
      * Validator function -- any exception thrown will be displayed as error text.
      */
-    validator?: (text: string) => any;
+    validator?: (text: string) => any,
     /** Additional error text, if validator callback is inadequate */
-    errorText?: string;
+    errorText?: string,
     /** Whether the value is considered to be ok (in that no error message is shown) */
-    valueOk?: boolean;
+    valueOk?: boolean,
 
     // Standard props
-    type?: 'text' | 'url' | 'email' | 'password';
-    value?: string | null;
-    placeholder?: string;
-    id?: string;
-    name?: string;
-    oninput?: () => any;
-    required?: boolean;
+    type?: 'text' | 'url' | 'email' | 'password',
+    value?: string | null,
+    placeholder?: string,
+    id?: string,
+    name?: string,
+    oninput?: () => any,
+    required?: boolean,
   };
 
   let {

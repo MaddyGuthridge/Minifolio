@@ -115,7 +115,7 @@ export default ts.config(
       // Use semicolons to help prevent weird and wonderful JS quirks
       '@stylistic/semi': ['error', 'always', { omitLastInOneLineBlock: true }],
       // Single quotes where possible
-      '@stylistic/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+      '@stylistic/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: 'never' }],
       // Only quote object properties if it'd be a syntax error otherwise
       '@stylistic/quote-props': ['error', 'as-needed'],
       // Use one true brace style

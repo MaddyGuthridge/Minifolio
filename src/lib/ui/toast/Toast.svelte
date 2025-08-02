@@ -2,16 +2,16 @@
   import type { ToastItem } from './toastManager.svelte';
   import { fly } from 'svelte/transition';
 
-  const toast: ToastItem = $props();
+  const { title, message, color }: ToastItem = $props();
 </script>
 
 <div
   class="toast-item"
-  style:--color={toast.color}
+  style:--color={color}
   transition:fly={{ x: 200 }}
 >
-  <h3>{toast.title}</h3>
-  <p>{toast.message}</p>
+  <h3>{title}</h3>
+  <p>{message}</p>
 </div>
 
 <style>

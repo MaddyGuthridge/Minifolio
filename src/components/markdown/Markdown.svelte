@@ -211,4 +211,16 @@
       text-decoration: underline;
     }
   }
+
+  /*
+    YouTube embeds:
+    - Force 16:9 aspect ratio
+    - Override provided width and height
+  */
+  :global(iframe[title="YouTube video player"]) {
+    aspect-ratio: 16 / 9 !important;
+    max-width: 100%;
+    width: 500px !important;
+    height: auto !important;
+  }
 </style>

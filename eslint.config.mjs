@@ -74,6 +74,21 @@ export default ts.config(
       // some props are bindable
       'prefer-const': ['error', { destructuring: 'all' }],
 
+      'no-restricted-imports': ['error', {
+        patterns: [
+          // Don't use legacy svelte features
+          { group: ['svelte/legacy'], message: 'Avoid legacy Svelte features' },
+          // Prevent importing from test files -- it causes tests to be registered multiple times,
+          // making pipelines slow
+          {
+            regex: '.*\\.test(.(t|j)s)?$',
+            message: (
+              'Do not import from test files. This causes tests to be run repeatedly. Instead, '
+              + 'move shared functionality to a separate non-test file.'),
+          },
+        ]
+      }],
+
       // @typescript-eslint rules
       // ========================
 
@@ -103,11 +118,6 @@ export default ts.config(
       // This error is already picked up by TypeScript, and it's annoying to need to silence it
       // twice when it is incorrect
       '@typescript-eslint/no-unsafe-call': 'off',
-      'no-restricted-imports': ['error', {
-        paths: [
-          { name: 'svelte/legacy', message: 'Avoid legacy Svelte features' },
-        ]
-      }],
 
       // Stylistic ESLint rules
       // ======================

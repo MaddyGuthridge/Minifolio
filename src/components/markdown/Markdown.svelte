@@ -8,6 +8,8 @@
   import { gfmHeadingId } from 'marked-gfm-heading-id';
   // Smartypants quotation marks and the like
   import { markedSmartypantsLite } from 'marked-smartypants-lite';
+  import markedMermaid from '@maddyguthridge/marked-mermaid';
+  import mermaid from 'mermaid';
 
   type Props = {
     source: string,
@@ -34,6 +36,7 @@
     gfmHeadingId(),
     customHeadingId(),
     markedSmartypantsLite(),
+    markedMermaid(),
     { renderer },
   );
 
@@ -53,11 +56,17 @@
     });
   }
   const rendered = $derived(marked.parse(source));
+
   $effect(() => {
     if (rendered && markdownRender) {
       applySyntaxHighlighting(markdownRender);
+      void mermaid.run()
+        .then(() => { errorText = null })
+        .catch((e) => { errorText = e.str });
     }
   });
+
+  let errorText: string | null = $state(null);
 </script>
 
 <div
@@ -78,6 +87,11 @@
   -->
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html rendered}
+  {#if errorText !== null}
+    <pre>
+      {errorText}
+    </pre>
+  {/if}
 </div>
 
 <style>
@@ -126,7 +140,8 @@
   .markdown-render :global(p code),
   .markdown-render :global(ol code),
   .markdown-render :global(ul code),
-  .markdown-render :global(pre) {
+  /* Specifically exclude mermaid */
+  .markdown-render :global(pre:not(.mermaid)) {
     background-color: rgb(245, 245, 245);
     border-color: rgb(231, 231, 231);
     border-style: solid;
@@ -135,7 +150,7 @@
     font-weight: 600;
   }
   /* Code blocks */
-  .markdown-render :global(pre) {
+  .markdown-render :global(pre:not(.mermaid)) {
     padding: 1em;
     border-radius: 5px;
     line-height: 1.2;

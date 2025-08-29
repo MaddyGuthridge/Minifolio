@@ -18,16 +18,18 @@
   "type": "module",
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.5.0",
+    "@maddyguthridge/marked-mermaid": "^0.1.0",
     "cheerio": "^1.0.0",
     "colord": "^2.9.3",
     "dotenv": "^16.4.5",
     "execa": "^9.5.2",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",
-    "marked": "^15.0.2",
+    "marked": "^16.2.1",
     "marked-custom-heading-id": "^2.0.15",
     "marked-gfm-heading-id": "^4.1.2",
     "marked-smartypants-lite": "^1.0.3",
+    "mermaid": "^11.10.1",
     "mime-types": "^3.0.1",
     "mv": "^2.1.1",
     "nanoid": "^5.0.7",
@@ -78,12 +80,20 @@
     "vitest": "^3.0.0"
   },
   "//overrides": [
-    "Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",
+    "@sveltejs/kit:",
+    "  * Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",
+    "",
+    "marked-smartypants-lite:",
+    "  * Force compatibility with Marked 16",
+    "",
     "Also I hate HATE *HATE* this method of commenting"
   ],
   "overrides": {
     "@sveltejs/kit": {
       "cookie": "^0.7.0"
+    },
+    "marked-smartypants-lite": {
+      "marked": "<17"
     }
   },
   "engines": {

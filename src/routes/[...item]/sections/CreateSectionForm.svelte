@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button, Select } from '$components/base';
+  import itemId from '$lib/itemId';
   import type { ItemSection, SectionType } from '$lib/server/data/item/section';
   import { capitalize } from '$lib/util';
 
@@ -28,6 +29,12 @@
       label: 'See also',
       style: 'chip',
       items: [],
+    },
+    backlinks: {
+      type: 'backlinks',
+      label: 'See also',
+      style: 'chip',
+      parentItem: itemId.ROOT,
     },
     package: {
       type: 'package',

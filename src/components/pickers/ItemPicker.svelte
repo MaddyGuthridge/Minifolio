@@ -8,9 +8,10 @@
     portfolio: ItemData,
     value: ItemId,
     id?: string,
+    onchange?: (() => any) | undefined,
   };
 
-  let { portfolio, value: value = $bindable(), id }: Props = $props();
+  let { portfolio, value: value = $bindable(), id, onchange }: Props = $props();
 
   /** Select the item with the given ID fragment at the given depth */
   function setSelection(index: number, childId: string | undefined) {
@@ -25,6 +26,7 @@
   <Select
     bind:value={() => itemId.at(value, index),
     newSelection => setSelection(index, newSelection)}
+    onchange={onchange}
   >
     <option value={undefined}
       >{index === 0 ? '-- Root --' : '-- This item --'}</option

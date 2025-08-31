@@ -3,6 +3,7 @@
   import type { ItemId } from '$lib/itemId';
   import type { ItemData } from '$lib/server/data/item';
   import type { ItemSection } from '$lib/server/data/item/section';
+  import Backlinks from './Backlinks.svelte';
   import Download from './Download.svelte';
   import Heading from './Heading.svelte';
   import Links from './Links.svelte';
@@ -43,6 +44,8 @@
       <Heading bind:section {editing} {onchange} />
     {:else if section.type === 'links'}
       <Links bind:section {editing} {portfolio} {onchange} />
+    {:else if section.type === 'backlinks'}
+      <Backlinks bind:section {editing} {portfolio} {item} {onchange} />
     {:else if section.type === 'download'}
       <Download bind:section {editing} {portfolio} {item} {onchange} />
     {/if}

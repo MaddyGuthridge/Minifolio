@@ -1,35 +1,39 @@
 <script lang="ts">
-  import { Button, Select, TextInput } from '$components/base';
+  import { Select, TextInput } from '$components/base';
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
   import { ItemPicker } from '$components/pickers';
+  import { getDescendant } from '$lib/itemData';
   import itemId, { type ItemId } from '$lib/itemId';
   import { linkDisplayStyles } from '$lib/links';
   import type { ItemData } from '$lib/server/data/item';
-  import type { LinksSection } from '$lib/server/data/item/section';
+  import type { BacklinksSection } from '$lib/server/data/item/section';
   import { capitalize } from '$lib/util';
 
   type Props = {
+    item: ItemId,
     portfolio: ItemData,
-    section: LinksSection,
+    section: BacklinksSection,
     editing: boolean,
     onchange: () => void,
   };
 
   const {
+    item: item,
     portfolio,
     editing,
     section = $bindable(),
     onchange,
   }: Props = $props();
 
-  let newLinkId: ItemId = $state(itemId.ROOT);
-
-  function addNewLink() {
-    section.items.push(newLinkId);
-    // newLinkId = itemId.ROOT;
-    onchange();
-  }
+  const parent = $derived(getDescendant(portfolio, section.parentItem));
+  const backlinkItems = $derived(
+    parent.info.children
+      .map(child => itemId.child(section.parentItem, child))
+      .filter(childId =>
+        getDescendant(portfolio, childId).info.sections.find(
+          sect => sect.type === 'links' && sect.items.includes(item),
+        ) !== undefined));
 </script>
 
 {#snippet display()}
@@ -38,18 +42,19 @@
       <h3>{section.label}</h3>
       <ItemChipList
         {portfolio}
-        items={[section.items.map(i => ({ itemId: i, selected: false }))]}
+        items={[backlinkItems.map(i => ({ itemId: i, selected: false }))]}
         link={!editing}
       />
     </div>
   {:else}
     <h2>{section.label}</h2>
-    <ItemCardGrid {portfolio} itemIds={section.items} {editing} />
+    <ItemCardGrid {portfolio} itemIds={backlinkItems} {editing} />
   {/if}
 {/snippet}
 
 {#if editing}
   <div class="edit-outer">
+    <p>Children of the selected item which link to this item will be shown.</p>
     <div class="edit-grid">
       <label for="links-label-text">Label text</label>
       <TextInput
@@ -64,10 +69,14 @@
           <option value={style}>{capitalize(style)}</option>
         {/each}
       </Select>
-      <label for="links-item-picker">Add item</label>
+      <label for="links-item-picker">Parent item</label>
       <div class="item-picker-control">
-        <ItemPicker id="links-item-picker" {portfolio} bind:value={newLinkId} />
-        <Button onclick={addNewLink}>Add</Button>
+        <ItemPicker
+          id="links-item-picker"
+          {portfolio}
+          bind:value={section.parentItem}
+          {onchange}
+        />
       </div>
     </div>
     {@render display()}

@@ -20,14 +20,16 @@ export type PrivateMigrationFunction = (
 
 // Migrations for data
 const dataMigrations: Record<string, DataMigrationFunction> = {
-  // v0.6.x --> v1.2.0
+  // v0.6.x --> v1.3.0
   '~0.6.1': migrateDataV06,
-  // v1.0.x --> v1.2.0
+  // v1.0.x --> v1.3.0
   '~1.0.0': migrateDataV10,
-  // v1.1.x --> v1.2.0
+  // v1.1.x --> v1.3.0
   '~1.1.0': migrateDataV11,
-  // v1.2.x (minor version bumps)
+  // v1.2.x --> 1.3.0
   '~1.2.0': bumpDataVersion,
+  // v1.3.x (minor version bumps)
+  '~1.3.0': bumpDataVersion,
 };
 
 // Migrations for private data
@@ -38,8 +40,10 @@ const privateMigrations: Record<string, PrivateMigrationFunction> = {
   '~1.0.0': migratePrivateV10,
   // v1.1.x --> v1.2.0
   '~1.1.0': migratePrivateV11,
-  // v1.1.x (minor version bumps)
+  // v1.2.x --> 1.3.0 (no data migration required)
   '~1.2.0': bumpPrivateDataVersion,
+  // v1.3.x (minor version bumps)
+  '~1.3.0': bumpPrivateDataVersion,
 };
 
 /** Perform a migration from the given version */

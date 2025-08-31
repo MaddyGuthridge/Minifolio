@@ -53,6 +53,28 @@ async function validateLinksSection(itemId: ItemId, data: LinksSection) {
   await Promise.all(data.items.map(otherItem => validateLinkedItem(otherItem)));
 }
 
+/** Backlinks from another group of items to this item */
+const BacklinksSectionStruct = type({
+  /** The type of section (in this case 'backlinks') */
+  type: literal('backlinks'),
+  /** The text to display for the section (eg "See also") */
+  label: string(),
+  /** The style in which to present the links ('chip' or 'card') */
+  style: enums(linkDisplayStyles),
+  /** Item whose children can be potentially shown */
+  parentItem: ItemIdStruct,
+});
+
+/** Backlinks from another group of items to this item */
+export type BacklinksSection = Infer<typeof BacklinksSectionStruct>;
+
+async function validateBacklinksSection(itemId: ItemId, data: BacklinksSection) {
+  validate.name(data.label);
+  if (!await itemExists(data.parentItem)) {
+    error(400, `Backlink parent item ${data.parentItem} does not exist`);
+  }
+}
+
 /** Package information section */
 const PackageSectionStruct = type({
   /** The type of section (in this case 'package') */
@@ -111,6 +133,7 @@ export type DownloadSection = Infer<typeof DownloadSectionStruct>;
 export const ItemSectionStruct = union([
   HeadingSectionStruct,
   LinksSectionStruct,
+  BacklinksSectionStruct,
   PackageSectionStruct,
   RepoSectionStruct,
   SiteSectionStruct,
@@ -128,7 +151,9 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
   switch (data.type) {
     case 'links':
       await validateLinksSection(itemId, data);
-      validate.name(data.label);
+      break;
+    case 'backlinks':
+      await validateBacklinksSection(itemId, data);
       break;
     case 'heading':
       validate.name(data.heading);

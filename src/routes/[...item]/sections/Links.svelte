@@ -27,7 +27,7 @@
 
   function addNewLink() {
     section.items.push(newLinkId);
-    newLinkId = itemId.ROOT;
+    // newLinkId = itemId.ROOT;
     onchange();
   }
 </script>

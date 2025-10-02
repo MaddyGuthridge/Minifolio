@@ -58,7 +58,7 @@
     "@types/mime-types": "^3.0.1",
     "@types/mv": "^2.1.4",
     "@types/node": "^20.12.12",
-    "@types/semver": "^7.5.8",
+    "@types/semver": "^7.7.1",
     "@types/spinnies": "^0.5.3",
     "@types/validator": "^13.15.3",
     "@types/yauzl": "^2.10.3",

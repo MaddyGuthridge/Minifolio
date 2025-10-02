@@ -7,6 +7,12 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	compilerOptions: { runes: true },
+	
+	csrf: {
+  	// Disable origin checking, so that form submission works when using an API client.
+  	// FIXME: This is definitely a security issue, and so I should find a workaround at some point.
+  	trustedOrigins: true,
+	},
 
 	kit: {
 		// Import aliases
@@ -19,11 +25,6 @@ const config = {
 		// https://stackoverflow.com/a/75438617/6335363
 		version: {
 			name: process.env.npm_package_version,
-		},
-		// Disable origin checking, so that form submission works when using an API client.
-		// FIXME: This is definitely a security issue, and so I should find a workaround at some point.
-		csrf: {
-			checkOrigin: false,
 		},
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.

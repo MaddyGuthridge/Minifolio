@@ -21,5 +21,12 @@ export default async function fromFileSystem(file: string): Promise<File> {
   const buffer = await fs.readFile(file);
   const arrayBuffer = [buffer.subarray(buffer.byteOffset, buffer.byteOffset + buffer.byteLength)];
   const mimetype = contentType(file) || undefined;
-  return new File(arrayBuffer, path.basename(file), { type: mimetype });
+  return new File(
+    // It seems that TypeScript doesn't like this, as it wants the arrayBuffer to be a `BlobPart`,
+    // but given this seems to work throughout testing, I'd say this is fine.
+    // FIXME: Figure out why it is so cranky.
+    arrayBuffer as any,
+    path.basename(file),
+    { type: mimetype },
+  );
 }

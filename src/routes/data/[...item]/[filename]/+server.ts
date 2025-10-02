@@ -49,7 +49,9 @@ export async function GET(req: Request) {
     'Content-Length': content.length.toString(),
   });
 
-  return new Response(content);
+  // Node really isn't happy with me providing content from a file here.
+  // FIXME: Figure out why it is so cranky.
+  return new Response(content as any);
 }
 
 function mimeTypeMatches(contentType: string, matchers: (string | RegExp)[]): boolean {

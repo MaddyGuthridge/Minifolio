@@ -6,6 +6,8 @@
   import customHeadingId from 'marked-custom-heading-id';
   // GitHub-flavoured Markdown, automatic heading IDs
   import { gfmHeadingId } from 'marked-gfm-heading-id';
+  // Katex (math rendering)
+  import markedKatex from 'marked-katex-extension';
   // Smartypants quotation marks and the like
   import { markedSmartypantsLite } from 'marked-smartypants-lite';
   import markedMermaid from '@maddyguthridge/marked-mermaid';
@@ -31,12 +33,17 @@
     },
   };
 
+  const katexOptions = {
+    throwOnError: false,
+  };
+
   // Specifically instantiate a new `Marked` instance to avoid exceeding the call stack
   const marked = new Marked(
     gfmHeadingId(),
     customHeadingId(),
     markedSmartypantsLite(),
     markedMermaid(),
+    markedKatex(katexOptions),
     { renderer },
   );
 

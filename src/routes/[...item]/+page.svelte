@@ -11,10 +11,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
-  import {
-    applyFiltersToItemChildren,
-    createItemFilter,
-  } from '$lib/itemFilter';
+  import { applyFiltersToItemChildren, createItemFilter } from '$lib/itemFilter';
   import itemId from '$lib/itemId';
   import { generateKeywords, getDescription } from '$lib/seo';
   import type { ItemInfo } from '$lib/server/data/item';

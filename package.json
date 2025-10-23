@@ -29,7 +29,7 @@
     "marked-custom-heading-id": "^2.0.15",
     "marked-gfm-heading-id": "^4.1.2",
     "marked-katex-extension": "^5.1.5",
-    "marked-smartypants-lite": "^1.0.3",
+    "marked-smartypants": "^1.1.10",
     "mermaid": "^11.10.1",
     "mime-types": "^3.0.1",
     "nanoid": "^5.1.6",
@@ -80,17 +80,11 @@
     "@sveltejs/kit:",
     "  * Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",
     "",
-    "marked-smartypants-lite:",
-    "  * Force compatibility with Marked 16",
-    "",
     "Also I hate HATE *HATE* this method of commenting"
   ],
   "overrides": {
     "@sveltejs/kit": {
       "cookie": "^0.7.0"
-    },
-    "marked-smartypants-lite": {
-      "marked": "<17"
     }
   },
   "engines": {

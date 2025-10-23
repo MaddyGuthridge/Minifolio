@@ -9,7 +9,7 @@
   // Katex (math rendering)
   import markedKatex from 'marked-katex-extension';
   // Smartypants quotation marks and the like
-  import { markedSmartypantsLite } from 'marked-smartypants-lite';
+  import { markedSmartypants } from 'marked-smartypants';
   import markedMermaid from '@maddyguthridge/marked-mermaid';
   import mermaid from 'mermaid';
 
@@ -41,7 +41,7 @@
   const marked = new Marked(
     gfmHeadingId(),
     customHeadingId(),
-    markedSmartypantsLite(),
+    markedSmartypants(),
     markedMermaid(),
     markedKatex(katexOptions),
     { renderer },

@@ -29,10 +29,9 @@
     "marked-custom-heading-id": "^2.0.15",
     "marked-gfm-heading-id": "^4.1.2",
     "marked-katex-extension": "^5.1.5",
-    "marked-smartypants-lite": "^1.0.3",
+    "marked-smartypants": "^1.1.10",
     "mermaid": "^11.10.1",
     "mime-types": "^3.0.1",
-    "mv": "^2.1.1",
     "nanoid": "^5.1.6",
     "random-words": "^2.0.1",
     "rimraf": "^6.0.1",
@@ -53,10 +52,8 @@
     "@testing-library/svelte": "^5.1.0",
     "@types/debug": "^4.1.12",
     "@types/eslint": "^9.6.1",
-    "@types/eslint__js": "^8.42.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mime-types": "^3.0.1",
-    "@types/mv": "^2.1.4",
     "@types/node": "^20.12.12",
     "@types/semver": "^7.7.1",
     "@types/spinnies": "^0.5.3",
@@ -83,17 +80,11 @@
     "@sveltejs/kit:",
     "  * Force cookie to be ^0.7.0 to mitigate error as per: https://github.com/jshttp/cookie/pull/167",
     "",
-    "marked-smartypants-lite:",
-    "  * Force compatibility with Marked 16",
-    "",
     "Also I hate HATE *HATE* this method of commenting"
   ],
   "overrides": {
     "@sveltejs/kit": {
       "cookie": "^0.7.0"
-    },
-    "marked-smartypants-lite": {
-      "marked": "<17"
     }
   },
   "engines": {

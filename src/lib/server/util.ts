@@ -1,7 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { create, type Struct } from 'superstruct';
 import fs from 'node:fs/promises';
-import mv from 'mv';
 
 /**
  * A wrapper around superstruct's assert, making it async to make error
@@ -23,23 +22,23 @@ export function applyStruct<T, S>(
 
 /** Returns whether a file exists at the given path */
 export async function fileExists(path: string): Promise<boolean> {
-  return fs.access(path, fs.constants.F_OK)
+  return fs
+    .access(path, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
 }
 
 /**
- * Async wrapper around `mv` function.
+ * Move file from `src` to `dest`.
  *
- * Don't use `fs.rename` as it doesn't work nicely across different file systems.
+ * First attempts to rename `src` to `dest`. If that fails, it tries to copy instead.
  */
-export function move(src: string, dest: string) {
-  return new Promise((resolve, reject) => {
-    mv(src, dest, (err) => {
-      if (err) {
-        return reject(err as Error);
-      }
-      resolve(undefined);
-    });
-  });
+export async function move(src: string, dest: string) {
+  try {
+    await fs.rename(src, dest);
+  } catch {
+    // Copy file
+    await fs.copyFile(src, dest, fs.constants.COPYFILE_EXCL);
+    await fs.unlink(src);
+  }
 }

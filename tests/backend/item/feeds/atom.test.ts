@@ -43,7 +43,7 @@ describe('Success', () => {
     await expect(api.item(itemId.ROOT).feeds.atom()).resolves.toStrictEqual({
       feed: {
         '@xmlns': 'http://www.w3.org/2005/Atom',
-        link: [
+        'link': [
           {
             '@href': `${BASE_URL}/feed.atom`,
             '@rel': 'self',
@@ -55,15 +55,15 @@ describe('Success', () => {
             '@type': consts.MIME_TYPES.HTML,
           },
         ],
-        generator: {
+        'generator': {
           '#': 'Minifolio',
           '@uri': consts.APP_DOCS,
           '@version': version,
         },
-        id: BASE_URL,
-        title: 'My blog',
-        subtitle: 'View this item page in the portfolio',
-        updated: expect.any(String),
+        'id': BASE_URL,
+        'title': 'My blog',
+        'subtitle': 'View this item page in the portfolio',
+        'updated': expect.any(String),
       },
     });
   });
@@ -85,7 +85,7 @@ describe('Success', () => {
     await expect(api.item(itemId.ROOT).feeds.atom()).resolves.toStrictEqual({
       feed: {
         '@xmlns': 'http://www.w3.org/2005/Atom',
-        link: [
+        'link': [
           {
             '@href': `${BASE_URL}/feed.atom`,
             '@rel': 'self',
@@ -97,16 +97,16 @@ describe('Success', () => {
             '@type': consts.MIME_TYPES.HTML,
           },
         ],
-        generator: {
+        'generator': {
           '#': 'Minifolio',
           '@uri': consts.APP_DOCS,
           '@version': version,
         },
-        id: BASE_URL,
-        title: 'My blog',
-        subtitle: 'View this item page in the portfolio',
-        updated: expect.any(String),
-        entry: [
+        'id': BASE_URL,
+        'title': 'My blog',
+        'subtitle': 'View this item page in the portfolio',
+        'updated': expect.any(String),
+        'entry': [
           {
             id: `${BASE_URL}/post1`,
             published: expect.any(String),

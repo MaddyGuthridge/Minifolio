@@ -89,7 +89,7 @@
   <Paper>
     <main>
       <div class="center">
-        <h1 style="font-size: 3rem">
+        <h1 style:font-size="3rem">
           Welcome to your fancy new portfolio website!
         </h1>
         <h2>Let's get set up!</h2>

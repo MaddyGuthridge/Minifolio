@@ -4,8 +4,6 @@
   type Props = {
     children: Snippet,
     /** ID of select control */
-    // Is defined in `generics` attribute of `<script>` tag
-    // eslint-disable-next-line no-undef
     value: SelectionType,
     /** Callback when selection has changed */
     onchange?: () => any,

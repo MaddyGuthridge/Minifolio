@@ -28,7 +28,7 @@
     bind:value
     {oninput}
     {required}
-    style="display: none"
+    style:display="none"
     bind:this={picker}
   />
 </div>

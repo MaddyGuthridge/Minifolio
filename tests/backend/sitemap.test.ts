@@ -19,7 +19,7 @@ it('Generates a basic sitemap for an empty site', async () => {
   await expect(api.sitemap()).resolves.toStrictEqual({
     urlset: {
       '@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
-      url: {
+      'url': {
         loc: `${BASE_URL}/`,
         lastmod: expect.any(String),
       },
@@ -32,7 +32,7 @@ it('Includes children in sitemap', async () => {
   await expect(api.sitemap()).resolves.toStrictEqual({
     urlset: {
       '@xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
-      url: [
+      'url': [
         {
           loc: `${BASE_URL}/`,
           lastmod: expect.any(String),

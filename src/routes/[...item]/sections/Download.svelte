@@ -2,9 +2,9 @@
   import { Separator } from '$components';
   import { TextInput } from '$components/base';
   import FilePicker from '$components/pickers/FilePicker.svelte';
-    import { getDescendant } from '$lib/itemData';
+  import { getDescendant } from '$lib/itemData';
   import type { ItemId } from '$lib/itemId';
-    import type { ItemData } from '$lib/server/data/item';
+  import type { ItemData } from '$lib/server/data/item';
   import type { DownloadSection } from '$lib/server/data/item/section';
   import { itemFileUrl } from '$lib/urls';
 

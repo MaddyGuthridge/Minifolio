@@ -124,7 +124,7 @@
   <meta name="generator" content={consts.APP_NAME} />
 
   <!-- Site verification: rel="me" -->
-  {#each data.config.verification.relMe as me}
+  {#each data.config.verification.relMe as me (me)}
     <link rel="me" href={me} />
   {/each}
   <!-- Site verification: Google and Bing -->
@@ -233,7 +233,7 @@
       {#if editing}
         <h2>Sections</h2>
       {/if}
-      {#each thisItem.info.sections as _section, i}
+      {#each thisItem.info.sections as _section, i (i)}
         <Section
           item={data.itemId}
           portfolio={data.portfolio}

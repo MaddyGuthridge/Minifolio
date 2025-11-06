@@ -75,7 +75,7 @@
 >
   <b>Add new section:</b>
   <Select bind:value={newSectionType}>
-    {#each Object.keys(defaultSections) as type}
+    {#each Object.keys(defaultSections) as type (type)}
       <option value={type}>{capitalize(type)}</option>
     {/each}
   </Select>

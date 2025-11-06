@@ -56,11 +56,11 @@
         id="links-label-text"
         bind:value={section.label}
         oninput={onchange}
-        placeholder={'See also'}
+        placeholder="See also"
       />
       <label for="links-style">Display style</label>
       <Select id="links-style" bind:value={section.style} {onchange}>
-        {#each linkDisplayStyles as style}
+        {#each linkDisplayStyles as style (style)}
           <option value={style}>{capitalize(style)}</option>
         {/each}
       </Select>

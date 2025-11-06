@@ -4,7 +4,7 @@
   import api from '$endpoints';
   import { APP_NAME } from '$lib/consts';
   import { Button, TextInput } from '$components/base';
-    import { dev } from '$app/environment';
+  import { dev } from '$app/environment';
 
   type Props = {
     /** Public key currently being used by the server */

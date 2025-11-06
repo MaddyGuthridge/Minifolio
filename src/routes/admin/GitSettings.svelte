@@ -101,7 +101,7 @@
     {#if gitStatus.commit}
       <p>
         Current commit:
-        <CopyButton text={gitStatus.commit} hint={'Copy full commit hash'}>
+        <CopyButton text={gitStatus.commit} hint="Copy full commit hash">
           <code>{gitHashShorten(gitStatus.commit)}</code>
         </CopyButton>
       </p>
@@ -137,7 +137,7 @@
       <h3>Changes</h3>
 
       <ul>
-        {#each gitStatus.changes as change}
+        {#each gitStatus.changes as change (change.path)}
           {#if change.from}
             <li>Rename {change.from} to ({change.path})</li>
           {:else if change.index === '?'}

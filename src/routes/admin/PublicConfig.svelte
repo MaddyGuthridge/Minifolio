@@ -46,7 +46,7 @@
         <div class="site-icon-preview">
           <img
             src={itemFileUrl(itemId.ROOT, config.siteIcon)}
-            alt={'Preview of site icon'}
+            alt="Preview of site icon"
           />
         </div>
       {/if}

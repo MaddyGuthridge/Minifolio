@@ -129,7 +129,7 @@
           newProvider => changeRepoProvider(newProvider)}
         >
           <option value="custom">- Custom -</option>
-          {#each Object.entries(repoProviders) as [provider, info]}
+          {#each Object.entries(repoProviders) as [provider, info] (provider)}
             <option value={provider}>{info.name}</option>
           {/each}
         </Select>

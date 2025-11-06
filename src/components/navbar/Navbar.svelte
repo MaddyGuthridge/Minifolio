@@ -116,8 +116,10 @@
 <nav>
   <span style:grid-area="navigator">
     <h1>
-      {#each overallPath.slice(0, -1) as p, i}
+      {#each overallPath.slice(0, -1) as p, i (i)}
         <a href="/{pathTo(overallPath, i)}">{p.txt}</a>
+        <!-- We need to explicitly include a space after the '/', which ESLint does not like -->
+        <!-- eslint-disable-next-line svelte/no-useless-mustaches -->
         {'/ '}
       {/each}
       {overallPath[overallPath.length - 1].txt}

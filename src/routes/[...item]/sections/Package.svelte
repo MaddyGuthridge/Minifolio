@@ -134,7 +134,7 @@
           newProvider => changePackageProvider(newProvider)}
         >
           <option value="custom">- Custom -</option>
-          {#each Object.entries(packageProviders) as [provider, info]}
+          {#each Object.entries(packageProviders) as [provider, info] (provider)}
             <option value={provider}>{info.name}</option>
           {/each}
         </Select>

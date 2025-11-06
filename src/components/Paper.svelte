@@ -8,7 +8,7 @@
   const { opacity = 0.75, children }: Props = $props();
 </script>
 
-<div class="paper" style="--opacity: {opacity}">
+<div class="paper" style:--opacity={opacity}>
   {#if children}
     {@render children?.()}
   {/if}

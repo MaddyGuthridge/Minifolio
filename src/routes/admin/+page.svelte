@@ -45,7 +45,8 @@
           publicKey={data.keys.publicKey}
           privateKeyPath={data.keys.keyPath}
         />
-        <ChangePassword username={'admin'} />
+        <!-- FIXME: don't hardcode this -->
+        <ChangePassword username="admin" />
         <LogOutAll />
         <ReloadData />
       </div>

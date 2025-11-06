@@ -28,10 +28,10 @@
     newSelection => setSelection(index, newSelection)}
     onchange={onchange}
   >
-    <option value={undefined}
-      >{index === 0 ? '-- Root --' : '-- This item --'}</option
-    >
-    {#each Object.entries(getDescendant(portfolio, itemId.slice(value, 0, index)).children) as [childId, child]}
+    <option value={undefined}>
+      {index === 0 ? '-- Root --' : '-- This item --'}
+    </option>
+    {#each Object.entries(getDescendant(portfolio, itemId.slice(value, 0, index)).children) as [childId, child] (childId)}
       <option value={childId}>{child.info.name}</option>
     {/each}
   </Select>
@@ -41,7 +41,7 @@
   <!-- Root item selection -->
   {@render descendantOptions(0)}
   <!-- Descendant item selection -->
-  {#each itemId.components(value) as _, i}
+  {#each itemId.components(value) as _, i (i)}
     {@render descendantOptions(i + 1)}
   {/each}
 </div>

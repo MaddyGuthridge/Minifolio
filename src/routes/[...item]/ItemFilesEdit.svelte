@@ -56,7 +56,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each files as filename}
+      {#each files as filename (filename)}
         <ItemFile {itemId} {filename} bind:files />
       {/each}
     </tbody>
@@ -71,7 +71,7 @@
       id="upload"
       bind:files={filesToUpload}
       bind:this={fileSelectButton}
-      style="display: none"
+      style:display="none"
       multiple
       required
     />

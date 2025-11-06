@@ -5,6 +5,7 @@ import svelte from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
 import stylistic from '@stylistic/eslint-plugin';
 import esNode from 'eslint-plugin-n';
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import globals from 'globals';
 
 export default ts.config(
@@ -13,6 +14,7 @@ export default ts.config(
   ...ts.configs.stylisticTypeChecked,
   ...svelte.configs['flat/recommended'],
   stylistic.configs.recommended,
+  ...pluginQuery.configs['flat/recommended'],
   {
     plugins: {
       n: esNode,
@@ -126,8 +128,8 @@ export default ts.config(
       '@stylistic/semi': ['error', 'always', { omitLastInOneLineBlock: true }],
       // Single quotes where possible
       '@stylistic/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: 'never' }],
-      // Only quote object properties if it'd be a syntax error otherwise
-      '@stylistic/quote-props': ['error', 'as-needed'],
+      // Only quote object properties if it'd be a syntax error or bad style otherwise
+      '@stylistic/quote-props': ['error', 'consistent'],
       // Use one true brace style
       '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
       // Always use comma for delimiting type definitions, since it matches object notation
@@ -152,6 +154,20 @@ export default ts.config(
       // Use `node:` prefix when importing from node standard library modules (they don't exist in
       // some other runtimes)
       'n/prefer-node-protocol': 'error',
+
+      // Svelte (eslint-plugin-svelte) rules
+      // ===================================
+
+      'svelte/indent': ['error', { indent: 2 }],
+      'svelte/prefer-class-directive': ['error', {'prefer': 'empty'}],
+      'svelte/prefer-style-directive': 'error',
+      'svelte/spaced-html-comment': 'error',
+      // Disable no-navigation-without-resolve for the time being. I want to resolve these issues
+      // eventually, but for now, it is too much effort.
+      // TODO: Fix this in the future.
+      'svelte/no-navigation-without-resolve': 'off',
+      // Allow comments inside of mustaches in svelte syntax
+      "svelte/no-useless-mustaches": ["error", { "ignoreIncludesComment": true, "ignoreStringEscape": true }],
     },
   },
   {

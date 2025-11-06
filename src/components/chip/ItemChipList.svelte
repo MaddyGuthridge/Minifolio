@@ -113,8 +113,8 @@
 
 {#if items.length}
   <div class="chip-list" bind:this={ele} onwheel={onWheel}>
-    {#each items as itemGroup, outer}
-      {#each itemGroup as filterItem, inner}
+    {#each items as itemGroup, outer (outer)}
+      {#each itemGroup as filterItem, inner (inner)}
         <ItemChip
           item={getDescendant(portfolio, filterItem.itemId)}
           itemId={filterItem.itemId}

@@ -71,13 +71,14 @@
           type="file"
           name="upload-{filename}"
           id="upload-{filename}"
-          accept={/**
-           * Only allow matching file extensions
-           * TODO: Change this to use mime-types to make it more permissive of extension
-           * differences, eg .jpg vs .jpeg
-           */
-          `.${filename.split('.').pop()}`}
-          style="display: none"
+          accept={
+            /**
+            * Only allow matching file extensions
+            * TODO: Change this to use mime-types to make it more permissive of extension
+            * differences, eg .jpg vs .jpeg
+            */
+            `.${filename.split('.').pop()}`}
+          style:display="none"
           bind:files={filesToUpload}
           bind:this={fileSelectButton}
           required

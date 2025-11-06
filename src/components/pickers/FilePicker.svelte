@@ -29,7 +29,7 @@
   {#if !forceSelection}
     <option value={null}>- None -</option>
   {/if}
-  {#each files as file}
+  {#each files as file (file)}
     <option value={file}>{file}</option>
   {/each}
 </Select>

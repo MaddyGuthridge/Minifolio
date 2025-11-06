@@ -9,8 +9,8 @@
   import { Button, TextInput } from '$components/base';
   import Favicon from '$components/Favicon.svelte';
   import { reportError } from '$lib/ui/toast';
-    import { dev } from '$app/environment';
-    import devConsts from '$lib/devConsts';
+  import { dev } from '$app/environment';
+  import devConsts from '$lib/devConsts';
 
   type Props = {
     data: import('./$types').PageData,
@@ -63,7 +63,7 @@
   <Paper>
     <main>
       <div class="center">
-        <h1 style="font-size: 3rem">Login</h1>
+        <h1 style:font-size="3rem">Login</h1>
       </div>
       {#if dev}
         <p>Values are auto-filled in dev mode.</p>

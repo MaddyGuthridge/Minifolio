@@ -41,7 +41,7 @@
     "superstruct": "^2.0.2",
     "tippy.js": "^6.3.7",
     "validator": "^13.15.20",
-    "xmlbuilder2": "^3.1.1",
+    "xmlbuilder2": "^4.0.0",
     "yauzl": "^3.2.0"
   },
   "devDependencies": {

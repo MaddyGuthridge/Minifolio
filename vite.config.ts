@@ -1,3 +1,4 @@
+import commonjs from 'vite-plugin-commonjs';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import dotenv from 'dotenv';
@@ -17,6 +18,7 @@ export default defineConfig({
     host: process.env.HOST,
   },
   plugins: [
-    sveltekit()
+    commonjs(),
+    sveltekit(),
   ],
 });

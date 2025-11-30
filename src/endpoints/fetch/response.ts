@@ -1,4 +1,3 @@
-import { convert } from 'xmlbuilder2';
 import ApiError from './ApiError';
 
 /** Process a text response, returning the text as a string */
@@ -34,7 +33,10 @@ export async function xml(response: Promise<Response>): Promise<object> {
     throw new ApiError(res.status, `Request got status code ${res.status}`);
   }
 
-  return convert(text, { format: 'object' });
+  // Import dynamically, to avoid front-end glitches.
+  const xml = await import('xmlbuilder2');
+
+  return xml.convert(text, { format: 'object' });
 }
 
 /** Process a JSON response, returning the data as a JS object */

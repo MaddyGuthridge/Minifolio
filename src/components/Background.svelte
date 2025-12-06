@@ -56,7 +56,7 @@
 </script>
 
 <div id="background">
-  {#each colors as { color, x, y, spread } ([x, y])}
+  {#each colors as { color, x, y, spread }, i (i)}
     <div
       class="dot"
       style:--color={color}

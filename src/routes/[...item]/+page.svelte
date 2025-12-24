@@ -11,6 +11,7 @@
   import api from '$endpoints';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';
+  import { getItemAuthor } from '$lib/itemData';
   import { applyFiltersToItemChildren, createItemFilter } from '$lib/itemFilter';
   import itemId from '$lib/itemId';
   import { generateKeywords, getDescription } from '$lib/seo';
@@ -56,6 +57,8 @@
       return applyFiltersToItemChildren(data.portfolio, items, filterItems);
     }
   });
+
+  const authorInfo = $derived(getItemAuthor(data.itemId, data.portfolio));
 
   // Janky workaround for allowing PageData to be bindable.
   // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
@@ -103,11 +106,17 @@
   <meta name="og:title" content={pageTitle} />
   <meta name="og:description" content={seoDescription} />
   <meta name="og:type" content={ogType} />
-  <!--
-    Adding author info for articles requires accessing data of all parent items, which is possible
-    using the given data in `data.portfolio` but I really cannot be bothered to implement that
-    at the moment.
-  -->
+  <!-- Site name: name of root item -->
+  <meta name="og:site_name" content={data.portfolio.info.name} />
+
+  {#if authorInfo}
+    {#if authorInfo.uri}
+      <meta name="article:author" content={authorInfo.uri} />
+    {/if}
+    {#if authorInfo.fediverse}
+      <meta name="fediverse:creator" content={authorInfo.fediverse} />
+    {/if}
+  {/if}
 
   <!-- Site icon -->
   {#if data.config.siteIcon}

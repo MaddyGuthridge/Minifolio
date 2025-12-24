@@ -4,7 +4,7 @@
   import { CopyButton } from '$components/base/button';
   import type { ItemId } from '$lib/itemId';
   import type { FeedSection } from '$lib/server/data/item/section';
-  import { itemFileUrl } from '$lib/urls';
+  import { itemAtomUrl } from '$lib/urls';
 
   type Props = {
     section: FeedSection,
@@ -17,7 +17,7 @@
 
   function makeLink() {
     const location = document.location;
-    return `${location.host}${itemFileUrl(item, 'feed.atom')}`;
+    return `${location.host}${itemAtomUrl(item)}`;
   }
 </script>
 

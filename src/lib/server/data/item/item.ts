@@ -30,6 +30,8 @@ export const AuthorInfoStruct = type({
   email: nullable(string()),
   /** A URI for the author */
   uri: nullable(string()),
+  /** Fediverse attribution, eg `@maddy@tech.lgbt` */
+  fediverse: nullable(string()),
 });
 
 export type AuthorInfo = Infer<typeof AuthorInfoStruct>;

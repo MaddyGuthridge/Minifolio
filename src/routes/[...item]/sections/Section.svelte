@@ -10,6 +10,7 @@
   import Package from './Package.svelte';
   import Repo from './Repo.svelte';
   import Site from './Site.svelte';
+  import Feed from './Feed.svelte';
 
   type Props = {
     item: ItemId,
@@ -38,6 +39,8 @@
       <Package bind:section {editing} {onchange} />
     {:else if section.type === 'site'}
       <Site bind:section {editing} {onchange} />
+    {:else if section.type === 'feed'}
+      <Feed bind:section {editing} {item} {onchange} />
     {:else if section.type === 'repo'}
       <Repo bind:section {editing} {onchange} />
     {:else if section.type === 'heading'}

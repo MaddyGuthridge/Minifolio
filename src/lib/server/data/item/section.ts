@@ -116,6 +116,19 @@ const SiteSectionStruct = type({
 /** Website link */
 export type SiteSection = Infer<typeof SiteSectionStruct>;
 
+/** Website link */
+const FeedSectionStruct = type({
+  /** The type of section (in this case 'site') */
+  type: literal('feed'),
+  /** The icon to display for the section (defaults to "la-globe") */
+  icon: nullable(string()),
+  /** The text to display for the section (defaults to "Subscribe via RSS/Atom") */
+  label: nullable(string()),
+});
+
+/** Website link */
+export type FeedSection = Infer<typeof FeedSectionStruct>;
+
 /** File download */
 const DownloadSectionStruct = type({
   /** The type of section (in this case 'download') */
@@ -137,6 +150,7 @@ export const ItemSectionStruct = union([
   PackageSectionStruct,
   RepoSectionStruct,
   SiteSectionStruct,
+  FeedSectionStruct,
   DownloadSectionStruct,
 ]);
 
@@ -163,6 +177,11 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
         validate.name(data.label);
       }
       validate.url(data.url);
+      break;
+    case 'feed':
+      if (data.label !== null) {
+        validate.name(data.label);
+      }
       break;
     case 'download':
       if (data.label !== null) {

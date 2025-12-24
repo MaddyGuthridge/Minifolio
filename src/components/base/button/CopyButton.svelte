@@ -2,7 +2,7 @@
   import Button from './Button.svelte';
 
   type Props = {
-    text: string,
+    text: string | (() => string),
     hint?: string,
     children?: import('svelte').Snippet,
   };
@@ -10,7 +10,8 @@
   const { text, hint = 'Copy', children }: Props = $props();
 
   function copy() {
-    void navigator.clipboard.writeText(text);
+    const toCopy = typeof text === 'string' ? text : text();
+    void navigator.clipboard.writeText(toCopy);
   }
 </script>
 

@@ -24,6 +24,11 @@
       label: null,
       url: 'https://example.com',
     },
+    feed: {
+      type: 'feed',
+      icon: null,
+      label: null,
+    },
     links: {
       type: 'links',
       label: 'See also',

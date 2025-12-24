@@ -50,7 +50,9 @@ export function itemParent(itemId: ItemId): ItemId {
   return itemIdFromComponents(itemIdComponents(itemId).slice(0, -1));
 }
 
-/** Returns all ancestors of the given item ID, including itself */
+/**
+ * Returns all ancestors of the given item ID, starting with itself.
+ */
 export function itemAncestors(itemId: ItemId): ItemId[] {
   const ancestors = [itemId];
   while (itemId !== ROOT) {

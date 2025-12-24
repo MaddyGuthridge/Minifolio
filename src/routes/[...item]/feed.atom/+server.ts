@@ -1,14 +1,15 @@
 import itemId, { type ItemId } from '$lib/itemId';
 import consts from '$lib/consts';
-import { getItemInfo, itemExists } from '$lib/server/data/item';
+import { getItemData, getItemInfo, itemExists } from '$lib/server/data/item';
 import { itemFileUrl } from '$lib/urls';
 import { error } from '@sveltejs/kit';
 import { create } from 'xmlbuilder2';
-import type { AuthorInfo } from '$lib/server/data/item/item';
+import type { ItemData } from '$lib/server/data/item/item';
 import { dev, version } from '$app/environment';
 import { getConfig } from '$lib/server/data/config';
 import type { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { unixTime, unixToIsoTime } from '$lib/util';
+import { getItemAuthor } from '$lib/itemData';
 
 type Request = import('./$types').RequestEvent;
 
@@ -40,6 +41,8 @@ export async function GET(req: Request) {
     error(404, `Item ${item} does not have an Atom feed`);
   }
 
+  const portfolio = await getItemData(itemId.ROOT);
+
   const baseUrl = `${req.url.protocol}//${req.url.host}`;
   const itemUrl = `${baseUrl}${item === '/' ? '' : item}`;
 
@@ -65,7 +68,7 @@ export async function GET(req: Request) {
   // Add basic info
   root.ele('title').txt(info.feed.title);
   root.ele('id').txt(itemUrl);
-  await addAuthorInfo(item, root);
+  addAuthorInfo(item, root, portfolio);
 
   // Feed subtitle -- use SEO description if possible
   root.ele('subtitle').txt(info.seo.description ?? info.description);
@@ -117,8 +120,7 @@ export async function GET(req: Request) {
     xmlChild.ele('summary').txt(childInfo.seo.description ?? childInfo.description);
 
     // Author info
-    // eslint-disable-next-line no-await-in-loop
-    await addAuthorInfo(childId, xmlChild);
+    addAuthorInfo(childId, xmlChild, portfolio);
 
     // Content: link to site
     // xmlChild.ele('content').att('src', childUrl).att('type', consts.MIME_TYPES.HTML);
@@ -145,8 +147,8 @@ export async function GET(req: Request) {
   );
 }
 
-async function addAuthorInfo(item: ItemId, node: XMLBuilder) {
-  const authorInfo = await getFeedAuthor(item);
+function addAuthorInfo(item: ItemId, node: XMLBuilder, portfolio: ItemData) {
+  const authorInfo = getItemAuthor(item, portfolio);
   if (authorInfo) {
     const xmlAuthor = node.ele('author');
     if (authorInfo.name) {
@@ -159,17 +161,4 @@ async function addAuthorInfo(item: ItemId, node: XMLBuilder) {
       xmlAuthor.ele('uri').txt(authorInfo.uri);
     }
   }
-}
-
-async function getFeedAuthor(item: ItemId): Promise<AuthorInfo | null> {
-  for (const ancestor of itemId.ancestors(item)) {
-    // Really should look this info up in parallel
-    // At least it'll be better once I cache the data again...
-    // eslint-disable-next-line no-await-in-loop
-    const info = await getItemInfo(ancestor);
-    if (info.author) {
-      return info.author;
-    }
-  }
-  return null;
 }

@@ -2,40 +2,40 @@
  * Type definitions for published packages
  */
 
-import { PackageProviderStruct } from '$lib/packageInfo';
-import { literal, nullable, object, string, union, type Infer } from 'superstruct';
+import { supportedPackageProviders } from '$lib/packageInfo';
+import z from 'zod';
 
 /** Package info gathered using provider definition */
-const ProviderPackageInfoStruct = object({
+const ProviderPackageInfo = z.object({
   /** The provider of the package repo (eg "pypi") */
-  provider: PackageProviderStruct,
+  provider: z.enum(supportedPackageProviders),
   /** The package name within the repo (eg "flapi") */
-  id: string(),
+  id: z.string().nonempty(),
 });
 
 /** Package info gathered using provider definition */
-export type ProvidedPackageInfo = Infer<typeof ProviderPackageInfoStruct>;
+export type ProvidedPackageInfo = z.infer<typeof ProviderPackageInfo>;
 
 /** Package info set manually */
-const ManualPackageInfoStruct = object({
-  provider: literal('custom'),
+const ManualPackageInfoStruct = z.strictObject({
+  provider: z.literal('custom'),
   /** Title text to display for the package repository (eg "PyPI") */
-  providerName: string(),
+  providerName: z.string().nonempty(),
   /** URL to link to */
-  url: string(),
+  url: z.url(),
   /** Package installation command */
-  command: string(),
+  command: z.string().nonempty(),
   /** Icon to use on the card (from LineAwesome) */
-  icon: nullable(string()),
+  icon: z.string().nullable(),
 });
 
 /** Package info set manually */
-export type ManualPackageInfo = Infer<typeof ManualPackageInfoStruct>;
+export type ManualPackageInfo = z.infer<typeof ManualPackageInfoStruct>;
 
 /** Information about a package */
-export const PackageInfoStruct = union([
+export const PackageInfoStruct = z.discriminatedUnion('provider', [
   /** Package info gathered using provider definition */
-  ProviderPackageInfoStruct,
+  ProviderPackageInfo,
   /** Manual package, with manually set properties */
   ManualPackageInfoStruct,
 ]);

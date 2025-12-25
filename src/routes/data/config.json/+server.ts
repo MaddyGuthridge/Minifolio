@@ -1,9 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { ConfigJsonStruct, getConfig, setConfig } from '$lib/server/data/config';
+import { ConfigJson, getConfig, setConfig } from '$lib/server/data/config';
 import { version } from '$app/environment';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { applyStruct } from '$lib/server/util';
 import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
 import itemId from '$lib/itemId';
@@ -21,7 +20,7 @@ export async function PUT({ request, cookies }: import('./$types').RequestEvent)
   }
   await validateTokenFromRequest({ request, cookies });
 
-  const newConfig = applyStruct(await request.json(), ConfigJsonStruct);
+  const newConfig = await ConfigJson.parseAsync(await request.json()).catch(e => error(400, e));
 
   if (newConfig.version !== version) {
     return error(

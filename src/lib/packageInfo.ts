@@ -1,12 +1,9 @@
 import type { ProvidedPackageInfo, PackageInfo } from '$lib/server/data/item/package';
-import { enums, type Infer } from 'superstruct';
 
 /** Names of package repos that are supported by the system */
 export const supportedPackageProviders = ['pypi', 'npm', 'docker'] as const;
 
-export const PackageProviderStruct = enums(supportedPackageProviders);
-
-export type PackageProvider = Infer<typeof PackageProviderStruct>;
+export type PackageProvider = (typeof supportedPackageProviders)[number];
 
 /** Info required to register a package provider */
 type ProviderInfo = {

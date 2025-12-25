@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import { json, error } from '@sveltejs/kit';
-import { object, string } from 'superstruct';
+import z from 'zod';
+
 import itemId from '$lib/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { applyStruct } from '$lib/server/util';
 import { validateName } from '$lib/validate';
 import formatTemplate from '$lib/server/formatTemplate';
 import { ITEM_README } from '$lib/server/data/text';
@@ -29,9 +29,9 @@ export async function GET(req: Request) {
 }
 
 /** Allowed options when creating a new item */
-const NewItemOptions = object({
-  name: string(),
-  description: string(),
+const NewItemOptions = z.strictObject({
+  name: z.string(),
+  description: z.string(),
 });
 
 /** Create new item */
@@ -47,7 +47,8 @@ export async function POST(req: Request) {
     error(400, `Item '${item}' already exists`);
   }
   // Validate item properties
-  const { name, description } = applyStruct(await req.request.json(), NewItemOptions);
+  const { name, description } = await NewItemOptions.parseAsync(await req.request.json())
+    .catch(e => error(400, e));
   validateName(name);
 
   const itemInfo = await validateItemInfo(item, {

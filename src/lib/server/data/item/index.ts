@@ -1,5 +1,5 @@
 export {
-  ItemInfoStruct,
+  ItemInfo as ItemInfoStruct,
   itemPath,
   itemExists,
   validateItemInfo,

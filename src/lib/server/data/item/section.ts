@@ -3,41 +3,41 @@
  *
  * This file contains definitions for various sections.
  */
-import { array, enums, literal, nullable, string, type, union, type Infer } from 'superstruct';
+import z from 'zod';
 import { error } from '@sveltejs/kit';
 import validate from '$lib/validate';
 import { ItemIdStruct, type ItemId } from '$lib/itemId';
-import { RepoInfoStruct } from './repo';
+import { RepoInfo } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
 import { linkDisplayStyles } from '$lib/links';
 import { validateFile } from '$lib/server/serverValidate';
 
 /** Header within the sections */
-const HeadingSectionStruct = type({
+const HeadingSection = z.strictObject({
   /** The type of section (in this case 'heading') */
-  type: literal('heading'),
+  type: z.literal('heading'),
   /** The text to display as the heading */
-  heading: string(),
+  heading: z.string(),
 });
 
 /** Header within the sections */
-export type HeadingSection = Infer<typeof HeadingSectionStruct>;
+export type HeadingSection = z.infer<typeof HeadingSection>;
 
 /** Links from this item to other items. */
-const LinksSectionStruct = type({
+const LinksSection = z.strictObject({
   /** The type of section (in this case 'links') */
-  type: literal('links'),
+  type: z.literal('links'),
   /** The text to display for the section (eg "See also") */
-  label: string(),
+  label: z.string(),
   /** The style in which to present the links ('chip' or 'card') */
-  style: enums(linkDisplayStyles),
+  style: z.enum(linkDisplayStyles),
   /** The array of item IDs to display as links */
-  items: array(ItemIdStruct),
+  items: z.array(ItemIdStruct),
 });
 
 /** Links from this item to other items. */
-export type LinksSection = Infer<typeof LinksSectionStruct>;
+export type LinksSection = z.infer<typeof LinksSection>;
 
 /** Validate a links section of an item */
 async function validateLinksSection(itemId: ItemId, data: LinksSection) {
@@ -54,19 +54,19 @@ async function validateLinksSection(itemId: ItemId, data: LinksSection) {
 }
 
 /** Backlinks from another group of items to this item */
-const BacklinksSectionStruct = type({
+const BacklinksSectionStruct = z.strictObject({
   /** The type of section (in this case 'backlinks') */
-  type: literal('backlinks'),
+  type: z.literal('backlinks'),
   /** The text to display for the section (eg "See also") */
-  label: string(),
+  label: z.string(),
   /** The style in which to present the links ('chip' or 'card') */
-  style: enums(linkDisplayStyles),
+  style: z.enum(linkDisplayStyles),
   /** Item whose children can be potentially shown */
   parentItem: ItemIdStruct,
 });
 
 /** Backlinks from another group of items to this item */
-export type BacklinksSection = Infer<typeof BacklinksSectionStruct>;
+export type BacklinksSection = z.infer<typeof BacklinksSectionStruct>;
 
 async function validateBacklinksSection(itemId: ItemId, data: BacklinksSection) {
   validate.name(data.label);
@@ -76,76 +76,76 @@ async function validateBacklinksSection(itemId: ItemId, data: BacklinksSection) 
 }
 
 /** Package information section */
-const PackageSectionStruct = type({
+const PackageSectionStruct = z.strictObject({
   /** The type of section (in this case 'package') */
-  type: literal('package'),
+  type: z.literal('package'),
   /** The text to display for the section (defaults to "Install using [provider]") */
-  label: nullable(string()),
+  label: z.string().nullable(),
   /** The URL of the site being linked */
   info: PackageInfoStruct,
 });
 
 /** Package information section */
-export type PackageSection = Infer<typeof PackageSectionStruct>;
+export type PackageSection = z.infer<typeof PackageSectionStruct>;
 
 /** Code repository link */
-const RepoSectionStruct = type({
+const RepoSectionStruct = z.strictObject({
   /** The type of section (in this case 'repo') */
-  type: literal('repo'),
+  type: z.literal('repo'),
   /** The text to display for the section (defaults to "View the code on [provider]") */
-  label: nullable(string()),
+  label: z.string().nullable(),
   /** Information about the repository being linked */
-  info: RepoInfoStruct,
+  info: RepoInfo,
 });
 
 /** Code repository link */
-export type RepoSection = Infer<typeof RepoSectionStruct>;
+export type RepoSection = z.infer<typeof RepoSectionStruct>;
 
 /** Website link */
-const SiteSectionStruct = type({
+const SiteSectionStruct = z.strictObject({
   /** The type of section (in this case 'site') */
-  type: literal('site'),
+  type: z.literal('site'),
   /** The icon to display for the section (defaults to "la-globe") */
-  icon: nullable(string()),
+  icon: z.string().nullable(),
   /** The text to display for the section (defaults to "Visit the website") */
-  label: nullable(string()),
+  label: z.string().nullable(),
   /** The URL of the site being linked */
-  url: string(),
+  url: z.string(),
 });
 
 /** Website link */
-export type SiteSection = Infer<typeof SiteSectionStruct>;
+export type SiteSection = z.infer<typeof SiteSectionStruct>;
 
 /** Website link */
-const FeedSectionStruct = type({
+const FeedSectionStruct = z.strictObject({
   /** The type of section (in this case 'site') */
-  type: literal('feed'),
+  type: z.literal('feed'),
   /** The icon to display for the section (defaults to "la-globe") */
-  icon: nullable(string()),
+  icon: z.string().nullable(),
   /** The text to display for the section (defaults to "Subscribe via RSS/Atom") */
-  label: nullable(string()),
+  label: z.string().nullable(),
 });
 
 /** Website link */
-export type FeedSection = Infer<typeof FeedSectionStruct>;
+export type FeedSection = z.infer<typeof FeedSectionStruct>;
 
 /** File download */
-const DownloadSectionStruct = type({
+const DownloadSectionStruct = z.strictObject({
   /** The type of section (in this case 'download') */
-  type: literal('download'),
+  type: z.literal('download'),
   /** The file-name of the file that should be downloaded */
-  file: string(),
+  file: z.string(),
   /** The text to display for the section (defaults to "Download") */
-  label: nullable(string()),
+  label: z.string().nullable(),
 });
 
 /** File download */
-export type DownloadSection = Infer<typeof DownloadSectionStruct>;
+export type DownloadSection = z.infer<typeof DownloadSectionStruct>;
 
 /** A section on the item page */
-export const ItemSectionStruct = union([
-  HeadingSectionStruct,
-  LinksSectionStruct,
+export const ItemSectionStruct = z.discriminatedUnion('type', [
+  HeadingSection,
+  LinksSection,
   BacklinksSectionStruct,
   PackageSectionStruct,
   RepoSectionStruct,
@@ -155,7 +155,7 @@ export const ItemSectionStruct = union([
 ]);
 
 /** A section on the item page */
-export type ItemSection = Infer<typeof ItemSectionStruct>;
+export type ItemSection = z.infer<typeof ItemSectionStruct>;
 
 /** Available types of section */
 export type SectionType = ItemSection['type'];

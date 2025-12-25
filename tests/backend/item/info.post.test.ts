@@ -6,7 +6,6 @@ import { setup } from '../helpers';
 import type { ApiClient } from '$endpoints';
 import genTokenTests from '../tokenCase';
 import { invalidIds, invalidNames, validIds, validNames } from '../consts';
-import { assert } from 'superstruct';
 import { ItemInfoStruct } from '$lib/server/data/item';
 import itemId from '$lib/itemId';
 
@@ -29,7 +28,7 @@ describe('Success', () => {
     const info = await api.item(id).info.post('My item');
     // Returned info should validate as `ItemInfoStruct`
     // This doesn't check that the data is fully valid, but just that it has the right shape
-    expect(() => assert(info, ItemInfoStruct)).not.toThrow();
+    expect(() => ItemInfoStruct.parse(info)).not.toThrow();
   });
 
   it('Generates item with a valid `README.md`', async () => {

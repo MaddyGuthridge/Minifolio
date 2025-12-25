@@ -1,11 +1,11 @@
-import { boolean, string, type } from 'superstruct';
+import z from 'zod';
 
-export const FeedOptionsStruct = type({
+export const FeedOptionsStruct = z.strictObject({
   /** Title to use for the feed */
-  title: string(),
+  title: z.string(),
   /** Provider-specific options */
-  providers: type({
+  providers: z.strictObject({
     /** Whether to enable an Atom feed for this item */
-    atom: boolean(),
+    atom: z.boolean(),
   }),
 });

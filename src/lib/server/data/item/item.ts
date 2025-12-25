@@ -6,13 +6,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { error } from '@sveltejs/kit';
-import { array, boolean, nullable, number, string, type, type Infer } from 'superstruct';
+import z from 'zod';
 import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
 import itemId, { type ItemId } from '../../../itemId';
 import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
-import { applyStruct, move } from '../../util';
+import { move } from '../../util';
 import { rimraf } from 'rimraf';
 import { FeedOptionsStruct } from './feeds';
 
@@ -23,96 +23,96 @@ const RESERVED_FILENAMES = ['info.json'];
 /** Files that are reserved for the root item -- these cannot be deleted. */
 const ROOT_ITEM_RESERVED_FILENAMES = ['config.json'];
 
-export const AuthorInfoStruct = type({
+export const AuthorInfoStruct = z.strictObject({
   /** The name of the author */
-  name: nullable(string()),
+  name: z.string().nullable(),
   /** The author's email address */
-  email: nullable(string()),
+  email: z.string().nullable(),
   /** A URI for the author */
-  uri: nullable(string()),
+  uri: z.string().nullable(),
   /** Fediverse attribution, eg `@maddy@tech.lgbt` */
-  fediverse: nullable(string()),
+  fediverse: z.string().nullable(),
 });
 
-export type AuthorInfo = Infer<typeof AuthorInfoStruct>;
+export type AuthorInfo = z.infer<typeof AuthorInfoStruct>;
 
 /**
  * Information about an item, stored in its `info.json`.
  *
  * IMPORTANT: Do not validate using this struct alone -- instead, call `validateItemInfo`
  */
-export const ItemInfoStruct = type({
+export const ItemInfo = z.strictObject({
   /**
    * The name of the item, displayed in the navigator when on this page, as well as on Card
    * elements.
    */
-  name: string(),
+  name: z.string(),
   /**
    * A shortened name of the item, displayed in the navigator when on a child page, as well as on
    * Chip elements.
    */
-  shortName: nullable(string()),
+  shortName: z.string().nullable(),
   /**
    * A short description to use for this item. This is shown on Card elements, and as a tooltip for
    * Chip elements.
    */
-  description: string(),
+  description: z.string(),
   /** Time when this item was created, as a UNIX timestamp, in seconds */
-  timeCreated: number(),
+  timeCreated: z.number(),
   /** Time when this item was last edited, as a UNIX timestamp, in seconds */
-  timeEdited: number(),
+  timeEdited: z.number(),
   /**
    * The filename of the item's README file.
    *
    * This file must exist, and must be in a format supported by the README providers (eg Markdown,
    * Typst, HTML).
    */
-  readme: nullable(string()),
+  readme: z.string().nullable(),
   /**
    * Whether this item is an article, meaning that it is displayed with a narrower width and a serif
    * font.
    */
-  article: boolean(),
+  article: z.boolean(),
   /**
    * The author of this item. If this is `null`, the value from the parent will be used instead.
    *
    * If any properties are `null`, they will be omitted.
    */
-  author: nullable(AuthorInfoStruct),
+  author: AuthorInfoStruct.nullable(),
   /** Options for feeds, such as RSS and Atom */
-  feed: nullable(FeedOptionsStruct),
+  feed: FeedOptionsStruct.nullable(),
   /** The icon image to use for this item, as a path relative to this item's root location. */
-  icon: nullable(string()),
+  icon: z.string().nullable(),
   /** The banner image to use for this item, as a path relative to this item's root location. */
-  banner: nullable(string()),
+  banner: z.string().nullable(),
   /** A hexadecimal color to use for the item. */
-  color: string(),
+  color: z.string(),
   /** Sections to display on the item's page */
-  sections: array(ItemSectionStruct),
+  sections: z.array(ItemSectionStruct),
   /**
    * Items to list as children of this item. Items not in this list will be unlisted, but still
    * accessible if their URL is accessed directly.
    */
-  children: array(string()),
+  children: z.array(z.string()),
   /** Array of item IDs whose children should be used as filters for children of this item. */
-  filters: array(itemId.Struct),
+  filters: z.array(itemId.Struct),
   /** SEO properties, placed in the document `<head>` to improve placement in search engines. */
-  seo: type({
+  seo: z.strictObject({
     /**
      * A description of the page, presented to search engines. If null, a simple template is
      * generated based on the template of a parent.
      */
-    description: nullable(string()),
+    description: z.string().nullable(),
     /**
      * Keywords to use for the group. These are presented to search engines for this item, and for
      * its children.
      */
-    keywords: array(string()),
+    keywords: z.array(z.string()),
   }),
 });
 
 /** Information about an item, stored in its `info.json` */
-export type ItemInfo = Infer<typeof ItemInfoStruct>;
+export type ItemInfo = z.infer<typeof ItemInfo>;
 
 /** Returns the path to an item's directory */
 export function itemPath(item: ItemId, file?: string): string {
@@ -130,7 +130,7 @@ export async function itemExists(item: ItemId): Promise<boolean> {
 /** Validate that the given item info is valid */
 export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<ItemInfo> {
   // Validate new info.json
-  const info = applyStruct(data, ItemInfoStruct);
+  const info = await ItemInfo.parseAsync(data).catch(e => error(400, e));
 
   // name
   validate.name(info.name);
@@ -185,7 +185,7 @@ export async function getItemInfo(item: ItemId): Promise<ItemInfo> {
   // Currently load from the disk every time -- should implement caching at some point
   const result = JSON.parse(await fs.readFile(itemPath(item, 'info.json'), { encoding: 'utf-8' }));
   // Don't fully validate info when loading data, or we'll get infinite recursion
-  return applyStruct(result, ItemInfoStruct);
+  return ItemInfo.parseAsync(result).catch(e => error(400, e));
 }
 
 /** Update the given item's `info.json` */

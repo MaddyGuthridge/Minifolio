@@ -3,15 +3,13 @@
  */
 import validate from '$lib/validate';
 import { error } from '@sveltejs/kit';
-import { string, Struct } from 'superstruct';
+import z from 'zod';
 
 /** The ID of an Item. A string in the form `/a/b/c/...` */
-export type ItemId = string & { __itemId: string };
+export const ItemIdStruct = z.string().brand<'ItemId'>();
 
 /** The ID of an Item. A string in the form `/a/b/c/...` */
-// Janky override of the type definition, such that TypeScript knows that anything that is typed
-// with this definition is assumed to be of type `ItemId`
-export const ItemIdStruct: Struct<ItemId, null> = string() as any;
+export type ItemId = z.infer<typeof ItemIdStruct>;
 
 export const ROOT = '/' as ItemId;
 

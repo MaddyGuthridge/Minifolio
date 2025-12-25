@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 import { getLocalConfig } from './data/localConfig';
-import { nonempty, nullable, object, string, type Infer } from 'superstruct';
+import z from 'zod';
 import { execa } from 'execa';
 import { runningInDocker } from './machine';
 
@@ -15,15 +15,15 @@ import { runningInDocker } from './machine';
 const knownHostsFile = () => path.join(defaultKeysDirectory(), 'known_hosts');
 
 /** Git config options, passed with `-c` to the `git` binary */
-export const GitConfigStruct = object({
+export const GitConfig = z.object({
   /** `user.name` */
-  userName: nullable(nonempty(string())),
+  userName: z.string().nonempty().nullable(),
   /** `user.email` */
-  userEmail: nullable(nonempty(string())),
+  userEmail: z.email().nullable(),
 });
 
 /** Git config options, passed with `-c` to the `git` binary */
-export type GitConfig = Infer<typeof GitConfigStruct>;
+export type GitConfig = z.infer<typeof GitConfig>;
 
 /**
  * Create a git client in the given directory.

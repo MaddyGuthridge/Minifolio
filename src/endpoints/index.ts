@@ -6,6 +6,7 @@ import debug from './debug';
 import { apiFetch } from './fetch';
 import item from './item';
 import page from './pages';
+import robotsTxt from './robots.txt';
 
 export function sitemap(fetchFn: typeof fetch, token: string | undefined) {
   return apiFetch(fetchFn, 'GET', '/sitemap.xml', { token }).xml();
@@ -24,6 +25,8 @@ export default function api(fetchFn: typeof fetch = fetch, token?: string) {
     item: (itemId: ItemId) => item(fetchFn, token, itemId),
     /** Sitemap.xml, converted to JS object */
     sitemap: () => sitemap(fetchFn, token),
+    /** robots.txt file */
+    robots: robotsTxt(fetchFn, token),
     /** An HTML page */
     page: page(fetchFn, token),
     /** Create a new API client with the given token */

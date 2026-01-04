@@ -22,7 +22,7 @@
     "cheerio": "^1.0.0",
     "colord": "^2.9.3",
     "dedent": "^1.7.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.2.3",
     "execa": "^9.5.2",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.2",

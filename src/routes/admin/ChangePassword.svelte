@@ -45,7 +45,7 @@
       id="username"
       placeholder="Your account username"
       bind:value={username}
-      validator={u => validate.idComponent.parse(u)}
+      validator={validate.idComponent}
       bind:valueOk={valuesOk.username}
     />
     <!-- Original password field -->
@@ -55,7 +55,7 @@
       type="password"
       placeholder="Your original password"
       bind:value={originalPassword}
-      validator={s => z.string().nonempty().parse(s)}
+      validator={z.string().nonempty()}
       bind:valueOk={valuesOk.ogPassword}
     />
     <!-- New password field -->
@@ -65,7 +65,7 @@
       type="password"
       placeholder="A unique and secure password"
       bind:value={newPassword}
-      validator={p => validate.password.parse(p)}
+      validator={validate.password}
       bind:valueOk={valuesOk.newPassword}
     />
     <!-- Repeat new password field -->

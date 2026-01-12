@@ -7,9 +7,13 @@ import { error } from '@sveltejs/kit';
 import validator from 'validator';
 import z from 'zod';
 
+export type ZodParser<T> = {
+  parse: (value: unknown) => T,
+};
+
 /** Parse the given zod schema, giving an error 400 if parsing fails */
 export function parse<Out>(
-  zodSchema: { parse: (value: unknown) => Out },
+  zodSchema: ZodParser<Out>,
   value: unknown,
   err: string | undefined = undefined,
 ): Out {

@@ -1,28 +1,12 @@
 /**
  * Item ID type definitions and helper functions.
  */
-import validate from '$lib/validate';
-import { error } from '@sveltejs/kit';
-import z from 'zod';
+import type { ItemId } from './validate';
 
-/** The ID of an Item. A string in the form `/a/b/c/...` */
-export const ItemIdStruct = z.string().brand<'ItemId'>();
+export type { ItemId };
 
-/** The ID of an Item. A string in the form `/a/b/c/...` */
-export type ItemId = z.infer<typeof ItemIdStruct>;
-
+/** Root item ID */
 export const ROOT = '/' as ItemId;
-
-/** Ensure that an ItemId is valid */
-export function validateItemId(itemId: string): ItemId {
-  if (!itemId.startsWith('/')) {
-    error(400, "ItemId must have a leading '/'");
-  }
-  for (const component of itemIdComponents(itemId as ItemId)) {
-    validate.id('ItemId component', component);
-  }
-  return itemId as ItemId;
-}
 
 /** Split an ItemId into its components */
 export function itemIdComponents(itemId: ItemId): string[] {
@@ -106,9 +90,7 @@ export function itemIsDescendant(first: ItemId, second: ItemId): boolean {
 }
 
 export default {
-  Struct: ItemIdStruct,
   ROOT,
-  validate: validateItemId,
   components: itemIdComponents,
   fromComponents: itemIdFromComponents,
   fromStr: itemIdFromStr,

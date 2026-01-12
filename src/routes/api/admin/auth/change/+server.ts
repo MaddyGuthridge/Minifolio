@@ -30,8 +30,10 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
     return error(403, 'Old password is incorrect');
   }
 
-  validate.id('Username', newUsername);
-  validate.password(newPassword);
+  await validate.idComponent.parseAsync(newUsername)
+    .catch(e => error(400, e));
+  await validate.password.parseAsync(newPassword)
+    .catch(e => error(400, e));
 
   // Hash and salt new password
   const salt = nanoid();

@@ -20,8 +20,10 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
   }
 
   // Validate username and password
-  validate.id('username', options.username);
-  validate.password(options.password);
+  await validate.idComponent.parseAsync(options.username)
+    .catch(e => error(400, e));
+  await validate.password.parseAsync(options.password)
+    .catch(e => error(400, e));
 
   // Now set up auth
   const token = await authSetup(options.username, options.password, cookies);

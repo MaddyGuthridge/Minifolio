@@ -4,6 +4,7 @@
   import { showError } from '$lib/ui/toast';
   import { objectAll } from '$lib/util';
   import validate from '$lib/validate';
+  import z from 'zod';
 
   type Props = {
     username: string,
@@ -44,7 +45,7 @@
       id="username"
       placeholder="Your account username"
       bind:value={username}
-      validator={u => validate.id('Username', u)}
+      validator={u => validate.idComponent.parse(u)}
       bind:valueOk={valuesOk.username}
     />
     <!-- Original password field -->
@@ -54,7 +55,7 @@
       type="password"
       placeholder="Your original password"
       bind:value={originalPassword}
-      validator={validate.nonEmpty}
+      validator={s => z.string().nonempty().parse(s)}
       bind:valueOk={valuesOk.ogPassword}
     />
     <!-- New password field -->
@@ -64,7 +65,7 @@
       type="password"
       placeholder="A unique and secure password"
       bind:value={newPassword}
-      validator={validate.password}
+      validator={p => validate.password.parse(p)}
       bind:valueOk={valuesOk.newPassword}
     />
     <!-- Repeat new password field -->

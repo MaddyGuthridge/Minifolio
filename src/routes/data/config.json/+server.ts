@@ -3,9 +3,9 @@ import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { ConfigJson, getConfig, setConfig } from '$lib/server/data/config';
 import { version } from '$app/environment';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
-import validate from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
 import itemId from '$lib/itemId';
+import z from 'zod';
 
 export async function GET() {
   if (!await dataIsSetUp()) {
@@ -31,7 +31,7 @@ export async function PUT({ request, cookies }: import('./$types').RequestEvent)
 
   // Check for invalid site verification
   for (const url of newConfig.verification.relMe) {
-    validate.url(url);
+    z.httpUrl(url);
   }
   if (newConfig.verification.atProtocol !== null) {
     if (newConfig.verification.atProtocol === '') {

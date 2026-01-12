@@ -3,113 +3,49 @@
  *
  * Contains common validator functions shared throughout the app.
  */
-import { error } from '@sveltejs/kit';
 import validator from 'validator';
-import { validateItemId } from './itemId';
+import z from 'zod';
 
-/** Regex for matching ID strings */
-export const idValidatorRegex = /^[a-z0-9-.]+$/;
+/** Zod validator for an ID component. */
+export const idComponent = z.string()
+  .refine(s => s.trim.length, { error: 'Cannot be empty' })
+  .regex(/^[a-z0-9-.]+$/, { error: 'Contains illegal characters' })
+  .refine(s => !s.startsWith('.'), { error: 'Has a leading dot' })
+  .refine(s => !s.endsWith('.'), { error: 'Has a trailing dot' })
+  .refine(s => !s.startsWith('-'), { error: 'Has a leading dash' })
+  .refine(s => !s.endsWith('-'), { error: 'Has a trailing dash' });
 
-/**
- * Ensure that the given ID string is valid.
- *
- * @param type the type of ID being validated (used to produce helpful error messages).
- * @param id the ID string to validate.
- */
-export function validateId(type: string, id: string): string {
-  if (!id.trim().length) {
-    error(400, `${type} cannot be empty`);
-  }
-  if (!idValidatorRegex.test(id)) {
-    error(400, `${type} '${id}' contains illegal characters`);
-  }
-  if (id.startsWith('.')) {
-    error(400, `${type} '${id}' has a leading dot`);
-  }
-  if (id.endsWith('.')) {
-    error(400, `${type} '${id}' has a trailing dot`);
-  }
-  if (id.startsWith('-')) {
-    error(400, `${type} '${id}' has a leading dash`);
-  }
-  if (id.endsWith('-')) {
-    error(400, `${type} '${id}' has a trailing dash`);
-  }
-  return id;
-}
+/** Zod validator for an item ID. */
+export const itemId = z.string()
+  .startsWith('/')
+  .refine(
+    s => s.split('/').slice(1).find(component => !idComponent.safeParse(component).success),
+    { error: 'Components of ID are invalid' },
+  )
+  .brand<'ItemId'>();
 
-/** Array of illegal characters that cannot be used in names */
-const illegalNameChars = ['\t', '\n', '\f', '\r'];
+export type ItemId = z.infer<typeof itemId>;
 
-/** Ensure that the given name is valid */
-export function validateName(name: string): string {
-  if (!name) {
-    error(400, 'Name cannot be empty');
-  }
-  if (name.trim().length !== name.length) {
-    error(400, 'Name cannot contain leading or trailing whitespace');
-  }
-  if (
-    illegalNameChars
-      .reduce((n, c) => n.replace(c, ''), name)
-      .length
-      !== name.length
-  ) {
-    error(400, 'Name contains illegal whitespace characters');
-  }
+/** Zod validator for a name. */
+export const name = z.string()
+  .nonempty()
+  .refine(s => s.trim.length === s.length, { error: 'Has leading or trailing whitespace' })
+  .refine(
+    s => ['\t', '\n', '\f', '\r'].reduce((c, badC) => c.replace(badC, ''), s).length === s.length,
+    { error: 'Contains illegal whitespace characters' });
 
-  return name;
-}
+/** Zod validator for hex color */
+export const color = z.string()
+  .regex(/^#[0-9a-fA-F]{6}$/, { error: 'Colors must be given in hex form (#RRGGBB)' });
 
-// Can't find a clean way to match either 3 or 6 chars, but not 4 or 5
-const colorValidatorRegex = /^#[0-9a-fA-F]{6}$/;
-
-/** Validate a color is in hex form */
-export function validateColor(color: string): string {
-  if (!colorValidatorRegex.test(color)) {
-    error(400, 'Colors must be given in hex form (#RRGGBB)');
-  }
-  return color;
-}
-
-/** Validate that a text field is non-empty */
-export function validateNonEmpty(text: string): string {
-  if (!text) {
-    error(400, 'Field must not be empty');
-  }
-  return text;
-}
-
-/** Validate that a password is sufficiently strong */
-export function validatePassword(password: string): string {
-  if (!validator.isStrongPassword(password)) {
-    error(400, 'Password is not strong enough');
-  }
-  return password;
-}
-
-/** Validate a URL */
-export function validateUrl(url: string): string {
-  let parsed: URL;
-  try {
-    parsed = new URL(url);
-  } catch (_) {
-    return error(400, 'URL failed to parse');
-  }
-
-  if (!['http:', 'https:'].includes(parsed.protocol)) {
-    error(400, 'URL protocol must be HTTP or HTTPS');
-  }
-
-  return url;
-}
+/** Zod validator for strong password */
+export const password = z.string()
+  .refine(s => validator.isStrongPassword(s), { error: 'Password is not strong enough' });
 
 export default {
-  id: validateId,
-  itemId: validateItemId,
-  name: validateName,
-  color: validateColor,
-  nonEmpty: validateNonEmpty,
-  password: validatePassword,
-  url: validateUrl,
+  idComponent,
+  itemId,
+  name,
+  color,
+  password,
 };

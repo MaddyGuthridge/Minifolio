@@ -7,7 +7,7 @@ import sanitize from 'sanitize-filename';
 import { getDataDir } from './data/dataDir';
 import path from 'node:path';
 import { contentType } from 'mime-types';
-import type { ItemId } from '$lib/itemId';
+import type { ItemId } from '$lib/validate';
 
 /** Validate that the given file exists, and is readable */
 export async function validateFile(itemId: ItemId, filename: string): Promise<string> {

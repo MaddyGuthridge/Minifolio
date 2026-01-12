@@ -67,7 +67,7 @@
             newItemId = nameToId(itemName);
           }
         }}
-        validator={validate.name}
+        validator={name => validate.name.parse(name)}
         bind:valueOk={valuesOk.name}
       />
       <label for="item-id">Item ID</label>
@@ -79,7 +79,7 @@
         oninput={() => {
           userModifiedId = true;
         }}
-        validator={id => validate.id('Item ID', id)}
+        validator={id => validate.idComponent.parse(id)}
         bind:valueOk={valuesOk.id}
       />
       <label for="item-description">Item description</label>

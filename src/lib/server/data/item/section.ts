@@ -5,8 +5,7 @@
  */
 import z from 'zod';
 import { error } from '@sveltejs/kit';
-import validate from '$lib/validate';
-import { ItemIdStruct, type ItemId } from '$lib/itemId';
+import validate, { type ItemId } from '$lib/validate';
 import { RepoInfo } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
@@ -18,7 +17,7 @@ const HeadingSection = z.strictObject({
   /** The type of section (in this case 'heading') */
   type: z.literal('heading'),
   /** The text to display as the heading */
-  heading: z.string(),
+  heading: validate.name,
 });
 
 /** Header within the sections */
@@ -29,11 +28,11 @@ const LinksSection = z.strictObject({
   /** The type of section (in this case 'links') */
   type: z.literal('links'),
   /** The text to display for the section (eg "See also") */
-  label: z.string(),
+  label: validate.name.nullable(),
   /** The style in which to present the links ('chip' or 'card') */
   style: z.enum(linkDisplayStyles),
   /** The array of item IDs to display as links */
-  items: z.array(ItemIdStruct),
+  items: z.array(validate.itemId),
 });
 
 /** Links from this item to other items. */
@@ -41,7 +40,6 @@ export type LinksSection = z.infer<typeof LinksSection>;
 
 /** Validate a links section of an item */
 async function validateLinksSection(itemId: ItemId, data: LinksSection) {
-  validate.name(data.label);
   async function validateLinkedItem(otherItem: ItemId) {
     if (!await itemExists(otherItem)) {
       error(400, `Linked item ${otherItem} does not exist`);
@@ -58,18 +56,17 @@ const BacklinksSectionStruct = z.strictObject({
   /** The type of section (in this case 'backlinks') */
   type: z.literal('backlinks'),
   /** The text to display for the section (eg "See also") */
-  label: z.string(),
+  label: validate.name,
   /** The style in which to present the links ('chip' or 'card') */
   style: z.enum(linkDisplayStyles),
   /** Item whose children can be potentially shown */
-  parentItem: ItemIdStruct,
+  parentItem: validate.itemId,
 });
 
 /** Backlinks from another group of items to this item */
 export type BacklinksSection = z.infer<typeof BacklinksSectionStruct>;
 
 async function validateBacklinksSection(itemId: ItemId, data: BacklinksSection) {
-  validate.name(data.label);
   if (!await itemExists(data.parentItem)) {
     error(400, `Backlink parent item ${data.parentItem} does not exist`);
   }
@@ -80,7 +77,7 @@ const PackageSectionStruct = z.strictObject({
   /** The type of section (in this case 'package') */
   type: z.literal('package'),
   /** The text to display for the section (defaults to "Install using [provider]") */
-  label: z.string().nullable(),
+  label: validate.name.nullable(),
   /** The URL of the site being linked */
   info: PackageInfoStruct,
 });
@@ -93,7 +90,7 @@ const RepoSectionStruct = z.strictObject({
   /** The type of section (in this case 'repo') */
   type: z.literal('repo'),
   /** The text to display for the section (defaults to "View the code on [provider]") */
-  label: z.string().nullable(),
+  label: validate.name.nullable(),
   /** Information about the repository being linked */
   info: RepoInfo,
 });
@@ -108,9 +105,9 @@ const SiteSectionStruct = z.strictObject({
   /** The icon to display for the section (defaults to "la-globe") */
   icon: z.string().nullable(),
   /** The text to display for the section (defaults to "Visit the website") */
-  label: z.string().nullable(),
+  label: validate.name.nullable(),
   /** The URL of the site being linked */
-  url: z.string(),
+  url: z.httpUrl(),
 });
 
 /** Website link */
@@ -123,7 +120,7 @@ const FeedSectionStruct = z.strictObject({
   /** The icon to display for the section (defaults to "la-globe") */
   icon: z.string().nullable(),
   /** The text to display for the section (defaults to "Subscribe via RSS/Atom") */
-  label: z.string().nullable(),
+  label: validate.name.nullable(),
 });
 
 /** Website link */
@@ -169,24 +166,7 @@ export async function validateSection(itemId: ItemId, data: ItemSection) {
     case 'backlinks':
       await validateBacklinksSection(itemId, data);
       break;
-    case 'heading':
-      validate.name(data.heading);
-      break;
-    case 'site':
-      if (data.label !== null) {
-        validate.name(data.label);
-      }
-      validate.url(data.url);
-      break;
-    case 'feed':
-      if (data.label !== null) {
-        validate.name(data.label);
-      }
-      break;
     case 'download':
-      if (data.label !== null) {
-        validate.name(data.label);
-      }
       await validateFile(itemId, data.file);
       break;
   }

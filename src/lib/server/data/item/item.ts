@@ -7,9 +7,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { error } from '@sveltejs/kit';
 import z from 'zod';
-import validate from '$lib/validate';
+import validate, { type ItemId } from '$lib/validate';
 import serverValidate from '$lib/server/serverValidate';
-import itemId, { type ItemId } from '../../../itemId';
+import itemId from '../../../itemId';
 import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { move } from '../../util';
@@ -46,12 +46,12 @@ export const ItemInfo = z.strictObject({
    * The name of the item, displayed in the navigator when on this page, as well as on Card
    * elements.
    */
-  name: z.string(),
+  name: validate.name,
   /**
    * A shortened name of the item, displayed in the navigator when on a child page, as well as on
    * Chip elements.
    */
-  shortName: z.string().nullable(),
+  shortName: validate.name.nullable(),
   /**
    * A short description to use for this item. This is shown on Card elements, and as a tooltip for
    * Chip elements.
@@ -86,16 +86,16 @@ export const ItemInfo = z.strictObject({
   /** The banner image to use for this item, as a path relative to this item's root location. */
   banner: z.string().nullable(),
   /** A hexadecimal color to use for the item. */
-  color: z.string(),
+  color: validate.color,
   /** Sections to display on the item's page */
   sections: z.array(ItemSectionStruct),
   /**
    * Items to list as children of this item. Items not in this list will be unlisted, but still
    * accessible if their URL is accessed directly.
    */
-  children: z.array(z.string()),
+  children: z.array(validate.idComponent),
   /** Array of item IDs whose children should be used as filters for children of this item. */
-  filters: z.array(itemId.Struct),
+  filters: z.array(validate.itemId),
   /** SEO properties, placed in the document `<head>` to improve placement in search engines. */
   seo: z.strictObject({
     /**
@@ -132,12 +132,6 @@ export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<It
   // Validate new info.json
   const info = await ItemInfo.parseAsync(data).catch(e => error(400, e));
 
-  // name
-  validate.name(info.name);
-  // shortName
-  if (info.shortName !== null) {
-    validate.name(info.shortName);
-  }
   // Icon and banner images
   if (info.icon !== null) {
     await serverValidate.image(item, info.icon);
@@ -145,8 +139,6 @@ export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<It
   if (info.banner !== null) {
     await serverValidate.image(item, info.banner);
   }
-  // Item color
-  validate.color(info.color);
 
   // Validate each section
   await Promise.all(info.sections.map(section => validateSection(item, section)));

@@ -1,4 +1,4 @@
-import { type ItemId } from './itemId';
+import { type ItemId } from './validate';
 import type { ItemInfo } from './server/data/item';
 
 /** Supported display styles for links */

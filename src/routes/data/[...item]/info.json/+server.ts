@@ -5,7 +5,7 @@ import z from 'zod';
 import itemId from '$lib/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { validateName } from '$lib/validate';
+import validate from '$lib/validate';
 import formatTemplate from '$lib/server/formatTemplate';
 import { ITEM_README } from '$lib/server/data/text';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
@@ -18,7 +18,7 @@ type Request = import('./$types').RequestEvent;
 
 /** Get item info.json */
 export async function GET(req: Request) {
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
   if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
@@ -30,14 +30,14 @@ export async function GET(req: Request) {
 
 /** Allowed options when creating a new item */
 const NewItemOptions = z.strictObject({
-  name: z.string(),
+  name: validate.name,
   description: z.string(),
 });
 
 /** Create new item */
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
 
   // Ensure parent exists
   const parent = await getItemInfo(itemId.parent(item))
@@ -49,7 +49,6 @@ export async function POST(req: Request) {
   // Validate item properties
   const { name, description } = await NewItemOptions.parseAsync(await req.request.json())
     .catch(e => error(400, e));
-  validateName(name);
 
   const itemInfo = await validateItemInfo(item, {
     name,
@@ -95,7 +94,7 @@ export async function POST(req: Request) {
 /** Update item info.json */
 export async function PUT(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
   // Check if item exists
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
@@ -109,7 +108,7 @@ export async function PUT(req: Request) {
 /** Delete item */
 export async function DELETE(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
   // Prevent the Minifolio equivalent of `rm -rf /`
   if (item === '/') {
     error(403, 'Cannot delete root item');

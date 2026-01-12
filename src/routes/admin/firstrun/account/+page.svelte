@@ -105,7 +105,7 @@
           id="username"
           placeholder="username"
           bind:value={username}
-          validator={u => validate.idComponent.parse(u)}
+          validator={validate.idComponent}
           bind:valueOk={valuesOk.username}
         />
 
@@ -115,7 +115,7 @@
           id="password"
           placeholder="A strong and unique password"
           bind:value={password}
-          validator={p => validate.password.parse(p)}
+          validator={validate.password}
           bind:valueOk={valuesOk.password}
         />
         <p>Repeat your password.</p>

@@ -1,10 +1,13 @@
-import dotenv from 'dotenv';
 import ApiError from './ApiError';
 import { browser } from '$app/environment';
 import response from './response';
 import type { PayloadInfo } from './payload';
 
 export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+if (!browser) {
+  process.loadEnvFile('.env');
+}
 
 /**
  * Determines the URL to send requests to.
@@ -21,9 +24,6 @@ export function getUrl() {
   } else {
     // Running in node
 
-    // FREAKING ADVERTS IN MY STDOUT!!! I HATE THIS SO MUCH
-    // Set quiet option to prevent this.
-    dotenv.config({ quiet: true });
     const PORT = process.env.PORT!;
     const HOST = process.env.HOST!;
     return `http://${HOST}:${PORT}`;

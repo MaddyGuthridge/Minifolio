@@ -52,6 +52,8 @@ jobs:
       with:
         node-version: 22.x
         cache: 'npm'
+    - name: Set up .env
+      run: cp .env.example .env
     - run: npm ci
     - name: Run type-checking
       run: npm run check

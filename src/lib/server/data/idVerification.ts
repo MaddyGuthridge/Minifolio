@@ -6,7 +6,7 @@ export const IdVerificationStruct = z.strictObject({
    *
    * Links to place in `<link rel="me" href="{}">` fields.
    */
-  relMe: z.array(z.string()),
+  relMe: z.array(z.httpUrl()),
   /**
    * AT-Protocol decentralized ID, used by Bluesky.
    *

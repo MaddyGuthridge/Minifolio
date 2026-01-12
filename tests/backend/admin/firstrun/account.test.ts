@@ -29,7 +29,7 @@ describe('username', () => {
       .rejects.toMatchObject({ code: 400 });
   });
 
-  it.each(validIds)('Accepts valid usernames ($case)', async ({ id }) => {
+  it.each(validIds)('Accepts valid usernames ($case: $id)', async ({ id }) => {
     await expect(firstrunAccount({ username: id })).toResolve();
   });
 });

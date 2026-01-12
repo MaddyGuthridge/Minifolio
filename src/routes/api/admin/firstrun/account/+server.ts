@@ -5,25 +5,18 @@ import z from 'zod';
 import validate from '$lib/validate';
 
 const FirstRunAuthOptions = z.strictObject({
-  username: z.string(),
-  password: z.string(),
+  username: validate.idComponent,
+  password: validate.password,
 });
 
 export type FirstRunAuthOptions = z.infer<typeof FirstRunAuthOptions>;
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
-  const options = await FirstRunAuthOptions.parseAsync(await request.json())
-    .catch(e => error(400, e));
+  const options = validate.parse(FirstRunAuthOptions, await request.json());
 
   if (await authIsSetUp()) {
     error(403);
   }
-
-  // Validate username and password
-  await validate.idComponent.parseAsync(options.username)
-    .catch(e => error(400, e));
-  await validate.password.parseAsync(options.password)
-    .catch(e => error(400, e));
 
   // Now set up auth
   const token = await authSetup(options.username, options.password, cookies);

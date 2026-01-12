@@ -29,7 +29,7 @@ export const AuthorInfoStruct = z.strictObject({
   /** The author's email address */
   email: z.string().nullable(),
   /** A URI for the author */
-  uri: z.string().nullable(),
+  uri: z.httpUrl().nullable(),
   /** Fediverse attribution, eg `@maddy@tech.lgbt` */
   fediverse: z.string().nullable(),
 });
@@ -177,7 +177,7 @@ export async function getItemInfo(item: ItemId): Promise<ItemInfo> {
   // Currently load from the disk every time -- should implement caching at some point
   const result = JSON.parse(await fs.readFile(itemPath(item, 'info.json'), { encoding: 'utf-8' }));
   // Don't fully validate info when loading data, or we'll get infinite recursion
-  return ItemInfo.parseAsync(result).catch(e => error(400, e));
+  return validate.parse(ItemInfo, result);
 }
 
 /** Update the given item's `info.json` */

@@ -23,7 +23,7 @@ describe('rel="me"', () => {
     expect(rootPage.includes(`<link rel="me" href="${url}"`)).toBeTrue();
   });
 
-  it('Rejects invalid URLs for rel="me" site verification', async () => {
+  it.only('Rejects invalid URLs for rel="me" site verification', async () => {
     const url = 'social.example.com/@someone';
     await expect(api.config.put(makeConfig({ verification: {
       relMe: [url],

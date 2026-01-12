@@ -18,14 +18,19 @@ type Request = import('./$types').RequestEvent;
 
 /** Get item info.json */
 export async function GET(req: Request) {
-  const item = validate.itemId.parse(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
   if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
   }
-  return json(await getItemInfo(item));
+  console.log('GET item: ', item);
+  try {
+    return json(await getItemInfo(item));
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /** Allowed options when creating a new item */
@@ -37,7 +42,7 @@ const NewItemOptions = z.strictObject({
 /** Create new item */
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
-  const item = validate.itemId.parse(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   // Ensure parent exists
   const parent = await getItemInfo(itemId.parent(item))

@@ -25,8 +25,7 @@ type Request = import('./$types').RequestEvent;
  * - https://www.ibm.com/docs/en/baw/22.0.x?topic=formats-atom-feed-format
  */
 export async function GET(req: Request) {
-  const item = await validate.itemId.parseAsync(`/${req.params.item}`)
-    .catch(e => error(400, e));
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   // Give a 404 if:
   // 1. Item doesn't exist

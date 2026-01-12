@@ -19,8 +19,7 @@ export async function POST(req: Request) {
     error(404, `Item '${item}' does not exist`);
   }
 
-  const { target } = await MoveOptions.parseAsync(await req.request.json())
-    .catch(e => error(400, e));
+  const { target } = validate.parse(MoveOptions, await req.request.json());
 
   await moveItem(item, target);
   return json({});

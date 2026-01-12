@@ -6,6 +6,7 @@ import { dataIsSetUp } from '$lib/server/data/dataDir';
 import serverValidate from '$lib/server/serverValidate';
 import itemId from '$lib/itemId';
 import z from 'zod';
+import validate from '$lib/validate';
 
 export async function GET() {
   if (!await dataIsSetUp()) {
@@ -20,7 +21,7 @@ export async function PUT({ request, cookies }: import('./$types').RequestEvent)
   }
   await validateTokenFromRequest({ request, cookies });
 
-  const newConfig = await ConfigJson.parseAsync(await request.json()).catch(e => error(400, e));
+  const newConfig = validate.parse(ConfigJson, await request.json());
 
   if (newConfig.version !== version) {
     return error(

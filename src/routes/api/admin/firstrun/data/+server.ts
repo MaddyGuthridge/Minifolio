@@ -3,6 +3,7 @@ import { dataIsSetUp } from '$lib/server/data/dataDir';
 import z from 'zod';
 import { setupData } from '$lib/server/data/setup';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import validate from '$lib/validate';
 
 const FirstRunDataOptions = z.strictObject({
   repoUrl: z.string().nullable().optional(),
@@ -17,8 +18,7 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
   }
   await validateTokenFromRequest({ request, cookies });
 
-  const options = await FirstRunDataOptions.parseAsync(await request.json())
-    .catch(e => error(400, e));
+  const options = validate.parse(FirstRunDataOptions, await request.json());
 
   if (options.branch && !options.repoUrl) {
     error(400, 'Branch must not be given if repo URL is not provided');

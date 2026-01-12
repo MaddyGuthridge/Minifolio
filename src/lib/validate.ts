@@ -8,12 +8,16 @@ import validator from 'validator';
 import z from 'zod';
 
 /** Parse the given zod schema, giving an error 400 if parsing fails */
-export function parse<Out>(zodSchema: { parse: (value: unknown) => Out }, value: unknown): Out {
+export function parse<Out>(
+  zodSchema: { parse: (value: unknown) => Out },
+  value: unknown,
+  err: string | undefined = undefined,
+): Out {
   try {
     return zodSchema.parse(value);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      error(400, e);
+      error(400, err ?? e);
     } else {
       throw e;
     }

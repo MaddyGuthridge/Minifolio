@@ -24,16 +24,14 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
   }
 
   const { newUsername, oldPassword, newPassword }
-    = await NewCredentials.parseAsync(await request.json()).catch(e => error(400, e));
+    = validate.parse(NewCredentials, await request.json());
 
   if (hashAndSalt(local.auth[uid].password.salt, oldPassword) !== local.auth[uid].password.hash) {
     return error(403, 'Old password is incorrect');
   }
 
-  await validate.idComponent.parseAsync(newUsername)
-    .catch(e => error(400, e));
-  await validate.password.parseAsync(newPassword)
-    .catch(e => error(400, e));
+  validate.parse(validate.idComponent, newUsername);
+  validate.parse(validate.password, newPassword);
 
   // Hash and salt new password
   const salt = nanoid();

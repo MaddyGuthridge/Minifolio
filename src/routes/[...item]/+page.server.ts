@@ -8,8 +8,7 @@ import validate from '$lib/validate';
 
 export async function load(req: import('./$types').RequestEvent) {
   await redirectForSetup();
-  const item = await validate.itemId.parseAsync(`/${req.params.item}`)
-    .catch(e => error(400, e));
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   if (!await itemExists(item)) {
     error(404, `Item ${item} does not exist`);

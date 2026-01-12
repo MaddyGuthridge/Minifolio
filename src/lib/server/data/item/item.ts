@@ -130,7 +130,7 @@ export async function itemExists(item: ItemId): Promise<boolean> {
 /** Validate that the given item info is valid */
 export async function validateItemInfo(item: ItemId, data: ItemInfo): Promise<ItemInfo> {
   // Validate new info.json
-  const info = await ItemInfo.parseAsync(data).catch(e => error(400, e));
+  const info = validate.parse(ItemInfo, data);
 
   // Icon and banner images
   if (info.icon !== null) {

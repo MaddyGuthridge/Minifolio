@@ -5,6 +5,7 @@ import { unixTime } from '$lib/util';
 import { getLocalConfig, setLocalConfig } from '../data/localConfig';
 import { error, type Cookies } from '@sveltejs/kit';
 import { getAuthSecret } from './secret';
+import validate from '$lib/validate';
 
 /** Maximum lifetime of a session -- 3 days (unless refreshed) */
 const sessionLifetime = 60 * 60 * 24 * 3;
@@ -82,8 +83,7 @@ export async function validateToken(token: string): Promise<JwtPayload> {
       throw Error('Token failed to validate');
     }
   }
-  const data = await JwtPayload.parseAsync(payload)
-    .catch(() => error(400, 'Token data is in invalid format'));
+  const data = validate.parse(JwtPayload, payload, 'Token data is in invalid format');
   // Ensure the user ID exists
   if (!(data.uid in config.auth)) {
     // console.log(config.auth);

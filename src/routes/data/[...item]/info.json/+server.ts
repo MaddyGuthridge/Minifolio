@@ -52,8 +52,7 @@ export async function POST(req: Request) {
     error(400, `Item '${item}' already exists`);
   }
   // Validate item properties
-  const { name, description } = await NewItemOptions.parseAsync(await req.request.json())
-    .catch(e => error(400, e));
+  const { name, description } = validate.parse(NewItemOptions, await req.request.json());
 
   const itemInfo = await validateItemInfo(item, {
     name,

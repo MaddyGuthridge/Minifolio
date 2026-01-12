@@ -20,8 +20,10 @@ export function getUrl() {
     return '';
   } else {
     // Running in node
-    dotenv.config();
 
+    // FREAKING ADVERTS IN MY STDOUT!!! I HATE THIS SO MUCH
+    // Set quiet option to prevent this.
+    dotenv.config({ quiet: true });
     const PORT = process.env.PORT!;
     const HOST = process.env.HOST!;
     return `http://${HOST}:${PORT}`;

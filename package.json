@@ -32,7 +32,7 @@
     "marked-katex-extension": "^5.1.6",
     "marked-smartypants": "^1.1.11",
     "mermaid": "^11.12.2",
-    "mime-types": "^3.0.1",
+    "mime-types": "^3.0.2",
     "nanoid": "^5.1.6",
     "random-words": "^2.0.1",
     "rimraf": "^6.0.1",

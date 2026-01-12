@@ -1,30 +1,12 @@
 /**
  * Item ID type definitions and helper functions.
  */
-import validate from '$lib/validate';
-import { error } from '@sveltejs/kit';
-import { string, Struct } from 'superstruct';
+import type { ItemId } from './validate';
 
-/** The ID of an Item. A string in the form `/a/b/c/...` */
-export type ItemId = string & { __itemId: string };
+export type { ItemId };
 
-/** The ID of an Item. A string in the form `/a/b/c/...` */
-// Janky override of the type definition, such that TypeScript knows that anything that is typed
-// with this definition is assumed to be of type `ItemId`
-export const ItemIdStruct: Struct<ItemId, null> = string() as any;
-
+/** Root item ID */
 export const ROOT = '/' as ItemId;
-
-/** Ensure that an ItemId is valid */
-export function validateItemId(itemId: string): ItemId {
-  if (!itemId.startsWith('/')) {
-    error(400, "ItemId must have a leading '/'");
-  }
-  for (const component of itemIdComponents(itemId as ItemId)) {
-    validate.id('ItemId component', component);
-  }
-  return itemId as ItemId;
-}
 
 /** Split an ItemId into its components */
 export function itemIdComponents(itemId: ItemId): string[] {
@@ -108,9 +90,7 @@ export function itemIsDescendant(first: ItemId, second: ItemId): boolean {
 }
 
 export default {
-  Struct: ItemIdStruct,
   ROOT,
-  validate: validateItemId,
   components: itemIdComponents,
   fromComponents: itemIdFromComponents,
   fromStr: itemIdFromStr,

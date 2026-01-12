@@ -1,27 +1,22 @@
 import { error, json } from '@sveltejs/kit';
 import { authIsSetUp } from '$lib/server/data/dataDir';
 import { authSetup } from '$lib/server/auth/setup';
-import { object, string, type Infer } from 'superstruct';
-import { applyStruct } from '$lib/server/util';
+import z from 'zod';
 import validate from '$lib/validate';
 
-const FirstRunAuthOptionsStruct = object({
-  username: string(),
-  password: string(),
+const FirstRunAuthOptions = z.strictObject({
+  username: validate.idComponent,
+  password: validate.password,
 });
 
-export type FirstRunAuthOptions = Infer<typeof FirstRunAuthOptionsStruct>;
+export type FirstRunAuthOptions = z.infer<typeof FirstRunAuthOptions>;
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
-  const options = applyStruct(await request.json(), FirstRunAuthOptionsStruct);
+  const options = validate.parse(FirstRunAuthOptions, await request.json());
 
   if (await authIsSetUp()) {
     error(403);
   }
-
-  // Validate username and password
-  validate.id('username', options.username);
-  validate.password(options.password);
 
   // Now set up auth
   const token = await authSetup(options.username, options.password, cookies);

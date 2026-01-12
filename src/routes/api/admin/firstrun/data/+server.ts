@@ -1,16 +1,16 @@
 import { error, json } from '@sveltejs/kit';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { nullable, object, optional, string, type Infer } from 'superstruct';
-import { applyStruct } from '$lib/server/util';
+import z from 'zod';
 import { setupData } from '$lib/server/data/setup';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import validate from '$lib/validate';
 
-const FirstRunDataOptionsStruct = object({
-  repoUrl: optional(nullable(string())),
-  branch: optional(nullable(string())),
+const FirstRunDataOptions = z.strictObject({
+  repoUrl: z.string().nullable().optional(),
+  branch: z.string().nullable().optional(),
 });
 
-export type FirstRunDataOptions = Infer<typeof FirstRunDataOptionsStruct>;
+export type FirstRunDataOptions = z.infer<typeof FirstRunDataOptions>;
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   if (await dataIsSetUp()) {
@@ -18,7 +18,7 @@ export async function POST({ request, cookies }: import('./$types').RequestEvent
   }
   await validateTokenFromRequest({ request, cookies });
 
-  const options = applyStruct(await request.json(), FirstRunDataOptionsStruct);
+  const options = validate.parse(FirstRunDataOptions, await request.json());
 
   if (options.branch && !options.repoUrl) {
     error(400, 'Branch must not be given if repo URL is not provided');

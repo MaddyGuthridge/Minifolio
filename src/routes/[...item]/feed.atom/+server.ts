@@ -10,6 +10,7 @@ import { getConfig } from '$lib/server/data/config';
 import type { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { unixTime, unixToIsoTime } from '$lib/util';
 import { getItemAuthor } from '$lib/itemData';
+import validate from '$lib/validate';
 
 type Request = import('./$types').RequestEvent;
 
@@ -24,7 +25,7 @@ type Request = import('./$types').RequestEvent;
  * - https://www.ibm.com/docs/en/baw/22.0.x?topic=formats-atom-feed-format
  */
 export async function GET(req: Request) {
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   // Give a 404 if:
   // 1. Item doesn't exist

@@ -79,7 +79,7 @@
         oninput={() => {
           userModifiedId = true;
         }}
-        validator={id => validate.id('Item ID', id)}
+        validator={validate.idComponent}
         bind:valueOk={valuesOk.id}
       />
       <label for="item-description">Item description</label>

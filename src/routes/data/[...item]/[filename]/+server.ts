@@ -10,11 +10,12 @@ import { fileExists } from '$lib/server/util';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
 import { getItemData, getItemInfo, itemExists, itemPath } from '$lib/server/data/item';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
+import validate from '$lib/validate';
 type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns file contents */
 export async function GET(req: Request) {
-  const item: ItemId = itemId.validate(`/${req.params.item}`);
+  const item: ItemId = validate.itemId.parse(`/${req.params.item}`);
   if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
@@ -131,7 +132,7 @@ export async function POST(req: Request) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest(req);
-  const item: ItemId = itemId.validate(`/${req.params.item}`);
+  const item: ItemId = validate.itemId.parse(`/${req.params.item}`);
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
   }
@@ -152,7 +153,7 @@ export async function PUT(req: Request) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest(req);
-  const item: ItemId = itemId.validate(`/${req.params.item}`);
+  const item: ItemId = validate.itemId.parse(`/${req.params.item}`);
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
   }
@@ -173,7 +174,7 @@ export async function DELETE(req: Request) {
     error(400, 'Data is not set up');
   }
   await validateTokenFromRequest(req);
-  const item: ItemId = itemId.validate(`/${req.params.item}`);
+  const item: ItemId = validate.itemId.parse(`/${req.params.item}`);
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
   }

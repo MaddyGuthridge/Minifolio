@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { array, boolean, nullable, number, object, record, string, union, validate, type Infer } from 'superstruct';
+import z from 'zod';
 import { getPrivateDataDir } from './dataDir';
-import { GitConfigStruct } from '../git';
+import { GitConfig } from '../git';
 
 /** Path to config.local.json */
 const CONFIG_LOCAL_JSON = () => `${getPrivateDataDir()}/config.local.json`;
@@ -9,20 +9,20 @@ const CONFIG_LOCAL_JSON = () => `${getPrivateDataDir()}/config.local.json`;
 /**
  * Validator for config.local.json file
  */
-export const ConfigLocalJsonStruct = object({
+export const ConfigLocalJson = z.strictObject({
   /**
    * Authentication data, as a record between user IDs and their
    * authentication info.
    */
-  auth: record(string(), object({
+  auth: z.record(z.string(), z.strictObject({
     /** The user's username, used for logging in */
-    username: string(),
+    username: z.string(),
     /** Information about the user's password */
-    password: object({
+    password: z.object({
       /** Hash of password */
-      hash: string(),
+      hash: z.string(),
       /** Salt of password */
-      salt: string(),
+      salt: z.string(),
     }),
     /**
      * Information about sessions for this user.
@@ -30,14 +30,14 @@ export const ConfigLocalJsonStruct = object({
      * Sessions should be implemented using a JWT, where each session has a
      * unique session ID, and an expiry time.
      */
-    sessions: object({
+    sessions: z.strictObject({
       /**
        * Don't accept tokens issued before this unix timestamp.
        *
        * This is used to revoke all tokens, we can just update this value to
        * be the current time, which will cause all sessions to become invalid.
        */
-      notBefore: number(),
+      notBefore: z.number(),
       /**
        * Mapping of revoked sessions.
        *
@@ -45,7 +45,7 @@ export const ConfigLocalJsonStruct = object({
        * would actually expire at (used for cleaning the data, so we can remove
        * sessions that have expired).
        */
-      revokedSessions: record(string(), number()),
+      revokedSessions: z.record(z.string(), z.number()),
     }),
   })),
   /**
@@ -56,31 +56,34 @@ export const ConfigLocalJsonStruct = object({
    * login fails for incoming IP addresses, and if that IP has a login failure
    * too often, it will be banned from attempting to log in temporarily.
    */
-  enableFail2ban: boolean(),
+  enableFail2ban: z.boolean(),
   /**
    * A mapping of IP addresses to the array of their most recent login fail
    * timestamps, or a boolean indicating whether they are permanently banned
    * (`true`) or must never be banned (`false`).
    */
-  loginBannedIps: record(string(), union([array(number()), boolean()])),
+  loginBannedIps: z.record(z.string(), z.union([
+    z.array(z.number()),
+    z.boolean(),
+  ])),
   /**
    * Array of banned IP addresses. All requests from these IP addresses will
    * be blocked.
    */
-  bannedIps: array(string()),
+  bannedIps: z.array(z.string()),
   /**
    * Whether to allow determining incoming IP addresses using Cloudflare's
    * `CF-Connecting-IP` header. Only enable if running behind a Cloudflare
    * tunnel, otherwise the client's IP address can be faked.
    */
-  allowCloudflareIp: boolean(),
+  allowCloudflareIp: z.boolean(),
   /**
    * Array of regular expressions matching user-agent strings which should be
    * blocked.
    */
-  bannedUserAgents: array(string()),
+  bannedUserAgents: z.array(z.string()),
   /** Git configuration */
-  gitConfig: GitConfigStruct,
+  gitConfig: GitConfig,
   /**
    * Path to the private key file which the server should use when connecting
    * to git repos.
@@ -91,26 +94,18 @@ export const ConfigLocalJsonStruct = object({
    * If this is `null`, then the `ssh` executable will be free to choose an
    * appropriate SSH key to use.
    */
-  keyPath: nullable(string()),
+  keyPath: z.nullable(z.string()),
   /** Version of server that last accessed the config.local.json */
-  version: string(),
+  version: z.string(),
 });
 
 /** Type definition for config.local.json file */
-export type ConfigLocalJson = Infer<typeof ConfigLocalJsonStruct>;
+export type ConfigLocalJson = z.infer<typeof ConfigLocalJson>;
 
 /** Return the local configuration, stored in `/private-data/config.local.json` */
 export async function getLocalConfig(): Promise<ConfigLocalJson> {
   const data = await readFile(CONFIG_LOCAL_JSON(), { encoding: 'utf-8' });
-
-  // Validate data
-  const [err, parsed] = validate(JSON.parse(data), ConfigLocalJsonStruct);
-  if (err) {
-    console.log('Error while parsing config.local.json');
-    console.error(err);
-    throw err;
-  }
-  return parsed;
+  return ConfigLocalJson.parse(JSON.parse(data));
 }
 
 /** Update the local configuration, stored in `/data/config.local.json` */

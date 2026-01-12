@@ -4,10 +4,11 @@ import { getItemData, itemExists } from '$lib/server/data/item';
 import { getConfig } from '$lib/server/data/config';
 import itemId from '$lib/itemId';
 import { redirectForSetup } from '$lib/server/redirects';
+import validate from '$lib/validate';
 
 export async function load(req: import('./$types').RequestEvent) {
   await redirectForSetup();
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   if (!await itemExists(item)) {
     error(404, `Item ${item} does not exist`);

@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid';
-import { validate, number, string, type, type Infer } from 'superstruct';
+import z from 'zod';
 import jwt, { type Algorithm as JwtAlgorithm } from 'jsonwebtoken';
 import { unixTime } from '$lib/util';
 import { getLocalConfig, setLocalConfig } from '../data/localConfig';
 import { error, type Cookies } from '@sveltejs/kit';
 import { getAuthSecret } from './secret';
+import validate from '$lib/validate';
 
 /** Maximum lifetime of a session -- 3 days (unless refreshed) */
 const sessionLifetime = 60 * 60 * 24 * 3;
@@ -18,16 +19,17 @@ const algorithm: JwtAlgorithm = 'HS256';
  * using `type` rather than `object` as there may be additional properties
  * added by the `jsonwebtoken` library.
  */
-export const JwtPayload = type({
+export const JwtPayload = z.strictObject({
   /** Session ID */
-  sessionId: string(),
+  sessionId: z.string(),
   /** User ID of the user who owns this token */
-  uid: string(),
+  uid: z.string(),
   /** Expiry time (as UNIX timestamp) */
-  exp: number(),
+  exp: z.number(),
   /** Initialization time (as UNIX timestamp) */
-  iat: number(),
+  iat: z.number(),
 });
+export type JwtPayload = z.infer<typeof JwtPayload>;
 
 /**
  * Generate a token.
@@ -58,7 +60,7 @@ export async function generateToken(userId: string, cookies?: Cookies): Promise<
 }
 
 /** Decode the given token, and return the session if it passes validation */
-export async function validateToken(token: string): Promise<Infer<typeof JwtPayload>> {
+export async function validateToken(token: string): Promise<JwtPayload> {
   // If the token starts with 'Bearer ', strip that out
   if (token.startsWith('Bearer ')) {
     token = token.replace('Bearer ', '');
@@ -81,13 +83,7 @@ export async function validateToken(token: string): Promise<Infer<typeof JwtPayl
       throw Error('Token failed to validate');
     }
   }
-  // TODO: Create a helper function that lets as async-ify these checks, so
-  // that it's easier to `.catch(e => error(400, e))` them
-  const [err, data] = validate(payload, JwtPayload);
-  if (err) {
-    // Token data format is incorrect
-    throw Error('Token data is in incorrect format');
-  }
+  const data = validate.parse(JwtPayload, payload, 'Token data is in invalid format');
   // Ensure the user ID exists
   if (!(data.uid in config.auth)) {
     // console.log(config.auth);

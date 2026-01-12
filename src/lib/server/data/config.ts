@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { nullable, object, string, validate, type Infer } from 'superstruct';
+import z from 'zod';
 import { getDataDir } from './dataDir';
 import { version } from '$app/environment';
 import { unsafeLoadConfig } from './migrations/unsafeLoad';
@@ -9,17 +9,17 @@ import { IdVerificationStruct } from './idVerification';
 const CONFIG_JSON = () => `${getDataDir()}/config.json`;
 
 /** Validator for config.json file */
-export const ConfigJsonStruct = object({
+export const ConfigJson = z.strictObject({
   /** Filename of icon to use for the site */
-  siteIcon: nullable(string()),
+  siteIcon: z.string().nullable(),
   /** Identity verification */
   verification: IdVerificationStruct,
   /** Version of server that last accessed the config.json */
-  version: string(),
+  version: z.string(),
 });
 
 /** Main configuration for the portfolio, `config.json` */
-export type ConfigJson = Infer<typeof ConfigJsonStruct>;
+export type ConfigJson = z.infer<typeof ConfigJson>;
 
 /**
  * Return the version of the configuration. Used to determine if a migration is
@@ -37,16 +37,7 @@ export async function getConfigVersion(): Promise<string> {
 /** Return the configuration, stored in `/data/config.json` */
 export async function getConfig(): Promise<ConfigJson> {
   const data = await readFile(CONFIG_JSON(), { encoding: 'utf-8' });
-
-  // Validate data
-  const [err, parsed] = validate(JSON.parse(data), ConfigJsonStruct);
-  if (err) {
-    console.log('Error while parsing config.json');
-    console.error(err);
-    throw err;
-  }
-
-  return parsed;
+  return ConfigJson.parse(JSON.parse(data));
 }
 
 /** Update the configuration, stored in `/data/config.json` */

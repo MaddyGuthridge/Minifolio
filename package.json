@@ -10,8 +10,9 @@
     "production": "node -r dotenv/config build",
     "preview": "vite preview",
     "test": "vitest",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "check": "svelte-kit sync && npm run check:nosync",
+    "check:nosync": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && FORCE_COLOR=1 watch -c -n 2 npm run check:nosync",
     "lint": "svelte-kit sync && eslint .",
     "lint:fix": "svelte-kit sync && eslint --fix ."
   },
@@ -39,11 +40,11 @@
     "sanitize-filename": "^1.6.3",
     "semver": "^7.7.3",
     "spinnies": "^0.5.1",
-    "superstruct": "^2.0.2",
     "tippy.js": "^6.3.7",
     "validator": "^13.15.23",
     "xmlbuilder2": "^4.0.3",
-    "yauzl": "^3.2.0"
+    "yauzl": "^3.2.0",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.7.0",

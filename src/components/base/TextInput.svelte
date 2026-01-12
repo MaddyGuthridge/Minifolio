@@ -1,11 +1,13 @@
 <script lang="ts">
+  import type { ZodParser } from '$lib/validate';
+
   type Props = {
     /** Font size to use for the input field (in `rem`) */
     size?: number,
     /**
-     * Validator function -- any exception thrown will be displayed as error text.
+     * Validator zod schema. If this produces a parse error
      */
-    validator?: (text: string) => any,
+    validator?: ZodParser<unknown>,
     /** Additional error text, if validator callback is inadequate */
     errorText?: string,
     /** Whether the value is considered to be ok (in that no error message is shown) */
@@ -47,7 +49,7 @@
       return;
     }
     try {
-      validator?.(value);
+      validator?.parse(value);
       errorMessage = null;
       valueOk = true;
     } catch (e: any) {

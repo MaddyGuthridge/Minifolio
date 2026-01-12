@@ -1,12 +1,12 @@
-import { array, nullable, object, string } from 'superstruct';
+import z from 'zod';
 
-export const IdVerificationStruct = object({
+export const IdVerificationStruct = z.strictObject({
   /**
    * rel="me" verification, used by Mastodon, GitHub and Wikipedia.
    *
    * Links to place in `<link rel="me" href="{}">` fields.
    */
-  relMe: array(string()),
+  relMe: z.array(z.httpUrl()),
   /**
    * AT-Protocol decentralized ID, used by Bluesky.
    *
@@ -14,17 +14,17 @@ export const IdVerificationStruct = object({
    *
    * ID is returned by the `/.well-known/atproto-did` endpoint
    */
-  atProtocol: nullable(string()),
+  atProtocol: z.string().nullable(),
   /**
    * Google site verification.
    *
    * Links placed in `<meta name="google-site-verification" content="..." />` tag
    */
-  google: nullable(string()),
+  google: z.string().nullable(),
   /**
    * Bing site verification.
    *
    * Links placed in `<meta name="msvalidate01" content="..." />` tag
    */
-  bing: nullable(string()),
+  bing: z.string().nullable(),
 });

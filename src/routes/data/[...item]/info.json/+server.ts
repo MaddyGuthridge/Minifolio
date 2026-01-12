@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises';
 import { json, error } from '@sveltejs/kit';
-import { object, string } from 'superstruct';
+import z from 'zod';
+
 import itemId from '$lib/itemId';
 import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
 import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { applyStruct } from '$lib/server/util';
-import { validateName } from '$lib/validate';
+import validate from '$lib/validate';
 import formatTemplate from '$lib/server/formatTemplate';
 import { ITEM_README } from '$lib/server/data/text';
 import { dataIsSetUp } from '$lib/server/data/dataDir';
@@ -18,26 +18,31 @@ type Request = import('./$types').RequestEvent;
 
 /** Get item info.json */
 export async function GET(req: Request) {
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
   if (!await dataIsSetUp()) {
     error(400, 'Data is not set up');
   }
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
   }
-  return json(await getItemInfo(item));
+  console.log('GET item: ', item);
+  try {
+    return json(await getItemInfo(item));
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 /** Allowed options when creating a new item */
-const NewItemOptions = object({
-  name: string(),
-  description: string(),
+const NewItemOptions = z.strictObject({
+  name: validate.name,
+  description: z.string(),
 });
 
 /** Create new item */
 export async function POST(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item}`);
 
   // Ensure parent exists
   const parent = await getItemInfo(itemId.parent(item))
@@ -47,8 +52,7 @@ export async function POST(req: Request) {
     error(400, `Item '${item}' already exists`);
   }
   // Validate item properties
-  const { name, description } = applyStruct(await req.request.json(), NewItemOptions);
-  validateName(name);
+  const { name, description } = validate.parse(NewItemOptions, await req.request.json());
 
   const itemInfo = await validateItemInfo(item, {
     name,
@@ -94,7 +98,7 @@ export async function POST(req: Request) {
 /** Update item info.json */
 export async function PUT(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
   // Check if item exists
   if (!await itemExists(item)) {
     error(404, `Item '${item}' does not exist`);
@@ -108,7 +112,7 @@ export async function PUT(req: Request) {
 /** Delete item */
 export async function DELETE(req: Request) {
   await validateTokenFromRequest(req);
-  const item = itemId.validate(`/${req.params.item}`);
+  const item = validate.itemId.parse(`/${req.params.item}`);
   // Prevent the Minifolio equivalent of `rm -rf /`
   if (item === '/') {
     error(403, 'Cannot delete root item');

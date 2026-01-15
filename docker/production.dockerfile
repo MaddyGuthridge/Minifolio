@@ -3,7 +3,7 @@
 #
 # Dockerfile for running the server in production mode.
 
-FROM node:22
+FROM node:25
 
 # Make volumes be owned by the node user
 RUN mkdir /data

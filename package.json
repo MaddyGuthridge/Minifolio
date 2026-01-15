@@ -71,7 +71,7 @@
     "globals": "^17.0.0",
     "jest-extended": "^4.0.2",
     "simple-git": "^3.25.0",
-    "svelte": "^5.46.1",
+    "svelte": "^5.46.4",
     "svelte-check": "^4.3.5",
     "tslib": "^2.4.1",
     "typescript": "^5.7.0",

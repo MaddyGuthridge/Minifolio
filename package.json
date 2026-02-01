@@ -25,7 +25,7 @@
     "dedent": "^1.7.1",
     "execa": "^9.6.1",
     "highlight.js": "^11.9.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "marked": "^17.0.1",
     "marked-custom-heading-id": "^2.0.16",
     "marked-gfm-heading-id": "^4.1.3",

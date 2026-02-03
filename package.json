@@ -51,7 +51,7 @@
     "@sveltejs/kit": "^2.50.1",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tanstack/eslint-plugin-query": "^5.91.4",
-    "@testing-library/svelte": "^5.1.0",
+    "@testing-library/svelte": "^5.3.1",
     "@types/debug": "^4.1.12",
     "@types/dedent": "^0.7.2",
     "@types/eslint": "^9.6.1",

@@ -48,7 +48,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.7.1",
     "@sveltejs/adapter-node": "^5.5.2",
-    "@sveltejs/kit": "^2.50.1",
+    "@sveltejs/kit": "^2.52.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tanstack/eslint-plugin-query": "^5.91.4",
     "@testing-library/svelte": "^5.3.1",

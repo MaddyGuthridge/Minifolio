@@ -11,6 +11,7 @@
   // Smartypants quotation marks and the like
   import { markedSmartypants } from 'marked-smartypants';
   import markedMermaid from '@maddyguthridge/marked-mermaid';
+  import markedAbc from 'marked-abc';
   import mermaid from 'mermaid';
 
   type Props = {
@@ -44,6 +45,7 @@
     markedSmartypants(),
     markedMermaid(),
     markedKatex(katexOptions),
+    markedAbc(),
     { renderer },
   );
 

@@ -45,7 +45,12 @@
     markedSmartypants(),
     markedMermaid(),
     markedKatex(katexOptions),
-    markedAbc(),
+    markedAbc({
+      abcOptions: {
+        // Any wider and it starts to overflow
+        staffwidth: 500,
+      },
+    }),
     { renderer },
   );
 

@@ -51,9 +51,9 @@
         fontWeight="bold"
       ></TextArea>
     </div>
-    <span class="md-preview">
+    <div class="md-preview">
       <Markdown {source} {article} />
-    </span>
+    </div>
   </div>
 </div>
 
@@ -73,10 +73,11 @@
   .md-editor {
     display: flex;
     gap: 20px;
+    width: 100%;
   }
 
   /* Display editor in columns on small screens */
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1000px) {
     .md-editor {
       flex-direction: column;
     }

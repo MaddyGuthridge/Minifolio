@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import Markdown from './Markdown.svelte';
   import MarkdownEditor from './MarkdownEditor.svelte';
 
@@ -18,13 +17,6 @@
   };
 
   let { source = $bindable(), editing, onsubmit, onchange, article = false, setArticle }: Props = $props();
-
-  // Horrific hack to force abcjs to render properly: we force-rerender the markdown
-  // by changing the source slightly.
-  // FIXME: There has got to be a better way to do this.
-  onMount(() => {
-    source = source + '\n';
-  });
 </script>
 
 {#if editing}

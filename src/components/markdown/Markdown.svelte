@@ -38,6 +38,13 @@
     throwOnError: false,
   };
 
+  const abc = markedAbc({
+    abcOptions: {
+      // Any wider and it starts to overflow
+      staffwidth: 500,
+    },
+  });
+
   // Specifically instantiate a new `Marked` instance to avoid exceeding the call stack
   const marked = new Marked(
     gfmHeadingId(),
@@ -45,12 +52,7 @@
     markedSmartypants(),
     markedMermaid(),
     markedKatex(katexOptions),
-    markedAbc({
-      abcOptions: {
-        // Any wider and it starts to overflow
-        staffwidth: 500,
-      },
-    }),
+    abc.extension,
     { renderer },
   );
 
@@ -74,6 +76,7 @@
   $effect(() => {
     if (rendered && markdownRender) {
       applySyntaxHighlighting(markdownRender);
+      abc.forceRenderAll();
       void mermaid.run()
         .then(() => { errorText = null })
         .catch((e) => { errorText = e.str });

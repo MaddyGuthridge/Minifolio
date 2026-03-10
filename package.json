@@ -26,7 +26,7 @@
     "execa": "^9.6.1",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.3",
-    "marked": "^17.0.3",
+    "marked": "^17.0.4",
     "marked-abc": "^0.2.2",
     "marked-custom-heading-id": "^2.0.16",
     "marked-gfm-heading-id": "^4.1.3",

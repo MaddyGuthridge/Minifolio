@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js 22.x
+    - name: Set up Node
       uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version-file: ".nvmrc"
         cache: 'npm'
     - run: npm ci
     - name: Set up .env
@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js 22.x
+    - name: Set up Node
       uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version-file: ".nvmrc"
         cache: 'npm'
     - run: npm ci
     - name: Run linting
@@ -47,10 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - name: Use Node.js 22.x
+    - name: Set up Node
       uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version-file: ".nvmrc"
         cache: 'npm'
     - name: Set up .env
       run: cp .env.example .env

@@ -17,6 +17,7 @@ updates:
           - "eslint"
           - "eslint-plugin-*"
           - "@types/eslint"
+          - "@eslint/*"
           - "typescript-eslint"
           - "@stylistic/eslint-plugin"
           - "@tanstack/eslint-plugin-query"
@@ -44,11 +45,11 @@ updates:
       # target node version.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
-  - package-ecosystem: "docker"
-    # Dockerfiles are in subdirectory
-    directory: "/docker"
-    schedule:
-      interval: "monthly"
+  # - package-ecosystem: "docker"
+  #   # Dockerfiles are in subdirectory
+  #   directory: "/docker"
+  #   schedule:
+  #     interval: "monthly"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

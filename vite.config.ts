@@ -2,7 +2,11 @@ import commonjs from 'vite-plugin-commonjs';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
-process.loadEnvFile('.env');
+try {
+  process.loadEnvFile('.env');
+} catch (e) {
+  console.log('Could not load .env file. Default host and port will be used.');
+}
 
 export default defineConfig({
   ssr:{
@@ -13,7 +17,7 @@ export default defineConfig({
     ]
   },
   server: {
-    port: parseInt(process.env.PORT as string),
+    port: process.env.PORT && parseInt(process.env.PORT as string),
     strictPort: true,
     host: process.env.HOST,
   },

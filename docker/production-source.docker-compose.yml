@@ -24,9 +24,12 @@
 services:
   minifolio:
     build:
-      context: .
-      ssh:
-        - default
+      context: ".."
+      dockerfile: "docker/production.dockerfile"
+      # Uncomment to forward system SSH. This requires an SSH agent to be set up
+      # on the host machine.
+      # ssh:
+      #   - default
 
     hostname: minifolio
     restart: always

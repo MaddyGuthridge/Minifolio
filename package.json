@@ -22,7 +22,7 @@
     "@maddyguthridge/marked-mermaid": "^0.1.2",
     "cheerio": "^1.0.0",
     "colord": "^2.9.3",
-    "dedent": "^1.7.1",
+    "dedent": "^1.7.2",
     "execa": "^9.6.1",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.3",

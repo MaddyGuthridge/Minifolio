@@ -44,8 +44,10 @@ services:
     build:
       context: ".."
       dockerfile: "docker/dev.dockerfile"
-      ssh:
-        - default
+      # Uncomment to forward system SSH. This requires an SSH agent to be set up
+      # on the host machine.
+      # ssh:
+      #   - default
 
     hostname: minifolio-dev
     restart: no

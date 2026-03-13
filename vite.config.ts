@@ -2,7 +2,12 @@ import commonjs from 'vite-plugin-commonjs';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import dotenv from 'dotenv';
-dotenv.config();
+
+try {
+  dotenv.config();
+} catch (e) {
+  console.log('Failed to load .env:', e);
+}
 
 export default defineConfig({
   ssr:{
@@ -13,7 +18,7 @@ export default defineConfig({
     ]
   },
   server: {
-    port: parseInt(process.env.PORT as string),
+    port: process.env.PORT ? parseInt(process.env.PORT as string) : undefined,
     strictPort: true,
     host: process.env.HOST,
   },

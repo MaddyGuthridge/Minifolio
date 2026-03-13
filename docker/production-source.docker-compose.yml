@@ -24,7 +24,8 @@
 services:
   minifolio:
     build:
-      context: .
+      context: ".."
+      dockerfile: "docker/production.dockerfile"
       ssh:
         - default
 

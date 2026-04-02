@@ -18,7 +18,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@atlaskit/pragmatic-drag-and-drop": "^1.5.0",
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
     "@maddyguthridge/marked-mermaid": "^0.1.2",
     "cheerio": "^1.0.0",
     "colord": "^2.9.3",
@@ -37,7 +37,7 @@
     "nanoid": "^5.1.6",
     "random-words": "^2.0.1",
     "rimraf": "^6.0.1",
-    "sanitize-filename": "^1.6.3",
+    "sanitize-filename": "^1.6.4",
     "semver": "^7.7.4",
     "spinnies": "^0.5.1",
     "tippy.js": "^6.3.7",

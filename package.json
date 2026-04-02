@@ -53,7 +53,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tanstack/eslint-plugin-query": "^5.91.4",
     "@testing-library/svelte": "^5.3.1",
-    "@types/debug": "^4.1.12",
+    "@types/debug": "^4.1.13",
     "@types/dedent": "^0.7.2",
     "@types/eslint": "^9.6.1",
     "@types/jsonwebtoken": "^9.0.6",

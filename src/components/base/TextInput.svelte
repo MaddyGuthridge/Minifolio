@@ -27,6 +27,8 @@
     size = 1,
     validator,
     errorText,
+    // bindable value assignments do have an effect.
+    // eslint-disable-next-line no-useless-assignment
     valueOk = $bindable(),
     type = 'text',
     value = $bindable(),

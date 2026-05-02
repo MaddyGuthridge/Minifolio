@@ -77,10 +77,10 @@ export async function validateToken(token: string): Promise<JwtPayload> {
   } catch (e) {
     // Token failed to validate
     if (e instanceof Error) {
-      throw Error(`Token failed to validate: ${e.message}`);
+      throw Error(`Token failed to validate: ${e.message}`, { cause: e });
     } else {
       // Should always be an error
-      throw Error('Token failed to validate');
+      throw Error('Token failed to validate', { cause: e });
     }
   }
   const data = validate.parse(JwtPayload, payload, 'Token data is in invalid format');

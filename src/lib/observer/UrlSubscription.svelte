@@ -11,6 +11,8 @@
     derivedUrl: string,
   };
 
+  // bindable value assignments do have an effect.
+  // eslint-disable-next-line no-useless-assignment
   let { url, derivedUrl = $bindable() }: Props = $props();
 
   // Adding the current time as a fragment to the URL, to skip the browser cache, without

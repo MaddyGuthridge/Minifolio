@@ -71,7 +71,7 @@
     "eslint-plugin-svelte": "^3.17.1",
     "globals": "^17.5.0",
     "jest-extended": "^7.0.0",
-    "simple-git": "^3.33.0",
+    "simple-git": "^3.36.0",
     "svelte": "^5.55.5",
     "svelte-check": "^4.4.6",
     "tslib": "^2.4.1",

@@ -6,7 +6,11 @@ import type { PayloadInfo } from './payload';
 export type HttpVerb = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 if (!browser) {
-  process.loadEnvFile('.env');
+  try {
+    process.loadEnvFile('.env');
+  } catch (e) {
+    console.log('Could not load .env file. Default host and port will be used.');
+  }
 }
 
 /**
@@ -85,9 +89,9 @@ export function apiFetch(
   } catch (err) {
     // Likely a network issue
     if (err instanceof Error) {
-      throw new ApiError(null, err.message);
+      throw new ApiError(null, err.message, null);
     } else {
-      throw new ApiError(null, `Unknown request error ${err}`);
+      throw new ApiError(null, `Unknown request error ${err}`, null);
     }
   }
 }

@@ -2,7 +2,11 @@ import { ChildProcess, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import api from '$endpoints';
 
-process.loadEnvFile('.env');
+try {
+  process.loadEnvFile('.env');
+} catch (e) {
+  console.log('Could not load .env file. Default host and port will be used.');
+}
 
 let server: ChildProcess | undefined;
 

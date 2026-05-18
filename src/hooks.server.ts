@@ -13,7 +13,13 @@ export const handle = sequence(...middleware);
 
 /** Called when the server starts */
 async function onStartup() {
-  await migrateAll();
+  try {
+    await migrateAll();
+  } catch (e) {
+    console.error('Error in startup hooks!');
+    console.error(e);
+    return;
+  }
 }
 
 void onStartup();

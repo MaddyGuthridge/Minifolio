@@ -1,5 +1,5 @@
 import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig } from '$lib/server/data/localConfig';
+import { ConfigLocalJson, getLocalConfig } from '$lib/server/data/localConfig';
 import { getIpFromRequest } from '$lib/server/request';
 import { error, type Handle } from '@sveltejs/kit';
 
@@ -12,7 +12,14 @@ const banMiddleware: Handle = async (req) => {
   ) {
     return req.resolve(req.event);
   }
-  const config = await getLocalConfig();
+  let config: ConfigLocalJson;
+  try {
+    config = await getLocalConfig();
+  } catch (e) {
+    console.error('Error in ban middleware!');
+    console.error(e);
+    return req.resolve(req.event);
+  }
   const ip = await getIpFromRequest(req.event);
   if (config.bannedIps.includes(ip)) {
     error(403, 'This IP address is banned');

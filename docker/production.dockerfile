@@ -1,4 +1,4 @@
-# docker/staging.dockerfile
+# docker/production.dockerfile
 # =====================
 #
 # Dockerfile for running the server in production mode.
@@ -40,4 +40,5 @@ RUN npm run build
 
 EXPOSE 3000
 
-ENTRYPOINT [ "node", "-r", "dotenv/config", "build" ]
+HEALTHCHECK CMD ["curl", "-f", "http://127.0.0.1:3000/api/health"]
+ENTRYPOINT [ "node", "build" ]

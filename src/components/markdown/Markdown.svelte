@@ -12,6 +12,7 @@
   import { markedSmartypants } from 'marked-smartypants';
   import markedMermaid from '@maddyguthridge/marked-mermaid';
   import markedAbc from 'marked-abc';
+  import supertext from './supertext';
   import mermaid from 'mermaid';
 
   type Props = {
@@ -53,6 +54,7 @@
     markedMermaid(),
     markedKatex(katexOptions),
     abc.extension,
+    supertext(),
     { renderer },
   );
 

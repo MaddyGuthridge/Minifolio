@@ -1,5 +1,6 @@
 /** API endpoints */
 import type { ItemId } from '$lib/itemId';
+import type { HealthcheckResponse } from '../routes/api/health/+server';
 import admin from './admin';
 import config from './config';
 import debug from './debug';
@@ -10,6 +11,10 @@ import robotsTxt from './robots.txt';
 
 export function sitemap(fetchFn: typeof fetch, token: string | undefined) {
   return apiFetch(fetchFn, 'GET', '/sitemap.xml', { token }).xml();
+}
+
+export function health(fetchFn: typeof fetch, token: string | undefined) {
+  return apiFetch(fetchFn, 'GET', '/api/health', { token }).json() as Promise<HealthcheckResponse>;
 }
 
 /** Create an instance of the API client with the given token */
@@ -25,6 +30,8 @@ export default function api(fetchFn: typeof fetch = fetch, token?: string) {
     item: (itemId: ItemId) => item(fetchFn, token, itemId),
     /** Sitemap.xml, converted to JS object */
     sitemap: () => sitemap(fetchFn, token),
+    /** Healthcheck */
+    health: () => health(fetchFn, token),
     /** robots.txt file */
     robots: robotsTxt(fetchFn, token),
     /** An HTML page */

@@ -10,6 +10,14 @@ export function unixToIsoTime(unixTime: number): string {
   return new Date(unixTime * 1000).toISOString();
 }
 
+export function unixToPrettyDate(unixTime: number): string {
+  return new Date(unixTime * 1000).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
 /** Capitalize the first character of the given string */
 export function capitalize(str: string): string {
   // https://stackoverflow.com/a/1026087/6335363

@@ -229,6 +229,7 @@
       {/if}
       <Readme
         item={data.itemId}
+        data={data.portfolio}
         article={thisItem.info.article}
         setArticle={(value) => {
           console.log('Article:', value);

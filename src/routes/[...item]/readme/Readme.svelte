@@ -2,12 +2,14 @@
   import api from '$endpoints';
   import type { ItemId } from '$lib/itemId';
   import { CallbackSubscription } from '$lib/observer';
+  import type { ItemData } from '$lib/server/data/item';
   import { itemFileUrl } from '$lib/urls';
   import HtmlReadme from './HtmlReadme.svelte';
   import MarkdownReadme from './MarkdownReadme.svelte';
 
   type Props = {
     item: ItemId,
+    data: ItemData,
     article: boolean,
     setArticle: (value: boolean) => void,
     filename: string | null,
@@ -16,7 +18,7 @@
     onsubmit: () => void,
   };
 
-  const { item, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
+  const { item, data, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
 
   // Contents displayed, updated in $effect
   // Will fix this at some point using callbacks or something. I know it's bad.
@@ -36,6 +38,7 @@
   {#if filename.endsWith('.md')}
     <MarkdownReadme
       {item}
+      {data}
       {article}
       {setArticle}
       {filename}

@@ -18,7 +18,9 @@
 
   const { item, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
 
-  /** Contents displayed -- updated in $effect */
+  // Contents displayed, updated in $effect
+  // Will fix this at some point using callbacks or something. I know it's bad.
+  // svelte-ignore state_referenced_locally
   let displayContents = $state(contents ?? '');
 </script>
 

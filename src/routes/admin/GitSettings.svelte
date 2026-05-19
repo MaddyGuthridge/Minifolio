@@ -11,7 +11,8 @@
 
   const { data }: Props = $props();
 
-  // Git status
+  // Git status -- need to fix these config things eventually
+  // svelte-ignore state_referenced_locally
   let gitStatus = $state(data.repo);
 
   // Git setup

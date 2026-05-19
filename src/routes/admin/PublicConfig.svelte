@@ -18,6 +18,7 @@
   const { configJson, imageFiles }: Props = $props();
 
   // Yucky work-around to make values update
+  // svelte-ignore state_referenced_locally
   const config = $state(configJson);
 
   const updater = new DelayedUpdater(async (value: ConfigJson) => {

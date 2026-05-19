@@ -8,6 +8,8 @@
 
   const { url, alt }: Props = $props();
 
+  // TODO: Fix yucky workarounds
+  // svelte-ignore state_referenced_locally
   let derivedUrl = $state(url);
 </script>
 

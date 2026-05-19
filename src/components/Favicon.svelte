@@ -7,7 +7,7 @@
 
   const { path }: Props = $props();
 
-  const actualPath = path ? `/data/${path}` : consts.APP_ICON_URL;
+  const actualPath = $derived(path ? `/data/${path}` : consts.APP_ICON_URL);
 </script>
 
 <link rel="icon" href={actualPath} />

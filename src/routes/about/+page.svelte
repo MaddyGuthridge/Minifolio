@@ -5,6 +5,7 @@
   import { dev, version } from '$app/environment';
   import Navbar from '$components/navbar/Navbar.svelte';
   import Favicon from '$components/Favicon.svelte';
+  import dedent from 'dedent';
 
   type Props = {
     data: import('./$types').PageData,
@@ -40,20 +41,21 @@ Here's how you can get involved:
 * [View the GPLv3 software license](${consts.APP_GITHUB}/blob/main/LICENSE.md).
 `;
 
-  let technicalDetails = '';
-  if (data.versions) {
-    technicalDetails = `
+  const technicalDetails = $derived(
+    data.versions
+      ? dedent`
 
-## Technical details
+      ## Technical details
 
-For security reasons, these details are only shown if you are logged in.
+      For security reasons, these details are only shown if you are logged in.
 
-* Node: ${data.versions.node}
-* OS: ${data.versions.os}
-`;
-  }
+      * Node: ${data.versions.node}
+      * OS: ${data.versions.os}
+      `
+      : '',
+  );
 
-  const readme = mainInfo + technicalDetails;
+  const readme = $derived(mainInfo + technicalDetails);
 </script>
 
 <svelte:head>

@@ -1,4 +1,5 @@
 import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/item/repo';
+import { getStarCountGitHub } from './social';
 import { constArrayIncludes } from './util';
 
 /** Names of repository hosts that are officially supported */
@@ -28,16 +29,7 @@ export const repoProviders: Record<RepoProvider, RepoProviderInfo> = {
     name: 'GitHub',
     icon: 'lab la-github',
     makeUrl: (repo: string): string => `https://github.com/${repo}`,
-    getStarCount: async (repo: string): Promise<number | undefined> => {
-      if (repo.split('/').length !== 2) {
-        // Not a repo (perhaps an organization) -- no star count
-        return undefined;
-      }
-      // https://github.com/orgs/community/discussions/31111#discussioncomment-3492603
-      const res = await fetch(`https://api.github.com/repos/${repo}`);
-      const json = await res.json();
-      return json.stargazers_count as number;
-    },
+    getStarCount: getStarCountGitHub,
   },
   // GitLab
   gitlab: {

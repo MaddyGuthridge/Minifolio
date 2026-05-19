@@ -73,6 +73,7 @@
       });
     });
   }
+
   const rendered = $derived(marked.parse(source));
 
   $effect(() => {

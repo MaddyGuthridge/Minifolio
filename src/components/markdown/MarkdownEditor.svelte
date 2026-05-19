@@ -28,6 +28,8 @@
     }
   }
 
+  // TODO: Fix yucky workaround
+  // svelte-ignore state_referenced_locally
   const updater = new DelayedUpdater(onchange, consts.EDIT_COMMIT_HESITATION);
 </script>
 

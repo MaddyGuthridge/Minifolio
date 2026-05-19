@@ -65,8 +65,7 @@
     margin: 10px 0;
   }
 
-  h3,
-  p {
+  h3 {
     margin: 0;
   }
 

@@ -43,8 +43,13 @@
     );
   }, consts.EDIT_COMMIT_HESITATION);
 
+  // Yucky workarounds for not having page data be bindable
+  // TODO: I think this was fixed recently. Investigate...
+
+  // svelte-ignore state_referenced_locally
   let thisItem = $state(data.item);
 
+  // svelte-ignore state_referenced_locally
   let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
 
   const displayedItems = $derived.by(() => {
@@ -76,8 +81,10 @@
       ? data.portfolio.info.name
       : `${thisItem.info.name} - ${data.portfolio.info.name}`,
   );
-  // SEO description
-  const seoDescription = getDescription(data.portfolio, data.itemId);
+
+  // SEO description -- fix the yucky workaround later
+  const seoDescription = $derived(getDescription(data.portfolio, data.itemId));
+
   // Open graph content type
   const ogType = $derived(
     thisItem.info.article
@@ -222,6 +229,7 @@
       {/if}
       <Readme
         item={data.itemId}
+        data={data.portfolio}
         article={thisItem.info.article}
         setArticle={(value) => {
           console.log('Article:', value);

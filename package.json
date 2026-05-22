@@ -18,7 +18,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
+    "@atlaskit/pragmatic-drag-and-drop": "^1.8.1",
     "@maddyguthridge/marked-mermaid": "^0.1.2",
     "cheerio": "^1.2.0",
     "colord": "^2.9.3",

@@ -40,7 +40,8 @@ export const gitClient = async (baseDir: string | undefined) => {
   if (localConfig.gitConfig.userEmail) {
     gitConfig.push(`user.email=${localConfig.gitConfig.userEmail}`);
   }
-  let git = simpleGit(baseDir, { config: gitConfig });
+  // Safety: SSH command overriding is required to use custom SSH keys
+  let git = simpleGit(baseDir, { config: gitConfig, unsafe: { allowUnsafeSshCommand: true } });
   if (await getPrivateKeyPath()) {
     const gitSshCommand = [
       'ssh',

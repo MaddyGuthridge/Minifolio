@@ -2,12 +2,16 @@
   import { withLightness } from '$lib/color';
   import { randomChoice } from '$lib/util';
   import { colord } from 'colord';
+  import ColorSplotch, { type Splotch } from './ColorSplotch.svelte';
 
   type Props = {
     color: string,
+    position?: string,
+    posUnits?: string,
+    spreadScale?: number,
   };
 
-  const { color }: Props = $props();
+  const { color, position = 'absolute', posUnits = '%', spreadScale = 100 }: Props = $props();
 
   // Possible positions for the background splotches, in % units.
   // x positions should stay off the page
@@ -19,19 +23,12 @@
   const possiblePositionsY = [...Array(40).keys()].map(i => i * 5 - 25);
 
   // Possible values for spread of splotch blur, as a percentage of the viewport width
-  const possibleSpreads: number[] = [5, 10, 15, 20];
+  const possibleSpreads: number[] = [1, 2, 3, 4];
 
   // Possible offsets of hue values, in degrees
   const hueOffsets = [-25, -15, -10, -5, 0, 0, 5, 10, 15, 25];
 
   const numSplotches = 15;
-
-  type Splotch = {
-    color: string,
-    x: string,
-    y: string,
-    spread: string,
-  };
 
   /**
    * Color hue offsets, picked based on the given color.
@@ -50,20 +47,20 @@
       const y = randomChoice(possiblePositionsY);
       const spread = randomChoice(possibleSpreads);
 
-      return { color: newColor, x: `${x}%`, y: `${y}%`, spread: `${spread}vw` };
+      return {
+        color: newColor,
+        x: `${x}${posUnits}`,
+        y: `${y}${posUnits}`,
+        spread: `${spread * spreadScale}px`,
+        position,
+      };
     }),
   );
 </script>
 
 <div id="background">
-  {#each colors as { color, x, y, spread }, i (i)}
-    <div
-      class="dot"
-      style:--color={color}
-      style:--x={x}
-      style:--y={y}
-      style:--spread={spread}
-    ></div>
+  {#each colors as splotch, i (i)}
+    <ColorSplotch {...splotch} />
   {/each}
 </div>
 
@@ -72,29 +69,5 @@
     z-index: -1;
     min-width: 100%;
     min-height: 100%;
-    overflow: hidden;
-  }
-
-  .dot {
-    z-index: -1;
-    width: 0;
-    height: 0;
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    box-shadow: 0 0 1000px var(--spread) var(--color);
-    transition: all 0.5s;
-  }
-
-  @media (prefers-reduced-motion) {
-    .dot {
-      transition: all 0s;
-    }
-  }
-
-  @media (prefers-contrast: more), (prefers-reduced-transparency) {
-    .dot {
-      box-shadow: none;
-    }
   }
 </style>

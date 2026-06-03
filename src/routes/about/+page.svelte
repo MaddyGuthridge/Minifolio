@@ -1,21 +1,17 @@
 <script lang="ts">
-  import Background from '$components/Background.svelte';
   import Markdown from '$components/markdown/Markdown.svelte';
   import consts from '$lib/consts';
   import { dev, version } from '$app/environment';
   import Navbar from '$components/navbar/Navbar.svelte';
   import Favicon from '$components/Favicon.svelte';
   import dedent from 'dedent';
+  import Background from '$components/Background.svelte';
 
   type Props = {
     data: import('./$types').PageData,
   };
 
   const { data }: Props = $props();
-
-  const versionInfo = dev
-    ? `v${version}-dev`
-    : `[v${version}](${consts.APP_GITHUB}/releases/tag/v${version})`;
 
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
 
@@ -24,8 +20,6 @@
     : "I'd love to have your contributions!";
 
   const mainInfo = `
-# About ${consts.APP_NAME} (${versionInfo})
-
 This portfolio website is driven by [${consts.APP_NAME}](${consts.APP_DOCS}), a
 [free and open-source](https://en.wikipedia.org/wiki/Free_and_open-source_software)
 portfolio-oriented content management system made with <3 by
@@ -70,22 +64,41 @@ Here's how you can get involved:
   data={data.portfolio}
   loggedIn={data.loggedIn}
 />
-<Background color={data.portfolio.info.color} />
 
 <main>
-  <div>
+  <h1>Minifolio</h1>
+  <div class="bg-container">
+    <Background color={data.portfolio.info.color} position="relative" posUnits="%" spreadScale={40} />
+  </div>
+  {#if dev}
+    <p>{`v${version}-dev`}</p>
+  {:else}
+    <p><a href={`${consts.APP_GITHUB}/releases/tag/v${version}`}>{`v${version}`}</a></p>
+  {/if}
+  <div class="md-container">
     <Markdown source={readme} />
   </div>
 </main>
 
 <style>
+  h1 {
+    font-size: 8rem;
+    margin: 15px;
+  }
   main {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
-  main > div {
+  .bg-container {
+    width: 400px;
+    height: 100px;
+    overflow: visible;
+    position: relative;
+    bottom: 15rem;
+  }
+  .md-container {
     max-width: 800px;
     padding: 20px;
   }

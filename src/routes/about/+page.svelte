@@ -68,7 +68,7 @@ Here's how you can get involved:
 <main>
   <h1>Minifolio</h1>
   <div class="bg-container">
-    <Background color={data.portfolio.info.color} position="relative" posUnits="px" spreadScale={30} />
+    <Background color={data.portfolio.info.color} position="relative" posUnits="%" spreadScale={40} />
   </div>
   {#if dev}
     <p>{`v${version}-dev`}</p>
@@ -92,11 +92,11 @@ Here's how you can get involved:
     width: 100%;
   }
   .bg-container {
-    width: 0;
-    height: 0;
+    width: 400px;
+    height: 100px;
     overflow: visible;
     position: relative;
-    bottom: 10rem;
+    bottom: 15rem;
   }
   .md-container {
     max-width: 800px;

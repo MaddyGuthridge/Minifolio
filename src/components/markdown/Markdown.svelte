@@ -247,6 +247,12 @@
     }
   }
 
+  @media (prefers-color-scheme: dark) {
+    .markdown-render {
+        color: white;
+    }
+  }
+
   /*
     YouTube embeds:
     - Force 16:9 aspect ratio

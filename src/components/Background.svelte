@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { withLightness } from '$lib/color';
   import { randomChoice } from '$lib/util';
   import { colord } from 'colord';
   import ColorSplotch, { type Splotch } from './ColorSplotch.svelte';
+  import { withLightness } from '$lib/color';
 
   type Props = {
     color: string,
@@ -39,10 +39,7 @@
     [...Array(numSplotches).keys()].map(() => {
       const base = colord(color);
       const hueDiff = randomChoice(hueOffsets);
-      const newColor = withLightness(
-        base.hue(base.hue() + hueDiff),
-        85,
-      ).toHex();
+      const newColor = withLightness(base.hue(base.hue() + hueDiff), 50).toHex();
       const x = randomChoice(possiblePositionsX);
       const y = randomChoice(possiblePositionsY);
       const spread = randomChoice(possibleSpreads);

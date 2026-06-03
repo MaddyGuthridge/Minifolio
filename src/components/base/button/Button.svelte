@@ -125,4 +125,12 @@
     cursor: default;
     background-color: var(--color);
   }
+  @media (prefers-color-scheme: dark) {
+    button {
+      border: 1px solid #FFFFFFAA;
+    }
+    button:focus {
+      border: 1px solid white;
+    }
+  }
 </style>

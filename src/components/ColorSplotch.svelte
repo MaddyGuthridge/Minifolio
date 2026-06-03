@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
-
   export type Splotch = {
     color: string,
     x: string,
@@ -19,8 +17,6 @@
   style:--y={y}
   style:--spread={spread}
   style:--position={position}
-  in:fade
-  out:fade
 ></div>
 
 <style>
@@ -33,6 +29,7 @@
     top: var(--y);
     box-shadow: 0 0 calc(var(--spread) * 2) var(--spread) var(--color);
     transition: all 0.5s;
+    filter: opacity(0.2);
   }
 
   @media (prefers-reduced-motion) {

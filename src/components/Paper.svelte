@@ -18,12 +18,18 @@
   .paper {
     width: 80%;
     border-radius: 10px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.37);
+    box-shadow: 5px 5px 10px #00000044;
     background-color: rgba(255, 255, 255, var(--opacity));
   }
   @media only screen and (max-width: 600px) {
     .paper {
       width: 95%;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    .paper {
+      box-shadow: 5px 5px 10px #ffffff44;
+      background-color: rgba(40, 40, 40, var(--opacity));
     }
   }
 </style>

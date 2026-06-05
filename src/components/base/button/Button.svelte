@@ -34,7 +34,7 @@
   const { color, hoverColor, clickColor } = $derived.by(() => {
     if (mode === 'warning') {
       return {
-        color: '#FF808040',
+        color: '#FF8080A0',
         hoverColor: '#FF8080FF',
         clickColor: '#FF2222FF',
       };

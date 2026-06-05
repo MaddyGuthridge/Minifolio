@@ -249,7 +249,7 @@
 
   @media (prefers-color-scheme: dark) {
     .markdown-render {
-        color: white;
+      color: white;
     }
   }
 

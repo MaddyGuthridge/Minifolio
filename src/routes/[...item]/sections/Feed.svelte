@@ -96,4 +96,9 @@
     display: flex;
     align-items: center;
   }
+  @media (prefers-color-scheme: dark) {
+    .display-outer {
+      color: white;
+    }
+  }
 </style>

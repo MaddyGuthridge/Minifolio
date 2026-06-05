@@ -13,5 +13,11 @@
       background-color: #111111;
       color: white;
     }
+    :global(a) {
+      color: #9999ff;
+    }
+    :global(a:visited) {
+      color: #ff88ff;
+    }
   }
 </style>

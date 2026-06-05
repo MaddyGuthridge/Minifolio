@@ -62,38 +62,38 @@
 
   let markdownRender: HTMLDivElement | undefined = $state();
 
-  function applySyntaxHighlighting(renderElement: HTMLDivElement) {
-    // Wait a moment before we highlight so that we can be sure the HTML has
-    // updated
-    // This is honestly pretty gross but I haven't been able to find a better
-    // way, since the contents of the div change after the call to this
-    // function when we just subscribe to what their contents are supposed to
-    // be
-    setTimeout(() => {
-      renderElement.querySelectorAll('pre code').forEach((el) => {
-        hljs.highlightElement(el as HTMLElement);
-      });
-    });
-  }
-
   const rendered = $derived(marked.parse(source));
 
   const mermaidTheme = $derived(new MediaQuery('prefers-color-scheme: dark').current
     ? 'dark'
     : 'default');
 
+  /**
+   * Add effects to rendered Markdown. This is run on mount, and when markdown content changes. It
+   * exclusively manages features which require an existing HTML element to render on:
+   * - Code syntax highlighting
+   * - ABC sheet music
+   * - Mermaid diagrams
+   */
   function addMarkdownEffects() {
-    if (markdownRender) applySyntaxHighlighting(markdownRender);
-    abc.forceRenderAll();
-    // BUG: Mermaid does not render if previous page did not contain a markdown render?
-    // console.log('render mermaid');
-    // console.log(rendered);
-    // console.log(markdownRender);
-    void mermaid.run()
-      .then(() => {
-        errorText = null;
-      })
-      .catch((e) => { errorText = e.str });
+    // Wait a moment before we add effects so that we can be sure the HTML has
+    // updated.
+    // This is honestly pretty gross but I haven't been able to find a better
+    // way, since the contents of the div change after the call to this
+    // function when we just subscribe to what their contents are supposed to
+    // be
+    setTimeout(() => {
+      if (!markdownRender) return;
+      markdownRender.querySelectorAll('pre code').forEach((el) => {
+        hljs.highlightElement(el as HTMLElement);
+      });
+      abc.forceRenderAll();
+      void mermaid.run()
+        .then(() => {
+          errorText = null;
+        })
+        .catch((e) => { errorText = e.str });
+    });
   }
 
   onMount(() => {

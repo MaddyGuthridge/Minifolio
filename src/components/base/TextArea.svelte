@@ -68,4 +68,17 @@
     content: attr(placeholder);
     color: #888;
   }
+  @media (prefers-color-scheme: dark) {
+    .expandable-textarea {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    .expandable-textarea:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    .expandable-textarea:focus {
+      border-color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
 </style>

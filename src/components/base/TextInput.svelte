@@ -113,4 +113,20 @@
     color: red;
     margin: 1px 0 1px 5px;
   }
+  @media (prefers-color-scheme: dark) {
+    input {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    input:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    input:focus {
+      border-color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .error-text {
+      color: #FF7777;
+    }
+  }
 </style>

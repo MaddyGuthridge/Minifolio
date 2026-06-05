@@ -200,6 +200,12 @@
       font-size: 3rem;
     }
   }
+
+  @media (prefers-color-scheme: dark) {
+    a {
+      color: white;
+    }
+  }
 </style>
 
 <!-- If JS is disabled, don't make the navbar sticky (it'll just get in the way of feed readers) -->

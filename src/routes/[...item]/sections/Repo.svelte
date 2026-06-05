@@ -234,4 +234,9 @@
       transform: rotate(360deg);
     }
   }
+  @media (prefers-color-scheme: dark) {
+    .outer-body {
+      color: white;
+    }
+  }
 </style>

@@ -32,9 +32,10 @@
   const author = $derived(getItemAuthor(item, data));
   const date = $derived(unixToPrettyDate(getDescendant(data, item).info.timeCreated));
 </script>
+
 <div>
   {#if article && !editing}
-    <p>
+    <p class="author-info">
       {#if author}
         <AuthorText {author}/> |
       {/if}

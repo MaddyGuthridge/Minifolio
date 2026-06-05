@@ -8,4 +8,9 @@
     height: 25px;
     margin: 0 5px;
   }
+  @media (prefers-color-scheme: dark) {
+    div {
+      background-color: white;
+    }
+  }
 </style>

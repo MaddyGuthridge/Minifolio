@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { MediaQuery } from 'svelte/reactivity';
   import { Marked, Renderer, type Tokens } from 'marked';
   import hljs from 'highlight.js';
-  import 'highlight.js/styles/stackoverflow-light.css';
+  import './code-theme.css';
   // Custom heading IDs using `{#id}` after heading text
   import customHeadingId from 'marked-custom-heading-id';
   // GitHub-flavoured Markdown, automatic heading IDs
@@ -14,6 +15,7 @@
   import markedAbc from 'marked-abc';
   import supertext from './supertext';
   import mermaid from 'mermaid';
+  import { onMount } from 'svelte';
 
   type Props = {
     source: string,
@@ -60,29 +62,50 @@
 
   let markdownRender: HTMLDivElement | undefined = $state();
 
-  function applySyntaxHighlighting(renderElement: HTMLDivElement) {
-    // Wait a moment before we highlight so that we can be sure the HTML has
-    // updated
+  const rendered = $derived(marked.parse(source));
+
+  const mermaidTheme = $derived(new MediaQuery('prefers-color-scheme: dark').current
+    ? 'dark'
+    : 'default');
+
+  /**
+   * Add effects to rendered Markdown. This is run on mount, and when markdown content changes. It
+   * exclusively manages features which require an existing HTML element to render on:
+   * - Code syntax highlighting
+   * - ABC sheet music
+   * - Mermaid diagrams
+   */
+  function addMarkdownEffects() {
+    // Wait a moment before we add effects so that we can be sure the HTML has
+    // updated.
     // This is honestly pretty gross but I haven't been able to find a better
     // way, since the contents of the div change after the call to this
     // function when we just subscribe to what their contents are supposed to
     // be
     setTimeout(() => {
-      renderElement.querySelectorAll('pre code').forEach((el) => {
+      if (!markdownRender) return;
+      markdownRender.querySelectorAll('pre code').forEach((el) => {
         hljs.highlightElement(el as HTMLElement);
       });
+      abc.forceRenderAll();
+      void mermaid.run()
+        .then(() => {
+          errorText = null;
+        })
+        .catch((e) => { errorText = e.str });
     });
   }
 
-  const rendered = $derived(marked.parse(source));
+  onMount(() => {
+    // FIXME: Mermaid theme is not reactive. The workaround is a freaking nightmare
+    // https://github.com/mermaid-js/mermaid/issues/1945#issuecomment-1661264708
+    mermaid.initialize({ theme: mermaidTheme });
+    addMarkdownEffects();
+  });
 
   $effect(() => {
     if (rendered && markdownRender) {
-      applySyntaxHighlighting(markdownRender);
-      abc.forceRenderAll();
-      void mermaid.run()
-        .then(() => { errorText = null })
-        .catch((e) => { errorText = e.str });
+      addMarkdownEffects();
     }
   });
 
@@ -162,8 +185,8 @@
   .markdown-render :global(ul code),
   /* Specifically exclude mermaid */
   .markdown-render :global(pre:not(.mermaid)) {
-    background-color: rgb(245, 245, 245);
-    border-color: rgb(231, 231, 231);
+    background-color: #F6F6F6;
+    border-color: #D6D6D6;
     border-style: solid;
     border-width: 1px;
     /* Kinda bold but not obnoxiously so */
@@ -244,6 +267,38 @@
     }
     .markdown-render :global(a):hover {
       text-decoration: underline;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .markdown-render {
+      color: white;
+    }
+    .markdown-render :global(p code),
+    .markdown-render :global(ol code),
+    .markdown-render :global(ul code),
+    /* Specifically exclude mermaid */
+    .markdown-render :global(pre:not(.mermaid)) {
+      background-color: #1C1B1B;
+      border-color: #3C3B3B;
+    }
+    .markdown-render :global(blockquote) {
+      background: #1C1B1BC2;
+      border-left-color: #5C5B5BC2;
+    }
+    .markdown-render :global(blockquote:before) {
+      color: #5C5B5BC2;
+    }
+    .markdown-render :global(table),
+    .markdown-render :global(th),
+    .markdown-render :global(td) {
+      border-color: #ffffff40;
+    }
+    .markdown-render :global(tr:nth-child(even)) {
+      background-color: #ffffff10;
+    }
+    .markdown-render :global(th) {
+      background-color: #ffffff10;
     }
   }
 

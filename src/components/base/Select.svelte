@@ -43,4 +43,23 @@
     background-color: rgba(255, 255, 255, 0.9);
     transition: background-color 0s;
   }
+  @media (prefers-color-scheme: dark) {
+    select {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    select:focus {
+      border-color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    select:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    select:active {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    ::picker(select) {
+      background-color: #333;
+    }
+  }
 </style>

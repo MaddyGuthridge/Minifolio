@@ -67,9 +67,12 @@
   $effect(() => {
     if (rendered && markdownRender) {
       applySyntaxHighlighting(markdownRender);
-      void mermaid.run()
-        .then(() => { errorText = null })
-        .catch((e) => { errorText = e.str });
+      // Slightly delat mermaid render to fix #382
+      setTimeout(() => {
+        void mermaid.run()
+          .then(() => { errorText = null })
+          .catch((e) => { errorText = e.str });
+      });
     }
   });
 

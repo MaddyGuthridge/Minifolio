@@ -27,17 +27,29 @@
     selected = false,
   }: Props = $props();
 
-  const fillColor = $derived(
+  const mkColor = (lightness: number) => withLightness(colord(color), lightness).toHex();
+
+  const fillColorLight = $derived(
     selected
-      ? withLightness(colord(color), 75).toHex()
-      : withLightness(colord(color), 85).toHex(),
+      ? mkColor(75)
+      : mkColor(80),
   );
-  const borderColor = $derived(
+  const fillColorDark = $derived(
     selected
-      ? withLightness(colord(color), 40).toHex()
-      : withLightness(colord(color), 50).toHex(),
+      ? mkColor(50)
+      : mkColor(30),
   );
-  const hoverColor = $derived(withLightness(colord(color), 60).toHex());
+  const borderColorLight = $derived(
+    selected
+      ? mkColor(40)
+      : mkColor(50),
+  );
+  const borderColorDark = $derived(
+    selected
+      ? mkColor(80)
+      : mkColor(50),
+  );
+  const hoverColor = $derived(mkColor(60));
   const borderWidth = $derived(selected ? '2px' : '1px');
 </script>
 
@@ -46,8 +58,10 @@
   {#if description.length}
     <div
       use:tooltip={{ content: description }}
-      style:--fill-color={fillColor}
-      style:--border-color={borderColor}
+      style:--fill-color-light={fillColorLight}
+      style:--fill-color-dark={fillColorDark}
+      style:--border-color-light={borderColorLight}
+      style:--border-color-dark={borderColorDark}
       style:--hover-color={hoverColor}
       style:--border-width={borderWidth}
     >
@@ -55,8 +69,10 @@
     </div>
   {:else}
     <div
-      style:--fill-color={fillColor}
-      style:--border-color={borderColor}
+      style:--fill-color-light={fillColorLight}
+      style:--fill-color-dark={fillColorDark}
+      style:--border-color-light={borderColorLight}
+      style:--border-color-dark={borderColorDark}
       style:--hover-color={hoverColor}
       style:--border-width={borderWidth}
     >
@@ -72,12 +88,12 @@
   }
   div {
     margin: 2px;
-    background-color: var(--fill-color);
+    background-color: var(--fill-color-light);
     border-color: transparent;
     border-style: solid;
     border-radius: 30px;
     border-width: 2px;
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color-light);
     padding: 5px 10px;
     width: min-content;
     text-wrap: nowrap;
@@ -88,5 +104,14 @@
   div:hover {
     background-color: var(--hover-color);
     cursor: pointer;
+  }
+  @media (prefers-color-scheme: dark) {
+    a {
+      color: white;
+    }
+    div {
+      background-color: var(--fill-color-dark);
+      box-shadow: 0 0 0 var(--border-width) var(--border-color-dark);
+    }
   }
 </style>

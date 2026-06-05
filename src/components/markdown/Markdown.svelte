@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { MediaQuery } from 'svelte/reactivity';
   import { Marked, Renderer, type Tokens } from 'marked';
   import hljs from 'highlight.js';
   import './code-theme.css';
@@ -14,6 +15,7 @@
   import markedAbc from 'marked-abc';
   import supertext from './supertext';
   import mermaid from 'mermaid';
+  import { onMount } from 'svelte';
 
   type Props = {
     source: string,
@@ -76,13 +78,34 @@
 
   const rendered = $derived(marked.parse(source));
 
+  const mermaidTheme = $derived(new MediaQuery('prefers-color-scheme: dark').current
+    ? 'dark'
+    : 'default');
+
+  function addMarkdownEffects() {
+    if (markdownRender) applySyntaxHighlighting(markdownRender);
+    abc.forceRenderAll();
+    // BUG: Mermaid does not render if previous page did not contain a markdown render?
+    // console.log('render mermaid');
+    // console.log(rendered);
+    // console.log(markdownRender);
+    void mermaid.run()
+      .then(() => {
+        errorText = null;
+      })
+      .catch((e) => { errorText = e.str });
+  }
+
+  onMount(() => {
+    // FIXME: Mermaid theme is not reactive. The workaround is a freaking nightmare
+    // https://github.com/mermaid-js/mermaid/issues/1945#issuecomment-1661264708
+    mermaid.initialize({ theme: mermaidTheme });
+    addMarkdownEffects();
+  });
+
   $effect(() => {
     if (rendered && markdownRender) {
-      applySyntaxHighlighting(markdownRender);
-      abc.forceRenderAll();
-      void mermaid.run()
-        .then(() => { errorText = null })
-        .catch((e) => { errorText = e.str });
+      addMarkdownEffects();
     }
   });
 

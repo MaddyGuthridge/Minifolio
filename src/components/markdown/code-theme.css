@@ -1,3 +1,8 @@
+/*
+  CSS imports are *supposed* to work here, but for some reason, the color themes only
+  apply when I fully copy them across.
+*/
+
 @media (prefers-color-scheme: light) {
   /*!
     Theme: StackOverflow Light

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import 'highlight.js/styles/stackoverflow-light.css';
   import Markdown from './Markdown.svelte';
   import consts from '$lib/consts';
   import DelayedUpdater from '$lib/delayedUpdate';

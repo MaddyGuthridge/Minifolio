@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Marked, Renderer, type Tokens } from 'marked';
   import hljs from 'highlight.js';
-  import 'highlight.js/styles/stackoverflow-light.css';
+  import './code-theme.css';
   // Custom heading IDs using `{#id}` after heading text
   import customHeadingId from 'marked-custom-heading-id';
   // GitHub-flavoured Markdown, automatic heading IDs
@@ -162,8 +162,8 @@
   .markdown-render :global(ul code),
   /* Specifically exclude mermaid */
   .markdown-render :global(pre:not(.mermaid)) {
-    background-color: rgb(245, 245, 245);
-    border-color: rgb(231, 231, 231);
+    background-color: #F6F6F6;
+    border-color: #D6D6D6;
     border-style: solid;
     border-width: 1px;
     /* Kinda bold but not obnoxiously so */
@@ -250,6 +250,32 @@
   @media (prefers-color-scheme: dark) {
     .markdown-render {
       color: white;
+    }
+    .markdown-render :global(p code),
+    .markdown-render :global(ol code),
+    .markdown-render :global(ul code),
+    /* Specifically exclude mermaid */
+    .markdown-render :global(pre:not(.mermaid)) {
+      background-color: #1C1B1B;
+      border-color: #3C3B3B;
+    }
+    .markdown-render :global(blockquote) {
+      background: #1C1B1BC2;
+      border-left-color: #5C5B5BC2;
+    }
+    .markdown-render :global(blockquote:before) {
+      color: #5C5B5BC2;
+    }
+    .markdown-render :global(table),
+    .markdown-render :global(th),
+    .markdown-render :global(td) {
+      border-color: #ffffff40;
+    }
+    .markdown-render :global(tr:nth-child(even)) {
+      background-color: #ffffff10;
+    }
+    .markdown-render :global(th) {
+      background-color: #ffffff10;
     }
   }
 

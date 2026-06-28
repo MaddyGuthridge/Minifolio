@@ -4,7 +4,7 @@ import { getPrivateDataDir } from './data/dataDir';
 import { APP_NAME } from '$lib/consts';
 import { getLocalConfig, setLocalConfig } from './data/localConfig';
 import path from 'node:path';
-import { execa } from 'execa';
+import { x as exec } from 'tinyexec';
 
 const DEFAULT_KEY_TYPE = 'ed25519';
 
@@ -61,7 +61,7 @@ export async function generateKey(): Promise<string> {
   await setLocalConfig(cfg);
 
   // ssh-keygen -t $DEFAULT_KEY_TYPE -f ${defaultPrivateKeyPath()} -N '' -c "Minifolio SSH key"
-  await execa(
+  await exec(
     'ssh-keygen',
     [
       '-t',

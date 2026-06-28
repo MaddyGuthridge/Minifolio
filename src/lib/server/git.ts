@@ -8,7 +8,7 @@ import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
 import { getLocalConfig } from './data/localConfig';
 import z from 'zod';
-import { execa } from 'execa';
+import { x as exec } from 'tinyexec';
 import { runningInDocker } from './machine';
 
 /** Path to the SSH known hosts file */
@@ -115,7 +115,7 @@ export async function runSshKeyscan(url: string) {
     }
   }
 
-  const process = await execa('ssh-keyscan', [host]);
+  const process = await exec('ssh-keyscan', [host]);
 
   // console.log(process.stdout);
   // console.log(typeof process.stdout);

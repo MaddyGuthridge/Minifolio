@@ -2,7 +2,6 @@ import { error } from '@sveltejs/kit';
 import { dataIsSetUp, getDataDir } from './data/dataDir';
 import simpleGit, { type FileStatusResult } from 'simple-git';
 import fs from 'node:fs/promises';
-import { rimraf } from 'rimraf';
 import path from 'node:path';
 import { fileExists } from './util';
 import { defaultKeysDirectory, getPrivateKeyPath } from './keys';
@@ -175,7 +174,7 @@ export async function setupGitRepo(repo: string, branch?: string | null) {
   if ((await fs.readdir(getDataDir())).find(f => f !== '.git')) {
     if (!await dataIsSetUp()) {
       // Clean up and delete repo before giving error
-      await rimraf(getDataDir());
+      await fs.rm(getDataDir(), { recursive: true, force: true });
       error(
         400,
         'The repo directory is non-empty, but does not contain a config.json file',

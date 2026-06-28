@@ -84,7 +84,7 @@ export async function json(response: Promise<Response>): Promise<object> {
   // https://github.com/jestjs/jest/issues/8446
   // https://github.com/nktnet1/jewire?tab=readme-ov-file#53-rewire-and-jest
   // TODO: Is this still an issue when working with Vitest?
-  return Object.assign({}, json);
+  return { ...json };
 }
 
 export async function buffer(response: Promise<Response>): Promise<Uint8Array> {

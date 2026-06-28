@@ -13,7 +13,6 @@ import itemId from '../../../itemId';
 import { getDataDir } from '../dataDir';
 import { ItemSectionStruct, validateSection } from './section';
 import { move } from '../../util';
-import { rimraf } from 'rimraf';
 import { FeedOptionsStruct } from './feeds';
 
 /**
@@ -221,7 +220,7 @@ function removeLinkToItem(target: ItemId, item: ItemInfo, andChildren = false): 
 
 /** Delete the given item, and all references to it */
 export async function deleteItem(itemToDelete: ItemId): Promise<void> {
-  await rimraf(itemPath(itemToDelete));
+  await fs.rm(itemPath(itemToDelete), { recursive: true });
   const parentId = itemId.parent(itemToDelete);
   // Remove from parent
   const parentInfo = await getItemInfo(parentId);

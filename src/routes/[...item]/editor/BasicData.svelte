@@ -91,7 +91,7 @@
     bind:selected={item.info.icon}
     onchange={commitChanges}
   />
-  <!-- Banner image -->
+  <!-- Icon image -->
   {#if item.info.icon}
     <div class="icon-image">
       <DataImage

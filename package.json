@@ -21,7 +21,7 @@
     "@atlaskit/pragmatic-drag-and-drop": "^1.8.1",
     "@maddyguthridge/marked-mermaid": "^0.2.0",
     "cheerio": "^1.2.0",
-    "colord": "^2.9.3",
+    "colord": "^2.9.4",
     "dedent": "^1.7.2",
     "highlight.js": "^11.9.0",
     "jsonwebtoken": "^9.0.3",

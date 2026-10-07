@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { dataIsSetUp, getDataDir } from './data/dataDir';
-import simpleGit, { type FileStatusResult } from 'simple-git';
+import { simpleGit, type FileStatusResult } from 'simple-git';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileExists } from './util';

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TextArea, TextInput } from '$components/base';
+  import { TextInput } from '$components/base';
   import DataImage from '$components/base/DataImage.svelte';
   import { ColorPicker, FilePicker } from '$components/pickers';
   import consts from '$lib/consts';
@@ -100,29 +100,6 @@
       />
     </div>
   {/if}
-
-  <h2>SEO options</h2>
-  <h3>Page description</h3>
-  <p>The description of the page, shown to search engines.</p>
-  <TextInput
-    placeholder="A concise description."
-    bind:value={item.info.seo.description}
-    oninput={commitChanges}
-  />
-
-  <h3>Page keywords</h3>
-  <p>
-    The page's keywords, shown to search engines. Keywords of parent items are
-    included automatically.
-  </p>
-  <p>Place each keyword on a new line.</p>
-  <TextArea
-    placeholder="Keywords for this page"
-    bind:value={() => item.info.seo.keywords.join('\n'), (kws) => {
-      item.info.seo.keywords = kws.split('\n');
-    }}
-    oninput={commitChanges}
-  />
 </form>
 
 <style>

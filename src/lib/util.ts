@@ -105,3 +105,12 @@ export function nameToId(name: string): string {
 export function randomChoice<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+/**
+ * Assert that a branch is unreachable The given value should have the never type.
+ *
+ * If this is ever reached at runtime, an exception is thrown.
+ */
+export function unreachable(value: never): never {
+  throw new Error(`Unreachable! value === ${value}`);
+}

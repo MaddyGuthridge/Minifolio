@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { Navbar } from '$components';
   import Background from '$components/Background.svelte';
   import { Button } from '$components/base';
@@ -18,8 +19,7 @@
   import type { ItemInfo } from '$lib/server/data/item';
   import { reportError } from '$lib/ui/toast';
   import { itemFileUrl, itemAtomUrl } from '$lib/urls';
-  import ItemFilesEdit from './ItemFilesEdit.svelte';
-  import MainDataEdit from './ItemInfoEdit.svelte';
+  // import ItemFilesEdit from './ItemFilesEdit.svelte';
   import Readme from './readme';
   import Section from './sections';
   import CreateSectionForm from './sections/CreateSectionForm.svelte';
@@ -178,7 +178,9 @@
   loggedIn={data.loggedIn}
   editable={data.loggedIn}
   {editing}
-  onEditBegin={() => (editing = true)}
+  onEditBegin={() => {
+    void goto(`/-/edit/${data.itemId}`);
+  }}
   onEditFinish={() => {
     editing = false;
     infoUpdater.commit();
@@ -190,16 +192,14 @@
 <div class="center">
   <main>
     {#if editing}
-      <MainDataEdit
+      <!-- <MainDataEdit
         itemId={data.itemId}
         bind:item={thisItem}
         onchange={(newInfo) => {
           thisItem.info = newInfo;
           infoUpdater.update(newInfo);
         }}
-      />
-
-      <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
+      /> -->
     {:else}
       <!-- Banner image -->
       {#if thisItem.info.banner}

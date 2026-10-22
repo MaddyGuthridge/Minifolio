@@ -31,7 +31,7 @@
     "marked-gfm-heading-id": "^4.1.4",
     "marked-katex-extension": "^5.1.13",
     "marked-smartypants": "^1.1.12",
-    "mermaid": "^11.16.1",
+    "mermaid": "^12.2.0",
     "mime-types": "^3.0.2",
     "nanoid": "^5.1.16",
     "random-words": "^2.0.1",

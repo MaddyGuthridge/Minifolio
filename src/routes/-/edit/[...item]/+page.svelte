@@ -11,6 +11,8 @@
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import Metadata from './Metadata.svelte';
   import Readme from './readme/Readme.svelte';
+  import Seo from './Seo.svelte';
+
   type Props = {
     data: import('./$types').PageData,
   };
@@ -78,6 +80,7 @@
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
     {:else if currentTab === 'SEO'}
       <h1>SEO</h1>
+      <Seo bind:item={thisItem} onchange={info => infoUpdater.update(info)} />
     {:else if currentTab === 'Body'}
       <h1>Body</h1>
       <Readme

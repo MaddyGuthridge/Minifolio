@@ -21,7 +21,6 @@
   }
 </script>
 
-<h2>SEO options</h2>
 <h3>Page description</h3>
 <p>The description of the page, shown to search engines.</p>
 <TextInput

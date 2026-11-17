@@ -178,7 +178,7 @@
   editable={data.loggedIn}
   {editing}
   onEditBegin={() => {
-    void goto(`/-/edit/${data.itemId}`);
+    void goto(`/-/edit${data.itemId}`);
   }}
   onEditFinish={() => {
     editing = false;

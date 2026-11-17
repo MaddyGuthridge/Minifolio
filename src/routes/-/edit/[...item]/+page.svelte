@@ -70,13 +70,23 @@
   </div>
   <div class="view">
     {#if currentTab === 'Metadata'}
-      <Metadata bind:item={thisItem} itemId={data.itemId} onchange={() => {}} />
+      <Metadata
+        bind:item={thisItem}
+        itemId={data.itemId}
+        onchange={info => infoUpdater.update(info)}
+      />
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
     {:else if currentTab === 'SEO'}
       <h1>SEO</h1>
     {:else if currentTab === 'Body'}
       <h1>Body</h1>
-      <Readme item={data.itemId} data={data.portfolio} {thisItem} {onsubmit} />
+      <Readme
+        item={data.itemId}
+        data={data.portfolio}
+        bind:thisItem={thisItem}
+        {onsubmit}
+        onchange={() => infoUpdater.update(thisItem.info)}
+      />
     {:else if currentTab === 'Sections'}
       <h1>Sections</h1>
     {:else if currentTab === 'Children'}

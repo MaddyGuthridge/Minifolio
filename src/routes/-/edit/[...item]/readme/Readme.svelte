@@ -12,9 +12,10 @@
     data: ItemData,
     thisItem: ItemData,
     onsubmit: () => void,
+    onchange: () => void,
   };
 
-  const { item, data, thisItem, onsubmit }: Props = $props();
+  const { item, data, thisItem = $bindable(), onsubmit, onchange }: Props = $props();
 </script>
 
 {#if thisItem.info.readme !== null}
@@ -31,11 +32,15 @@
       {item}
       {data}
       article={thisItem.info.article}
-      setArticle={(value) => { thisItem.info.article = value }}
+      setArticle={(value) => {
+        thisItem.info.article = value;
+        onchange();
+      }}
       filename={thisItem.info.readme}
       contents={thisItem.readme!}
       {onsubmit}
     />
+    <!-- Note: actual file contents are persisted inside of this element -->
   {:else if thisItem.info.readme.endsWith('.html')}
     <HtmlReadme contents={data.readme!} />
   {:else}

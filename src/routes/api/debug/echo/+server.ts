@@ -1,4 +1,4 @@
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 import { error, json } from '@sveltejs/kit';
 import chalk from 'chalk';
 

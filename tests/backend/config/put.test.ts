@@ -5,8 +5,8 @@
  */
 import { beforeEach, expect, it } from 'vitest';
 import { makeConfig, setup } from '../helpers';
-import { version } from '$app/environment';
-import type { ApiClient } from '$endpoints';
+import { version } from '$app/env';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import genTokenTests from '../tokenCase';
 
 let api: ApiClient;
@@ -32,10 +32,7 @@ it("Errors if the icon doesn't exist within the data dir", async () => {
     .rejects.toMatchObject({ code: 400 });
 });
 
-genTokenTests(
-  () => api,
-  api => api.config.put(makeConfig()),
-);
+genTokenTests(() => api, api => api.config.put(makeConfig()));
 
 it('Errors if site is not set up', async () => {
   await api.debug.clear();

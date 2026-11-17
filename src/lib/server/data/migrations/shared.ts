@@ -1,7 +1,7 @@
 /**
  * Shared helper functions for common data migration actions.
  */
-import { version } from '$app/environment';
+import { version } from '$app/env';
 import { setConfig, type ConfigJson } from '../config';
 import { setLocalConfig, type ConfigLocalJson } from '../localConfig';
 import { unsafeLoadConfig, unsafeLoadLocalConfig } from './unsafeLoad';

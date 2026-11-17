@@ -1,11 +1,11 @@
 import { nanoid } from 'nanoid';
 import z from 'zod';
 import jwt, { type Algorithm as JwtAlgorithm } from 'jsonwebtoken';
-import { unixTime } from '$lib/util';
+import { unixTime } from '#lib/util.ts';
 import { getLocalConfig, setLocalConfig } from '../data/localConfig';
 import { error, type Cookies } from '@sveltejs/kit';
 import { getAuthSecret } from './secret';
-import validate from '$lib/validate';
+import validate from '#lib/validate.ts';
 
 /** Maximum lifetime of a session -- 3 days (unless refreshed) */
 const sessionLifetime = 60 * 60 * 24 * 3;

@@ -2,8 +2,8 @@
 
 import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../helpers';
-import { getConfig, setConfig } from '$lib/server/data/config';
-import type { ApiClient } from '$endpoints';
+import { getConfig, setConfig } from '#lib/server/data/config.ts';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import genTokenTests from '../tokenCase';
 
 let api: ApiClient;

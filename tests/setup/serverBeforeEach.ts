@@ -1,4 +1,4 @@
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 import chalk from 'chalk';
 import path from 'node:path';
 import { beforeEach, expect } from 'vitest';

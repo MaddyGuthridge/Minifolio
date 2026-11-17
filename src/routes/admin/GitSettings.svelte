@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Button, TextInput } from '$components/base';
-  import { CopyButton, SpinnerButton } from '$components/base/button';
-  import api from '$endpoints';
-  import { showError } from '$lib/ui/toast';
-  import { gitCommitHashShorten as gitHashShorten } from '$lib/util';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
+  import { CopyButton, SpinnerButton } from '#lib/components/base/button/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import { showError } from '#lib/ui/toast/index.ts';
+  import { gitCommitHashShorten as gitHashShorten } from '#lib/util.ts';
 
   type Props = {
     data: import('./$types').PageData,

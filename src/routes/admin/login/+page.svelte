@@ -1,16 +1,16 @@
 <script lang="ts">
-  import api from '$endpoints';
-  import Background from '$components/Background.svelte';
-  import Navbar from '$components/navbar/Navbar.svelte';
-  import Paper from '$components/Paper.svelte';
+  import api from '#lib/endpoints/index.ts';
+  import Background from '#lib/components/Background.svelte';
+  import Navbar from '#lib/components/navbar/Navbar.svelte';
+  import Paper from '#lib/components/Paper.svelte';
   import { goto } from '$app/navigation';
-  import consts from '$lib/consts';
+  import consts from '#lib/consts.ts';
   import { onMount } from 'svelte';
-  import { Button, TextInput } from '$components/base';
-  import Favicon from '$components/Favicon.svelte';
-  import { reportError } from '$lib/ui/toast';
-  import { dev } from '$app/environment';
-  import devConsts from '$lib/devConsts';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
+  import Favicon from '#lib/components/Favicon.svelte';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { dev } from '$app/env';
+  import devConsts from '#lib/devConsts.ts';
 
   type Props = {
     data: import('./$types').PageData,
@@ -48,7 +48,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color={data.portfolio.info.color}></Background>
+<Background color={data.portfolio.info.color} />
 
 <Navbar
   data={data.portfolio}

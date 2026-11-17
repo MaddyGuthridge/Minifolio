@@ -5,12 +5,12 @@
  */
 import z from 'zod';
 import { error } from '@sveltejs/kit';
-import validate, { type ItemId } from '$lib/validate';
+import validate, { type ItemId } from '#lib/validate.ts';
 import { RepoInfo } from './repo';
 import { PackageInfoStruct } from './package';
 import { itemExists } from './item';
-import { linkDisplayStyles } from '$lib/links';
-import { validateFile } from '$lib/server/serverValidate';
+import { linkDisplayStyles } from '#lib/links.ts';
+import { validateFile } from '#lib/server/serverValidate.ts';
 
 /** Header within the sections */
 const HeadingSection = z.strictObject({

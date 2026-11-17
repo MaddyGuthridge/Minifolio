@@ -2,13 +2,13 @@
  * Test cases for RSS feeds.
  */
 
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { makeItemInfo, setup } from '../../helpers';
-import itemId from '$lib/itemId';
-import { getUrl } from '$endpoints/fetch';
-import consts from '$lib/consts';
-import { version } from '$app/environment';
+import itemId from '#lib/itemId.ts';
+import { getUrl } from '#lib/endpoints/fetch/index.ts';
+import consts from '#lib/consts.ts';
+import { version } from '$app/env';
 
 const BASE_URL = getUrl();
 

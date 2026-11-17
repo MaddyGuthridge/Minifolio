@@ -1,4 +1,4 @@
-import type { ProvidedPackageInfo, PackageInfo } from '$lib/server/data/item/package';
+import type { ProvidedPackageInfo, PackageInfo } from '#lib/server/data/item/package.ts';
 
 /** Names of package repos that are supported by the system */
 export const supportedPackageProviders = ['pypi', 'npm', 'docker'] as const;

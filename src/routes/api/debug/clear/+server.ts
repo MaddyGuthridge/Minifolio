@@ -1,5 +1,5 @@
-import { dev } from '$app/environment';
-import { getDataDir, getPrivateDataDir } from '$lib/server/data/dataDir';
+import { dev } from '$app/env';
+import { getDataDir, getPrivateDataDir } from '#lib/server/data/dataDir.ts';
 import { error, json } from '@sveltejs/kit';
 import { rm } from 'node:fs/promises';
 

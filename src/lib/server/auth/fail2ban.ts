@@ -3,7 +3,7 @@
  * login attempts for each IP address.
  */
 
-import { unixTime } from '$lib/util';
+import { unixTime } from '#lib/util.ts';
 import { error } from '@sveltejs/kit';
 import { getLocalConfig, setLocalConfig } from '../data/localConfig';
 

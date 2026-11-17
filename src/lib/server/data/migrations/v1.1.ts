@@ -1,6 +1,6 @@
-import { version } from '$app/environment';
-import itemId, { type ItemId } from '$lib/itemId';
-import { unixTime } from '$lib/util';
+import { version } from '$app/env';
+import itemId, { type ItemId } from '#lib/itemId.ts';
+import { unixTime } from '#lib/util.ts';
 import { setConfig, type ConfigJson } from '../config';
 import { iterItems, setItemInfo, type ItemInfo } from '../item';
 import { bumpPrivateDataVersion } from './shared';

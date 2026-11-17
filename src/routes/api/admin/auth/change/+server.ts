@@ -1,8 +1,8 @@
-import { hashAndSalt } from '$lib/server/auth/passwords';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
-import validate from '$lib/validate';
+import { hashAndSalt } from '#lib/server/auth/passwords.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
+import validate from '#lib/validate.ts';
 import { error, json } from '@sveltejs/kit';
 import { nanoid } from 'nanoid';
 import z from 'zod';

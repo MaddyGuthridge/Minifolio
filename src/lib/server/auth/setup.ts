@@ -2,10 +2,10 @@
  * Code managing the setup of the auth system of Minifolio.
  */
 import { setLocalConfig, type ConfigLocalJson } from '../data/localConfig';
-import { version } from '$app/environment';
+import { version } from '$app/env';
 import { hashAndSalt } from './passwords';
 import { nanoid } from 'nanoid';
-import { unixTime } from '$lib/util';
+import { unixTime } from '#lib/util.ts';
 import { generateToken } from './tokens';
 import type { Cookies } from '@sveltejs/kit';
 import { generateAuthSecret } from './secret';
@@ -43,14 +43,8 @@ export async function authSetup(
     auth: {
       [userId]: {
         username,
-        password: {
-          hash: passwordHash,
-          salt: salt,
-        },
-        sessions: {
-          notBefore: unixTime(),
-          revokedSessions: {},
-        },
+        password: { hash: passwordHash, salt },
+        sessions: { notBefore: unixTime(), revokedSessions: {} },
       },
     },
     enableFail2ban: false,

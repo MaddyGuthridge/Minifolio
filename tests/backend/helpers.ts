@@ -1,9 +1,9 @@
-import api, { type ApiClient } from '$endpoints';
-import type { ConfigJson } from '$lib/server/data/config';
-import { version } from '$app/environment';
-import type { ItemInfo } from '$lib/server/data/item';
-import type { ItemId } from '$lib/itemId';
-import { unixTime } from '$lib/util';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
+import type { ConfigJson } from '#lib/server/data/config.ts';
+import { version } from '$app/env';
+import type { ItemInfo } from '#lib/server/data/item/index.ts';
+import type { ItemId } from '#lib/itemId.ts';
+import { unixTime } from '#lib/util.ts';
 
 /** Set up the server, returning (amongst other things) an API client */
 export async function setup(repoUrl?: string, branch?: string) {

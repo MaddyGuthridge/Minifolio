@@ -2,7 +2,7 @@
  * Type definitions for published packages
  */
 
-import { supportedPackageProviders } from '$lib/packageInfo';
+import { supportedPackageProviders } from '#lib/packageInfo.ts';
 import z from 'zod';
 
 /** Package info gathered using provider definition */

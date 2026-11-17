@@ -1,8 +1,7 @@
-import { sequence } from '@sveltejs/kit/hooks';
-import type { Handle } from '@sveltejs/kit';
+import { sequence, type Handle } from '@sveltejs/kit/hooks';
 import logger from './middleware/logger';
 import banMiddleware from './middleware/bans';
-import { migrateAll } from '$lib/server/data/migrations';
+import { migrateAll } from '#lib/server/data/migrations/index.ts';
 
 const middleware: Handle[] = [];
 

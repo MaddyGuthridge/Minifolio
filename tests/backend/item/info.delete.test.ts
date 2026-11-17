@@ -1,11 +1,11 @@
 /**
  * Test cases for deleting items.
  */
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 
 let api: ApiClient;
 const child = itemId.fromStr('/item');

@@ -1,7 +1,7 @@
 /**
  * Test cases for POST /api/admin/firstrun/account
  */
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 import { it, describe, expect } from 'vitest';
 // Yucky import
 import type { FirstRunAuthOptions } from '../../../../src/routes/api/admin/firstrun/account/+server';

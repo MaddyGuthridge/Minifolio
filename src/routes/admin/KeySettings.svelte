@@ -1,10 +1,9 @@
-<!-- Settings panel for managing the server's public key. -->
 <script lang="ts">
-  import { CopyButton } from '$components/base/button';
-  import api from '$endpoints';
-  import { APP_NAME } from '$lib/consts';
-  import { Button, TextInput } from '$components/base';
-  import { dev } from '$app/environment';
+  import { CopyButton } from '#lib/components/base/button/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import { APP_NAME } from '#lib/consts.ts';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
+  import { dev } from '$app/env';
 
   type Props = {
     /** Public key currently being used by the server */
@@ -40,6 +39,8 @@
     privateKeyPath = null;
   }
 </script>
+
+<!-- Settings panel for managing the server's public key. -->
 
 {#snippet keyAtPath()}
   <form

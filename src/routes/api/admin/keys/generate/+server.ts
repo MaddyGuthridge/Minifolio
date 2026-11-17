@@ -1,8 +1,8 @@
 import { error, json } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig } from '$lib/server/data/localConfig';
-import { generateKey } from '$lib/server/keys';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getLocalConfig } from '#lib/server/data/localConfig.ts';
+import { generateKey } from '#lib/server/keys.ts';
 
 /** Generate an SSH key */
 export async function POST(req: import('./$types').RequestEvent) {

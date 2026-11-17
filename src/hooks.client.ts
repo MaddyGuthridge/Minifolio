@@ -1,7 +1,7 @@
-import { dev } from '$app/environment';
-import api from '$endpoints';
-import consts from '$lib/consts';
-import { getObserverState, notifyContentUpdate } from '$lib/observer';
+import { dev } from '$app/env';
+import api from '#lib/endpoints/index.ts';
+import consts from '#lib/consts.ts';
+import { getObserverState, notifyContentUpdate } from '#lib/observer/index.ts';
 
 function helloWorld() {
   console.log(`%c${consts.APP_NAME}\n`, 'font-size: 3rem');

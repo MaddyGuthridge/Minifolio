@@ -21,7 +21,7 @@ export function parse<Out>(
     return zodSchema.parse(value);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      error(400, err ?? e);
+      error(400, err ?? `${e}`);
     } else {
       throw e;
     }

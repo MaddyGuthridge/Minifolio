@@ -1,6 +1,6 @@
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
-import { getRepoStatus, pull } from '$lib/server/git';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { dataDirUsesGit, dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getRepoStatus, pull } from '#lib/server/git.ts';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {

@@ -1,6 +1,6 @@
-import api from '$endpoints';
-import { getDataDir, getPrivateDataDir } from '$lib/server/data/dataDir';
-import { unzip } from '$lib/server/zip';
+import api from '#lib/endpoints/index.ts';
+import { getDataDir, getPrivateDataDir } from '#lib/server/data/dataDir.ts';
+import { unzip } from '#lib/server/zip.ts';
 import { rm } from 'node:fs/promises';
 
 /** Extract the given zip file into the data dir, then refresh the data to trigger a migration */

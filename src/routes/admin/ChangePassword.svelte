@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Button, TextInput } from '$components/base';
-  import api from '$endpoints';
-  import { showError } from '$lib/ui/toast';
-  import { objectAll } from '$lib/util';
-  import validate from '$lib/validate';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import { showError } from '#lib/ui/toast/index.ts';
+  import { objectAll } from '#lib/util.ts';
+  import validate from '#lib/validate.ts';
   import z from 'zod';
 
   type Props = {

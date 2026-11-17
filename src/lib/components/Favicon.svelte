@@ -1,0 +1,13 @@
+<script lang="ts">
+  import consts from '#lib/consts.ts';
+
+  type Props = {
+    path?: string,
+  };
+
+  const { path }: Props = $props();
+
+  const actualPath = $derived(path ? `/data/${path}` : consts.APP_ICON_URL);
+</script>
+
+<link rel="icon" href={actualPath} />

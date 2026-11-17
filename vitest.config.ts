@@ -1,5 +1,5 @@
 import { mergeConfig, defineConfig } from 'vitest/config'
-import defaultConfig from './vite.config';
+import defaultConfig from './vite.config.ts';
 
 export default mergeConfig(defaultConfig, defineConfig({
   test: {

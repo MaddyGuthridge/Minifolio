@@ -230,18 +230,8 @@
         item={data.itemId}
         data={data.portfolio}
         article={thisItem.info.article}
-        setArticle={(value) => {
-          console.log('Article:', value);
-          thisItem.info.article = value;
-          infoUpdater.update(thisItem.info);
-        }}
         filename={thisItem.info.readme}
         contents={thisItem.readme}
-        {editing}
-        onsubmit={() => {
-          infoUpdater.commit();
-          editing = false;
-        }}
       />
     </div>
 

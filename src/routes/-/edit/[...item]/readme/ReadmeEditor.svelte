@@ -1,30 +1,27 @@
 <script lang="ts">
-    import FilePicker from '$components/pickers/FilePicker.svelte';
-  import api from '$endpoints';
-  import type { ItemId } from '$lib/itemId';
-  import { CallbackSubscription } from '$lib/observer';
-  import type { ItemData } from '$lib/server/data/item';
-  import { itemFileUrl } from '$lib/urls';
+  import FilePicker from '#lib/components/pickers/FilePicker.svelte';
+  import api from '#lib/endpoints/index.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import { CallbackSubscription } from '#lib/observer/index.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
   import HtmlReadme from './HtmlReadme.svelte';
   import MarkdownReadme from './MarkdownReadme.svelte';
 
   type Props = {
     item: ItemId,
     data: ItemData,
-    article: boolean,
-    setArticle: (value: boolean) => void,
-    filename: string | null,
-    contents: string | null,
-    editing: boolean,
+    onDataChange: (data: ItemData) => void,
     onsubmit: () => void,
   };
 
-  const { item, data, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
+  const { item, data, onDataChange, onsubmit }: Props = $props();
 
   // Contents displayed, updated in $effect
   // Will fix this at some point using callbacks or something. I know it's bad.
   // svelte-ignore state_referenced_locally
-  let displayContents = $state(contents ?? '');
+  let displayContents = $state(data.readme ?? '');
+  const filename = $derived(data.info.readme);
 </script>
 
 <div class="readme-picker-box">
@@ -35,7 +32,7 @@
       id="readme-picker"
       files={data.ls}
       bind:selected={data.info.readme}
-      onchange={() => infoUpdater.update(data.info)}
+      onchange={() => onDataChange(data)}
     />
   </div>
 </div>
@@ -45,7 +42,7 @@
   <CallbackSubscription
     url={itemFileUrl(item, filename)}
     reloadFn={() => api().item(item).file(filename).get().text()}
-    originalValue={contents}
+    originalValue={data.readme}
     bind:value={displayContents}
   />
 
@@ -53,11 +50,10 @@
     <MarkdownReadme
       {item}
       {data}
-      {article}
-      {setArticle}
+      article={data.info.article}
+      setArticle={(value) => { data.info.article = value }}
       {filename}
       contents={displayContents}
-      {editing}
       {onsubmit}
     />
   {:else if filename.endsWith('.html')}

@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
-import { getItemData, itemExists } from '$lib/server/data/item';
-import { getConfig } from '$lib/server/data/config';
-import itemId from '$lib/itemId';
-import { redirectForSetup, redirectOnInvalidToken } from '$lib/server/redirects';
-import validate from '$lib/validate';
+import { getItemData, itemExists } from '#lib/server/data/item/index.ts';
+import { getConfig } from '#lib/server/data/config.ts';
+import itemId from '#lib/itemId.ts';
+import { redirectForSetup, redirectOnInvalidToken } from '#lib/server/redirects.ts';
+import validate from '#lib/validate.ts';
 
 export async function load(req: import('./$types').RequestEvent) {
   await redirectForSetup();

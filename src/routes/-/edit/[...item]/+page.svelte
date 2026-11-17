@@ -1,15 +1,16 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { Navbar } from '$components';
-  import Background from '$components/Background.svelte';
-  import api from '$endpoints';
-  import consts from '$lib/consts';
-  import DelayedUpdater from '$lib/delayedUpdate';
-  import type { ItemInfo } from '$lib/server/data/item';
-  import { reportError } from '$lib/ui/toast';
-  import { unreachable } from '$lib/util';
+  import { Navbar } from '#lib/components/index.ts';
+  import Background from '#lib/components/Background.svelte';
+  import api from '#lib/endpoints/index.ts';
+  import consts from '#lib/consts.ts';
+  import DelayedUpdater from '#lib/delayedUpdate.ts';
+  import type { ItemInfo } from '#lib/server/data/item/index.ts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { unreachable } from '#lib/util.ts';
   import ItemFilesEdit from './ItemFilesEdit.svelte';
   import Metadata from './Metadata.svelte';
+  import Readme from './readme/Readme.svelte';
   type Props = {
     data: import('./$types').PageData,
   };
@@ -38,6 +39,11 @@
       'Error updating item data',
     );
   }, consts.EDIT_COMMIT_HESITATION);
+
+  function onsubmit() {
+    infoUpdater.commit();
+    void goto(data.itemId);
+  }
 </script>
 
 <Navbar
@@ -47,10 +53,7 @@
   loggedIn={true}
   editable
   editing
-  onEditFinish={() => {
-    infoUpdater.commit();
-    void goto(data.itemId);
-  }}
+  onEditFinish={onsubmit}
 />
 
 <Background color={thisItem.info.color} />
@@ -73,6 +76,7 @@
       <h1>SEO</h1>
     {:else if currentTab === 'Body'}
       <h1>Body</h1>
+      <Readme item={data.itemId} data={data.portfolio} {thisItem} {onsubmit} />
     {:else if currentTab === 'Sections'}
       <h1>Sections</h1>
     {:else if currentTab === 'Children'}

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { TextArea, TextInput } from '$components/base';
-  import type { ItemData, ItemInfo } from '$lib/server/data/item';
+  import { TextArea, TextInput } from '#lib/components/base/index.ts';
+  import type { ItemData, ItemInfo } from '#lib/server/data/item/index.ts';
 
   type Props = {
     item: ItemData,

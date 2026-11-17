@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { Button } from '$components/base';
-  import api from '$endpoints';
+  import { Button } from '#lib/components/base/index.ts';
+  import api from '#lib/endpoints/index.ts';
 
   async function logOut() {
     await api().admin.auth.revoke();

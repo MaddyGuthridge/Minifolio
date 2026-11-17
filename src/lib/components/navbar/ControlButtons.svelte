@@ -1,14 +1,14 @@
 <script lang="ts">
   import { dev } from '$app/env';
   import { goto } from '$app/navigation';
-  import Button from '$components/base/button/Button.svelte';
-  import Separator from '$components/Separator.svelte';
-  import api from '$endpoints';
+  import Button from '#lib/components/base/button/Button.svelte';
+  import Separator from '#lib/components/Separator.svelte';
+  import api from '#lib/endpoints/index.ts';
 
   type Props = {
     /** Whether the user is logged in. Set to undefined if auth is disabled */
-    loggedIn: boolean | undefined;
-    editable?: boolean;
+    loggedIn: boolean | undefined,
+    editable?: boolean,
     /** Whether edit mode is active */
     editing?: boolean,
     /** Called when beginning edits */

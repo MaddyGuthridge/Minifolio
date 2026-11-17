@@ -1,4 +1,4 @@
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 import type { ConfigJson } from '#lib/server/data/config.ts';
 import { version } from '$app/env';
 import type { ItemInfo } from '#lib/server/data/item/index.ts';

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Select } from '$components/base';
+  import { Select } from '#lib/components/base/index.ts';
   import { getDescendant } from '#lib/itemData.ts';
   import itemId, { type ItemId } from '#lib/itemId.ts';
   import type { ItemData } from '#lib/server/data/item/index.ts';

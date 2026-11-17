@@ -25,9 +25,9 @@ export async function migrateDataV06(dataDir: string) {
   await createRootItem(dataDir);
 
   // For each group
-  const groups = (await readdir(dataDir, { withFileTypes: true })).// Only keep directories
-  filter((d) => d.isDirectory()).// .git isn't a valid group
-  filter((d) => d.name !== '.git').map((d) => d.name);
+  const groups = (await readdir(dataDir, { withFileTypes: true }))// Only keep directories
+    .filter(d => d.isDirectory())// .git isn't a valid group
+    .filter(d => d.name !== '.git').map(d => d.name);
 
   for (const groupId of groups) {
     console.log(`Group: /${groupId}`);
@@ -35,8 +35,8 @@ export async function migrateDataV06(dataDir: string) {
     // Don't bother making the migration code fully parallel, since it only runs once for an
     // instance and is fast enough as-is.
     // eslint-disable-next-line no-await-in-loop
-    const items = (await readdir(`${dataDir}/${groupId}`, { withFileTypes: true })).// Only keep directories
-    filter((d) => d.isDirectory()).map((d) => d.name);
+    const items = (await readdir(`${dataDir}/${groupId}`, { withFileTypes: true }))// Only keep directories
+      .filter(d => d.isDirectory()).map(d => d.name);
 
     // For each item
     for (const oldItemId of items) {
@@ -207,9 +207,9 @@ function makeDocsSiteSection(url: string): SiteSection {
   };
 }
 
-type OldRepoInfo = 
-  { provider: RepoProvider; path: string } |
-  { title: string; url: string; icon?: string };
+type OldRepoInfo
+  = { provider: RepoProvider, path: string }
+    | { title: string, url: string, icon?: string };
 
 function makeRepoSection(info: OldRepoInfo): RepoSection {
   const newInfo: RepoInfo = 'provider' in info
@@ -228,8 +228,8 @@ function makePackageSection(info: PackageInfo): PackageSection {
 }
 
 type LinkItem = [
-  { groupId: string; style: 'chip' | 'card'; title: string },
-  string[]
+  { groupId: string, style: 'chip' | 'card', title: string },
+  string[],
 ];
 
 function makeLinksSection(info: LinkItem): LinksSection {
@@ -243,6 +243,6 @@ function makeLinksSection(info: LinkItem): LinksSection {
     type: 'links',
     label: title,
     style,
-    items: items.map((linkedItemId) => itemId.fromComponents([groupId, linkedItemId]))
+    items: items.map(linkedItemId => itemId.fromComponents([groupId, linkedItemId])),
   };
 }

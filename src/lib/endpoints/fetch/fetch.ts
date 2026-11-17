@@ -47,9 +47,9 @@ export function apiFetch(
   fetchFn: typeof fetch,
   method: HttpVerb,
   route: string,
-  options?: 
-    { token?: string; query?: Record<string, string> } &
-    Partial<PayloadInfo>
+  options?:
+    { token?: string, query?: Record<string, string> }
+    & Partial<PayloadInfo>,
 ) {
   const baseUrl = getUrl();
 

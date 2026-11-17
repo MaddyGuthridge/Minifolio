@@ -1,4 +1,4 @@
-import { apiFetch, payload } from '$endpoints/fetch';
+import { apiFetch, payload } from '#lib/endpoints/fetch/index.ts';
 
 export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**

@@ -2,13 +2,13 @@
  * Test cases for uploading files to an item.
  */
 import { it, describe, beforeEach, expect } from 'vitest';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { makeItemInfo, setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
 import genTokenTests from '../tokenCase';
 import itemId from '#lib/itemId.ts';
 import { setItemInfo } from '#lib/server/data/item/index.ts';
-import { payload } from '$endpoints/fetch';
+import { payload } from '#lib/endpoints/fetch/index.ts';
 
 let api: ApiClient;
 beforeEach(async () => {

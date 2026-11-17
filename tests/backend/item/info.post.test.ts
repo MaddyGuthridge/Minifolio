@@ -3,7 +3,7 @@
  */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import genTokenTests from '../tokenCase';
 import { invalidIds, invalidNames, validIds, validNames } from '../consts';
 import { ItemInfoStruct } from '#lib/server/data/item/index.ts';

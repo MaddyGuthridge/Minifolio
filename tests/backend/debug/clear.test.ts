@@ -1,7 +1,7 @@
 /**
  * Test cases for DELETE /api/debug/clear
  */
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 import { getDataDir } from '#lib/server/data/dataDir.ts';
 import { access } from 'node:fs/promises';
 import { it, expect } from 'vitest';

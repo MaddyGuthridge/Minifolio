@@ -1,7 +1,7 @@
 /**
  * Test cases for POST /api/admin/firstrun/data
  */
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { simpleGit, CheckRepoActions } from 'simple-git';
 // Yucky import

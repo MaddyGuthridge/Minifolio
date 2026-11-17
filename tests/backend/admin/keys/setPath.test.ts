@@ -3,7 +3,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';

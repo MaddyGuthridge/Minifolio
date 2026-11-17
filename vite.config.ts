@@ -35,13 +35,6 @@ export default defineConfig({
         // FIXME: This is definitely a security issue, and so I should find a workaround at some point.
         trustedOrigins: ['*'],
       },
-      // Import aliases
-      // https://kit.svelte.dev/docs/configuration#alias
-      alias: {
-        // Allow importing our alias definitions
-        "$components": "src/components/",
-        "$endpoints": "src/endpoints"
-      },
       // https://stackoverflow.com/a/75438617/6335363
       version: { name: process.env.npm_package_version },
 

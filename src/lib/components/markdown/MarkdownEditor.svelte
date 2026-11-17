@@ -2,7 +2,7 @@
   import Markdown from './Markdown.svelte';
   import consts from '#lib/consts.ts';
   import DelayedUpdater from '#lib/delayedUpdate.ts';
-  import { TextArea } from '$components/base';
+  import { TextArea } from '#lib/components/base/index.ts';
 
   type Props = {
     source: string,

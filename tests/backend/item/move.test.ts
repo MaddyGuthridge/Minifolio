@@ -1,7 +1,7 @@
 /**
  * Test cases for moving an item
  */
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import itemId from '#lib/itemId.ts';

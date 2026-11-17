@@ -7,7 +7,7 @@
  *
  * Data migrations should work seamlessly.
  */
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, expect, test } from 'vitest';
 import { setup } from '../helpers';
 import itemId from '#lib/itemId.ts';

@@ -1,4 +1,4 @@
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { setup } from '../../helpers';
 import { migrateDataFromZip } from '../migration';

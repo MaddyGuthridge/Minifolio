@@ -2,7 +2,7 @@
 import auth from './auth';
 import git from './git';
 import firstrun from './firstrun';
-import { apiFetch } from '$endpoints/fetch';
+import { apiFetch } from '#lib/endpoints/fetch/index.ts';
 import keys from './keys';
 
 export async function refresh(fetchFn: typeof fetch, token: string | undefined) {

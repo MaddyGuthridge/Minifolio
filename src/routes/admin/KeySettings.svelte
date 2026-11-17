@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { CopyButton } from '$components/base/button';
-  import api from '$endpoints';
+  import { CopyButton } from '#lib/components/base/button/index.ts';
+  import api from '#lib/endpoints/index.ts';
   import { APP_NAME } from '#lib/consts.ts';
-  import { Button, TextInput } from '$components/base';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
   import { dev } from '$app/env';
 
   type Props = {

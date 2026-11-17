@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Select } from '$components/base';
+  import { Select } from '#lib/components/base/index.ts';
 
   // It would be nice if there was a way to make `selected: string` if `allowNoSelection` is
   // `false`, but annoyingly https://stackoverflow.com/a/52318137/6335363 doesn't seem to work

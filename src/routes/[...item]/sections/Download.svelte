@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Separator } from '$components';
-  import { TextInput } from '$components/base';
-  import FilePicker from '$components/pickers/FilePicker.svelte';
+  import { Separator } from '#lib/components/index.ts';
+  import { TextInput } from '#lib/components/base/index.ts';
+  import FilePicker from '#lib/components/pickers/FilePicker.svelte';
   import { getDescendant } from '#lib/itemData.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import type { ItemData } from '#lib/server/data/item/index.ts';

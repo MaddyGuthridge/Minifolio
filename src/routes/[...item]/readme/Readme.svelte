@@ -1,5 +1,5 @@
 <script lang="ts">
-  import api from '$endpoints';
+  import api from '#lib/endpoints/index.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import { CallbackSubscription } from '#lib/observer/index.ts';
   import type { ItemData } from '#lib/server/data/item/index.ts';

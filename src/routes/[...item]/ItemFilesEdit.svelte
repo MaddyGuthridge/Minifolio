@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Button } from '$components/base';
-  import api from '$endpoints';
-  import { payload } from '$endpoints/fetch';
+  import { Button } from '#lib/components/base/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import { payload } from '#lib/endpoints/fetch/index.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import { reportError } from '#lib/ui/toast/index.ts';
   import ItemFile from './ItemFile.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from '$components/base';
+  import { Button } from '#lib/components/base/index.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import type { ItemData } from '#lib/server/data/item/index.ts';
   import type { ItemSection } from '#lib/server/data/item/section.ts';

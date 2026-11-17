@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { ItemChip } from '.';
-  import { Separator } from '$components';
+  import { Separator } from '#lib/components/index.ts';
   import type { FilterOptions } from '#lib/itemFilter.ts';
   import type { ItemData } from '#lib/server/data/item/index.ts';
   import { getDescendant } from '#lib/itemData.ts';

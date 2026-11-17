@@ -1,10 +1,10 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
   import itemId, { type ItemId } from '#lib/itemId.ts';
-  import api from '$endpoints';
+  import api from '#lib/endpoints/index.ts';
   import { goto } from '$app/navigation';
   import consts from '#lib/consts.ts';
-  import { Button, TextInput } from '$components/base';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
   import validate from '#lib/validate.ts';
   import { nameToId, objectAll } from '#lib/util.ts';
 

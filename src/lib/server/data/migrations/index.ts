@@ -13,7 +13,7 @@ import {
   getDataVersion,
   getPrivateDataVersion,
   bumpDataVersion,
-  bumpPrivateDataVersion
+  bumpPrivateDataVersion,
 } from './shared';
 
 import { tmpdir } from 'node:os';

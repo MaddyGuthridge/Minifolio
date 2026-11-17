@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { Navbar } from '$components';
-  import Background from '$components/Background.svelte';
-  import { Button } from '$components/base';
-  import DataImage from '$components/base/DataImage.svelte';
-  import { ItemCardGrid } from '$components/card';
-  import ItemChipList from '$components/chip/ItemChipList.svelte';
-  import Favicon from '$components/Favicon.svelte';
-  import { NewItemModal } from '$components/modals';
-  import { FilePicker } from '$components/pickers';
-  import api from '$endpoints';
+  import { Navbar } from '#lib/components/index.ts';
+  import Background from '#lib/components/Background.svelte';
+  import { Button } from '#lib/components/base/index.ts';
+  import DataImage from '#lib/components/base/DataImage.svelte';
+  import { ItemCardGrid } from '#lib/components/card/index.ts';
+  import ItemChipList from '#lib/components/chip/ItemChipList.svelte';
+  import Favicon from '#lib/components/Favicon.svelte';
+  import { NewItemModal } from '#lib/components/modals/index.ts';
+  import { FilePicker } from '#lib/components/pickers/index.ts';
+  import api from '#lib/endpoints/index.ts';
   import consts from '#lib/consts.ts';
   import DelayedUpdater from '#lib/delayedUpdate.ts';
   import { getItemAuthor } from '#lib/itemData.ts';

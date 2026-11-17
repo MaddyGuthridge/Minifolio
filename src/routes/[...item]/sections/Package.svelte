@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Separator } from '$components';
-  import { Select, TextInput } from '$components/base';
-  import { CopyButton } from '$components/base/button';
+  import { Separator } from '#lib/components/index.ts';
+  import { Select, TextInput } from '#lib/components/base/index.ts';
+  import { CopyButton } from '#lib/components/base/button/index.ts';
   import {
     packageProviders,
     supportedPackageProviders,

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { TextArea, TextInput } from '$components/base';
-  import DataImage from '$components/base/DataImage.svelte';
-  import { ColorPicker, FilePicker } from '$components/pickers';
+  import { TextArea, TextInput } from '#lib/components/base/index.ts';
+  import DataImage from '#lib/components/base/DataImage.svelte';
+  import { ColorPicker, FilePicker } from '#lib/components/pickers/index.ts';
   import consts from '#lib/consts.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import type { ItemData, ItemInfo } from '#lib/server/data/item/index.ts';

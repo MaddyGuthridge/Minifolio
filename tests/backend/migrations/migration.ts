@@ -1,4 +1,4 @@
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 import { getDataDir, getPrivateDataDir } from '#lib/server/data/dataDir.ts';
 import { unzip } from '#lib/server/zip.ts';
 import { rm } from 'node:fs/promises';

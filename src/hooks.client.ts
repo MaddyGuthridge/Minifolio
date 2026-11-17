@@ -1,5 +1,5 @@
 import { dev } from '$app/env';
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 import consts from '#lib/consts.ts';
 import { getObserverState, notifyContentUpdate } from '#lib/observer/index.ts';
 

@@ -2,11 +2,11 @@
  * Test cases for sitemap.xml generation
  */
 
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, expect, it } from 'vitest';
 import { setup } from './helpers';
 import itemId from '#lib/itemId.ts';
-import { getUrl } from '$endpoints/fetch';
+import { getUrl } from '#lib/endpoints/fetch/index.ts';
 
 const BASE_URL = getUrl();
 

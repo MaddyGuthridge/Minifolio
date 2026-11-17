@@ -1,6 +1,6 @@
 import { ChildProcess, spawn } from 'node:child_process';
 import fs from 'node:fs';
-import api from '$endpoints';
+import api from '#lib/endpoints/index.ts';
 
 try {
   process.loadEnvFile('.env');

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from '$components/base';
+  import { Button } from '#lib/components/base/index.ts';
   import { colorName } from '#lib/color.ts';
   import { colord } from 'colord';
 

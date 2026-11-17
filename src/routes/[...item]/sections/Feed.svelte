@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Separator } from '$components';
-  import { TextInput } from '$components/base';
-  import { CopyButton } from '$components/base/button';
+  import { Separator } from '#lib/components/index.ts';
+  import { TextInput } from '#lib/components/base/index.ts';
+  import { CopyButton } from '#lib/components/base/button/index.ts';
   import type { ItemId } from '#lib/itemId.ts';
   import type { FeedSection } from '#lib/server/data/item/section.ts';
   import { itemAtomUrl } from '#lib/urls.ts';

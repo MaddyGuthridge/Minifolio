@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Select, TextInput } from '$components/base';
-  import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
-  import { ItemChipList } from '$components/chip';
-  import { ItemPicker } from '$components/pickers';
+  import { Select, TextInput } from '#lib/components/base/index.ts';
+  import ItemCardGrid from '#lib/components/card/ItemCardGrid.svelte';
+  import { ItemChipList } from '#lib/components/chip/index.ts';
+  import { ItemPicker } from '#lib/components/pickers/index.ts';
   import { getDescendant } from '#lib/itemData.ts';
   import itemId, { type ItemId } from '#lib/itemId.ts';
   import { linkDisplayStyles } from '#lib/links.ts';

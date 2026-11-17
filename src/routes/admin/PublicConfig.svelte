@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { TextArea, TextInput } from '$components/base';
-  import { CodeBlock } from '$components/markdown';
-  import { FilePicker } from '$components/pickers';
-  import api from '$endpoints';
+  import { TextArea, TextInput } from '#lib/components/base/index.ts';
+  import { CodeBlock } from '#lib/components/markdown/index.ts';
+  import { FilePicker } from '#lib/components/pickers/index.ts';
+  import api from '#lib/endpoints/index.ts';
   import consts from '#lib/consts.ts';
   import DelayedUpdater from '#lib/delayedUpdate.ts';
   import itemId from '#lib/itemId.ts';

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Markdown from '$components/markdown/Markdown.svelte';
+  import Markdown from '#lib/components/markdown/Markdown.svelte';
   import consts from '#lib/consts.ts';
   import { dev, version } from '$app/env';
-  import Navbar from '$components/navbar/Navbar.svelte';
-  import Favicon from '$components/Favicon.svelte';
+  import Navbar from '#lib/components/navbar/Navbar.svelte';
+  import Favicon from '#lib/components/Favicon.svelte';
   import dedent from 'dedent';
-  import Background from '$components/Background.svelte';
+  import Background from '#lib/components/Background.svelte';
 
   type Props = {
     data: import('./$types').PageData,
@@ -16,7 +16,7 @@
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
 
   const contributors = consts.APP_CONTRIBUTORS.length
-    ? `Thanks to the contributors:\n\n${consts.APP_CONTRIBUTORS.map((c) => `* [${c[0]}](${c[1]})`).join('\n')}`
+    ? `Thanks to the contributors:\n\n${consts.APP_CONTRIBUTORS.map(c => `* [${c[0]}](${c[1]})`).join('\n')}`
     : "I'd love to have your contributions!";
 
   const mainInfo = `

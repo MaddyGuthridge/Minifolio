@@ -6,8 +6,8 @@ import { getIpFromRequest } from '#lib/server/request.ts';
 
 const banMiddleware: Handle = async (req) => {
   if (// Allow all requests if server isn't set up
-  !await authIsSetUp() || // Allow all requests to debug endpoints
-  req.event.url.pathname.startsWith('/api/debug')) {
+    !await authIsSetUp() // Allow all requests to debug endpoints
+    || req.event.url.pathname.startsWith('/api/debug')) {
     return req.resolve(req.event);
   }
   let config: ConfigLocalJson;

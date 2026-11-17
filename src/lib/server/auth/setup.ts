@@ -44,8 +44,8 @@ export async function authSetup(
       [userId]: {
         username,
         password: { hash: passwordHash, salt },
-        sessions: { notBefore: unixTime(), revokedSessions: {} }
-      }
+        sessions: { notBefore: unixTime(), revokedSessions: {} },
+      },
     },
     enableFail2ban: false,
     loginBannedIps: {},

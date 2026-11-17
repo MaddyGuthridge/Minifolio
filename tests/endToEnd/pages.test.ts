@@ -1,7 +1,7 @@
 /** Test cases to ensure pages load correctly */
 
 import { beforeEach, expect, test } from 'vitest';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { setup } from '../backend/helpers';
 import itemId from '#lib/itemId.ts';
 

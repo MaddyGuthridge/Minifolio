@@ -2,7 +2,7 @@
  * Type definitions for links to repos
  */
 
-import { supportedRepoProviders } from '$lib/repoInfo';
+import { supportedRepoProviders } from '#lib/repoInfo.ts';
 import z from 'zod';
 
 export const RepoProviderStruct = z.enum(supportedRepoProviders);

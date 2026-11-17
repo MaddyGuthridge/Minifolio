@@ -1,14 +1,14 @@
 <script lang="ts">
-  import Background from '$components/Background.svelte';
-  import Navbar from '$components/navbar';
-  import Paper from '$components/Paper.svelte';
-  import consts from '$lib/consts';
+  import Background from '#lib/components/Background.svelte';
+  import Navbar from '#lib/components/navbar/index.ts';
+  import Paper from '#lib/components/Paper.svelte';
+  import consts from '#lib/consts.ts';
   import GitSettings from './GitSettings.svelte';
   import ChangePassword from './ChangePassword.svelte';
   import ReloadData from './ReloadData.svelte';
   import LogOutAll from './LogOutAll.svelte';
   import KeySettings from './KeySettings.svelte';
-  import Favicon from '$components/Favicon.svelte';
+  import Favicon from '#lib/components/Favicon.svelte';
   import PublicConfig from './PublicConfig.svelte';
 
   type Props = {

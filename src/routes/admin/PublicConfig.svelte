@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { TextArea, TextInput } from '$components/base';
-  import { CodeBlock } from '$components/markdown';
-  import { FilePicker } from '$components/pickers';
-  import api from '$endpoints';
-  import consts from '$lib/consts';
-  import DelayedUpdater from '$lib/delayedUpdate';
-  import itemId from '$lib/itemId';
-  import type { ConfigJson } from '$lib/server/data/config';
-  import { reportError } from '$lib/ui/toast';
-  import { itemFileUrl } from '$lib/urls';
+  import { TextArea, TextInput } from '#lib/components/base/index.ts';
+  import { CodeBlock } from '#lib/components/markdown/index.ts';
+  import { FilePicker } from '#lib/components/pickers/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import consts from '#lib/consts.ts';
+  import DelayedUpdater from '#lib/delayedUpdate.ts';
+  import itemId from '#lib/itemId.ts';
+  import type { ConfigJson } from '#lib/server/data/config.ts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
 
   type Props = {
     configJson: ConfigJson,

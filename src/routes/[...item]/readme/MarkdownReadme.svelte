@@ -1,12 +1,12 @@
 <script lang="ts">
-  import AuthorText from '$components/AuthorText.svelte';
-  import EditableMarkdown from '$components/markdown';
-  import api from '$endpoints';
-  import { payload } from '$endpoints/fetch';
-  import { getDescendant, getItemAuthor } from '$lib/itemData';
-  import type { ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
-  import { unixToPrettyDate } from '$lib/util';
+  import AuthorText from '#lib/components/AuthorText.svelte';
+  import EditableMarkdown from '#lib/components/markdown/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import { payload } from '#lib/endpoints/fetch/index.ts';
+  import { getDescendant, getItemAuthor } from '#lib/itemData.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { unixToPrettyDate } from '#lib/util.ts';
 
   type Props = {
     item: ItemId,

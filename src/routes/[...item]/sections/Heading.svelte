@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { TextInput } from '$components/base';
-  import type { HeadingSection } from '$lib/server/data/item/section';
+  import { TextInput } from '#lib/components/base/index.ts';
+  import type { HeadingSection } from '#lib/server/data/item/section.ts';
 
   type Props = {
     section: HeadingSection,

@@ -2,7 +2,7 @@
 
 import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../../helpers';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import genTokenTests from '../../tokenCase';
 
 let api: ApiClient;

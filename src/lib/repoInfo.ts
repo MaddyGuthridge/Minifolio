@@ -1,4 +1,4 @@
-import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '$lib/server/data/item/repo';
+import type { ProvidedRepoInfo, RepoProvider, RepoInfo } from '#lib/server/data/item/repo.ts';
 import { getStarCountGitHub } from './social';
 import { constArrayIncludes } from './util';
 

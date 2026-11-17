@@ -1,7 +1,7 @@
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
-import { getRepoStatus, initRepo } from '$lib/server/git';
-import validate from '$lib/validate';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { dataDirUsesGit, dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getRepoStatus, initRepo } from '#lib/server/git.ts';
+import validate from '#lib/validate.ts';
 import { error, json } from '@sveltejs/kit';
 import z from 'zod';
 

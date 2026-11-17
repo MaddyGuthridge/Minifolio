@@ -1,14 +1,14 @@
 /**
  * Test cases for POST /api/admin/firstrun/data
  */
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { simpleGit, CheckRepoActions } from 'simple-git';
 // Yucky import
 import type { FirstRunDataOptions } from '../../../../src/routes/api/admin/firstrun/data/+server';
-import { getDataDir } from '$lib/server/data/dataDir';
+import { getDataDir } from '#lib/server/data/dataDir.ts';
 import genTokenTests from '../../tokenCase';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 
 // Git clone takes a while, increase the test timeout
 vi.setConfig({ testTimeout: 15_000 });

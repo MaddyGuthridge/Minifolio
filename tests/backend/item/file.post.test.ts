@@ -4,11 +4,11 @@
 
 import { it, describe, beforeEach, expect } from 'vitest';
 import genTokenTests from '../tokenCase';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
-import itemId from '$lib/itemId';
-import { payload } from '$endpoints/fetch';
+import itemId from '#lib/itemId.ts';
+import { payload } from '#lib/endpoints/fetch/index.ts';
 
 let api: ApiClient;
 beforeEach(async () => {

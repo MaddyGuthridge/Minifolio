@@ -1,11 +1,11 @@
 /**
  * Test cases for generating a public key.
  */
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';
-import { getPrivateDataDir } from '$lib/server/data/dataDir';
+import { getPrivateDataDir } from '#lib/server/data/dataDir.ts';
 
 test('Key is generated when requested', async () => {
   const { api } = await setup();

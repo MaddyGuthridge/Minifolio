@@ -2,14 +2,14 @@ import fs from 'node:fs/promises';
 import { json, error } from '@sveltejs/kit';
 import z from 'zod';
 
-import itemId from '$lib/itemId';
-import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '$lib/server/data/item';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import validate from '$lib/validate';
-import formatTemplate from '$lib/server/formatTemplate';
-import { ITEM_README } from '$lib/server/data/text';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { unixTime } from '$lib/util';
+import itemId from '#lib/itemId.ts';
+import { deleteItem, getItemInfo, itemExists, itemPath, setItemInfo, validateItemInfo } from '#lib/server/data/item/index.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import validate from '#lib/validate.ts';
+import formatTemplate from '#lib/server/formatTemplate.ts';
+import { ITEM_README } from '#lib/server/data/text.ts';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { unixTime } from '#lib/util.ts';
 
 /**
  * API endpoints for accessing info.json

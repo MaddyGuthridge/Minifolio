@@ -1,5 +1,5 @@
 /** Unsafely load data, so that types are not checked */
-import type { ItemId } from '$lib/itemId';
+import type { ItemId } from '#lib/itemId.ts';
 import fs from 'node:fs/promises';
 
 /** Load old config.json */

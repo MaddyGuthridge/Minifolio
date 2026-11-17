@@ -1,28 +1,27 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { Navbar } from '$components';
-  import Background from '$components/Background.svelte';
-  import { Button } from '$components/base';
-  import DataImage from '$components/base/DataImage.svelte';
-  import { ItemCardGrid } from '$components/card';
-  import ItemChipList from '$components/chip/ItemChipList.svelte';
-  import Favicon from '$components/Favicon.svelte';
-  import { NewItemModal } from '$components/modals';
-  import { FilePicker } from '$components/pickers';
-  import api from '$endpoints';
-  import consts from '$lib/consts';
-  import DelayedUpdater from '$lib/delayedUpdate';
-  import { getItemAuthor } from '$lib/itemData';
-  import { applyFiltersToItemChildren, createItemFilter } from '$lib/itemFilter';
-  import itemId from '$lib/itemId';
-  import { generateKeywords, getDescription } from '$lib/seo';
-  import type { ItemInfo } from '$lib/server/data/item';
-  import { reportError } from '$lib/ui/toast';
-  import { itemFileUrl, itemAtomUrl } from '$lib/urls';
-  // import ItemFilesEdit from './ItemFilesEdit.svelte';
+  import { Navbar } from '#lib/components/index.ts';
+  import Background from '#lib/components/Background.svelte';
+  import { Button } from '#lib/components/base/index.ts';
+  import DataImage from '#lib/components/base/DataImage.svelte';
+  import { ItemCardGrid } from '#lib/components/card/index.ts';
+  import ItemChipList from '#lib/components/chip/ItemChipList.svelte';
+  import Favicon from '#lib/components/Favicon.svelte';
+  import { NewItemModal } from '#lib/components/modals/index.ts';
+  import { FilePicker } from '#lib/components/pickers/index.ts';
+  import api from '#lib/endpoints/index.ts';
+  import consts from '#lib/consts.ts';
+  import DelayedUpdater from '#lib/delayedUpdate.ts';
+  import { getItemAuthor } from '#lib/itemData.ts';
+  import { applyFiltersToItemChildren, createItemFilter } from '#lib/itemFilter.ts';
+  import itemId from '#lib/itemId.ts';
+  import { generateKeywords, getDescription } from '#lib/seo.ts';
+  import type { ItemInfo } from '#lib/server/data/item/index.ts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { itemFileUrl, itemAtomUrl } from '#lib/urls.ts';
   import Readme from './readme';
   import Section from './sections';
   import CreateSectionForm from './sections/CreateSectionForm.svelte';
+  import { goto } from '$app/navigation';
 
   type Props = {
     data: import('./$types').PageData,

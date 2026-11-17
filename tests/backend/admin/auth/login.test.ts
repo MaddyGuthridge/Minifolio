@@ -16,8 +16,8 @@
  */
 import { it, expect, beforeEach, describe, test } from 'vitest';
 import { setup } from '../../helpers';
-import api from '$endpoints';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
+import api from '#lib/endpoints/index.ts';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
 
 let credentials: Awaited<ReturnType<typeof setup>>;
 

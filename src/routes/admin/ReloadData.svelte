@@ -1,6 +1,6 @@
 <script>
-  import { Button } from '$components/base';
-  import api from '$endpoints';
+  import { Button } from '#lib/components/base/index.ts';
+  import api from '#lib/endpoints/index.ts';
 </script>
 
 <div>

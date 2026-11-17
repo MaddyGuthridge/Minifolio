@@ -4,7 +4,7 @@
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';
-import api, { type ApiClient } from '$endpoints';
+import api, { type ApiClient } from '#lib/endpoints/index.ts';
 
 it('Allows key-based authentication to be disabled', async () => {
   const { api } = await setup();

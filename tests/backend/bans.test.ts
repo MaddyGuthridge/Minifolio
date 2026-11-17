@@ -1,4 +1,4 @@
-import { getUrl } from '$endpoints/fetch';
+import { getUrl } from '#lib/endpoints/fetch/index.ts';
 import { expect, test } from 'vitest';
 import { setup } from './helpers';
 

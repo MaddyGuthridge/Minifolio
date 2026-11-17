@@ -1,7 +1,7 @@
-import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { itemExists } from '$lib/server/data/item';
-import { moveItem } from '$lib/server/data/item/item';
-import validate from '$lib/validate';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { itemExists } from '#lib/server/data/item/index.ts';
+import { moveItem } from '#lib/server/data/item/item.ts';
+import validate from '#lib/validate.ts';
 import { json, error } from '@sveltejs/kit';
 import z from 'zod';
 

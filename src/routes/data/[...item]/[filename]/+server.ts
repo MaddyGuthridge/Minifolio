@@ -5,12 +5,12 @@ import fs from 'node:fs/promises';
 import { error, json } from '@sveltejs/kit';
 import sanitize from 'sanitize-filename';
 import mime from 'mime-types';
-import itemId, { type ItemId } from '$lib/itemId';
-import { fileExists } from '$lib/server/util';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { getItemData, getItemInfo, itemExists, itemPath } from '$lib/server/data/item';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
-import validate from '$lib/validate';
+import itemId, { type ItemId } from '#lib/itemId.ts';
+import { fileExists } from '#lib/server/util.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { getItemData, getItemInfo, itemExists, itemPath } from '#lib/server/data/item/index.ts';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import validate from '#lib/validate.ts';
 type Request = import('./$types').RequestEvent;
 
 /** GET request handler, returns file contents */

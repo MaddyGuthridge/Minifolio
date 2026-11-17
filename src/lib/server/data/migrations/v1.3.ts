@@ -1,4 +1,4 @@
-import itemId, { type ItemId } from '$lib/itemId';
+import itemId, { type ItemId } from '#lib/itemId.ts';
 import { iterItems, setItemInfo, type ItemInfo } from '../item';
 import { bumpDataVersion, bumpPrivateDataVersion } from './shared';
 import { unsafeLoadItemInfo } from './unsafeLoad';

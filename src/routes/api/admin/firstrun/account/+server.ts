@@ -1,8 +1,8 @@
 import { error, json } from '@sveltejs/kit';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { authSetup } from '$lib/server/auth/setup';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { authSetup } from '#lib/server/auth/setup.ts';
 import z from 'zod';
-import validate from '$lib/validate';
+import validate from '#lib/validate.ts';
 
 const FirstRunAuthOptions = z.strictObject({
   username: validate.idComponent,

@@ -1,7 +1,7 @@
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
-import { unixTime } from '$lib/util';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
+import { unixTime } from '#lib/util.ts';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {

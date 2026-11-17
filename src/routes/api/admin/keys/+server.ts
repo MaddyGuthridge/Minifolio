@@ -1,9 +1,9 @@
 import { error, json } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig } from '$lib/server/data/localConfig';
-import { fileExists } from '$lib/server/util';
-import { disableKey, getPublicKey, setKeyPath } from '$lib/server/keys';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getLocalConfig } from '#lib/server/data/localConfig.ts';
+import { fileExists } from '#lib/server/util.ts';
+import { disableKey, getPublicKey, setKeyPath } from '#lib/server/keys.ts';
 
 /** Return the current public key */
 export async function GET(req: import('./$types').RequestEvent) {

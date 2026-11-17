@@ -1,5 +1,5 @@
-import { getTokenFromRequest, revokeSession } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
+import { getTokenFromRequest, revokeSession } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST(req: import('./$types').RequestEvent) {

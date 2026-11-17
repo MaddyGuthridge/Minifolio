@@ -1,9 +1,9 @@
 <script lang="ts">
-  import api from '$endpoints';
-  import type { ItemId } from '$lib/itemId';
-  import { CallbackSubscription } from '$lib/observer';
-  import type { ItemData } from '$lib/server/data/item';
-  import { itemFileUrl } from '$lib/urls';
+  import api from '#lib/endpoints/index.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import { CallbackSubscription } from '#lib/observer/index.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
   import HtmlReadme from './HtmlReadme.svelte';
   import MarkdownReadme from './MarkdownReadme.svelte';
 

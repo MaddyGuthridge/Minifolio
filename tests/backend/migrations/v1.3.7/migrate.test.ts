@@ -1,10 +1,10 @@
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { setup } from '../../helpers';
 import { migrateDataFromZip } from '../migration';
 import path from 'node:path';
-import itemId from '$lib/itemId';
-import { validateItemInfo } from '$lib/server/data/item';
+import itemId from '#lib/itemId.ts';
+import { validateItemInfo } from '#lib/server/data/item/index.ts';
 
 let api: ApiClient;
 

@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { dev } from '$app/environment';
-  import api from '$endpoints';
-  import Paper from '$components/Paper.svelte';
-  import Background from '$components/Background.svelte';
-  import Spinner from '$components/modals/Spinner.svelte';
-  import Error from '$components/modals/Error.svelte';
+  import { dev } from '$app/env';
+  import api from '#lib/endpoints/index.ts';
+  import Paper from '#lib/components/Paper.svelte';
+  import Background from '#lib/components/Background.svelte';
+  import Spinner from '#lib/components/modals/Spinner.svelte';
+  import Error from '#lib/components/modals/Error.svelte';
   import { goto } from '$app/navigation';
-  import Navbar from '$components/navbar';
-  import { blankData } from '$lib/blankData';
-  import consts from '$lib/consts';
-  import { Button, TextInput } from '$components/base';
-  import validate from '$lib/validate';
-  import { objectAll } from '$lib/util';
-  import itemId from '$lib/itemId';
-  import Favicon from '$components/Favicon.svelte';
-  import devConsts from '$lib/devConsts';
+  import Navbar from '#lib/components/navbar/index.ts';
+  import { blankData } from '#lib/blankData.ts';
+  import consts from '#lib/consts.ts';
+  import { Button, TextInput } from '#lib/components/base/index.ts';
+  import validate from '#lib/validate.ts';
+  import { objectAll } from '#lib/util.ts';
+  import itemId from '#lib/itemId.ts';
+  import Favicon from '#lib/components/Favicon.svelte';
+  import devConsts from '#lib/devConsts.ts';
 
   // Default values are auto-filled in dev mode
   let username = $state(dev ? devConsts.defaultUsername : '');
@@ -69,7 +69,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color={blankData.info.color}></Background>
+<Background color={blankData.info.color} />
 
 <Navbar
   data={blankData}

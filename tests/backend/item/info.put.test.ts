@@ -2,16 +2,16 @@
  * Test cases for updating item info
  */
 
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
 import { invalidColors, invalidNames, invalidUrls, validColors, validNames, validUrls } from '../consts';
-import itemId from '$lib/itemId';
-import { payload } from '$endpoints/fetch';
+import itemId from '#lib/itemId.ts';
+import { payload } from '#lib/endpoints/fetch/index.ts';
 import fromFileSystem from '../fileRequest';
-import type { RepoInfo } from '$lib/server/data/item/repo';
-import type { PackageInfo } from '$lib/server/data/item/package';
+import type { RepoInfo } from '#lib/server/data/item/repo.ts';
+import type { PackageInfo } from '#lib/server/data/item/package.ts';
 
 let api: ApiClient;
 const childItemId = itemId.fromStr('/item');

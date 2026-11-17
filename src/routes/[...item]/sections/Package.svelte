@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { Separator } from '$components';
-  import { Select, TextInput } from '$components/base';
-  import { CopyButton } from '$components/base/button';
+  import { Separator } from '#lib/components/index.ts';
+  import { Select, TextInput } from '#lib/components/base/index.ts';
+  import { CopyButton } from '#lib/components/base/button/index.ts';
   import {
     packageProviders,
     supportedPackageProviders,
     type PackageProvider,
-  } from '$lib/packageInfo';
-  import type { PackageSection } from '$lib/server/data/item/section';
-  import { constArrayIncludes } from '$lib/util';
+  } from '#lib/packageInfo.ts';
+  import type { PackageSection } from '#lib/server/data/item/section.ts';
+  import { constArrayIncludes } from '#lib/util.ts';
 
   type Props = {
     section: PackageSection,

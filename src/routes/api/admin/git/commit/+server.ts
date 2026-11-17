@@ -1,9 +1,9 @@
 import z from 'zod';
 import { error, json } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { dataDirUsesGit, dataIsSetUp } from '$lib/server/data/dataDir';
-import { commit, getRepoStatus } from '$lib/server/git';
-import validate from '$lib/validate';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { dataDirUsesGit, dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { commit, getRepoStatus } from '#lib/server/git.ts';
+import validate from '#lib/validate.ts';
 
 const CommitOptions = z.object({
   message: z.string(),

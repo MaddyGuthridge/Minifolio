@@ -2,12 +2,12 @@
  * Test cases for getting the full data
  */
 
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
-import itemId from '$lib/itemId';
-import { payload } from '$endpoints/fetch';
+import itemId from '#lib/itemId.ts';
+import { payload } from '#lib/endpoints/fetch/index.ts';
 
 let api: ApiClient;
 beforeEach(async () => {

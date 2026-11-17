@@ -4,7 +4,7 @@
  * https://stackoverflow.com/a/68785061/6335363
  */
 
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { writable, get, type Writable } from 'svelte/store';
 
 const storage = <T>(key: string, initValue: T): Writable<T> => {

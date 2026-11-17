@@ -1,7 +1,7 @@
 /** Test cases for get/setting the git config */
 
 import { beforeEach, describe, expect, test } from 'vitest';
-import type { ApiClient } from '$endpoints';
+import type { ApiClient } from '#lib/endpoints/index.ts';
 import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';
 

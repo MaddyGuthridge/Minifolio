@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { Separator } from '$components';
-  import { Select, TextInput } from '$components/base';
+  import { Separator } from '#lib/components/index.ts';
+  import { Select, TextInput } from '#lib/components/base/index.ts';
   import {
     repoIsWithProvider,
     repoProviders,
     supportedRepoProviders,
-  } from '$lib/repoInfo';
-  import { type RepoProvider } from '$lib/server/data/item/repo';
-  import type { RepoSection } from '$lib/server/data/item/section';
-  import { tooltip } from '$lib/ui';
-  import { constArrayIncludes } from '$lib/util';
+  } from '#lib/repoInfo.ts';
+  import { type RepoProvider } from '#lib/server/data/item/repo.ts';
+  import type { RepoSection } from '#lib/server/data/item/section.ts';
+  import { tooltip } from '#lib/ui/index.ts';
+  import { constArrayIncludes } from '#lib/util.ts';
 
   type Props = {
     section: RepoSection,

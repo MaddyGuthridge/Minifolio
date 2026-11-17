@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import z from 'zod';
 import { getDataDir } from './dataDir';
-import { version } from '$app/environment';
+import { version } from '$app/env';
 import { unsafeLoadConfig } from './migrations/unsafeLoad';
 import { IdVerificationStruct } from './idVerification';
 

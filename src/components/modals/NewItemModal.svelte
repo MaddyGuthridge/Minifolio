@@ -1,12 +1,12 @@
 <script lang="ts">
   import Modal from './Modal.svelte';
-  import itemId, { type ItemId } from '$lib/itemId';
+  import itemId, { type ItemId } from '#lib/itemId.ts';
   import api from '$endpoints';
   import { goto } from '$app/navigation';
-  import consts from '$lib/consts';
+  import consts from '#lib/consts.ts';
   import { Button, TextInput } from '$components/base';
-  import validate from '$lib/validate';
-  import { nameToId, objectAll } from '$lib/util';
+  import validate from '#lib/validate.ts';
+  import { nameToId, objectAll } from '#lib/util.ts';
 
   type Props = {
     show: boolean,

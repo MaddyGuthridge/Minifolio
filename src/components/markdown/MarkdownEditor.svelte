@@ -1,7 +1,7 @@
 <script lang="ts">
   import Markdown from './Markdown.svelte';
-  import consts from '$lib/consts';
-  import DelayedUpdater from '$lib/delayedUpdate';
+  import consts from '#lib/consts.ts';
+  import DelayedUpdater from '#lib/delayedUpdate.ts';
   import { TextArea } from '$components/base';
 
   type Props = {

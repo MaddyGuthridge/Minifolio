@@ -1,5 +1,5 @@
 /** Git repository endpoints */
-import type { GitConfig, RepoStatus } from '$lib/server/git';
+import type { GitConfig, RepoStatus } from '#lib/server/git.ts';
 import { apiFetch, payload } from '../fetch';
 
 export default (fetchFn: typeof fetch, token: string | undefined) => ({

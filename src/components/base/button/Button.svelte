@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tooltip } from '$lib/ui';
+  import { tooltip } from '#lib/ui/index.ts';
   import type { Snippet } from 'svelte';
 
   export type ButtonProps = {

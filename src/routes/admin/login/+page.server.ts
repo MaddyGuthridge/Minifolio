@@ -1,8 +1,8 @@
-import itemId from '$lib/itemId';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { getConfig } from '$lib/server/data/config';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getItemData } from '$lib/server/data/item';
+import itemId from '#lib/itemId.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { getConfig } from '#lib/server/data/config.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getItemData } from '#lib/server/data/item/index.ts';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(req: import('./$types').RequestEvent) {

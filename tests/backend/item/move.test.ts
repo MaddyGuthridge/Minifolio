@@ -4,7 +4,7 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 
 let api: ApiClient;
 const id1 = itemId.fromStr('/item1');

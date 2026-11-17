@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { dataIsSetUp, getPrivateDataDir } from '$lib/server/data/dataDir';
+import { dataIsSetUp, getPrivateDataDir } from '#lib/server/data/dataDir.ts';
 import { error, json, text } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth';
-import { fileExists } from '$lib/server/util';
+import { validateTokenFromRequest } from '#lib/server/auth/index.ts';
+import { fileExists } from '#lib/server/util.ts';
 type Request = import('./$types').RequestEvent;
 
 function robotsFile() {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Separator } from '$components';
   import { TextInput } from '$components/base';
-  import type { SiteSection } from '$lib/server/data/item/section';
+  import type { SiteSection } from '#lib/server/data/item/section.ts';
 
   type Props = {
     section: SiteSection,

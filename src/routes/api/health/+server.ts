@@ -3,11 +3,11 @@
  *
  * Perform basic checks to ensure the server is healthy.
  */
-import itemId from '$lib/itemId';
-import { getConfig } from '$lib/server/data/config';
-import { authIsSetUp, dataIsSetUp } from '$lib/server/data/dataDir';
-import { getItemData } from '$lib/server/data/item';
-import { getLocalConfig } from '$lib/server/data/localConfig';
+import itemId from '#lib/itemId.ts';
+import { getConfig } from '#lib/server/data/config.ts';
+import { authIsSetUp, dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getItemData } from '#lib/server/data/item/index.ts';
+import { getLocalConfig } from '#lib/server/data/localConfig.ts';
 import { json } from '@sveltejs/kit';
 
 export async function GET() {

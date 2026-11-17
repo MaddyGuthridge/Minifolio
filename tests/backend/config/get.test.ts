@@ -6,7 +6,7 @@
 import { type ApiClient } from '$endpoints';
 import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../helpers';
-import { version } from '$app/environment';
+import { version } from '$app/env';
 
 let api: ApiClient;
 

@@ -6,8 +6,8 @@ import { setup } from '../helpers';
 import type { ApiClient } from '$endpoints';
 import genTokenTests from '../tokenCase';
 import { invalidIds, invalidNames, validIds, validNames } from '../consts';
-import { ItemInfoStruct } from '$lib/server/data/item';
-import itemId from '$lib/itemId';
+import { ItemInfoStruct } from '#lib/server/data/item/index.ts';
+import itemId from '#lib/itemId.ts';
 
 const id = itemId.fromStr('/item');
 let api: ApiClient;

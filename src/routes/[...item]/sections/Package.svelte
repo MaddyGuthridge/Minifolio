@@ -6,9 +6,9 @@
     packageProviders,
     supportedPackageProviders,
     type PackageProvider,
-  } from '$lib/packageInfo';
-  import type { PackageSection } from '$lib/server/data/item/section';
-  import { constArrayIncludes } from '$lib/util';
+  } from '#lib/packageInfo.ts';
+  import type { PackageSection } from '#lib/server/data/item/section.ts';
+  import { constArrayIncludes } from '#lib/util.ts';
 
   type Props = {
     section: PackageSection,

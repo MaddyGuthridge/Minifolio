@@ -1,4 +1,4 @@
-import { fediverseHandleToUrl, getStarCountGitHub } from '$lib/social';
+import { fediverseHandleToUrl, getStarCountGitHub } from '#lib/social.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('github star count', () => {

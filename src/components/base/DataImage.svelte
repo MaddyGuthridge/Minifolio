@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { UrlSubscription } from '$lib/observer';
+  import { UrlSubscription } from '#lib/observer/index.ts';
 
   type Props = {
     url: string,

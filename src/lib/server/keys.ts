@@ -1,7 +1,7 @@
 /** Code for managing the server's SSH keys */
 import fs from 'node:fs/promises';
 import { getPrivateDataDir } from './data/dataDir';
-import { APP_NAME } from '$lib/consts';
+import { APP_NAME } from '#lib/consts.ts';
 import { getLocalConfig, setLocalConfig } from './data/localConfig';
 import path from 'node:path';
 import { x as exec } from 'tinyexec';

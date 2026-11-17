@@ -1,8 +1,8 @@
-import { isIpBanned, notifyFailedLogin } from '$lib/server/auth/fail2ban';
-import { validateCredentials } from '$lib/server/auth/passwords';
-import { generateToken } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getIpFromRequest } from '$lib/server/request';
+import { isIpBanned, notifyFailedLogin } from '#lib/server/auth/fail2ban.ts';
+import { validateCredentials } from '#lib/server/auth/passwords.ts';
+import { generateToken } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getIpFromRequest } from '#lib/server/request.ts';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST(req: import('./$types').RequestEvent) {

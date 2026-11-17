@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { dev } from '$app/environment';
+  import { dev } from '$app/env';
   import { goto } from '$app/navigation';
   import Button from '$components/base/button/Button.svelte';
   import Separator from '$components/Separator.svelte';
@@ -7,8 +7,8 @@
 
   type Props = {
     /** Whether the user is logged in. Set to undefined if auth is disabled */
-    loggedIn: boolean | undefined,
-    editable?: boolean,
+    loggedIn: boolean | undefined;
+    editable?: boolean;
     /** Whether edit mode is active */
     editing?: boolean,
     /** Called when beginning edits */

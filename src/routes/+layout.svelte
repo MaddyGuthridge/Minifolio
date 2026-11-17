@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ToastDisplay } from '$lib/ui/toast';
+  import { ToastDisplay } from '#lib/ui/toast/index.ts';
 
   const { children } = $props();
 </script>

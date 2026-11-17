@@ -1,5 +1,5 @@
 import ApiError from './ApiError';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import response from './response';
 import type { PayloadInfo } from './payload';
 
@@ -47,10 +47,9 @@ export function apiFetch(
   fetchFn: typeof fetch,
   method: HttpVerb,
   route: string,
-  options?: {
-    token?: string,
-    query?: Record<string, string>,
-  } & Partial<PayloadInfo>,
+  options?: 
+    { token?: string; query?: Record<string, string> } &
+    Partial<PayloadInfo>
 ) {
   const baseUrl = getUrl();
 
@@ -59,13 +58,8 @@ export function apiFetch(
   const body = options?.payload;
 
   const tokenHeader = options?.token ? { Authorization: `Bearer ${options.token}` } : {};
-  const contentTypeHeader = (contentType && ['POST', 'PUT'].includes(method)) ? { 'Content-Type': contentType } : {};
-
-  const headers = new Headers({
-    ...tokenHeader,
-    ...contentTypeHeader,
-  } as Record<string, string>);
-
+  const contentTypeHeader = contentType && ['POST', 'PUT'].includes(method) ? { 'Content-Type': contentType } : {};
+  const headers = new Headers({ ...tokenHeader, ...contentTypeHeader } as Record<string, string>);
   let url: string;
 
   if (Object.keys(query).length) {

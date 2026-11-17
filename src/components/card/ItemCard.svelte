@@ -1,9 +1,9 @@
 <script lang="ts">
   import Card from './Card.svelte';
-  import type { ItemInfo } from '$lib/server/data/item';
-  import type { ItemId } from '$lib/itemId';
-  import { itemFileUrl } from '$lib/urls';
-  import { dragAndDrop } from '$lib/ui';
+  import type { ItemInfo } from '#lib/server/data/item/index.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
+  import { dragAndDrop } from '#lib/ui/index.ts';
 
   type Props = {
     /** Item info to display */

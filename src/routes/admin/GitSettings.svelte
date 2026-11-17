@@ -2,8 +2,8 @@
   import { Button, TextInput } from '$components/base';
   import { CopyButton, SpinnerButton } from '$components/base/button';
   import api from '$endpoints';
-  import { showError } from '$lib/ui/toast';
-  import { gitCommitHashShorten as gitHashShorten } from '$lib/util';
+  import { showError } from '#lib/ui/toast/index.ts';
+  import { gitCommitHashShorten as gitHashShorten } from '#lib/util.ts';
 
   type Props = {
     data: import('./$types').PageData,

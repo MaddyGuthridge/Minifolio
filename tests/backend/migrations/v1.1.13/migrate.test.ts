@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, test } from 'vitest';
 import { setup } from '../../helpers';
 import { migrateDataFromZip, migratePrivateDataFromZip } from '../migration';
 import path from 'node:path';
-import itemId from '$lib/itemId';
-import { validateItemInfo } from '$lib/server/data/item';
+import itemId from '#lib/itemId.ts';
+import { validateItemInfo } from '#lib/server/data/item/index.ts';
 
 let api: ApiClient;
 

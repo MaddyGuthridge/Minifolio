@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Button } from '$components/base';
-  import type { ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
-  import type { ItemSection } from '$lib/server/data/item/section';
+  import type { ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import type { ItemSection } from '#lib/server/data/item/section.ts';
   import Backlinks from './Backlinks.svelte';
   import Download from './Download.svelte';
   import Heading from './Heading.svelte';

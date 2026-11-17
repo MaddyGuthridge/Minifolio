@@ -1,5 +1,5 @@
-import { getItemInfo, iterItems } from '$lib/server/data/item';
-import { unixToIsoTime } from '$lib/util';
+import { getItemInfo, iterItems } from '#lib/server/data/item/index.ts';
+import { unixToIsoTime } from '#lib/util.ts';
 import { create } from 'xmlbuilder2';
 
 type Request = import('./$types').RequestEvent;

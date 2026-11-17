@@ -1,5 +1,5 @@
 <script lang="ts">
-  import consts from '$lib/consts';
+  import consts from '#lib/consts.ts';
 
   type Props = {
     path?: string,

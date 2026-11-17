@@ -1,23 +1,25 @@
-import { version } from '$app/environment';
+import { version } from '$app/env';
 import fs from 'node:fs/promises';
 import { authIsSetUp, dataIsSetUp, getDataDir, getPrivateDataDir } from '../dataDir';
 import semver from 'semver';
-import consts from '$lib/consts';
+import consts from '#lib/consts.ts';
 import path from 'node:path';
 import { migrateDataV06, migratePrivateV06 } from './v0.6';
 import { migrateDataV10, migratePrivateV10 } from './v1.0';
 import { migrateDataV11, migratePrivateV11 } from './v1.1';
 import { migrateDataV13, migratePrivateV13 } from './v1.3';
-import { getDataVersion, getPrivateDataVersion, bumpDataVersion, bumpPrivateDataVersion } from './shared';
+
+import {
+  getDataVersion,
+  getPrivateDataVersion,
+  bumpDataVersion,
+  bumpPrivateDataVersion
+} from './shared';
+
 import { tmpdir } from 'node:os';
 
-export type DataMigrationFunction = (
-  dataDir: string,
-) => Promise<void>;
-
-export type PrivateMigrationFunction = (
-  privateDataDir: string,
-) => Promise<void>;
+export type DataMigrationFunction = (dataDir: string) => Promise<void>;
+export type PrivateMigrationFunction = (privateDataDir: string) => Promise<void>;
 
 // Migrations for data
 const dataMigrations: Record<string, DataMigrationFunction> = {

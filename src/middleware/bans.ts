@@ -1,15 +1,13 @@
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { ConfigLocalJson, getLocalConfig } from '$lib/server/data/localConfig';
-import { getIpFromRequest } from '$lib/server/request';
-import { error, type Handle } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { ConfigLocalJson, getLocalConfig } from '#lib/server/data/localConfig.ts';
+import { getIpFromRequest } from '#lib/server/request.ts';
 
 const banMiddleware: Handle = async (req) => {
-  if (
-    // Allow all requests if server isn't set up
-    !await authIsSetUp()
-    // Allow all requests to debug endpoints
-    || req.event.url.pathname.startsWith('/api/debug')
-  ) {
+  if (// Allow all requests if server isn't set up
+  !await authIsSetUp() || // Allow all requests to debug endpoints
+  req.event.url.pathname.startsWith('/api/debug')) {
     return req.resolve(req.event);
   }
   let config: ConfigLocalJson;

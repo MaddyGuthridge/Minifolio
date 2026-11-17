@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { withLightness } from '$lib/color';
-  import { tooltip } from '$lib/ui';
+  import { withLightness } from '#lib/color.ts';
+  import { tooltip } from '#lib/ui/index.ts';
   import { colord } from 'colord';
 
   type Props = {

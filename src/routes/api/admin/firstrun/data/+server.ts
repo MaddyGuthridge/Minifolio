@@ -1,9 +1,9 @@
 import { error, json } from '@sveltejs/kit';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
 import z from 'zod';
-import { setupData } from '$lib/server/data/setup';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import validate from '$lib/validate';
+import { setupData } from '#lib/server/data/setup.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import validate from '#lib/validate.ts';
 
 const FirstRunDataOptions = z.strictObject({
   repoUrl: z.string().nullable().optional(),

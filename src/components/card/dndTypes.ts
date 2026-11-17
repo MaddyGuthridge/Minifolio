@@ -1,4 +1,4 @@
-import type { ItemId } from '$lib/itemId';
+import type { ItemId } from '#lib/itemId.ts';
 
 export type DndInfo = {
   /** Drag and drop ID, to prevent dragging between incompatible types */

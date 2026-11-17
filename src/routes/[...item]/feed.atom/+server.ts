@@ -1,16 +1,16 @@
-import itemId, { type ItemId } from '$lib/itemId';
-import consts from '$lib/consts';
-import { getItemData, getItemInfo, itemExists } from '$lib/server/data/item';
-import { itemFileUrl } from '$lib/urls';
+import itemId, { type ItemId } from '#lib/itemId.ts';
+import consts from '#lib/consts.ts';
+import { getItemData, getItemInfo, itemExists } from '#lib/server/data/item/index.ts';
+import { itemFileUrl } from '#lib/urls.ts';
 import { error } from '@sveltejs/kit';
 import { create } from 'xmlbuilder2';
-import type { ItemData } from '$lib/server/data/item/item';
-import { dev, version } from '$app/environment';
-import { getConfig } from '$lib/server/data/config';
+import type { ItemData } from '#lib/server/data/item/item.ts';
+import { dev, version } from '$app/env';
+import { getConfig } from '#lib/server/data/config.ts';
 import type { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
-import { unixTime, unixToIsoTime } from '$lib/util';
-import { getItemAuthor } from '$lib/itemData';
-import validate from '$lib/validate';
+import { unixTime, unixToIsoTime } from '#lib/util.ts';
+import { getItemAuthor } from '#lib/itemData.ts';
+import validate from '#lib/validate.ts';
 
 type Request = import('./$types').RequestEvent;
 

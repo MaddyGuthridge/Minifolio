@@ -5,10 +5,10 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { makeItemInfo, setup } from '../../helpers';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 import { getUrl } from '$endpoints/fetch';
-import consts from '$lib/consts';
-import { version } from '$app/environment';
+import consts from '#lib/consts.ts';
+import { version } from '$app/env';
 
 const BASE_URL = getUrl();
 

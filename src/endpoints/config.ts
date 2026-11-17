@@ -1,6 +1,6 @@
 /** Configuration endpoints */
 import { apiFetch, payload } from './fetch';
-import type { ConfigJson } from '$lib/server/data/config';
+import type { ConfigJson } from '#lib/server/data/config.ts';
 
 export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**

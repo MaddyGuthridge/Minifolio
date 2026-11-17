@@ -2,7 +2,7 @@ import { beforeEach, expect, it } from 'vitest';
 import { setup } from '../../helpers';
 import type { ApiClient } from '$endpoints';
 import genTokenTests from '../../tokenCase';
-import { getAuthSecret } from '$lib/server/auth/secret';
+import { getAuthSecret } from '#lib/server/auth/secret.ts';
 
 let api: ApiClient;
 

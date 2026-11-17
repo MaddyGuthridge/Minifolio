@@ -2,10 +2,10 @@
   import { onMount } from 'svelte';
   import { ItemChip } from '.';
   import { Separator } from '$components';
-  import type { FilterOptions } from '$lib/itemFilter';
-  import type { ItemData } from '$lib/server/data/item';
-  import { getDescendant } from '$lib/itemData';
-  import type { ItemId } from '$lib/itemId';
+  import type { FilterOptions } from '#lib/itemFilter.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { getDescendant } from '#lib/itemData.ts';
+  import type { ItemId } from '#lib/itemId.ts';
 
   type Props = {
     /** Portfolio data data */

@@ -8,12 +8,12 @@ import { dataIsSetUp, getDataDir } from './dataDir';
 import { initConfig } from './config';
 import { error } from '@sveltejs/kit';
 import { itemPath, setItemInfo } from './item';
-import { randomColor } from '$lib/color';
+import { randomColor } from '#lib/color.ts';
 import { LANDING_README } from './text';
-import consts from '$lib/consts';
-import itemId from '$lib/itemId';
+import consts from '#lib/consts.ts';
+import itemId from '#lib/itemId.ts';
 import { migrateData } from './migrations';
-import { unixTime } from '$lib/util';
+import { unixTime } from '#lib/util.ts';
 
 /**
  * Set up the data directory.

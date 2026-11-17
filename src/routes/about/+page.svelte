@@ -1,7 +1,7 @@
 <script lang="ts">
   import Markdown from '$components/markdown/Markdown.svelte';
-  import consts from '$lib/consts';
-  import { dev, version } from '$app/environment';
+  import consts from '#lib/consts.ts';
+  import { dev, version } from '$app/env';
   import Navbar from '$components/navbar/Navbar.svelte';
   import Favicon from '$components/Favicon.svelte';
   import dedent from 'dedent';
@@ -16,7 +16,7 @@
   const authorLink = `[${consts.APP_AUTHOR[0]}](${consts.APP_AUTHOR[1]})`;
 
   const contributors = consts.APP_CONTRIBUTORS.length
-    ? `Thanks to the contributors:\n\n${consts.APP_CONTRIBUTORS.map(c => `* [${c[0]}](${c[1]})`).join('\n')}`
+    ? `Thanks to the contributors:\n\n${consts.APP_CONTRIBUTORS.map((c) => `* [${c[0]}](${c[1]})`).join('\n')}`
     : "I'd love to have your contributions!";
 
   const mainInfo = `

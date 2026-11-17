@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Select } from '$components/base';
-  import { getDescendant } from '$lib/itemData';
-  import itemId, { type ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
+  import { getDescendant } from '#lib/itemData.ts';
+  import itemId, { type ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
 
   type Props = {
     portfolio: ItemData,

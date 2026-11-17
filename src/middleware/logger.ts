@@ -1,5 +1,5 @@
-import { dev } from '$app/environment';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { dev } from '$app/env';
 import chalk, { type ChalkInstance } from 'chalk';
 import Spinnies from 'spinnies';
 

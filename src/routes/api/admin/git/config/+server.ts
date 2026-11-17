@@ -1,8 +1,8 @@
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
 import { json } from '@sveltejs/kit';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
-import { GitConfig } from '$lib/server/git';
-import validate from '$lib/validate';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
+import { GitConfig } from '#lib/server/git.ts';
+import validate from '#lib/validate.ts';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {
   await validateTokenFromRequest({ request, cookies });

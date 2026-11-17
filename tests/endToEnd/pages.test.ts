@@ -3,7 +3,7 @@
 import { beforeEach, expect, test } from 'vitest';
 import type { ApiClient } from '$endpoints';
 import { setup } from '../backend/helpers';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 
 let api: ApiClient;
 

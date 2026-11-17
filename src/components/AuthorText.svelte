@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { AuthorInfo } from '$lib/server/data/item/item';
-  import { fediverseHandleToUrl } from '$lib/social';
+  import type { AuthorInfo } from '#lib/server/data/item/item.ts';
+  import { fediverseHandleToUrl } from '#lib/social.ts';
 
   type Props = {
     author: AuthorInfo,

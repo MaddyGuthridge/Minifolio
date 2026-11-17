@@ -1,5 +1,5 @@
-import type { ItemData, ItemInfo } from '$lib/server/data/item';
-import { type ItemId } from '$lib/itemId';
+import type { ItemData, ItemInfo } from '#lib/server/data/item/index.ts';
+import { type ItemId } from '#lib/itemId.ts';
 import { apiFetch, payload } from './fetch';
 import type { PayloadInfo } from './fetch/payload';
 

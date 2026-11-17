@@ -1,7 +1,7 @@
 /** Text endpoints for the server */
 
 import { apiFetch } from '$endpoints/fetch';
-import { type ItemId } from '$lib/itemId';
+import { type ItemId } from '#lib/itemId.ts';
 
 export default function page(fetchFn: typeof fetch, token: string | undefined) {
   return {

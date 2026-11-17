@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Button, Select } from '$components/base';
-  import itemId from '$lib/itemId';
-  import type { ItemSection, SectionType } from '$lib/server/data/item/section';
-  import { capitalize } from '$lib/util';
+  import itemId from '#lib/itemId.ts';
+  import type { ItemSection, SectionType } from '#lib/server/data/item/section.ts';
+  import { capitalize } from '#lib/util.ts';
 
   type Props = {
     oncreate: (info: ItemSection) => void,

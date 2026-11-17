@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button } from '$components/base';
-  import { colorName } from '$lib/color';
+  import { colorName } from '#lib/color.ts';
   import { colord } from 'colord';
 
   type Props = {

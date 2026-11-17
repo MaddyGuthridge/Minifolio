@@ -1,6 +1,6 @@
-import { generateAuthSecret } from '$lib/server/auth/secret';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
+import { generateAuthSecret } from '#lib/server/auth/secret.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
 import { error, json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }: import('./$types').RequestEvent) {

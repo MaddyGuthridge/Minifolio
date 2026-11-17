@@ -7,11 +7,11 @@ import { beforeEach, describe, expect, it, test } from 'vitest';
 import { makeItemInfo, setup } from '../helpers';
 import genTokenTests from '../tokenCase';
 import { invalidColors, invalidNames, invalidUrls, validColors, validNames, validUrls } from '../consts';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 import { payload } from '$endpoints/fetch';
 import fromFileSystem from '../fileRequest';
-import type { RepoInfo } from '$lib/server/data/item/repo';
-import type { PackageInfo } from '$lib/server/data/item/package';
+import type { RepoInfo } from '#lib/server/data/item/repo.ts';
+import type { PackageInfo } from '#lib/server/data/item/package.ts';
 
 let api: ApiClient;
 const childItemId = itemId.fromStr('/item');

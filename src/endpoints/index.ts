@@ -1,5 +1,5 @@
 /** API endpoints */
-import type { ItemId } from '$lib/itemId';
+import type { ItemId } from '#lib/itemId.ts';
 import type { HealthcheckResponse } from '../routes/api/health/+server';
 import admin from './admin';
 import config from './config';

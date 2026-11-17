@@ -3,10 +3,10 @@
   import EditableMarkdown from '$components/markdown';
   import api from '$endpoints';
   import { payload } from '$endpoints/fetch';
-  import { getDescendant, getItemAuthor } from '$lib/itemData';
-  import type { ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
-  import { unixToPrettyDate } from '$lib/util';
+  import { getDescendant, getItemAuthor } from '#lib/itemData.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { unixToPrettyDate } from '#lib/util.ts';
 
   type Props = {
     item: ItemId,

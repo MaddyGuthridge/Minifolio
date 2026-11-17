@@ -3,12 +3,12 @@
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
   import { ItemPicker } from '$components/pickers';
-  import { getDescendant } from '$lib/itemData';
-  import itemId, { type ItemId } from '$lib/itemId';
-  import { linkDisplayStyles } from '$lib/links';
-  import type { ItemData } from '$lib/server/data/item';
-  import type { BacklinksSection } from '$lib/server/data/item/section';
-  import { capitalize } from '$lib/util';
+  import { getDescendant } from '#lib/itemData.ts';
+  import itemId, { type ItemId } from '#lib/itemId.ts';
+  import { linkDisplayStyles } from '#lib/links.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import type { BacklinksSection } from '#lib/server/data/item/section.ts';
+  import { capitalize } from '#lib/util.ts';
 
   type Props = {
     item: ItemId,

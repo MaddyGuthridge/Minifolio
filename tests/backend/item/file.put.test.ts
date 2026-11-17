@@ -8,7 +8,7 @@ import type { ApiClient } from '$endpoints';
 import { setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
 import { readFile } from 'node:fs/promises';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 import { payload } from '$endpoints/fetch';
 
 let api: ApiClient;

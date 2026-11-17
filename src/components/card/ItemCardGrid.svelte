@@ -1,11 +1,11 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { ItemCard } from '.';
-  import { send, receive } from '$lib/transition';
-  import { type ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
-  import { getDescendant } from '$lib/itemData';
-  import { drop } from '$lib/ui';
+  import { send, receive } from '#lib/transition.ts';
+  import { type ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import { getDescendant } from '#lib/itemData.ts';
+  import { drop } from '#lib/ui/index.ts';
   import type { DndInfo } from './dndTypes';
 
   type Props = {

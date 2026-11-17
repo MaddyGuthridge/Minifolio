@@ -2,10 +2,10 @@
   import { TextArea, TextInput } from '$components/base';
   import DataImage from '$components/base/DataImage.svelte';
   import { ColorPicker, FilePicker } from '$components/pickers';
-  import consts from '$lib/consts';
-  import type { ItemId } from '$lib/itemId';
-  import type { ItemData, ItemInfo } from '$lib/server/data/item';
-  import { itemFileUrl } from '$lib/urls';
+  import consts from '#lib/consts.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import type { ItemData, ItemInfo } from '#lib/server/data/item/index.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
 
   type Props = {
     itemId: ItemId,

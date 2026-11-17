@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ZodParser } from '$lib/validate';
+  import type { ZodParser } from '#lib/validate.ts';
 
   type Props = {
     /** Font size to use for the input field (in `rem`) */

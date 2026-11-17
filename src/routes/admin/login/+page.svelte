@@ -4,13 +4,13 @@
   import Navbar from '$components/navbar/Navbar.svelte';
   import Paper from '$components/Paper.svelte';
   import { goto } from '$app/navigation';
-  import consts from '$lib/consts';
+  import consts from '#lib/consts.ts';
   import { onMount } from 'svelte';
   import { Button, TextInput } from '$components/base';
   import Favicon from '$components/Favicon.svelte';
-  import { reportError } from '$lib/ui/toast';
-  import { dev } from '$app/environment';
-  import devConsts from '$lib/devConsts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { dev } from '$app/env';
+  import devConsts from '#lib/devConsts.ts';
 
   type Props = {
     data: import('./$types').PageData,
@@ -48,7 +48,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<Background color={data.portfolio.info.color}></Background>
+<Background color={data.portfolio.info.color} />
 
 <Navbar
   data={data.portfolio}

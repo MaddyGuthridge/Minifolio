@@ -2,7 +2,7 @@
   import Background from '$components/Background.svelte';
   import Navbar from '$components/navbar';
   import Paper from '$components/Paper.svelte';
-  import consts from '$lib/consts';
+  import consts from '#lib/consts.ts';
   import GitSettings from './GitSettings.svelte';
   import ChangePassword from './ChangePassword.svelte';
   import ReloadData from './ReloadData.svelte';

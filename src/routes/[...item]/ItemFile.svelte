@@ -2,10 +2,10 @@
   import { Button } from '$components/base';
   import api from '$endpoints';
   import { payload } from '$endpoints/fetch';
-  import { notifyContentUpdate } from '$lib/observer';
-  import type { ItemId } from '$lib/itemId';
-  import { reportError } from '$lib/ui/toast';
-  import { itemFileUrl } from '$lib/urls';
+  import { notifyContentUpdate } from '#lib/observer/index.ts';
+  import type { ItemId } from '#lib/itemId.ts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { itemFileUrl } from '#lib/urls.ts';
 
   type Props = {
     /** ItemId to which file belongs */

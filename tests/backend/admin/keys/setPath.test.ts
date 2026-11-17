@@ -7,7 +7,7 @@ import api, { type ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it, test } from 'vitest';
 import { setup } from '../../helpers';
 import genTokenTests from '../../tokenCase';
-import { getPrivateDataDir } from '$lib/server/data/dataDir';
+import { getPrivateDataDir } from '#lib/server/data/dataDir.ts';
 
 const DUMMY_PUBLIC_KEY = 'DUMMY PUBLIC KEY';
 const DUMMY_PRIVATE_KEY = 'DUMMY PRIVATE KEY';

@@ -4,8 +4,8 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { setup } from '../helpers';
-import itemId from '$lib/itemId';
-import { validateItemInfo } from '$lib/server/data/item';
+import itemId from '#lib/itemId.ts';
+import { validateItemInfo } from '#lib/server/data/item/index.ts';
 
 let api: ApiClient;
 const id = itemId.fromStr('/item');

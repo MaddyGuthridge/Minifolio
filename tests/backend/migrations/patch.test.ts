@@ -10,10 +10,10 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, expect, test } from 'vitest';
 import { setup } from '../helpers';
-import itemId from '$lib/itemId';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
+import itemId from '#lib/itemId.ts';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
 import { SemVer } from 'semver';
-import { getConfig, setConfig } from '$lib/server/data/config';
+import { getConfig, setConfig } from '#lib/server/data/config.ts';
 
 let api: ApiClient;
 let credentials: { username: string, password: string };

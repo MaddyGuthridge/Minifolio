@@ -1,6 +1,6 @@
 import { error, text } from '@sveltejs/kit';
-import { getConfig } from '$lib/server/data/config';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
+import { getConfig } from '#lib/server/data/config.ts';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
 
 export async function GET() {
   if (!await dataIsSetUp()) {

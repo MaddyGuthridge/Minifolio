@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { randomChoice } from '$lib/util';
+  import { randomChoice } from '#lib/util.ts';
   import { colord } from 'colord';
   import ColorSplotch, { type Splotch } from './ColorSplotch.svelte';
-  import { withLightness } from '$lib/color';
+  import { withLightness } from '#lib/color.ts';
 
   type Props = {
     color: string,

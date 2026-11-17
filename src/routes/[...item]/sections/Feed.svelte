@@ -2,9 +2,9 @@
   import { Separator } from '$components';
   import { TextInput } from '$components/base';
   import { CopyButton } from '$components/base/button';
-  import type { ItemId } from '$lib/itemId';
-  import type { FeedSection } from '$lib/server/data/item/section';
-  import { itemAtomUrl } from '$lib/urls';
+  import type { ItemId } from '#lib/itemId.ts';
+  import type { FeedSection } from '#lib/server/data/item/section.ts';
+  import { itemAtomUrl } from '#lib/urls.ts';
 
   type Props = {
     section: FeedSection,

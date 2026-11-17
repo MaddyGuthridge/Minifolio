@@ -1,13 +1,13 @@
-import { isRequestAuthorized } from '$lib/server/auth/tokens';
+import { isRequestAuthorized } from '#lib/server/auth/tokens.ts';
 // import { VERSION as SVELTE_VERSION } from 'svelte/compiler';
 // import { VERSION as SVELTEKIT_VERSION } from '@sveltejs/kit';
 // import { version as VITE_VERSION } from 'vite';
 import os from 'node:os';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
-import { getItemData, type ItemData } from '$lib/server/data/item';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getItemData, type ItemData } from '#lib/server/data/item/index.ts';
 import { blankData } from '../../lib/blankData';
-import itemId from '$lib/itemId';
-import { getConfig } from '$lib/server/data/config';
+import itemId from '#lib/itemId.ts';
+import { getConfig } from '#lib/server/data/config.ts';
 
 export async function load(req: import('./$types').RequestEvent) {
   const isInit = await dataIsSetUp();

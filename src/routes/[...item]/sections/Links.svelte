@@ -3,11 +3,11 @@
   import ItemCardGrid from '$components/card/ItemCardGrid.svelte';
   import { ItemChipList } from '$components/chip';
   import { ItemPicker } from '$components/pickers';
-  import itemId, { type ItemId } from '$lib/itemId';
-  import { linkDisplayStyles } from '$lib/links';
-  import type { ItemData } from '$lib/server/data/item';
-  import type { LinksSection } from '$lib/server/data/item/section';
-  import { capitalize } from '$lib/util';
+  import itemId, { type ItemId } from '#lib/itemId.ts';
+  import { linkDisplayStyles } from '#lib/links.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
+  import type { LinksSection } from '#lib/server/data/item/section.ts';
+  import { capitalize } from '#lib/util.ts';
 
   type Props = {
     portfolio: ItemData,

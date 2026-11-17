@@ -1,7 +1,7 @@
-import { validateCredentials } from '$lib/server/auth/passwords';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { authIsSetUp } from '$lib/server/data/dataDir';
-import { getLocalConfig, setLocalConfig } from '$lib/server/data/localConfig';
+import { validateCredentials } from '#lib/server/auth/passwords.ts';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { authIsSetUp } from '#lib/server/data/dataDir.ts';
+import { getLocalConfig, setLocalConfig } from '#lib/server/data/localConfig.ts';
 import { error, json } from '@sveltejs/kit';
 
 // TODO: Remove this when setting up user management

@@ -2,7 +2,7 @@
   import { type Snippet } from 'svelte';
   import { goto } from '$app/navigation';
   import { colord } from 'colord';
-  import { withLightness } from '$lib/color';
+  import { withLightness } from '#lib/color.ts';
 
   type Props = {
     /** Link behavior options */

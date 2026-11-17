@@ -5,7 +5,7 @@
 import type { ApiClient } from '$endpoints';
 import { beforeEach, expect, it } from 'vitest';
 import { setup } from './helpers';
-import itemId from '$lib/itemId';
+import itemId from '#lib/itemId.ts';
 import { getUrl } from '$endpoints/fetch';
 
 const BASE_URL = getUrl();

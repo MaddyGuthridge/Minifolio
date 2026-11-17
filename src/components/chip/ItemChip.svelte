@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { type ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item';
+  import { type ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/index.ts';
   import Chip from './Chip.svelte';
 
   type Props = {

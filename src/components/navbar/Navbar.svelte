@@ -1,8 +1,8 @@
 <script lang="ts">
-  import itemId, { type ItemId } from '$lib/itemId';
-  import type { ItemData } from '$lib/server/data/item/item';
-  import { getDescendant } from '$lib/itemData';
-  import consts from '$lib/consts';
+  import itemId, { type ItemId } from '#lib/itemId.ts';
+  import type { ItemData } from '#lib/server/data/item/item.ts';
+  import { getDescendant } from '#lib/itemData.ts';
+  import consts from '#lib/consts.ts';
   import { onMount } from 'svelte';
   import ControlButtons from './ControlButtons.svelte';
 

@@ -1,12 +1,12 @@
 import { error, json } from '@sveltejs/kit';
-import { validateTokenFromRequest } from '$lib/server/auth/tokens';
-import { ConfigJson, getConfig, setConfig } from '$lib/server/data/config';
-import { version } from '$app/environment';
-import { dataIsSetUp } from '$lib/server/data/dataDir';
-import serverValidate from '$lib/server/serverValidate';
-import itemId from '$lib/itemId';
+import { validateTokenFromRequest } from '#lib/server/auth/tokens.ts';
+import { ConfigJson, getConfig, setConfig } from '#lib/server/data/config.ts';
+import { version } from '$app/env';
+import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
+import serverValidate from '#lib/server/serverValidate.ts';
+import itemId from '#lib/itemId.ts';
 import z from 'zod';
-import validate from '$lib/validate';
+import validate from '#lib/validate.ts';
 
 export async function GET() {
   if (!await dataIsSetUp()) {

@@ -6,8 +6,8 @@ import type { ApiClient } from '$endpoints';
 import { makeItemInfo, setup } from '../helpers';
 import fromFileSystem from '../fileRequest';
 import genTokenTests from '../tokenCase';
-import itemId from '$lib/itemId';
-import { setItemInfo } from '$lib/server/data/item';
+import itemId from '#lib/itemId.ts';
+import { setItemInfo } from '#lib/server/data/item/index.ts';
 import { payload } from '$endpoints/fetch';
 
 let api: ApiClient;

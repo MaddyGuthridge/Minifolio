@@ -13,6 +13,7 @@
   import Readme from './readme/Readme.svelte';
   import Seo from './Seo.svelte';
   import Sections from './Sections.svelte';
+  import Children from './Children.svelte';
 
   type Props = {
     data: import('./$types').PageData,
@@ -97,6 +98,7 @@
       <Sections item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
     {:else if currentTab === 'Children'}
       <h1>Children</h1>
+      <Children item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
     {:else}
       <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
       {@const _ = unreachable(currentTab)}

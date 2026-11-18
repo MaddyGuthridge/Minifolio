@@ -10,7 +10,7 @@
   const { header, text, show }: Props = $props();
 </script>
 
-<Modal {show} color="white" showCloseButton={false} onclose={() => {}}>
+<Modal {show} style="normal" showCloseButton={false} onclose={() => {}}>
   <h1>{header}</h1>
   <i class="las la-sync spin"></i>
   <p>{text}</p>

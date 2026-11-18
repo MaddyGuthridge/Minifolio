@@ -11,7 +11,7 @@
   const { text, show, header, onclose }: Props = $props();
 </script>
 
-<Modal {show} color="#ffaaaa" {onclose}>
+<Modal {show} style="error" {onclose}>
   <h1>{header}</h1>
   <i class="las la-exclamation-circle"></i>
   <p>{text}</p>

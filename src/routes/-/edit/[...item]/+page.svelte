@@ -8,7 +8,6 @@
   import type { ItemInfo } from '#lib/server/data/item/index.ts';
   import { reportError } from '#lib/ui/toast/index.ts';
   import { unreachable } from '#lib/util.ts';
-  import ItemFilesEdit from './ItemFilesEdit.svelte';
   import Metadata from './Metadata.svelte';
   import Readme from './readme/Readme.svelte';
   import Seo from './Seo.svelte';
@@ -75,11 +74,11 @@
   <div class="view">
     {#if currentTab === 'Metadata'}
       <Metadata
-        bind:item={thisItem}
-        itemId={data.itemId}
+        bind:thisItem={thisItem}
+        item={data.itemId}
+        portfolio={data.portfolio}
         onchange={info => infoUpdater.update(info)}
       />
-      <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
     {:else if currentTab === 'SEO'}
       <Seo bind:item={thisItem} onchange={info => infoUpdater.update(info)} />
     {:else if currentTab === 'Body'}
@@ -116,6 +115,11 @@
     all: unset;
     cursor: pointer;
     font-size: 1.4rem;
+    transition: color 0.3s;
+    text-align: center;
+  }
+  .tab:hover {
+    color: var(--color);
   }
   .tab.selected {
     color: var(--color);

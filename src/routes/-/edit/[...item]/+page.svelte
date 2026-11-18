@@ -12,6 +12,7 @@
   import Metadata from './Metadata.svelte';
   import Readme from './readme/Readme.svelte';
   import Seo from './Seo.svelte';
+  import Sections from './Sections.svelte';
 
   type Props = {
     data: import('./$types').PageData,
@@ -72,6 +73,7 @@
   </div>
   <div class="view">
     {#if currentTab === 'Metadata'}
+      <h1>Metadata</h1>
       <Metadata
         bind:item={thisItem}
         itemId={data.itemId}
@@ -92,6 +94,7 @@
       />
     {:else if currentTab === 'Sections'}
       <h1>Sections</h1>
+      <Sections item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
     {:else if currentTab === 'Children'}
       <h1>Children</h1>
     {:else}

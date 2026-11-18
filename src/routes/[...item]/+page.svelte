@@ -7,7 +7,6 @@
   import ItemChipList from '#lib/components/chip/ItemChipList.svelte';
   import Favicon from '#lib/components/Favicon.svelte';
   import { NewItemModal } from '#lib/components/modals/index.ts';
-  import { FilePicker } from '#lib/components/pickers/index.ts';
   import api from '#lib/endpoints/index.ts';
   import consts from '#lib/consts.ts';
   import DelayedUpdater from '#lib/delayedUpdate.ts';
@@ -19,8 +18,7 @@
   import { reportError } from '#lib/ui/toast/index.ts';
   import { itemFileUrl, itemAtomUrl } from '#lib/urls.ts';
   import Readme from './readme';
-  import Section from './sections';
-  import CreateSectionForm from './sections/CreateSectionForm.svelte';
+  import Section from './Section.svelte';
   import { goto } from '$app/navigation';
 
   type Props = {
@@ -190,42 +188,17 @@
 
 <div class="center">
   <main>
-    {#if editing}
-      <!-- <MainDataEdit
-        itemId={data.itemId}
-        bind:item={thisItem}
-        onchange={(newInfo) => {
-          thisItem.info = newInfo;
-          infoUpdater.update(newInfo);
-        }}
-      /> -->
-    {:else}
-      <!-- Banner image -->
-      {#if thisItem.info.banner}
-        <div class="banner-image">
-          <DataImage
-            url={itemFileUrl(data.itemId, thisItem.info.banner)}
-            alt={`Banner of ${thisItem.info.name}`}
-          />
-        </div>
-      {/if}
+    <!-- Banner image -->
+    {#if thisItem.info.banner}
+      <div class="banner-image">
+        <DataImage
+          url={itemFileUrl(data.itemId, thisItem.info.banner)}
+          alt={`Banner of ${thisItem.info.name}`}
+        />
+      </div>
     {/if}
 
     <div id="readme">
-      {#if editing}
-        <div class="readme-picker-box">
-          <h2>Readme</h2>
-          <div class="readme-picker-box">
-            <label for="readme-picker">Pick a readme file</label>
-            <FilePicker
-              id="readme-picker"
-              files={thisItem.ls}
-              bind:selected={thisItem.info.readme}
-              onchange={() => infoUpdater.update(thisItem.info)}
-            />
-          </div>
-        </div>
-      {/if}
       <Readme
         item={data.itemId}
         data={data.portfolio}
@@ -236,34 +209,14 @@
     </div>
 
     <div id="sections">
-      {#if editing}
-        <h2>Sections</h2>
-      {/if}
       {#each thisItem.info.sections as _section, i (i)}
         <Section
           item={data.itemId}
           portfolio={data.portfolio}
-          bind:section={thisItem.info.sections[i]}
-          {editing}
-          onchange={() => infoUpdater.update(thisItem.info)}
-          ondelete={() => {
-            thisItem.info.sections.splice(i, 1);
-            // Deleting items should commit changes immediately
-            infoUpdater.immediateUpdate(thisItem.info);
-          }}
+          section={thisItem.info.sections[i]}
         />
       {/each}
     </div>
-
-    {#if editing}
-      <CreateSectionForm
-        oncreate={(newSection) => {
-          thisItem.info.sections.push(newSection);
-          // Creating items should commit changes immediately
-          infoUpdater.immediateUpdate(thisItem.info);
-        }}
-      />
-    {/if}
 
     <div id="children">
       {#if editing}
@@ -345,19 +298,11 @@
     overflow: hidden;
   }
 
-  .readme-picker-box {
-    margin-bottom: 10px;
-  }
-
   #readme {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .readme-picker-box {
-    width: 100%;
   }
 
   #sections {

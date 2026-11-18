@@ -52,4 +52,10 @@
   .icon {
     font-size: 5rem;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .display-outer {
+      color: white;
+    }
+  }
 </style>

@@ -1,7 +1,9 @@
 <script lang="ts">
   import Button from '#lib/components/base/button/Button.svelte';
   import ItemCardGrid from '#lib/components/card/ItemCardGrid.svelte';
+  import { ItemChipList } from '#lib/components/chip/index.ts';
   import NewItemModal from '#lib/components/modals/NewItemModal.svelte';
+  import ItemPicker from '#lib/components/pickers/ItemPicker.svelte';
   import itemId from '#lib/itemId.ts';
   import type { ItemData } from '#lib/server/data/item/item.ts';
   import type { ItemId } from '#lib/validate.ts';
@@ -21,6 +23,8 @@
     .filter(child => !thisItem.info.children.includes(child)));
 
   let newItemModalShown = $state(false);
+
+  let newFilterItem = $state(itemId.ROOT);
 </script>
 
 <span class="main-title">
@@ -60,6 +64,27 @@
     onchange();
   }}
 />
+
+<div>
+  <h2>Filters</h2>
+  <p>
+    All children of the selected items are displayed as filters. Clicking on one of these child
+    items filters the list of displayed item cards to only show items that link to the selected
+    child filter items.
+  </p>
+  <ItemChipList
+    {portfolio}
+    items={[thisItem.info.filters.map(itemId => ({ itemId, selected: false }))]}
+  />
+  <span class="add-filter-item">
+    <ItemPicker id="item-destination-picker" {portfolio} bind:value={newFilterItem} />
+    <Button onclick={() => {
+      thisItem.info.filters.push(newFilterItem);
+      newFilterItem = itemId.ROOT;
+      onchange();
+    }}>Add filter item</Button>
+  </span>
+</div>
 
 <NewItemModal
   show={newItemModalShown}

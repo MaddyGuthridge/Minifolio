@@ -74,7 +74,6 @@
   </div>
   <div class="view">
     {#if currentTab === 'Metadata'}
-      <h1>Metadata</h1>
       <Metadata
         bind:item={thisItem}
         itemId={data.itemId}
@@ -82,10 +81,8 @@
       />
       <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
     {:else if currentTab === 'SEO'}
-      <h1>SEO</h1>
       <Seo bind:item={thisItem} onchange={info => infoUpdater.update(info)} />
     {:else if currentTab === 'Body'}
-      <h1>Body</h1>
       <Readme
         item={data.itemId}
         data={data.portfolio}
@@ -94,10 +91,8 @@
         onchange={() => infoUpdater.update(thisItem.info)}
       />
     {:else if currentTab === 'Sections'}
-      <h1>Sections</h1>
       <Sections item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
     {:else if currentTab === 'Children'}
-      <h1>Children</h1>
       <Children item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
     {:else}
       <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->

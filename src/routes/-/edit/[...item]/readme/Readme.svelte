@@ -19,6 +19,7 @@
   const { item, data, thisItem = $bindable(), onsubmit, onchange }: Props = $props();
 </script>
 
+<h1>Body</h1>
 <div class="readme-picker-box">
   <div class="readme-picker-box">
     <label for="readme-picker">Pick a readme file</label>

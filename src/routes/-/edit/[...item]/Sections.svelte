@@ -27,6 +27,7 @@
   }
 </script>
 
+<h1>Sections</h1>
 <div class="sections">
   {#each thisItem.info.sections as _section, i (i)}
     <div class="section">

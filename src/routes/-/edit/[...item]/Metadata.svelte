@@ -29,6 +29,7 @@
   }
 </script>
 
+<h1>Metadata</h1>
 <form onsubmit={e => e.preventDefault()}>
   <h2>Name</h2>
   <TextInput

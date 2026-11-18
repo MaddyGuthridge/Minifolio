@@ -11,14 +11,11 @@
     item: ItemId,
     data: ItemData,
     article: boolean,
-    setArticle: (value: boolean) => void,
     filename: string | null,
     contents: string | null,
-    editing: boolean,
-    onsubmit: () => void,
   };
 
-  const { item, data, article, setArticle, filename, contents, editing, onsubmit }: Props = $props();
+  const { item, data, article, filename, contents }: Props = $props();
 
   // Contents displayed, updated in $effect
   // Will fix this at some point using callbacks or something. I know it's bad.
@@ -40,11 +37,7 @@
       {item}
       {data}
       {article}
-      {setArticle}
-      {filename}
       contents={displayContents}
-      {editing}
-      {onsubmit}
     />
   {:else if filename.endsWith('.html')}
     <HtmlReadme contents={displayContents} />

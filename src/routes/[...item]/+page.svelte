@@ -1,28 +1,19 @@
 <script lang="ts">
   import { Navbar } from '#lib/components/index.ts';
   import Background from '#lib/components/Background.svelte';
-  import { Button } from '#lib/components/base/index.ts';
   import DataImage from '#lib/components/base/DataImage.svelte';
   import { ItemCardGrid } from '#lib/components/card/index.ts';
   import ItemChipList from '#lib/components/chip/ItemChipList.svelte';
   import Favicon from '#lib/components/Favicon.svelte';
-  import { NewItemModal } from '#lib/components/modals/index.ts';
-  import { FilePicker } from '#lib/components/pickers/index.ts';
-  import api from '#lib/endpoints/index.ts';
   import consts from '#lib/consts.ts';
-  import DelayedUpdater from '#lib/delayedUpdate.ts';
   import { getItemAuthor } from '#lib/itemData.ts';
   import { applyFiltersToItemChildren, createItemFilter } from '#lib/itemFilter.ts';
   import itemId from '#lib/itemId.ts';
   import { generateKeywords, getDescription } from '#lib/seo.ts';
-  import type { ItemInfo } from '#lib/server/data/item/index.ts';
-  import { reportError } from '#lib/ui/toast/index.ts';
   import { itemFileUrl, itemAtomUrl } from '#lib/urls.ts';
-  import ItemFilesEdit from './ItemFilesEdit.svelte';
-  import MainDataEdit from './ItemInfoEdit.svelte';
   import Readme from './readme';
-  import Section from './sections';
-  import CreateSectionForm from './sections/CreateSectionForm.svelte';
+  import Section from './Section.svelte';
+  import { goto } from '$app/navigation';
 
   type Props = {
     data: import('./$types').PageData,
@@ -32,48 +23,18 @@
 
   const isRootItem = $derived(data.itemId === '/');
 
-  let editing = $state(false);
+  const thisItem = $derived(data.item);
 
-  let newItemModalShown = $state(false);
-
-  const infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
-    await reportError(
-      () => api().item(data.itemId).info.put(info),
-      'Error updating item data',
-    );
-  }, consts.EDIT_COMMIT_HESITATION);
-
-  // Yucky workarounds for not having page data be bindable
-  // TODO: I think this was fixed recently. Investigate...
-
-  // svelte-ignore state_referenced_locally
-  let thisItem = $state(data.item);
-
-  // svelte-ignore state_referenced_locally
-  let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
+  let filterItems = $derived(createItemFilter(data.portfolio, data.itemId));
 
   const displayedItems = $derived.by(() => {
     const items = thisItem.info.children.map(id =>
       itemId.child(data.itemId, id),
     );
-    if (editing) {
-      return items;
-    } else {
-      return applyFiltersToItemChildren(data.portfolio, items, filterItems);
-    }
+    return applyFiltersToItemChildren(data.portfolio, items, filterItems);
   });
 
   const authorInfo = $derived(getItemAuthor(data.itemId, data.portfolio));
-
-  // Janky workaround for allowing PageData to be bindable.
-  // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
-  $effect.pre(() => {
-    thisItem = data.item;
-    // When item data changes, also disable editing
-    editing = false;
-    // Reset the filter items
-    filterItems = createItemFilter(data.portfolio, data.itemId);
-  });
 
   // Page title
   const pageTitle = $derived(
@@ -177,11 +138,8 @@
   data={data.portfolio}
   loggedIn={data.loggedIn}
   editable={data.loggedIn}
-  {editing}
-  onEditBegin={() => (editing = true)}
-  onEditFinish={() => {
-    editing = false;
-    infoUpdater.commit();
+  onEditBegin={() => {
+    void goto(`/-/edit${data.itemId}`);
   }}
 />
 
@@ -189,149 +147,53 @@
 
 <div class="center">
   <main>
-    {#if editing}
-      <MainDataEdit
-        itemId={data.itemId}
-        bind:item={thisItem}
-        onchange={(newInfo) => {
-          thisItem.info = newInfo;
-          infoUpdater.update(newInfo);
-        }}
-      />
-
-      <ItemFilesEdit itemId={data.itemId} bind:files={thisItem.ls} />
-    {:else}
-      <!-- Banner image -->
-      {#if thisItem.info.banner}
-        <div class="banner-image">
-          <DataImage
-            url={itemFileUrl(data.itemId, thisItem.info.banner)}
-            alt={`Banner of ${thisItem.info.name}`}
-          />
-        </div>
-      {/if}
+    <!-- Banner image -->
+    {#if thisItem.info.banner}
+      <div class="banner-image">
+        <DataImage
+          url={itemFileUrl(data.itemId, thisItem.info.banner)}
+          alt={`Banner of ${thisItem.info.name}`}
+        />
+      </div>
     {/if}
 
     <div id="readme">
-      {#if editing}
-        <div class="readme-picker-box">
-          <h2>Readme</h2>
-          <div class="readme-picker-box">
-            <label for="readme-picker">Pick a readme file</label>
-            <FilePicker
-              id="readme-picker"
-              files={thisItem.ls}
-              bind:selected={thisItem.info.readme}
-              onchange={() => infoUpdater.update(thisItem.info)}
-            />
-          </div>
-        </div>
-      {/if}
       <Readme
         item={data.itemId}
         data={data.portfolio}
         article={thisItem.info.article}
-        setArticle={(value) => {
-          console.log('Article:', value);
-          thisItem.info.article = value;
-          infoUpdater.update(thisItem.info);
-        }}
         filename={thisItem.info.readme}
         contents={thisItem.readme}
-        {editing}
-        onsubmit={() => {
-          infoUpdater.commit();
-          editing = false;
-        }}
       />
     </div>
 
     <div id="sections">
-      {#if editing}
-        <h2>Sections</h2>
-      {/if}
       {#each thisItem.info.sections as _section, i (i)}
         <Section
           item={data.itemId}
           portfolio={data.portfolio}
-          bind:section={thisItem.info.sections[i]}
-          {editing}
-          onchange={() => infoUpdater.update(thisItem.info)}
-          ondelete={() => {
-            thisItem.info.sections.splice(i, 1);
-            // Deleting items should commit changes immediately
-            infoUpdater.immediateUpdate(thisItem.info);
-          }}
+          section={thisItem.info.sections[i]}
         />
       {/each}
     </div>
 
-    {#if editing}
-      <CreateSectionForm
-        oncreate={(newSection) => {
-          thisItem.info.sections.push(newSection);
-          // Creating items should commit changes immediately
-          infoUpdater.immediateUpdate(thisItem.info);
+    <div id="children">
+      <!-- Filters -->
+      <ItemChipList
+        portfolio={data.portfolio}
+        items={filterItems}
+        onfilter={(newFilter) => {
+          filterItems = newFilter;
         }}
       />
-    {/if}
-
-    <div id="children">
-      {#if editing}
-        <h2>Children</h2>
-      {:else}
-        <!-- Filters -->
-        <ItemChipList
-          portfolio={data.portfolio}
-          items={filterItems}
-          onfilter={(newFilter) => {
-            filterItems = newFilter;
-          }}
-        />
-      {/if}
       <ItemCardGrid
         portfolio={data.portfolio}
         itemIds={displayedItems}
-        {editing}
-        dndId={`${data.itemId}:children`}
-        onReorder={(items) => {
-          thisItem.info.children = items.map(id => itemId.suffix(id));
-          infoUpdater.update(thisItem.info);
-        }}
+        editing={false}
       />
-      {#if editing}
-        <h3>Hidden children</h3>
-        {@const hiddenChildren = Object.keys(thisItem.children).filter(
-          child => !thisItem.info.children.includes(child),
-        )}
-        <ItemCardGrid
-          portfolio={data.portfolio}
-          itemIds={hiddenChildren.map(id => itemId.child(data.itemId, id))}
-          {editing}
-          dndId={`${data.itemId}:children`}
-          onDropItem={(droppedItemId) => {
-            // When an item is dropped here, remove it from the list of shown children
-            const tail = itemId.suffix(droppedItemId);
-            thisItem.info.children = thisItem.info.children.filter(
-              id => id !== tail,
-            );
-            infoUpdater.update(thisItem.info);
-          }}
-        />
-      {/if}
     </div>
-    {#if editing}
-      <Button onclick={() => (newItemModalShown = true)}>
-        Create child item
-      </Button>
-    {/if}
   </main>
 
-  <NewItemModal
-    show={newItemModalShown}
-    parent={data.itemId}
-    onclose={() => (newItemModalShown = false)}
-  />
 </div>
 
 <style>
@@ -356,19 +218,11 @@
     overflow: hidden;
   }
 
-  .readme-picker-box {
-    margin-bottom: 10px;
-  }
-
   #readme {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .readme-picker-box {
-    width: 100%;
   }
 
   #sections {

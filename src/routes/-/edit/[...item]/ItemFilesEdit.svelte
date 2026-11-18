@@ -47,7 +47,6 @@
 </script>
 
 <div class="file-manager">
-  <h2>Files</h2>
   <table>
     <thead>
       <tr>

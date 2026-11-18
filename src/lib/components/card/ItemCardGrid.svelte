@@ -14,6 +14,7 @@
     itemIds: ItemId[],
     /** Called when an item is clicked */
     onclick?: (itemId: ItemId) => void,
+    // TODO: Make this more generic (eg `link`)
     /** Whether edit mode is active */
     editing: boolean,
     /** Unique drag-and-drop ID, used to prevent items from being dropped between incompatible areas */

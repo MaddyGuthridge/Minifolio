@@ -7,7 +7,6 @@
   type Props = {
     source: string,
     article: boolean,
-    setArticle: (value: boolean) => void,
     onsubmit: () => void,
     onchange: (text: string) => Promise<void>,
   };
@@ -15,7 +14,6 @@
   let {
     source = $bindable(),
     article,
-    setArticle,
     onsubmit,
     onchange,
   }: Props = $props();
@@ -33,15 +31,6 @@
 </script>
 
 <div class="outer">
-  <span class="article-mode-checkbox">
-    <input
-      type="checkbox"
-      id="article-mode-checkbox"
-      checked={article}
-      onchange={() => setArticle(!article)}
-    />
-    <label for="article-mode-checkbox">Article mode</label>
-  </span>
   <div class="md-editor">
     <div class="md-input">
       <TextArea
@@ -63,12 +52,6 @@
     max-width: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  .article-mode-checkbox {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
   }
 
   .md-editor {

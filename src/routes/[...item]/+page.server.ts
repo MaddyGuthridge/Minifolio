@@ -8,7 +8,7 @@ import validate from '#lib/validate.ts';
 
 export async function load(req: import('./$types').RequestEvent) {
   await redirectForSetup();
-  const item = validate.parse(validate.itemId, `/${req.params.item}`);
+  const item = validate.parse(validate.itemId, `/${req.params.item.replace(/^\//, '')}`);
 
   if (!await itemExists(item)) {
     error(404, `Item ${item} does not exist`);

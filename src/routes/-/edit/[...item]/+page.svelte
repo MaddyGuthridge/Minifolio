@@ -1,0 +1,132 @@
+<script lang="ts">
+  import { goto } from '$app/navigation';
+  import { Navbar } from '#lib/components/index.ts';
+  import Background from '#lib/components/Background.svelte';
+  import api from '#lib/endpoints/index.ts';
+  import consts from '#lib/consts.ts';
+  import DelayedUpdater from '#lib/delayedUpdate.ts';
+  import type { ItemInfo } from '#lib/server/data/item/index.ts';
+  import { reportError } from '#lib/ui/toast/index.ts';
+  import { unreachable } from '#lib/util.ts';
+  import Metadata from './Metadata.svelte';
+  import Readme from './readme/Readme.svelte';
+  import Seo from './Seo.svelte';
+  import Sections from './Sections.svelte';
+  import Children from './Children.svelte';
+
+  type Props = {
+    data: import('./$types').PageData,
+  };
+
+  const { data = $bindable() }: Props = $props();
+
+  // https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
+  let thisItem = $derived.by(() => {
+    const thisItem = $state(data.item);
+    return thisItem;
+  });
+
+  const editorTabs = [
+    'Metadata',
+    'SEO',
+    'Body',
+    'Sections',
+    'Children',
+  ] as const;
+
+  let currentTab: (typeof editorTabs)[number] = $state('Metadata');
+
+  const infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
+    await reportError(
+      () => api().item(data.itemId).info.put(info),
+      'Error updating item data',
+    );
+  }, consts.EDIT_COMMIT_HESITATION);
+
+  function onsubmit() {
+    infoUpdater.commit();
+    void goto(data.itemId);
+  }
+</script>
+
+<Navbar
+  path={data.itemId}
+  lastItem={thisItem}
+  data={data.portfolio}
+  loggedIn={true}
+  editable
+  editing
+  onEditFinish={onsubmit}
+/>
+
+<Background color={thisItem.info.color} />
+
+<div class="center" style:--color={thisItem.info.color}>
+  <div class="tabs">
+    {#each editorTabs as tab (tab)}
+      <button
+        role="tab"
+        class={['tab', { selected: tab === currentTab }]}
+        onclick={() => (currentTab = tab)}
+      >{tab}</button>
+    {/each}
+  </div>
+  <div class="view">
+    {#if currentTab === 'Metadata'}
+      <Metadata
+        bind:thisItem={thisItem}
+        item={data.itemId}
+        portfolio={data.portfolio}
+        onchange={info => infoUpdater.update(info)}
+      />
+    {:else if currentTab === 'SEO'}
+      <Seo bind:item={thisItem} onchange={info => infoUpdater.update(info)} />
+    {:else if currentTab === 'Body'}
+      <Readme
+        item={data.itemId}
+        data={data.portfolio}
+        bind:thisItem={thisItem}
+        {onsubmit}
+        onchange={() => infoUpdater.update(thisItem.info)}
+      />
+    {:else if currentTab === 'Sections'}
+      <Sections item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
+    {:else if currentTab === 'Children'}
+      <Children item={data.itemId} bind:thisItem portfolio={data.portfolio} onchange={() => infoUpdater.update(thisItem.info)} />
+    {:else}
+      <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+      {@const _ = unreachable(currentTab)}
+    {/if}
+  </div>
+</div>
+
+<style>
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .tabs {
+    display: flex;
+    gap: 20px;
+  }
+  .tab {
+    all: unset;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: color 0.3s;
+    text-align: center;
+  }
+  .tab:hover {
+    color: var(--color);
+  }
+  .tab.selected {
+    color: var(--color);
+    font-weight: bold;
+  }
+
+  .view {
+    width: min(90%, 1000px);
+  }
+</style>

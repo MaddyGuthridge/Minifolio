@@ -1,8 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+
+  type ModalStyle = 'normal' | 'error';
+
   type Props = {
     show: boolean,
-    color?: string,
+    style?: ModalStyle,
     showCloseButton?: boolean,
     header?: Snippet,
     children?: Snippet,
@@ -11,7 +14,7 @@
 
   const {
     show,
-    color = 'white',
+    style = 'normal',
     showCloseButton = true,
     header,
     children,
@@ -35,8 +38,7 @@
 <div class="outer" style:display={display} onclick={onclose}>
   <div class="inner">
     <div
-      class="box"
-      style:background-color={color}
+      class={['box', `style-${style}`]}
       onclick={e => e.stopPropagation()}
     >
       <div class="header">
@@ -107,5 +109,20 @@
   }
   button > i {
     font-size: 3rem;
+  }
+
+  .style-normal {
+    background-color: white;
+  }
+  .style-error {
+    background-color: #ffaaaa;
+  }
+  @media (prefers-color-scheme: dark) {
+    .style-normal {
+      background-color: #111111;
+    }
+    .style-error {
+      background-color: #551111;
+    }
   }
 </style>

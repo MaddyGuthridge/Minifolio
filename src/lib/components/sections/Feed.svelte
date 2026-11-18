@@ -23,7 +23,7 @@
     <div>
       <h3>{section.label ?? 'Subscribe via RSS/Atom'}</h3>
     </div>
-    <CopyButton text={makeLink}>Copy</CopyButton>
+    <CopyButton text={makeLink} hint="Subscribe using your favourite RSS reader">Copy feed URL</CopyButton>
   </div>
 </div>
 

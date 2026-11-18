@@ -1,21 +1,15 @@
 <script lang="ts">
   import { Navbar } from '#lib/components/index.ts';
   import Background from '#lib/components/Background.svelte';
-  import { Button } from '#lib/components/base/index.ts';
   import DataImage from '#lib/components/base/DataImage.svelte';
   import { ItemCardGrid } from '#lib/components/card/index.ts';
   import ItemChipList from '#lib/components/chip/ItemChipList.svelte';
   import Favicon from '#lib/components/Favicon.svelte';
-  import { NewItemModal } from '#lib/components/modals/index.ts';
-  import api from '#lib/endpoints/index.ts';
   import consts from '#lib/consts.ts';
-  import DelayedUpdater from '#lib/delayedUpdate.ts';
   import { getItemAuthor } from '#lib/itemData.ts';
   import { applyFiltersToItemChildren, createItemFilter } from '#lib/itemFilter.ts';
   import itemId from '#lib/itemId.ts';
   import { generateKeywords, getDescription } from '#lib/seo.ts';
-  import type { ItemInfo } from '#lib/server/data/item/index.ts';
-  import { reportError } from '#lib/ui/toast/index.ts';
   import { itemFileUrl, itemAtomUrl } from '#lib/urls.ts';
   import Readme from './readme';
   import Section from './Section.svelte';
@@ -29,48 +23,18 @@
 
   const isRootItem = $derived(data.itemId === '/');
 
-  let editing = $state(false);
+  const thisItem = $derived(data.item);
 
-  let newItemModalShown = $state(false);
-
-  const infoUpdater = new DelayedUpdater(async (info: ItemInfo) => {
-    await reportError(
-      () => api().item(data.itemId).info.put(info),
-      'Error updating item data',
-    );
-  }, consts.EDIT_COMMIT_HESITATION);
-
-  // Yucky workarounds for not having page data be bindable
-  // TODO: I think this was fixed recently. Investigate...
-
-  // svelte-ignore state_referenced_locally
-  let thisItem = $state(data.item);
-
-  // svelte-ignore state_referenced_locally
-  let filterItems = $state(createItemFilter(data.portfolio, data.itemId));
+  let filterItems = $derived(createItemFilter(data.portfolio, data.itemId));
 
   const displayedItems = $derived.by(() => {
     const items = thisItem.info.children.map(id =>
       itemId.child(data.itemId, id),
     );
-    if (editing) {
-      return items;
-    } else {
-      return applyFiltersToItemChildren(data.portfolio, items, filterItems);
-    }
+    return applyFiltersToItemChildren(data.portfolio, items, filterItems);
   });
 
   const authorInfo = $derived(getItemAuthor(data.itemId, data.portfolio));
-
-  // Janky workaround for allowing PageData to be bindable.
-  // Based on https://www.reddit.com/r/sveltejs/comments/1gx65ho/comment/lykrc6c/
-  $effect.pre(() => {
-    thisItem = data.item;
-    // When item data changes, also disable editing
-    editing = false;
-    // Reset the filter items
-    filterItems = createItemFilter(data.portfolio, data.itemId);
-  });
 
   // Page title
   const pageTitle = $derived(
@@ -174,13 +138,8 @@
   data={data.portfolio}
   loggedIn={data.loggedIn}
   editable={data.loggedIn}
-  {editing}
   onEditBegin={() => {
     void goto(`/-/edit${data.itemId}`);
-  }}
-  onEditFinish={() => {
-    editing = false;
-    infoUpdater.commit();
   }}
 />
 
@@ -219,61 +178,22 @@
     </div>
 
     <div id="children">
-      {#if editing}
-        <h2>Children</h2>
-      {:else}
-        <!-- Filters -->
-        <ItemChipList
-          portfolio={data.portfolio}
-          items={filterItems}
-          onfilter={(newFilter) => {
-            filterItems = newFilter;
-          }}
-        />
-      {/if}
+      <!-- Filters -->
+      <ItemChipList
+        portfolio={data.portfolio}
+        items={filterItems}
+        onfilter={(newFilter) => {
+          filterItems = newFilter;
+        }}
+      />
       <ItemCardGrid
         portfolio={data.portfolio}
         itemIds={displayedItems}
-        {editing}
-        dndId={`${data.itemId}:children`}
-        onReorder={(items) => {
-          thisItem.info.children = items.map(id => itemId.suffix(id));
-          infoUpdater.update(thisItem.info);
-        }}
+        editing={false}
       />
-      {#if editing}
-        <h3>Hidden children</h3>
-        {@const hiddenChildren = Object.keys(thisItem.children).filter(
-          child => !thisItem.info.children.includes(child),
-        )}
-        <ItemCardGrid
-          portfolio={data.portfolio}
-          itemIds={hiddenChildren.map(id => itemId.child(data.itemId, id))}
-          {editing}
-          dndId={`${data.itemId}:children`}
-          onDropItem={(droppedItemId) => {
-            // When an item is dropped here, remove it from the list of shown children
-            const tail = itemId.suffix(droppedItemId);
-            thisItem.info.children = thisItem.info.children.filter(
-              id => id !== tail,
-            );
-            infoUpdater.update(thisItem.info);
-          }}
-        />
-      {/if}
     </div>
-    {#if editing}
-      <Button onclick={() => (newItemModalShown = true)}>
-        Create child item
-      </Button>
-    {/if}
   </main>
 
-  <NewItemModal
-    show={newItemModalShown}
-    parent={data.itemId}
-    onclose={() => (newItemModalShown = false)}
-  />
 </div>
 
 <style>

@@ -13,6 +13,8 @@
   import Seo from './Seo.svelte';
   import Sections from './Sections.svelte';
   import Children from './Children.svelte';
+  import { withLightness } from '#lib/color.ts';
+  import { colord } from 'colord';
 
   type Props = {
     data: import('./$types').PageData,
@@ -47,6 +49,9 @@
     infoUpdater.commit();
     void goto(data.itemId);
   }
+
+  const tabColorLight = $derived(withLightness(colord(thisItem.info.color), 45).toHex());
+  const tabColorDark = $derived(withLightness(colord(thisItem.info.color), 65).toHex());
 </script>
 
 <Navbar
@@ -61,7 +66,7 @@
 
 <Background color={thisItem.info.color} />
 
-<div class="center" style:--color={thisItem.info.color}>
+<div class="center" style:--color-light={tabColorLight} style:--color-dark={tabColorDark}>
   <div class="tabs">
     {#each editorTabs as tab (tab)}
       <button
@@ -119,14 +124,20 @@
     text-align: center;
   }
   .tab:hover {
-    color: var(--color);
+    color: var(--color-light);
   }
   .tab.selected {
-    color: var(--color);
+    color: var(--color-light);
     font-weight: bold;
   }
 
   .view {
     width: min(90%, 1000px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .tab:hover, .tab.selected {
+      color: var(--color-dark);
+    }
   }
 </style>

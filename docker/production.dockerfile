@@ -26,7 +26,6 @@ RUN npm ci
 
 # Configuration
 COPY vite.config.ts .
-COPY svelte.config.js .
 COPY tsconfig.json .
 
 # Source code
@@ -40,5 +39,5 @@ RUN npm run build
 
 EXPOSE 3000
 
-HEALTHCHECK CMD ["curl", "-f", "http://127.0.0.1:3000/api/health"]
+HEALTHCHECK CMD ["curl", "-f", "http://127.0.0.1:3000/-/api/health"]
 ENTRYPOINT [ "node", "build" ]

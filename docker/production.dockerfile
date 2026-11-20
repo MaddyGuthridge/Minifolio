@@ -26,7 +26,6 @@ RUN npm ci
 
 # Configuration
 COPY vite.config.ts .
-COPY svelte.config.js .
 COPY tsconfig.json .
 
 # Source code

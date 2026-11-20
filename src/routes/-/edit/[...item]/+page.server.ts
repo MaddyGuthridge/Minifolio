@@ -9,7 +9,7 @@ export async function load(req: import('./$types').RequestEvent) {
   await redirectForSetup();
   const item = validate.parse(validate.itemId, `/${req.params.item.replace(/^\//, '')}`);
 
-  await redirectOnInvalidToken(req, '/admin/login');
+  await redirectOnInvalidToken(req, '/-/admin/login');
   if (!await itemExists(item)) {
     error(404, `Item ${item} does not exist`);
   }

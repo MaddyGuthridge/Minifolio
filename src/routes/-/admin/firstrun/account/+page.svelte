@@ -25,7 +25,7 @@
     showLoading = true;
     try {
       await api().admin.firstrun.account(username, password);
-      await goto('/admin/firstrun/data');
+      await goto('/-/admin/firstrun/data');
     } catch (e) {
       errorText = `${e}`;
       showLoading = false;

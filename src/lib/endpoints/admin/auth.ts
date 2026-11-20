@@ -12,7 +12,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/login',
+      '/-/api/admin/auth/login',
       payload.json({ username, password }),
     ).json() as Promise<{ token: string }>;
   },
@@ -25,7 +25,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/logout',
+      '/-/api/admin/auth/logout',
       { token },
     ).json();
   },
@@ -36,7 +36,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/refresh',
+      '/-/api/admin/auth/refresh',
       { token },
     ).json() as Promise<{ token: string }>;
   },
@@ -51,7 +51,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/change',
+      '/-/api/admin/auth/change',
       { token, ...payload.json({ newUsername, oldPassword, newPassword }) },
     ).json() as Promise<Record<string, never>>;
   },
@@ -64,7 +64,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/revoke',
+      '/-/api/admin/auth/revoke',
       { token },
     ).json() as Promise<Record<string, never>>;
   },
@@ -79,7 +79,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/disable',
+      '/-/api/admin/auth/disable',
       { token, ...payload.json({ username, password }) },
     ).json() as Promise<Record<string, never>>;
   },
@@ -90,7 +90,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/auth/regenerate-secret',
+      '/-/api/admin/auth/regenerate-secret',
       { token },
     ).json() as Promise<Record<string, never>>;
   },

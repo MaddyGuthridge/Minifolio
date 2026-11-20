@@ -35,13 +35,13 @@
    * Go to the login page, with the from parameter determining the origin page.
    */
   async function gotoLogin() {
-    await goto(`/admin/login?from=${window.location.pathname}`);
+    await goto(`/-/admin/login?from=${window.location.pathname}`);
   }
 
   /** Clear all data, and take the user to the firstrun page */
   async function clear() {
     await api().debug.clear();
-    await goto('/admin/firstrun/account');
+    await goto('/-/admin/firstrun/account');
   }
 
   function editButtonClick() {
@@ -61,14 +61,14 @@
         {editing ? 'Finish editing' : 'Edit'}
       </Button>
     {/if}
-    <Button onclick={() => goto('/admin')}>Admin</Button>
+    <Button onclick={() => goto('/-/admin')}>Admin</Button>
     <Button onclick={logOut}>Log out</Button>
   {:else if loggedIn !== undefined}
     <!-- Only include a login button if logging in is enabled -->
     <Button onclick={gotoLogin}>Log in</Button>
   {/if}
   <!-- About button navigates to about page -->
-  <Button onclick={() => goto('/about')}>About</Button>
+  <Button onclick={() => goto('/-/about')}>About</Button>
   <!-- In dev mode, add a quick shortcut to delete everything -->
   {#if dev}
     <div class="sep">

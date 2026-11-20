@@ -12,7 +12,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'GET',
-      '/data/config.json',
+      '/-/data/config.json',
       { token },
     ).json() as Promise<ConfigJson>;
   },
@@ -26,7 +26,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'PUT',
-      '/data/config.json',
+      '/-/data/config.json',
       { token, ...payload.json(config) },
     ).json() as Promise<Record<string, never>>;
   },

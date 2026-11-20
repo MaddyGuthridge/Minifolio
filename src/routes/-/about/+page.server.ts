@@ -5,7 +5,7 @@ import { isRequestAuthorized } from '#lib/server/auth/tokens.ts';
 import os from 'node:os';
 import { dataIsSetUp } from '#lib/server/data/dataDir.ts';
 import { getItemData, type ItemData } from '#lib/server/data/item/index.ts';
-import { blankData } from '../../lib/blankData';
+import { blankData } from '#lib/blankData.ts';
 import itemId from '#lib/itemId.ts';
 import { getConfig } from '#lib/server/data/config.ts';
 

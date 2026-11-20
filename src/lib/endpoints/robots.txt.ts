@@ -1,6 +1,7 @@
 /** Configuration endpoints */
 import { apiFetch, payload } from './fetch';
 
+// TODO: This feels yucky and inconsistent with the rest of the API
 export default (fetchFn: typeof fetch, token: string | undefined) => ({
   /**
    * Retrieve the site's robots.txt

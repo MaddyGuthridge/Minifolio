@@ -5,12 +5,12 @@
 
   async function logOut() {
     await api().admin.auth.revoke();
-    await goto('/admin/login');
+    await goto('/-/admin/login');
   }
 
   async function regenerateAuthSecret() {
     await api().admin.auth.regenerateSecret();
-    await goto('/admin/login');
+    await goto('/-/admin/login');
   }
 </script>
 

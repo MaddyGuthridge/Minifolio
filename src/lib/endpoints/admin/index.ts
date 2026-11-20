@@ -9,7 +9,7 @@ export async function refresh(fetchFn: typeof fetch, token: string | undefined) 
   return await apiFetch(
     fetchFn,
     'POST',
-    '/api/admin/data/refresh',
+    '/-/api/admin/data/refresh',
     { token },
   ).json() as Record<string, never>;
 }

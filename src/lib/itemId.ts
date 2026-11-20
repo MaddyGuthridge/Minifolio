@@ -89,6 +89,17 @@ export function itemIsDescendant(first: ItemId, second: ItemId): boolean {
   return itemIdSlice(first, 0, itemIdComponents(second).length) === second;
 }
 
+/** Item IDs that are dangerous to use at the root of the project. */
+export const dangerousRootItemIds = [
+  'robots.txt',
+  'sitemap.xml',
+];
+
+/** Item IDs that are dangerous to use in general. */
+export const dangerousItemIds = [
+  'feed.atom',
+];
+
 export default {
   ROOT,
   components: itemIdComponents,
@@ -104,4 +115,6 @@ export default {
   at: itemIdAt,
   replace: itemIdReplace,
   isDescendant: itemIsDescendant,
+  dangerousRootItemIds,
+  dangerousItemIds,
 };

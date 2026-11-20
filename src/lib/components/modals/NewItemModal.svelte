@@ -89,6 +89,13 @@
         bind:value={itemDescription}
       />
     </div>
+    <p class="item-id-warning">
+      {#if itemId.dangerousItemIds.includes(newItemId)}
+        Careful! This item ID might make the page inaccessible due to existing pages!
+      {:else if itemId.dangerousRootItemIds.includes(newItemId) && parent === itemId.ROOT}
+        Careful! This item ID might make the page inaccessible due to existing pages!
+      {/if}
+    </p>
     <Button type="submit" disabled={!canSubmit}>Create</Button>
   </form>
 </Modal>
@@ -105,5 +112,15 @@
   label {
     display: flex;
     align-items: center;
+  }
+
+  .item-id-warning {
+    color: #AA8800;
+    text-align: center;
+  }
+  @media (prefers-color-scheme: dark) {
+    .item-id-warning {
+      color: #FFAA00;
+    }
   }
 </style>

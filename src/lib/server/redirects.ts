@@ -11,10 +11,10 @@ import { validateTokenFromRequest } from './auth';
  */
 export async function redirectForSetup() {
   if (!await authIsSetUp()) {
-    redirect(303, '/admin/firstrun/account');
+    redirect(303, '/-/admin/firstrun/account');
   }
   if (!await dataIsSetUp()) {
-    redirect(303, '/admin/firstrun/data');
+    redirect(303, '/-/admin/firstrun/data');
   }
 }
 

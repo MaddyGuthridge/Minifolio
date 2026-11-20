@@ -9,7 +9,7 @@ export async function load(req: import('./$types').RequestEvent) {
   // Don't use redirectForSetup, as this route should be available as soon as
   // the first account is created
   if (!await authIsSetUp()) {
-    redirect(303, '/admin/firstrun/account');
+    redirect(303, '/-/admin/firstrun/account');
   }
   // Users that are already logged in should be redirected to the main admin
   // page

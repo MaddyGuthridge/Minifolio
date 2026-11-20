@@ -1,6 +1,6 @@
 /** API endpoints */
 import type { ItemId } from '#lib/itemId.ts';
-import type { HealthcheckResponse } from '../../routes/api/health/+server.ts';
+import type { HealthcheckResponse } from '../../routes/-/api/health/+server.ts';
 import admin from './admin';
 import config from './config';
 import debug from './debug';
@@ -14,7 +14,7 @@ export function sitemap(fetchFn: typeof fetch, token: string | undefined) {
 }
 
 export function health(fetchFn: typeof fetch, token: string | undefined) {
-  return apiFetch(fetchFn, 'GET', '/api/health', { token }).json() as Promise<HealthcheckResponse>;
+  return apiFetch(fetchFn, 'GET', '/-/api/health', { token }).json() as Promise<HealthcheckResponse>;
 }
 
 /** Create an instance of the API client with the given token */

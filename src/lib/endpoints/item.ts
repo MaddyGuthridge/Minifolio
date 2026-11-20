@@ -14,7 +14,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data${itemId}/info.json`,
+        `/-/data${itemId}/info.json`,
         { token },
       ).json() as Promise<ItemInfo>;
     },
@@ -23,7 +23,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'POST',
-        `/data${itemId}/info.json`,
+        `/-/data${itemId}/info.json`,
         { token, ...payload.json({ name, description: description ?? '' }) },
       ).json();
     },
@@ -32,7 +32,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'PUT',
-        `/data${itemId}/info.json`,
+        `/-/data${itemId}/info.json`,
         { token, ...payload.json(info) },
       ).json();
     },
@@ -41,7 +41,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'DELETE',
-        `/data${itemId}/info.json`,
+        `/-/data${itemId}/info.json`,
         { token },
       ).json();
     },
@@ -50,7 +50,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'POST',
-        `/data${itemId}/info.json/move`,
+        `/-/data${itemId}/info.json/move`,
         { token, ...payload.json({ target }) },
       ).json();
     },
@@ -62,7 +62,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data${itemId}/${filename}`,
+        `/-/data${itemId}/${filename}`,
         { token },
       );
     },
@@ -71,7 +71,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'POST',
-        `/data${itemId}/${filename}`,
+        `/-/data${itemId}/${filename}`,
         { token, ...payload },
       ).json();
     },
@@ -80,7 +80,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'PUT',
-        `/data${itemId}/${filename}`,
+        `/-/data${itemId}/${filename}`,
         { token, ...payload },
       ).json();
     },
@@ -89,7 +89,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'DELETE',
-        `/data${itemId}/${filename}`,
+        `/-/data${itemId}/${filename}`,
         { token },
       ).json();
     },
@@ -119,7 +119,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `/data/${itemId}`,
+        `/-/data/${itemId}`,
         { token },
       ).json() as Promise<ItemData>;
     },

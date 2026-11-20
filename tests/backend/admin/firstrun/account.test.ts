@@ -4,7 +4,7 @@
 import api from '#lib/endpoints/index.ts';
 import { it, describe, expect } from 'vitest';
 // Yucky import
-import type { FirstRunAuthOptions } from '../../../../src/routes/api/admin/firstrun/account/+server';
+import type { FirstRunAuthOptions } from '../../../../src/routes/-/api/admin/firstrun/account/+server';
 import { invalidIds, validIds } from '../../consts';
 
 /** Helper function for firstrun testing */

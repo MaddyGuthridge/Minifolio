@@ -5,12 +5,12 @@ import { getPrivateKeyPath, getPublicKey } from '#lib/server/keys.ts';
 
 export async function load(req: import('./$types').RequestEvent) {
   if (!await authIsSetUp()) {
-    redirect(303, '/admin/firstrun/account');
+    redirect(303, '/-/admin/firstrun/account');
   }
   if (await dataIsSetUp()) {
     redirect(303, '/');
   }
-  await redirectOnInvalidToken(req, '/admin/login');
+  await redirectOnInvalidToken(req, '/-/admin/login');
   return {
     publicKey: await getPublicKey(),
     keyPath: await getPrivateKeyPath(),

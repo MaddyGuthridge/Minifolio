@@ -6,7 +6,7 @@ export default function debug(fetchFn: typeof fetch, token: string | undefined) 
     return apiFetch(
       fetchFn,
       'DELETE',
-      '/api/debug/clear',
+      '/-/api/debug/clear',
       { token },
     ).json() as Promise<Record<string, never>>;
   };
@@ -15,7 +15,7 @@ export default function debug(fetchFn: typeof fetch, token: string | undefined) 
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/debug/echo',
+      '/-/api/debug/echo',
       { token, ...payload.json({ text }) },
     ).json() as Promise<Record<string, never>>;
   };
@@ -24,7 +24,7 @@ export default function debug(fetchFn: typeof fetch, token: string | undefined) 
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/debug/data/refresh',
+      '/-/api/debug/data/refresh',
       { token },
     ).json() as Promise<Record<string, never>>;
   };

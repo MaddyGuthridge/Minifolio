@@ -9,14 +9,14 @@ import type { ItemId } from './itemId';
  */
 export function itemFileUrl(item: ItemId, file: string) {
   if (item !== '/') {
-    return `/data${item}/${file}`;
+    return `/-/data${item}/${file}`;
   } else {
-    return `/data/${file}`;
+    return `/-/data/${file}`;
   }
 }
 
 export function itemDataUrl(item: ItemId) {
-  return `/data${item}`;
+  return `/-/data${item}`;
 }
 
 export function itemAtomUrl(item: ItemId) {

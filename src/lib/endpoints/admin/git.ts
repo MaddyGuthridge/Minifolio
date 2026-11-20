@@ -8,7 +8,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'GET',
-      '/api/admin/git',
+      '/-/api/admin/git',
       { token },
     ).json() as Promise<{ repo: RepoStatus }>;
   },
@@ -20,7 +20,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       return apiFetch(
         fetchFn,
         'GET',
-        '/api/admin/git/config',
+        '/-/api/admin/git/config',
         { token },
       ).json() as Promise<GitConfig>;
     },
@@ -29,7 +29,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
       return apiFetch(
         fetchFn,
         'POST',
-        '/api/admin/git/config',
+        '/-/api/admin/git/config',
         { token, ...payload.json(config) },
       ).json() as Promise<Record<string, never>>;
     },
@@ -40,7 +40,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/git/init',
+      '/-/api/admin/git/init',
       { token, ...payload.json({ url }) },
     ).json() as Promise<RepoStatus>;
   },
@@ -50,7 +50,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/git/commit',
+      '/-/api/admin/git/commit',
       { token, ...payload.json({ message }) },
     ).json() as Promise<RepoStatus>;
   },
@@ -60,7 +60,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/git/fetch',
+      '/-/api/admin/git/fetch',
       { token },
     ).json() as Promise<RepoStatus>;
   },
@@ -70,7 +70,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/git/push',
+      '/-/api/admin/git/push',
       { token },
     ).json() as Promise<RepoStatus>;
   },
@@ -80,7 +80,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/git/pull',
+      '/-/api/admin/git/pull',
       { token },
     ).json() as Promise<RepoStatus>;
   },

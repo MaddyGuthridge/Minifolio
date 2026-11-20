@@ -26,7 +26,7 @@
   onMount(() => {
     previousPage = new URLSearchParams(window.location.search).get('from') ?? '/';
     // Avoid circular redirects
-    if (previousPage.endsWith('/admin/login')) {
+    if (previousPage.endsWith('/-/admin/login')) {
       previousPage = '/';
     }
   });

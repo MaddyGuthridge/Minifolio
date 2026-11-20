@@ -7,7 +7,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/firstrun/account',
+      '/-/api/admin/firstrun/account',
       { token, ...payload.json({ username, password }) },
     ).json() as Promise<{ token: string }>;
   },
@@ -16,7 +16,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/firstrun/data',
+      '/-/api/admin/firstrun/data',
       { token, ...payload.json({ repoUrl, branch }) },
     ).json() as Promise<{ firstTime: boolean }>;
   },

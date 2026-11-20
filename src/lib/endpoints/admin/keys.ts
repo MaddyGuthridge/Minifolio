@@ -9,7 +9,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'GET',
-      '/api/admin/keys',
+      '/-/api/admin/keys',
       { token },
     ).json() as Promise<{ publicKey: string, keyPath: string }>;
   },
@@ -18,7 +18,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/keys',
+      '/-/api/admin/keys',
       { token, ...payload.json({ keyPath }) },
 
     ).json() as Promise<{ publicKey: string, keyPath: string }>;
@@ -28,7 +28,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'DELETE',
-      '/api/admin/keys',
+      '/-/api/admin/keys',
       { token },
     ).json() as Promise<Record<string, never>>;
   },
@@ -37,7 +37,7 @@ export default (fetchFn: typeof fetch, token: string | undefined) => ({
     return apiFetch(
       fetchFn,
       'POST',
-      '/api/admin/keys/generate',
+      '/-/api/admin/keys/generate',
       { token },
     ).json() as Promise<{ publicKey: string, keyPath: string }>;
   },

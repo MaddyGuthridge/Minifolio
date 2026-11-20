@@ -101,7 +101,7 @@ export default function item(fetchFn: typeof fetch, token: string | undefined, i
       return apiFetch(
         fetchFn,
         'GET',
-        `${itemId}/feed.atom`,
+        `/-/feed${itemId}`,
         { token },
       ).xml();
     },

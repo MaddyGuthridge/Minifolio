@@ -4,9 +4,9 @@
 
 import type { ApiClient } from '#lib/endpoints/index.ts';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { makeItemInfo, setup } from '../../helpers';
+import { fetchNoRedirect, makeItemInfo, setup } from '../../helpers';
 import itemId from '#lib/itemId.ts';
-import { getUrl } from '#lib/endpoints/fetch/index.ts';
+import { apiFetch, getUrl } from '#lib/endpoints/fetch/index.ts';
 import consts from '#lib/consts.ts';
 import { version } from '$app/env';
 
@@ -178,6 +178,24 @@ describe('Success', () => {
     const atom = await api.item(itemId.ROOT).feeds.atom() as any;
 
     expect(atom.feed.entry.summary).toStrictEqual('This description is shown');
+  });
+});
+
+describe('Backwards compatibility', () => {
+  it('Gives a 308 when visiting the old feed location', async () => {
+    await api.item(itemId.ROOT).info.put(makeItemInfo({
+      feed: {
+        title: 'My blog',
+        providers: {
+          atom: true,
+        },
+      },
+    }));
+
+    const oldFeed = await apiFetch(fetchNoRedirect, 'GET', '/feed.atom').response;
+
+    expect(oldFeed.status).toStrictEqual(308);
+    expect(oldFeed.headers.get('Location')).toStrictEqual('/-/feed');
   });
 });
 

@@ -21,8 +21,8 @@ export function itemDataUrl(item: ItemId) {
 
 export function itemAtomUrl(item: ItemId) {
   if (item !== '/') {
-    return `${item}/feed.atom`;
+    return `/-/feed${item}`;
   } else {
-    return '/feed.atom';
+    return '/-/feed';
   }
 }

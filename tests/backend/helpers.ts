@@ -66,3 +66,9 @@ export function makeItemInfo(options: Partial<ItemInfo> = {}): ItemInfo {
 
   return { ...item, ...options };
 }
+
+// Fetch function with no redirect
+export const fetchNoRedirect: (typeof fetch) = (url, options) => {
+  const mergedOptions: RequestInit = { redirect: 'manual', ...options };
+  return fetch(url, mergedOptions);
+};

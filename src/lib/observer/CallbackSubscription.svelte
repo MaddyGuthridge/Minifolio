@@ -24,8 +24,6 @@
     value: T,
   };
 
-  // bindable value assignments do have an effect.
-  // eslint-disable-next-line no-useless-assignment
   let { url, reloadFn, originalValue, value = $bindable() }: Props = $props();
 
   // Prevent load on mount, since the data is already correct then

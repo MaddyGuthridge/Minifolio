@@ -3,20 +3,27 @@
 #
 # Dockerfile for running the server in dev mode
 
-FROM node:24
+FROM ghcr.io/pnpm/pnpm:12
+RUN pnpm runtime set node 24 -g
 
 # Install Git and SSH
+RUN apt update
 RUN apt install -y openssh-client git
+
+RUN useradd -m node
+
+# Give pnpm permission to write to its store
+RUN mkdir -p /pnpm/store && chown -R node:node /pnpm
 
 USER node
 
 WORKDIR /home/node/app
 
 # Dependencies
-COPY .npmrc .
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci
+COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml .
+RUN pnpm ci
 
 # Configuration
 COPY vite.config.ts .
@@ -29,8 +36,8 @@ COPY static static
 
 RUN ls -al /home/node/app
 
-RUN ["npm", "run", "sync"]
+RUN ["pnpm", "sync"]
 
 EXPOSE 5096
 
-ENTRYPOINT [ "npm", "run", "dev" ]
+ENTRYPOINT [ "pnpm", "dev" ]

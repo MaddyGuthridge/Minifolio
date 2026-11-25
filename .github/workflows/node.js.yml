@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
-    - name: Set up Node
-      uses: actions/setup-node@v7
+    - uses: pnpm/setup@v3
       with:
+        version: 12
         node-version-file: ".nvmrc"
-        cache: 'npm'
-    - run: npm ci
+        cache: true
     - name: Set up .env
       run: cp .env.example .env
+    - run: pnpm ci
     - name: Run test suite
-      run: npm test
+      run: pnpm test
     - name: Show server output
       if: always()
       run: cat server.log
@@ -34,26 +34,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
-    - name: Set up Node
-      uses: actions/setup-node@v7
+    - uses: pnpm/setup@v3
       with:
+        version: 12
         node-version-file: ".nvmrc"
-        cache: 'npm'
-    - run: npm ci
+        cache: true
+    - run: pnpm ci
     - name: Run linting
-      run: npm run lint
+      run: pnpm lint
 
   check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
-    - name: Set up Node
-      uses: actions/setup-node@v7
+    - uses: pnpm/setup@v3
       with:
+        version: 12
         node-version-file: ".nvmrc"
-        cache: 'npm'
+        cache: true
     - name: Set up .env
       run: cp .env.example .env
-    - run: npm ci
+    - run: pnpm ci
     - name: Run type-checking
-      run: npm run check
+      run: pnpm check

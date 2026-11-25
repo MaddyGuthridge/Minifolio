@@ -3,7 +3,17 @@
 #
 # Dockerfile for running the server in production mode.
 
-FROM node:24
+FROM ghcr.io/pnpm/pnpm:12
+RUN pnpm runtime set node 24 -g
+
+# Install Git and SSH
+RUN apt update
+RUN apt install -y openssh-client git
+
+RUN useradd -m node
+
+# Give pnpm permission to write to its store
+RUN mkdir -p /pnpm/store && chown -R node:node /pnpm
 
 # Make volumes be owned by the node user
 RUN mkdir /data
@@ -11,18 +21,14 @@ RUN chown node:node /data
 RUN mkdir /private_data
 RUN chown node:node /private_data
 
-# Install Git and SSH
-RUN apt install -y openssh-client git
-
 USER node
-
 WORKDIR /home/node/app
 
 # Dependencies
-COPY .npmrc .
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci
+COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml .
+RUN pnpm ci
 
 # Configuration
 COPY vite.config.ts .
@@ -35,7 +41,7 @@ COPY static static
 RUN ls -al /home/node/app
 
 # Build server
-RUN npm run build
+RUN pnpm build
 
 EXPOSE 3000
 

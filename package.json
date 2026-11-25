@@ -1,6 +1,6 @@
 {
   "name": "minifolio",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": true,
   "license": "GPL-3.0-only",
   "scripts": {
@@ -19,7 +19,7 @@
   "type": "module",
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.8.1",
-    "@maddyguthridge/marked-mermaid": "^0.2.0",
+    "@maddyguthridge/marked-mermaid": "^0.2.1",
     "cheerio": "^1.2.0",
     "colord": "^2.9.4",
     "dedent": "^1.7.2",
@@ -31,7 +31,7 @@
     "marked-gfm-heading-id": "^4.1.4",
     "marked-katex-extension": "^5.1.13",
     "marked-smartypants": "^1.1.12",
-    "mermaid": "^11.16.1",
+    "mermaid": "^12.3.0",
     "mime-types": "^3.0.2",
     "nanoid": "^5.1.16",
     "random-words": "^2.0.1",
